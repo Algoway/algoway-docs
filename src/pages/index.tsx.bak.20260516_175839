@@ -1,0 +1,97 @@
+import React from 'react';
+import Layout from '@theme/Layout';
+import Link from '@docusaurus/Link';
+import Heading from '@theme/Heading';
+
+import styles from './index.module.css';
+
+export default function Home(): React.ReactNode {
+  return (
+    <Layout
+      title="AlgoWay Docs"
+      description="AlgoWay documentation for TradingView webhook automation, MT5, TradeLocker, DXtrade, cTrader, Telegram AI signals, crypto exchanges and multi-platform execution."
+    >
+      <main>
+        <section className={styles.hero}>
+          <div className="container">
+            <div className={styles.heroGrid}>
+              <div>
+                <div className={styles.kicker}>AlgoWay Documentation</div>
+
+                <Heading as="h1" className={styles.title}>
+                  Trading automation docs for TradingView, MT5, Telegram AI and 22+ execution routes
+                </Heading>
+
+                <p className={styles.subtitle}>
+                  Learn how to send TradingView alerts, Telegram signals and structured webhook JSON to
+                  MetaTrader 5, TradeLocker, Match-Trader, DXtrade, cTrader, Tradovate, crypto exchanges
+                  and other AlgoWay destinations.
+                </p>
+
+                <div className={styles.actions}>
+                  <Link className="button button--primary button--lg" to="/docs/intro">
+                    Start with AlgoWay Docs
+                  </Link>
+                  <Link className="button button--secondary button--lg" to="https://algoway.trade/register">
+                    Start Free Trial
+                  </Link>
+                </div>
+              </div>
+
+              <div className={styles.card}>
+                <div className={styles.cardBadge}>START FROM</div>
+                <div className={styles.price}>$6<span>/month</span></div>
+                <p>No credit card required. 14-day free trial.</p>
+                <ul>
+                  <li>TradingView webhook automation</li>
+                  <li>MetaTrader 5 and prop platform routes</li>
+                  <li>Telegram AI signal copier</li>
+                  <li>Crypto exchange execution</li>
+                  <li>JSON examples and troubleshooting</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.sections}>
+          <div className="container">
+            <Heading as="h2">Choose a documentation path</Heading>
+
+            <div className={styles.grid}>
+              <Link className={styles.docCard} to="/docs/tradingview-webhooks/overview">
+                <h3>TradingView Webhooks</h3>
+                <p>Create alerts, prepare JSON messages and send signals to AlgoWay routes.</p>
+              </Link>
+
+              <Link className={styles.docCard} to="/docs/metatrader-5/overview">
+                <h3>MetaTrader 5</h3>
+                <p>Install the AlgoWay MT5 connection, test alerts and troubleshoot execution.</p>
+              </Link>
+
+              <Link className={styles.docCard} to="/docs/webhook-json/reference">
+                <h3>Webhook JSON Reference</h3>
+                <p>Understand order actions, order types, trade modes, SL, TP and route fields.</p>
+              </Link>
+
+              <Link className={styles.docCard} to="/docs/telegram-ai/overview">
+                <h3>Telegram AI Signal Copier</h3>
+                <p>Convert Telegram trading signals into validated AlgoWay webhook commands.</p>
+              </Link>
+
+              <Link className={styles.docCard} to="/docs/supported-platforms/overview">
+                <h3>Supported Platforms</h3>
+                <p>Review AlgoWay execution destinations across forex, futures, crypto and CFD routes.</p>
+              </Link>
+
+              <Link className={styles.docCard} to="/docs/troubleshooting/overview">
+                <h3>Troubleshooting</h3>
+                <p>Fix common webhook, MT5, JSON and broker-side execution errors.</p>
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+    </Layout>
+  );
+}

@@ -1,0 +1,59 @@
+---
+title: "AlgoWay JSON Schema for Webhook Automation: Market, Limit, Stop, SL/TP and Trade Type"
+description: "AlgoWay JSON schema guide for webhook trading automation: market, limit and stop orders, closeall, price, sl_price, tp_price, trade_type, platform_name, ticker, order_action, order_contracts and examples."
+---
+
+#### **AlgoWay Blog**
+
+Main clusters and core pages.
+
+##### **Core**
+
+- [All articles](https://algoway.trade/blog/)
+- [FAQ](https://algoway.trade/faq)
+- [PineConnector alternative](https://algoway.trade/pineconnector-alternative)
+- [TradersPost alternative](https://algoway.trade/traderspost-alternative)
+- [Automate TradingView alerts](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+- [Automate Telegram signals](https://algoway.trade/blog/ai-telegram-signals-manual.html)
+- [AlgoWay CopyTrader](https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html)
+- [cTrader Copier](https://algoway.trade/blog/ctrader-to-metatrader5-copier-manual.html)
+- [Trendspider with AlgoWay](https://algoway.trade/blog/how-to-use-algoway-with-trendspider.html)
+
+##### **JSON & Alerts**
+
+- [JSON schema](https://algoway.trade/blog/json-schema-guide.html)
+- [Manual alerts](https://algoway.trade/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html)
+- [TradingView without paid subscription](https://algoway.trade/blog/tradingview-algo-trading-without-paid-subscription.html)
+- [AlgoWay Strategy Integration in Pine Script](https://algoway.trade/blog/sample-pinecode-2-algoway.html)
+- [TRALADAL — TradingView Alert Adapter](https://algoway.trade/blog/tradingview-automation-adapter.html)
+
+##### **MT5 / Expert Advisors**
+
+- [**MT5 EA installation**](https://algoway.trade/blog/algoway-mt5-ws-v10-overview.html)
+- [MT5 EA v2.10 parameters](https://algoway.trade/blog/algoway-mt5-v206-overview.html)
+
+##### **Errors**
+
+- [Common MT5 errors](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html)
+- [Error 4756](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html)
+- [Error 4752](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html)
+- [415 error](https://algoway.trade/blog/algoway-415.html)
+
+##### **Integrations**
+
+- [MetaTrader 5](https://algoway.trade/blog/algoway-mt5-ws-v10-overview.html)
+- [TradeLocker](https://algoway.trade/blog/tradeLocker-setup-guide.html)
+- [Match-Trader](https://algoway.trade/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html)
+- [DxTrade](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [Binance](https://algoway.trade/blog/algoway-binance-integration-guide.html)
+- [ByBit](https://algoway.trade/blog/algoway-bybit-integration-guide.html)
+- [MEXC](https://algoway.trade/blog/mexc-api.html)
+- [OKX](https://algoway.trade/blog/okx-api.html)
+- [Bitget](https://algoway.trade/blog/bitget-api.html)
+- [BingX](https://algoway.trade/blog/bingx-api.html)
+- [Alpaca](https://algoway.trade/blog/algoway-alpaca-integration-guide.html)
+- [Tradovate](https://algoway.trade/blog/algoway-tradovate-integration-guide.html)
+- [GateIO](https://algoway.trade/blog/algoway-gateio-integration-guide.html)
+- [CoinBase](https://algoway.trade/blog/coinbase-api.html)
+- [ProjectX](https://algoway.trade/blog/how-to-connect-projectx.html)
+- [cTrader logic](https://algoway.trade/blog/how-the-ctrader-connector-logic-works.html)

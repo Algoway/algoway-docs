@@ -1,0 +1,622 @@
+---
+title: "TradingView to MT5 Automation with Webhook Alerts | AlgoWay"
+description: "Connect TradingView alerts to MetaTrader 5 with AlgoWay. Use webhook alerts, JSON messages, AlgoWayWS-MT5 EA, WebSocket routing, SL/TP, testing and logs."
+sidebar_label: "TradingView to MT5"
+---
+
+export const articleHtml = String.raw`
+<p class="text-muted mb-2">Last updated: May 2026 · Platform: AlgoWay · Destination: MetaTrader 5 · Source: TradingView alerts</p>
+
+        <h1 class="mb-3"><strong>TradingView to MT5 Automation: Connect TradingView Alerts to MetaTrader 5 with AlgoWay</strong></h1>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws5.jpg"
+             fetchpriority="high"
+             decoding="async"
+             width="1000"
+             height="636"
+             alt="TradingView to MT5 automation with AlgoWayWS-MT5 Expert Advisor on MetaTrader 5"
+             class="img-fluid guide-img" />
+
+        <p class="lead">
+            <strong>AlgoWay connects TradingView alerts to MetaTrader 5 by receiving a webhook alert from TradingView,
+            validating the JSON message, and forwarding the trade command to the AlgoWayWS-MT5 Expert Advisor running inside MT5.</strong>
+            This gives you a practical TradingView to MT5 automation workflow without manually copying alerts into MetaTrader 5.
+        </p>
+
+        <p>
+            Traders usually search for this setup as <strong>TradingView to MT5</strong>, <strong>TradingView webhook MT5</strong>,
+            <strong>automate TradingView alerts</strong>, <strong>MT5 webhook trading</strong>, or <strong>TradingView alert to MetaTrader 5</strong>.
+            The technical idea is the same: TradingView remains the signal source, AlgoWay receives the webhook, and MetaTrader 5 executes through an EA.
+        </p>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Use this page if you want to:</strong>
+            install the AlgoWayWS-MT5 WebSocket EA, connect a TradingView alert to MT5, send a webhook JSON message,
+            test order execution, check MT5 logs, or build a stable TradingView-to-MetaTrader automation setup for demo or live trading.
+        </div>
+
+        <h2 id="quick-answer" class="mt-4"><strong>Quick Answer: How TradingView to MT5 Automation Works</strong></h2>
+
+        <p>
+            TradingView can send an alert message to an external webhook URL. MetaTrader 5 does not receive that alert directly,
+            so a bridge is required. In AlgoWay, the bridge is split into two parts: the AlgoWay webhook server and the AlgoWayWS-MT5 EA.
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Role in the TradingView to MT5 workflow</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>TradingView alert</strong></td>
+                        <td>Sends the alert message from a strategy, indicator, price condition or custom Pine Script alert.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AlgoWay webhook URL</strong></td>
+                        <td>Receives the webhook request and reads the JSON trading command.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AlgoWay routing layer</strong></td>
+                        <td>Validates the command, selects the destination platform, and prepares the MT5 execution instruction.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AlgoWayWS-MT5 EA</strong></td>
+                        <td>Keeps a live WebSocket connection from MetaTrader 5 to AlgoWay and receives the command in real time.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MetaTrader 5 account</strong></td>
+                        <td>Executes the final market order, close command, pending order, Stop Loss, Take Profit or supported trade action.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="why-bridge" class="mt-4"><strong>Why TradingView Needs a Bridge to Trade on MetaTrader 5</strong></h2>
+
+        <p>
+            TradingView is excellent for charting, indicators, Pine Script strategies and alerts. MetaTrader 5 is where many forex,
+            CFD, index, commodity and prop-firm accounts are actually executed. The gap is execution: a TradingView alert by itself
+            does not open a trade inside MT5 unless another system receives the alert and sends the instruction to MetaTrader.
+        </p>
+
+        <p>
+            AlgoWay fills this gap with a webhook-to-WebSocket workflow. TradingView sends the alert to AlgoWay, AlgoWay validates the message,
+            and the AlgoWayWS-MT5 EA receives the command inside your running MT5 terminal. This is why the MT5 terminal or Windows VPS must stay online
+            while the automation is active.
+        </p>
+
+        <h2 id="why-algoway" class="mt-4"><strong>Why Use AlgoWay for TradingView Webhook MT5 Automation?</strong></h2>
+
+        <p>
+            A basic TradingView-to-MT5 bridge usually focuses only on one path: TradingView alert to MetaTrader. AlgoWay is built as a broader
+            webhook automation layer. The same alert format can be used for MetaTrader 5, TradeLocker, Match-Trader, cTrader, DxTrade,
+            Tradovate, Alpaca, Binance, Bybit, OKX, Gate.io and other supported destinations.
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>Single MT5 bridge</th>
+                        <th>AlgoWay</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TradingView to MT5 execution</td>
+                        <td>Usually supported</td>
+                        <td><strong>Supported through AlgoWayWS-MT5 EA</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Webhook JSON routing</td>
+                        <td>Often locked to one syntax</td>
+                        <td><strong>Structured JSON with platform routing</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Multiple destination types</td>
+                        <td>Usually limited to MetaTrader</td>
+                        <td><strong>MT5, prop platforms, crypto exchanges, stocks and futures routes</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Logs and debugging</td>
+                        <td>Usually EA-side only</td>
+                        <td><strong>Webhook-side processing plus MT5 Experts and Journal logs</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Signal sources</td>
+                        <td>Usually TradingView only</td>
+                        <td><strong>TradingView alerts, webhook requests, Telegram signals and other supported sources</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="what-can-automate" class="mt-4"><strong>What Can Be Automated from TradingView to MT5?</strong></h2>
+
+        <p>
+            The simplest alert opens a buy or sell order. A complete TradingView webhook message can also include position size,
+            Stop Loss, Take Profit, trailing stop settings and supported execution options. The exact fields depend on your AlgoWay MT5 configuration
+            and the current AlgoWayWS-MT5 EA documentation.
+        </p>
+
+        <ul>
+            <li><strong>Market orders:</strong> buy, sell, long or short actions from TradingView alerts.</li>
+            <li><strong>Close actions:</strong> flat or close commands when your TradingView strategy exits.</li>
+            <li><strong>Risk parameters:</strong> order size, Stop Loss, Take Profit and trailing settings when supported by the selected route.</li>
+            <li><strong>Strategy placeholders:</strong> dynamic values such as <code>{{ticker}}</code>, <code>{{strategy.order.action}}</code> and <code>{{strategy.order.contracts}}</code>.</li>
+            <li><strong>Testing workflow:</strong> send a small demo alert, read AlgoWay processing, then confirm the MT5 Experts and Journal logs.</li>
+        </ul>
+
+        <h2 id="workflow" class="mt-4"><strong>TradingView to MetaTrader 5 Workflow</strong></h2>
+
+        <ol>
+            <li>Create an AlgoWay webhook for the MetaTrader 5 destination.</li>
+            <li>Install AlgoWayWS-MT5 EA inside the MetaTrader 5 terminal.</li>
+            <li>Enter your AlgoWay webhook UUID in the EA inputs.</li>
+            <li>Confirm that the EA WebSocket status is connected.</li>
+            <li>Create a TradingView alert and enable Webhook URL.</li>
+            <li>Paste your AlgoWay webhook URL and JSON message into TradingView.</li>
+            <li>Trigger the alert and confirm execution in AlgoWay and MT5 logs.</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="video" class="mt-4"><strong>Video Tutorial: How to Connect TradingView to MetaTrader 5</strong></h2>
+
+        <div class="mb-4 text-center">
+            <h5><strong>TradingView to MT5 WebSocket EA setup</strong></h5>
+            <iframe class="guide-video" src="https://www.youtube.com/embed/qpACjgqhQLQ" title="How to Connect TradingView to MetaTrader 5 (MT5) | WebSocket EA" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <hr>
+
+        <h2 id="before-start" class="mt-4"><strong>Before You Start</strong></h2>
+
+        <p>
+            Before installing the EA, make sure you have the required components for a TradingView alert to MetaTrader 5 automation workflow.
+        </p>
+
+        <ul>
+            <li>MetaTrader 5 installed on Windows or Windows VPS</li>
+            <li>An AlgoWay account</li>
+            <li>An AlgoWay webhook UUID for your MT5 integration</li>
+            <li>Permission to enable algorithmic trading in MT5</li>
+            <li>Permission to enable DLL imports in MT5</li>
+            <li>A TradingView alert that can send either webhook or email-based alerts, depending on your chosen AlgoWay setup</li>
+        </ul>
+
+        <h3 class="mt-4" id="important-info"><strong>Required Microsoft Visual C++ Runtime</strong></h3>
+
+        <div role="alert" style="margin-top:10px; padding:16px 18px; border:1px solid #ffda6a; border-radius:6px; background:#fff3cd; color:#664d03;">
+            <strong>Required before installing AlgoWayWS-MT5:</strong>
+            install <strong>Microsoft Visual C++ Redistributable (VC++ v14)</strong>.
+            If it is not installed, the EA/DLL can fail to load and errors will appear in the MT5 <strong>Experts</strong> log.
+
+            <ul style="margin-top:8px; margin-bottom:0; color:#664d03;">
+                <li>
+                    <strong>x64 for 64-bit MT5:</strong>
+                    <a href="https://aka.ms/vc14/vc_redist.x64.exe" target="_blank" rel="noopener nofollow" style="color:#664d03; font-weight:700; text-decoration:underline;">vc_redist.x64.exe</a>
+                </li>
+                <li>
+                    <strong>x86 only for 32-bit MT5:</strong>
+                    <a href="https://aka.ms/vc14/vc_redist.x86.exe" target="_blank" rel="noopener nofollow" style="color:#664d03; font-weight:700; text-decoration:underline;">vc_redist.x86.exe</a>
+                </li>
+            </ul>
+
+            <div style="margin-top:8px; color:#664d03;">
+                <strong>Note:</strong> The latest supported VC++ v14 package supports <strong>Windows 10/11</strong> and
+                <strong>Windows Server 2016/2019/2022/2025</strong>. On <strong>Windows 7</strong> this installer may not run.
+            </div>
+        </div>
+
+        <hr>
+
+        <h2 id="auto-installer" class="mt-4"><strong>Option A — Auto Installer for AlgoWayWS-MT5</strong></h2>
+
+        <p>
+            The recommended installation method is the automatic installer. It places the EA, include files, and DLL
+            into the correct MetaTrader 5 Data Folder.
+        </p>
+
+        <p>
+            Download the installer:
+            <a href="https://algoway.trade/downloads/AlgoWayWS-MT5-Setup.exe">AlgoWayWS-MT5-Setup.exe</a>
+        </p>
+
+        <div role="alert" style="margin-top:10px; padding:16px 18px; border:1px solid #ffda6a; border-radius:6px; background:#fff3cd; color:#664d03;">
+            <h3 class="mb-2" style="font-size:1.05rem;"><strong>Windows may warn about the download or installer</strong></h3>
+            <p class="mb-2">
+                Sometimes Windows Defender or SmartScreen may flag the file as suspicious.
+                If Windows blocks the download, click <strong>Keep</strong> or <strong>Allow</strong> so the file can be downloaded.
+            </p>
+            <p class="mb-0">
+                If a blue SmartScreen window appears when you launch the installer, click <strong>More info</strong>,
+                then click <strong>Run anyway</strong> to allow the installer to start.
+            </p>
+        </div>
+
+        <h3 class="mt-4"><strong>Close MetaTrader 5 before installing</strong></h3>
+        <p>
+            Close MT5 before starting the installer. If MetaTrader 5 is open, some files can be locked and the installer may stop.
+        </p>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws1.jpg" loading="lazy" decoding="async" width="542" height="268" alt="Close MetaTrader 5 before installing AlgoWayWS-MT5 WebSocket EA" class="img-fluid guide-img" />
+
+        <div style="margin-top:-6px; margin-bottom: 14px; color: rgba(0,0,0,0.6); font-size: 13px;">
+            The installer will wait until MetaTrader 5 is closed.
+        </div>
+
+        <h3 class="mt-4"><strong>Portable mode question</strong></h3>
+        <p>
+            If you do not intentionally use MT5 portable mode, click <strong>No</strong>.
+            Portable mode is for advanced users running MT5 from a custom folder.
+        </p>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws2.jpg" loading="lazy" decoding="async" width="646" height="314" alt="AlgoWayWS-MT5 installer portable mode question" class="img-fluid guide-img" />
+
+        <h3 class="mt-4"><strong>Install and finish setup</strong></h3>
+        <p>
+            Continue the installation and click <strong>Finish</strong> when the setup is complete.
+        </p>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws3.jpg" loading="lazy" decoding="async" width="591" height="454" alt="AlgoWayWS-MT5 installer installation step" class="img-fluid guide-img" />
+        <img src="https://algoway.trade/img/blog-img/mt5ws4.jpg" loading="lazy" decoding="async" width="600" height="463" alt="AlgoWayWS-MT5 installer ready to install screen" class="img-fluid guide-img" />
+
+        <div style="margin-top:-6px; margin-bottom: 14px; color: rgba(0,0,0,0.6); font-size: 13px;">
+            The finish screen confirms where the MT5 EA files were installed or exported.
+        </div>
+
+        <hr>
+
+        <h2 id="manual-install" class="mt-4"><strong>Option B — Manual Install</strong></h2>
+
+        <p>
+            Use manual installation only if you cannot run the automatic installer. Manual install copies the same EA,
+            include files, and WebSocket DLL into the MT5 Data Folder.
+        </p>
+
+        <p>
+            Download the manual installation package:
+            <a href="https://algoway.trade/downloads/EA_payload.zip">EA_payload.zip</a>
+        </p>
+
+        <h3 class="mt-4"><strong>Open MT5 Data Folder</strong></h3>
+
+        <ul>
+            <li>Open MetaTrader 5</li>
+            <li>Go to <strong>File</strong> → <strong>Open Data Folder</strong></li>
+            <li>Open the <code>MQL5</code> directory</li>
+        </ul>
+
+        <h3 class="mt-4"><strong>Copy files into the correct MT5 folders</strong></h3>
+
+        <p>
+            Copy each file into its exact folder:
+        </p>
+
+        <ul>
+            <li><strong>Experts</strong> → <code>AlgoWayWS-MT5.ex5</code></li>
+            <li><strong>Include</strong> → <code>asyncwinhttp.mqh</code>, <code>asyncwebsocket.mqh</code></li>
+            <li><strong>Libraries</strong> → <code>asyncwinhttpwebsockets.dll</code></li>
+        </ul>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws7.jpg" loading="lazy" decoding="async" width="600" height="239" alt="MT5 Experts folder for AlgoWayWS-MT5 EA file" class="img-fluid guide-img" />
+        <img src="https://algoway.trade/img/blog-img/mt5ws8.jpg" loading="lazy" decoding="async" width="600" height="316" alt="MT5 Include folder for AlgoWayWS-MT5 WebSocket files" class="img-fluid guide-img" />
+        <img src="https://algoway.trade/img/blog-img/mt5ws9.jpg" loading="lazy" decoding="async" width="600" height="239" alt="MT5 Libraries folder for AlgoWayWS-MT5 DLL file" class="img-fluid guide-img" />
+
+        <div class="alert alert-info" role="alert" style="margin-top: 8px;">
+            After manual copy, <strong>restart MetaTrader 5</strong> or refresh Navigator so the EA appears.
+        </div>
+
+        <hr>
+
+        <h2 id="installed-files" class="mt-4"><strong>What Gets Installed</strong></h2>
+
+        <p>
+            The AlgoWayWS-MT5 setup installs four files into your MetaTrader 5 Data Folder:
+        </p>
+
+        <ul>
+            <li><code>MQL5\Experts\AlgoWayWS-MT5.ex5</code></li>
+            <li><code>MQL5\Include\asyncwinhttp.mqh</code></li>
+            <li><code>MQL5\Include\asyncwebsocket.mqh</code></li>
+            <li><code>MQL5\Libraries\asyncwinhttpwebsockets.dll</code></li>
+        </ul>
+
+        <p>
+            These files allow MT5 to load the Expert Advisor and maintain the WebSocket connection used by AlgoWay.
+        </p>
+
+        <hr>
+
+        <h2 id="mt5-options" class="mt-4"><strong>Required MT5 Options</strong></h2>
+
+        <p>
+            Before using the EA, open <strong>MT5 → Tools → Options → Expert Advisors</strong>.
+        </p>
+
+        <h3 class="mt-4"><strong>Enable algorithmic trading and DLL imports</strong></h3>
+
+        <ul>
+            <li>Enable <strong>Allow algorithmic trading</strong></li>
+            <li>Enable <strong>Allow DLL imports</strong></li>
+            <li>Click <strong>OK</strong></li>
+        </ul>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws12.jpg" loading="lazy" decoding="async" width="600" height="400" alt="MetaTrader 5 Expert Advisors options for algorithmic trading and DLL imports" class="img-fluid guide-img" />
+
+        <hr>
+
+        <h2 id="activate-ea" class="mt-4"><strong>Activate the EA in MetaTrader 5</strong></h2>
+
+        <h3 class="mt-4"><strong>Attach AlgoWayWS-MT5 to a chart</strong></h3>
+
+        <ol>
+            <li>Open any chart in MetaTrader 5.</li>
+            <li>Open <strong>Navigator</strong> → <strong>Expert Advisors</strong>.</li>
+            <li>Drag <strong>AlgoWayWS-MT5</strong> onto the chart.</li>
+        </ol>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws5.jpg" loading="lazy" decoding="async" width="1000" height="636" alt="Attach AlgoWayWS-MT5 Expert Advisor to MetaTrader 5 chart" class="img-fluid guide-img" />
+
+        <h3 class="mt-4"><strong>Enter your AlgoWay webhook UUID</strong></h3>
+
+        <p>
+            In the EA <strong>Inputs</strong> tab, fill <code>Your Algoway Webhook here</code> with your AlgoWay webhook
+            <strong>UUID</strong>, then click <strong>OK</strong>.
+        </p>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws6.jpg" loading="lazy" decoding="async" width="600" height="282" alt="Enter AlgoWay webhook UUID in AlgoWayWS-MT5 inputs" class="img-fluid guide-img" />
+
+        <hr>
+
+        <h2 id="test-connection" class="mt-4"><strong>Confirm the WebSocket Connection</strong></h2>
+
+        <p>
+            After the EA is attached to the chart, confirm that the connection is active before sending real TradingView alerts.
+        </p>
+
+        <ul>
+            <li>Open the MT5 <strong>Experts</strong> tab.</li>
+            <li>Check the EA logs for WebSocket connection messages.</li>
+            <li>Check the chart label/status for <strong>Connected</strong>.</li>
+            <li>Confirm that the AlgoWay webhook UUID in the EA input is the same UUID used by your AlgoWay webhook.</li>
+        </ul>
+
+        <p>
+            When the EA shows connected status, AlgoWay can deliver TradingView webhook signals to your MetaTrader 5 terminal.
+        </p>
+
+        <hr>
+
+        <h2 id="tradingview-webhook" class="mt-4"><strong>TradingView Webhook Message Example for MT5</strong></h2>
+
+        <p>
+            After the MT5 EA is connected, your TradingView alert can send a JSON message to your AlgoWay webhook URL.
+            A basic MT5 market order message can use this structure:
+        </p>
+
+<pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.order.action}}",
+  "order_contracts": "{{strategy.order.contracts}}"
+}</code></pre>
+
+        <p>
+            AlgoWay receives the TradingView webhook, processes the JSON, and forwards the execution command to the connected
+            AlgoWayWS-MT5 Expert Advisor.
+        </p>
+
+        <h3 class="mt-4"><strong>Example with Stop Loss and Take Profit</strong></h3>
+
+        <p>
+            If your MT5 route is configured to use Stop Loss and Take Profit values from the webhook, include them in the JSON message.
+            Use the field format supported by your current AlgoWay MT5 documentation.
+        </p>
+
+<pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.order.action}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "stop_loss": "50",
+  "take_profit": "100"
+}</code></pre>
+
+        <h3 class="mt-4"><strong>Strategy placeholders vs fixed values</strong></h3>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Value type</th>
+                        <th>Example</th>
+                        <th>When to use it</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TradingView symbol</td>
+                        <td><code>{{ticker}}</code></td>
+                        <td>Use when the alert should pass the chart symbol to AlgoWay.</td>
+                    </tr>
+                    <tr>
+                        <td>Strategy action</td>
+                        <td><code>{{strategy.order.action}}</code></td>
+                        <td>Use when a TradingView strategy controls buy, sell or close direction.</td>
+                    </tr>
+                    <tr>
+                        <td>Strategy quantity</td>
+                        <td><code>{{strategy.order.contracts}}</code></td>
+                        <td>Use when the order size comes from Strategy Tester logic.</td>
+                    </tr>
+                    <tr>
+                        <td>Fixed size</td>
+                        <td><code>"order_contracts": "0.10"</code></td>
+                        <td>Use when every alert should send the same MT5 lot size or quantity value.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert alert-warning" role="alert">
+            The exact JSON fields depend on your strategy and EA settings. For advanced options such as absolute Stop Loss,
+            absolute Take Profit, trailing stop, sessions, mapping and risk settings, use the full MT5 EA documentation.
+        </div>
+
+        <hr>
+
+        <h2 id="create-alert" class="mt-4"><strong>Create the TradingView Alert</strong></h2>
+
+        <ol>
+            <li>Open the TradingView chart or strategy you want to automate.</li>
+            <li>Create a new alert from the alert panel.</li>
+            <li>Set the condition, for example a strategy order event or an indicator alert condition.</li>
+            <li>Enable <strong>Webhook URL</strong> and paste your AlgoWay webhook URL.</li>
+            <li>Paste the JSON message into the alert message field.</li>
+            <li>Save the alert and trigger a demo test before using live size.</li>
+        </ol>
+
+        <p>
+            For strategy-based automation, the most common condition is the strategy alert event that sends the JSON message whenever the strategy creates an order.
+            For indicator-based automation, the message may use fixed values or custom Pine Script values generated by your indicator logic.
+        </p>
+
+        <h2 id="test-before-live" class="mt-4"><strong>Safe Testing Checklist Before Live MT5 Automation</strong></h2>
+
+        <ul>
+            <li>Start with a demo account or very small test size.</li>
+            <li>Confirm that the MT5 EA status is connected.</li>
+            <li>Confirm that TradingView sends valid JSON.</li>
+            <li>Confirm that the symbol name matches your MT5 broker symbol format.</li>
+            <li>Check the AlgoWay webhook response and MT5 Experts log after each test.</li>
+            <li>Test buy, sell and close behavior before using the setup for live execution.</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="troubleshooting" class="mt-4"><strong>Troubleshooting TradingView to MT5 Automation</strong></h2>
+
+        <h3 class="mt-4"><strong>EA does not appear in Navigator</strong></h3>
+        <ul>
+            <li>Restart MetaTrader 5.</li>
+            <li>Confirm that <code>AlgoWayWS-MT5.ex5</code> is inside <code>MQL5\Experts</code>.</li>
+            <li>If you used manual install, confirm that you copied the file into the correct MT5 Data Folder, not into the program installation folder.</li>
+        </ul>
+
+        <h3 class="mt-4"><strong>EA does not connect</strong></h3>
+        <ul>
+            <li>Check that the webhook UUID was entered correctly.</li>
+            <li>Check the MT5 <strong>Experts</strong> tab for connection logs.</li>
+            <li>Confirm that internet access is available inside the VPS or Windows machine.</li>
+            <li>Confirm that DLL imports are enabled for the EA.</li>
+        </ul>
+
+        <h3 class="mt-4"><strong>DLL error appears in MT5</strong></h3>
+        <ul>
+            <li>Confirm that <strong>Allow DLL imports</strong> is enabled.</li>
+            <li>Confirm that <code>asyncwinhttpwebsockets.dll</code> is inside <code>MQL5\Libraries</code>.</li>
+            <li>Install Microsoft Visual C++ Redistributable if it is missing.</li>
+        </ul>
+
+        <h3 class="mt-4"><strong>TradingView alert is sent but no trade opens</strong></h3>
+        <ul>
+            <li>Check that the EA status is <strong>Connected</strong>.</li>
+            <li>Check the AlgoWay webhook settings.</li>
+            <li>Check the JSON message sent by TradingView.</li>
+            <li>Check the MT5 <strong>Experts</strong> and <strong>Journal</strong> tabs.</li>
+            <li>Check whether the broker symbol requires a suffix or custom mapping.</li>
+        </ul>
+
+        <h3 class="mt-4"><strong>TradingView sends the alert but JSON is rejected</strong></h3>
+        <ul>
+            <li>Validate that the alert message is valid JSON.</li>
+            <li>Confirm that <code>platform_name</code> is <code>metatrader5</code>.</li>
+            <li>Confirm that required fields such as <code>ticker</code>, <code>order_action</code> and <code>order_contracts</code> are present.</li>
+            <li>Do not mix strategy placeholders with indicator alerts unless the alert source actually provides those placeholders.</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="full-docs" class="mt-4"><strong>Full MT5 EA Documentation</strong></h2>
+
+        <img src="https://algoway.trade/img/blog-img/mt5ws10.jpg" loading="lazy" decoding="async" width="600" height="918" alt="AlgoWayWS-MT5 documentation and MetaTrader 5 setup reference" class="img-fluid guide-img" />
+
+        <p>
+            This page focuses on installation, connection setup and the TradingView webhook workflow. For the full AlgoWay MT5 Expert Advisor documentation,
+            including risk settings, trailing stop, mapping, sessions and advanced execution options, use:
+        </p>
+
+        <ul>
+            <li><a href="https://algoway.trade/blog/algoway-mt5-v206-overview.html">AlgoWay MT5 EA full documentation and parameters</a></li>
+        </ul>
+
+        <h2 id="related-guides" class="mt-4"><strong>Related AlgoWay Guides</strong></h2>
+
+        <ul>
+            <li><a href="https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a TradingView webhook alert for automated trading</a></li>
+            <li><a href="https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">How to automate TradingView alerts to any broker with AlgoWay</a></li>
+            <li><a href="https://algoway.trade/blog/json-schema-guide.html">AlgoWay JSON schema guide for webhook trading</a></li>
+            <li><a href="https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MetaTrader 5 EA errors and fixes</a></li>
+            <li><a href="https://algoway.trade/blog/tradingview-free-webhook-alerts.html">TradingView webhook free alternative with AlgoWay email alerts</a></li>
+        </ul>
+
+        <hr>
+
+        <h2 id="faq" class="mt-4"><strong>FAQ: TradingView to MT5 with AlgoWay</strong></h2>
+
+        <h3 class="mt-4"><strong>Can TradingView connect directly to MetaTrader 5?</strong></h3>
+        <p>
+            TradingView does not execute trades directly inside MetaTrader 5 by default. AlgoWay provides the webhook routing layer,
+            and AlgoWayWS-MT5 provides the MT5-side WebSocket connection for execution.
+        </p>
+
+        <h3 class="mt-4"><strong>Do I need to keep MetaTrader 5 open?</strong></h3>
+        <p>
+            Yes. MetaTrader 5 must remain running with AlgoWayWS-MT5 attached to a chart so the EA can receive WebSocket
+            messages and execute signals.
+        </p>
+
+        <h3 class="mt-4"><strong>Do I need a Windows VPS for TradingView to MT5 automation?</strong></h3>
+        <p>
+            A Windows VPS is commonly used because MetaTrader 5 and the AlgoWayWS-MT5 EA must stay online. You can run the setup on a local Windows machine,
+            but a VPS is usually better for continuous automation.
+        </p>
+
+        <h3 class="mt-4"><strong>Do I need to enable DLL imports?</strong></h3>
+        <p>
+            Yes. AlgoWayWS-MT5 uses a WebSocket DLL, so <strong>Allow DLL imports</strong> must be enabled in MT5.
+        </p>
+
+        <h3 class="mt-4"><strong>Can I use the installer instead of copying files manually?</strong></h3>
+        <p>
+            Yes. The Auto Installer is the recommended method because it places the EA and required files into the correct
+            MT5 folders automatically.
+        </p>
+
+        <h3 class="mt-4"><strong>Where do I enter my AlgoWay webhook UUID?</strong></h3>
+        <p>
+            Enter the UUID in the EA Inputs field named <code>Your Algoway Webhook here</code> when attaching AlgoWayWS-MT5
+            to a MetaTrader 5 chart.
+        </p>
+
+        <h3 class="mt-4"><strong>Can the same TradingView strategy be connected to more than one broker or account?</strong></h3>
+        <p>
+            Yes. AlgoWay is designed as a routing layer, so the same TradingView alert logic can be used with different supported destinations,
+            depending on how your webhooks and integrations are configured.
+        </p>
+`;
+
+<div className="aw-blog-article">
+  <div className="aw-blog-shell">
+    <div className="card">
+      <div className="card-body" dangerouslySetInnerHTML={{__html: articleHtml}} />
+    </div>
+  </div>
+</div>

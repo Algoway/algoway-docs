@@ -1,0 +1,750 @@
+---
+title: "AlgoWay JSON Schema for Webhook Automation: Market, Limit, Stop, SL/TP and Trade Type"
+description: "AlgoWay JSON schema guide for webhook trading automation: market, limit and stop orders, closeall, price, sl_price, tp_price, trade_type, platform_name, ticker, order_action, order_contracts and examples."
+---
+
+# AlgoWay JSON Schema for TradingView Webhook Automation: Market, Limit, Stop and Trade Type
+![AlgoWay JSON schema for TradingView webhook automation](https://algoway.trade/static/img/blog-img/json@2x.jpg)
+
+**AlgoWay uses JSON messages to understand trading alerts from TradingView, TrendSpider, custom bots and external webhook systems. ** The JSON tells AlgoWay which platform should receive the order, which symbol to trade, which action to perform, what size to use, whether the entry is a market, limit or stop order, which entry price should be used for pending orders, and whether optional management fields such as Stop Loss, Take Profit, trailing stop, trade mode override, modify, breakeven, closeall or hedge-side closing should be applied.
+
+This guide is written for users searching for **AlgoWay JSON schema **, ** TradingView webhook JSON **, ** webhook trading bot JSON **, ** TradingView alert JSON example **, ** order_action buy sell flat close closeall **, ** close all positions webhook JSON **, ** order_type market limit stop **, ** limit order webhook JSON **, ** stop order webhook JSON **, ** webhook stop loss take profit JSON **, ** sl_price tp_price **, ** trade_type hedge netting opposite inverse **, ** trailing_pips **, ** breakeven webhook **, and ** modify order webhook **.
+
+The basic route is:
+
+```
+TradingView / TrendSpider / custom alert → AlgoWay webhook URL → AlgoWay JSON parser → selected broker, exchange or trading platform
+```
+
+If the JSON is valid and the route is configured correctly, AlgoWay can normalize the signal and send it to the selected destination. If the JSON is invalid or required fields are missing, the request is rejected before execution.
+
+Last updated: 2026-05-15 • Author: AlgoWay
+
+- [Quick answer](#quick-answer)
+- [Why JSON matters](#why-json)
+- [Required fields](#required)
+- [order_action values](#actions)
+- [closeall: close all positions](#closeall)
+- [order_type: market, limit and stop](#order-type)
+- [trade_type override](#trade-type)
+- [Optional fields](#optional)
+- [SL/TP fields](#sltp)
+- [trailing_pips support](#trailing)
+- [modify and breakeven](#modify)
+- [close_side for hedge mode](#close-side)
+- [platform_name values](#platforms)
+- [JSON examples](#examples)
+- [Validation checklist](#validation)
+- [Common problems](#problems)
+
+## Quick Answer: Minimal AlgoWay JSON
+
+The minimal JSON for opening a trade usually contains four required fields:
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10"
+}
+```
+
+For TradingView strategy alerts, the same structure can use TradingView placeholders:
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}
+```
+
+For pending entries, add`order_type`and`price`. If`order_type`is missing, AlgoWay treats the order as`market`by default.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10",
+  "order_type": "limit",
+  "price": "1.0800",
+  "sl_price": "1.0750",
+  "tp_price": "1.0950"
+}
+```
+
+To close all open positions for one symbol, use`order_action`as`closeall`. This action does not require`order_contracts`.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "closeall"
+}
+```
+
+If one specific alert must use another position behavior than the webhook default, add`trade_type`. If`trade_type`is missing, AlgoWay uses the required Trade Type configured in the webhook dashboard.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "sell",
+  "order_contracts": "0.05",
+  "trade_type": "hedge"
+}
+```
+
+For TrendSpider alerts, the structure can use TrendSpider placeholders:
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_action": "buy",
+  "order_contracts": 1,
+  "price": "%last_price%",
+  "comment": "TS:%alert_name%"
+}
+```
+
+## Why JSON Matters in Webhook Trading Automation
+
+A webhook URL only delivers a message. The JSON body tells AlgoWay what the message means. Without a clear schema, the receiving system cannot reliably know whether the alert is a buy, sell, close, closeall, modify, breakeven or another action.
+
+Good JSON makes automation safer because it defines:
+
+- destination platform route;
+- trading symbol;
+- direction or management action;
+- order size;
+- optional execution price for logs;
+- optional SL/TP;
+- optional trailing stop;
+- optional comment or position identifier;
+- optional hedge-side close behavior;
+- optional close-all behavior for supported routes.
+
+If the alert message is valid JSON, webhook receivers can parse it consistently. If it is broken text, missing quotes or incomplete JSON, AlgoWay cannot safely treat it as an execution command.
+
+## Required Fields
+
+AlgoWay's core schema expects these fields for normal order routing.
+
+| Field | Required | Example | Purpose |
+| --- | --- | --- | --- |
+| `platform_name` | Yes | `metatrader5` | Defines which platform handler should process the alert. |
+| `ticker` | Yes | `EURUSD`,`BTCUSDT`,`XAUUSD` | Defines the market instrument. |
+| `order_action` | Yes | `buy`,`sell`,`flat`,`closeall` | Defines order direction or management action. |
+| `order_contracts` | Yes for normal entry orders. No for`closeall`. | `0.10`,`1`,`0.001` | Defines trade size, lot, contracts or quantity depending on platform. |
+| `order_type` | No | `market`,`limit`,`stop` | Defines entry order type. If missing, AlgoWay treats the order as`market`. |
+| `price` | Required when`order_type`is`limit`or`stop` | `1.0800`,`{{close}}` | Defines the entry price for limit and stop orders. For market orders it can still be used for logs. |
+
+## order_action Values and Normalization
+
+`order_action`tells AlgoWay what the alert is trying to do.
+
+| Value | Meaning | Typical use |
+| --- | --- | --- |
+| `buy` | Buy-side entry. | Long entry, spot buy, futures long. |
+| `sell` | Sell-side entry or short-side entry depending on platform. | Short entry, sell order, futures short. |
+| `flat` | Close or flatten matching exposure. | Exit signal, close position, strategy goes flat. |
+| `close` | Close instruction. AlgoWay normalizes it to`flat`. | Exit signal, close command from external tools, pending-order cleanup where supported. |
+| `closeall` | Close all open positions for the specified ticker without sending`order_contracts`. | Close all active exposure on one symbol with one command. |
+| `modify` | Update an existing position or order. | Change SL/TP or management fields without opening a new trade. |
+| `breakeven` | Move Stop Loss to entry price where supported. | Position protection after price moves in favor. |
+
+### Normalization Rules
+
+AlgoWay can normalize common directional words into the internal action model:
+
+| Incoming value | Normalized value |
+| --- | --- |
+| `long` | `buy` |
+| `short` | `sell` |
+| `close` | `flat` |
+| `closelong`,`closeshort`,`closeall` | `flat`with route-specific close behavior |
+
+This allows TradingView messages like`{{strategy.market_position}}`to be used in many workflows, but you should still test exactly how your destination route handles the normalized action.
+
+## order_action = closeall: Close All Positions
+
+`closeall`is a close-only action that closes all open positions for the specified ticker with one command. It does not open a new trade and does not require`order_contracts`.
+
+This action is useful when a user wants to exit all active exposure on one symbol without calculating the current lot size, contract amount or remaining position volume.
+
+### Minimal closeall Example
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "closeall"
+}
+```
+
+### How to Use closeall
+
+Use`closeall`when the alert must close every open position on the selected symbol. The JSON must include`platform_name`,`ticker`and`order_action`. The`order_contracts`,`order_type`and`price`fields are not required for this action.
+
+For MetaTrader 5 users,`closeall`requires AlgoWay EA version **2.10b ** or newer.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "closeall"
+}
+```
+
+## order_type: market, limit and stop Orders
+
+`order_type`defines how AlgoWay should treat an entry alert. Supported values are`market`,`limit`and`stop`.
+
+| order_type | price required? | Meaning | Typical use |
+| --- | --- | --- | --- |
+| `market` | No | Execute immediately at available market price. | Standard TradingView strategy entry, fast webhook execution, default mode. |
+| `limit` | Yes | Create a limit entry at the specified`price`. | Buy below market, sell above market, pullback entries. |
+| `stop` | Yes | Create a stop entry at the specified`price`. | Breakout entries, momentum confirmation, stop-market style triggers where supported. |
+
+When`order_type`is`limit`or`stop`, include`price`. In this context,`price`is not only a log value; it is the requested entry price for the pending order.
+
+### Market Order Example
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10",
+  "order_type": "market"
+}
+```
+
+### Limit Order Example with Absolute SL/TP
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10",
+  "order_type": "limit",
+  "price": "1.0800",
+  "sl_price": "1.0750",
+  "tp_price": "1.0950"
+}
+```
+
+### Stop Order Example with Absolute SL/TP
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "buy",
+  "order_contracts": "0.05",
+  "order_type": "stop",
+  "price": "2365.00",
+  "sl_price": "2352.00",
+  "tp_price": "2395.00"
+}
+```
+
+`sl_price`and`tp_price`can be used together with`market`,`limit`or`stop`entries where the selected destination supports absolute Stop Loss and Take Profit prices. For distance-style SL/TP, use`stop_loss`and`take_profit`.
+
+### Closing a Position or Cleaning a Pending Entry
+
+To close a position or send a close command, use`order_action`as`flat`or`close`.`close`is normalized to`flat`. For close-only messages,`order_type`and`price`are normally not required.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "flat",
+  "order_contracts": "0.10"
+}
+```
+
+If the route supports pending-order cleanup, a`flat`or`close`command can also be used to remove pending entries connected with the same symbol, route, comment or order identifier. Exact behavior depends on the destination handler and route settings.
+
+## trade_type: Per-Order Trade Mode Override
+
+`trade_type`lets one JSON message override the Trade Type configured in the webhook dashboard. Supported values are`hedge`,`netting`,`opposite`and`inverse`.
+
+| trade_type | Meaning | Typical use |
+| --- | --- | --- |
+| `hedge` | Allow separate long and short exposure where the destination supports it. | Strategy legs, multi-signal workflows, independent long/short handling. |
+| `netting` | Use net-position behavior for this order. | One net exposure per symbol, no separate long/short stacking. |
+| `opposite` | Send the opposite side of the incoming signal. | Inverse execution strategy, copy opposite behavior. |
+| `inverse` | Invert the incoming direction where the route supports inverse mode. | Contrarian mirroring, inverse copy-trading logic. |
+
+If`trade_type`is missing, AlgoWay uses the Trade Type selected in the webhook settings. In the webhook creation form this setting is required, so the route always has a default behavior. Use`trade_type`in JSON only when this exact alert must behave differently from the webhook default.
+
+### Example: One Order Forced to Hedge Mode
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "buy",
+  "order_contracts": "0.05",
+  "trade_type": "hedge"
+}
+```
+
+### Example: Limit Order with trade_type Override
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "NAS100",
+  "order_action": "sell",
+  "order_contracts": "1",
+  "order_type": "limit",
+  "price": "18350.0",
+  "sl_price": "18430.0",
+  "tp_price": "18100.0",
+  "trade_type": "netting"
+}
+```
+
+For a full explanation of hedge, netting, opposite and inverse behavior, read[How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html).
+
+## Optional Fields
+
+Optional fields add execution context, risk controls, management actions or logging labels.
+
+| Field | Example | Purpose |
+| --- | --- | --- |
+| `order_type` | `market`,`limit`,`stop` | Optional entry type. If missing, default is`market`. If`limit`or`stop`,`price`is required. |
+| `trade_type` | `hedge`,`netting`,`opposite`,`inverse` | Overrides the webhook Trade Type for this specific order. If missing, webhook settings are used. |
+| `stop_loss` | `100` | Distance-style Stop Loss value. Usually interpreted as points, pips or route-specific distance. |
+| `take_profit` | `200` | Distance-style Take Profit value. Usually interpreted in the same model as`stop_loss`. |
+| `sl_price` | `1.0845` | Absolute Stop Loss price level. |
+| `tp_price` | `1.0950` | Absolute Take Profit price level. |
+| `price` | `{{close}}`,`%last_price%` | Tracking price from the alert source. Useful for logs and comparison. |
+| `trailing_pips` | `80` | Trailing stop value where supported by the platform route. |
+| `comment` | `TV#12345` | User label, alert label, EA comment, magic-like reference or debug tag. |
+| `close_side` | `long`,`short` | Used with`flat`in hedge mode to close only one side. |
+| `order_id` | `Long Entry 1` | Optional position leg or strategy signal identifier where supported. |
+
+Empty strings are treated as missing values and ignored. Numeric fields must be parseable as numbers. A non-numeric value in a numeric field can trigger validation failure.
+
+## Stop Loss and Take Profit Fields
+
+AlgoWay supports two common SL/TP styles. Both can be used with`market`,`limit`and`stop`entries where the selected platform route supports them:
+
+| Style | Fields | Example | Best use |
+| --- | --- | --- | --- |
+| Distance-style | `stop_loss`,`take_profit` | `"stop_loss": "100"` | When route expects points, pips or configured distance. |
+| Absolute price | `sl_price`,`tp_price` | `"sl_price": "1.0845"` | When the alert source already calculates exact price levels. |
+
+## trailing_pips Support
+
+`trailing_pips`is a route-dependent field. Some destinations support native trailing-stop behavior. Others ignore the field or delegate trailing logic to an EA, broker-side feature or separate management workflow.
+
+### Platforms with Direct trailing_pips Processing in Current AlgoWay Schema
+
+- ✅ **Binance Futures ** — trailing value sent to the futures handler where supported.
+- ✅ **Bybit Futures ** — trailing-stop parameter supported by route where configured.
+- ✅ **Bitget Futures ** — trailing stop can be passed by the futures handler where supported.
+- ✅ **Capital.com ** — field interpreted and added to order options where supported.
+- ✅ **DxTrade ** — dynamic trailing field can be parsed and transmitted.
+- ✅ **Match-Trader ** — trailing distance can be passed when non-zero and supported.
+
+### Platforms That May Ignore or Delegate trailing_pips
+
+- ⚠️ **MetaTrader 5 ** — trailing behavior depends on the current EA workflow and route settings. Test before relying on it.
+- ❌ **cTrader ** — no generic webhook-level trailing in the current schema; broker/platform handling may differ.
+- ❌ **OKX ** , ** MEXC ** , ** BitMart ** — trailing is not implemented in current handlers.
+
+## modify and breakeven Actions
+
+### order_action = modify
+
+`modify`updates an existing open position or order without opening a new trade. It is commonly used to change Stop Loss, Take Profit or absolute SL/TP fields.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "modify",
+  "ticker": "EURUSD",
+  "comment": "TV#12345",
+  "sl_price": "1.0845",
+  "tp_price": "1.0950"
+}
+```
+
+Where a platform supports identification,`comment`,`order_id`or another route-specific reference may help identify which position should be modified.
+
+### order_action = breakeven
+
+`breakeven`is a position management action. It moves Stop Loss to the entry price where the route and platform support that behavior.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "breakeven",
+  "ticker": "GBPUSD",
+  "order_contracts": "0.10"
+}
+```
+
+`breakeven`does not open a new trade. It manages an existing position.
+
+## close_side for Hedge Mode
+
+In hedge mode, a symbol can have long-side and short-side exposure. A generic`flat`command can close all matching exposure depending on the platform handler. Use`close_side`when you want to close only one side.
+
+### Close Only Long Positions
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "close_side": "long"
+}
+```
+
+### Close Only Short Positions
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "close_side": "short"
+}
+```
+
+If`close_side`is omitted, the platform handler may close all matching positions on the symbol. Test the behavior on your destination route before live use.
+
+## Common platform_name Values
+
+`platform_name`must match the destination route configured in AlgoWay.
+
+| Platform | `platform_name` |
+| --- | --- |
+| MetaTrader 5 | `metatrader5` |
+| TradeLocker | `tradelocker` |
+| Match-Trader | `matchtrader` |
+| DxTrade | `dxtrade` |
+| cTrader | `ctrader` |
+| cTrader Open API | `ctrader-oapi` |
+| Capital.com | `capitalcom` |
+| Alpaca | `alpaca` |
+| Tradovate | `tradovate` |
+| ProjectX | `projectx` |
+| Binance | `binance` |
+| Bybit | `bybit` |
+| OKX | `okx` |
+| BitMEX | `bitmex` |
+| Bitget | `bitget` |
+| BitMart | `bitmart` |
+| BingX | `bingx` |
+| Coinbase | `coinbase` |
+| HyperLiquid | `hyperliquid` |
+| Kraken | `kraken` |
+| KuCoin | `kucoin` |
+
+## Copy-Paste JSON Examples
+
+### 0. Market Order by Default
+
+If`order_type`is missing, AlgoWay treats this as a market order.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10"
+}
+```
+
+### 0.1 Limit Entry with price, sl_price and tp_price
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "order_type": "limit",
+  "price": "1.0800",
+  "sl_price": "1.0750",
+  "tp_price": "1.0950"
+}
+```
+
+### 0.2 Stop Entry with trade_type Override
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "sell",
+  "ticker": "XAUUSD",
+  "order_contracts": "0.05",
+  "order_type": "stop",
+  "price": "2338.00",
+  "sl_price": "2350.00",
+  "tp_price": "2310.00",
+  "trade_type": "inverse"
+}
+```
+
+### 0.3 Close Command
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "close",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10"
+}
+```
+
+### 0.4 Close All Positions on Symbol
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "closeall"
+}
+```
+
+### 1. Open BUY with SL/TP by Distance
+
+```json
+{
+  "platform_name": "binance",
+  "order_action": "buy",
+  "ticker": "BTCUSDT.P",
+  "order_contracts": "0.10",
+  "stop_loss": "150",
+  "take_profit": "300"
+}
+```
+
+### 2. Open SELL with Absolute SL/TP Prices
+
+```json
+{
+  "platform_name": "tradelocker",
+  "order_action": "sell",
+  "ticker": "XAUUSD",
+  "order_contracts": "0.05",
+  "sl_price": "2055.50",
+  "tp_price": "2038.00"
+}
+```
+
+### 3. Open BUY with trailing_pips
+
+```json
+{
+  "platform_name": "bybit",
+  "order_action": "buy",
+  "ticker": "BTCUSDT",
+  "order_contracts": "0.10",
+  "stop_loss": "120",
+  "trailing_pips": "80"
+}
+```
+
+### 4. Hedge: Close Only Long Positions
+
+```json
+{
+  "platform_name": "matchtrader",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "close_side": "long"
+}
+```
+
+### 5. Use LONG / SHORT Normalization
+
+```json
+{
+  "platform_name": "ctrader",
+  "order_action": "long",
+  "ticker": "USDJPY",
+  "order_contracts": "0.10",
+  "stop_loss": "100"
+}
+```
+
+### 6. Modify Existing Position SL/TP
+
+```json
+{
+  "platform_name": "okx",
+  "order_action": "modify",
+  "ticker": "ETHUSDT",
+  "comment": "TV#12345",
+  "stop_loss": "140",
+  "take_profit": "280"
+}
+```
+
+### 7. Move Position to Breakeven
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "breakeven",
+  "ticker": "GBPUSD",
+  "order_contracts": "0.10"
+}
+```
+
+### 8. TradingView Strategy Alert JSON
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}
+```
+
+### 9. TradingView Close All Alert JSON
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "closeall"
+}
+```
+
+### 10. TrendSpider Standard Alert JSON
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_action": "buy",
+  "order_contracts": 1,
+  "price": "%last_price%",
+  "comment": "TS:%alert_name%"
+}
+```
+
+### 11. Close / Flat Signal
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "flat",
+  "order_contracts": "0.10"
+}
+```
+
+## Validation Checklist Before Sending Live Alerts
+
+Before using live size, check:
+
+- JSON is one complete object;
+- all keys use double quotes;
+- all string values use double quotes;
+- there are no trailing commas;
+- `platform_name` matches your AlgoWay route;
+- `ticker` matches or maps to the destination symbol;
+- `order_action` is valid;
+- `order_contracts` is valid for entry alerts;
+- `order_contracts` is omitted when `order_action` is `closeall` ;
+- `order_type` , when present, is one of `market` , `limit` or `stop` ;
+- `price` is present and numeric when `order_type` is `limit` or `stop` ;
+- `trade_type` , when present, is one of `hedge` , `netting` , `opposite` or `inverse` ;
+- SL/TP fields match the intended distance or absolute-price model;
+- `trailing_pips` is supported by the destination route;
+- `close_side` is used only when hedge-side close behavior is required;
+- MetaTrader 5 users have AlgoWay EA version **2.10b ** or newer for `closeall` ;
+- AlgoWay logs show the received payload;
+- destination platform accepts a small test order.
+
+## Common JSON Problems
+
+### Invalid JSON
+
+Use double quotes and remove trailing commas. A missing quote or extra comma can stop the webhook before AlgoWay routes the command. See:[How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html).
+
+### Wrong platform_name
+
+If the AlgoWay route is ProjectX but the JSON says`metatrader5`, the message can be rejected or routed incorrectly.
+
+### order_contracts Missing on Entry
+
+Entry actions should include`order_contracts`. The value must be convertible to a floating-point number.
+
+### order_contracts Used with closeall
+
+Do not send`order_contracts`with`order_action`set to`closeall`. This action closes all open positions for the specified symbol and does not need lot, contract or quantity size.
+
+### Old MetaTrader 5 EA Version with closeall
+
+MetaTrader 5 users must update AlgoWay EA to version **2.10b ** or newer before using`closeall`.
+
+### Symbol Mismatch
+
+`{{ticker}}`,`%alert_symbol%`or a fixed ticker may not match the broker or exchange symbol. Use the exact symbol or configure mapping.
+
+### Wrong SL/TP Model
+
+Do not use`stop_loss`when you mean an absolute price. Use`sl_price`for exact price levels.
+
+### order_type limit or stop Without price
+
+If`order_type`is`limit`or`stop`, the alert must include`price`. Without`price`, AlgoWay does not know the requested entry level for the pending order.
+
+### Wrong trade_type Value
+
+`trade_type`must be`hedge`,`netting`,`opposite`or`inverse`. If you omit it, AlgoWay uses the Trade Type configured in the webhook dashboard.
+
+### Using order_type on Close Commands
+
+For`flat`,`close`or`closeall`messages, the important field is`order_action`.`order_type`is normally not needed for closing exposure or cleaning supported pending entries.
+
+### trailing_pips Ignored
+
+The destination route may not support webhook-level trailing. Test the route and check platform logs.
+
+### flat Closes More Than Expected
+
+In hedge mode, use`close_side`when you want only one side closed. Without it, the handler may close all matching symbol exposure.
+
+## Related AlgoWay Guides
+
+- [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [Manual TradingView webhook alerts](https://algoway.trade/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html)
+- [TrendSpider webhook automation with AlgoWay](https://algoway.trade/blog/how-to-use-algoway-with-trendspider.html)
+- [Automate webhook alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+- [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html)
+- [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html)
+- [Advanced risk management and trade automation](https://algoway.trade/blog/advanced-risk-management-and-trade-automation.html)
+- [TradingView to MetaTrader 5 with AlgoWay](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [TradingView to ProjectX with AlgoWay](https://algoway.trade/blog/how-to-connect-projectx.html)
+- [TradingView to Tradovate with AlgoWay](https://algoway.trade/blog/algoway-tradovate-integration-guide.html)
+
+## Final Summary
+
+**AlgoWay JSON schema is the language that turns webhook alerts into executable trading commands. ** The core fields are`platform_name`,`ticker`,`order_action`and`order_contracts`for normal entry orders.`order_type`adds support for`market`,`limit`and`stop`entries, while`price`becomes required for pending limit and stop orders.`trade_type`can override the webhook Trade Type for one specific alert.
+
+Use`order_action`as`closeall`when the alert must close all open positions for one symbol without sending`order_contracts`. MetaTrader 5 users must update AlgoWay EA to version **2.10b ** or newer before using this action.
+
+Optional fields such as`stop_loss`,`take_profit`,`sl_price`,`tp_price`,`trailing_pips`,`comment`,`order_id`and`close_side`add risk control, logs and position management. Start with the minimal JSON, test it with small size, check AlgoWay Webhook Logs, then add pending orders, SL/TP, trailing, modify, breakeven, closeall or hedge-side behavior only after the basic route works.

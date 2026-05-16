@@ -1,0 +1,494 @@
+from pathlib import Path
+from html.parser import HTMLParser
+import html
+import json
+import re
+import subprocess
+import sys
+
+STATUS_FILE = Path("/tmp/algoway_docs_migration_ok")
+
+PAGES = {
+    "tradelocker": {
+        "src_url": "https://algoway.trade/blog/tradeLocker-setup-guide.html",
+        "src_file": "/opt/algoway-docs/migration/sources/tradelocker-setup-guide-source.html",
+        "dst_file": "/opt/algoway-docs/docs/broker-platforms/tradelocker-setup.mdx",
+        "old_url": "https://algoway.trade/blog/tradeLocker-setup-guide.html",
+        "new_url": "https://docs.algoway.trade/docs/broker-platforms/tradelocker-setup/",
+        "sidebar_label": "TradingView to TradeLocker",
+        "pagination_label": "TradingView to TradeLocker",
+        "fallback_title": "TradingView to TradeLocker Webhook Automation",
+        "fallback_description": "Configure TradeLocker route with AlgoWay."
+    },
+    "jsonschema": {
+        "src_url": "https://algoway.trade/blog/json-schema-guide.html",
+        "src_file": "/opt/algoway-docs/migration/sources/json-schema-guide-source.html",
+        "dst_file": "/opt/algoway-docs/docs/tradingview/json-schema.mdx",
+        "old_url": "https://algoway.trade/blog/json-schema-guide.html",
+        "new_url": "https://docs.algoway.trade/docs/tradingview/json-schema/",
+        "sidebar_label": "JSON Schema",
+        "pagination_label": "JSON Schema",
+        "fallback_title": "AlgoWay JSON Schema",
+        "fallback_description": "AlgoWay JSON schema fields and webhook parameters."
+    }
+}
+
+VOID_TAGS = {
+    "area", "base", "br", "col", "embed", "hr", "img",
+    "input", "link", "meta", "param", "source", "track", "wbr"
+}
+
+class Node:
+    def __init__(self, tag="root", attrs=None):
+        self.tag = tag
+        self.attrs = dict(attrs or [])
+        self.children = []
+
+class Parser(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.root = Node()
+        self.stack = [self.root]
+
+    def handle_starttag(self, tag, attrs):
+        tag = tag.lower()
+        node = Node(tag, attrs)
+        self.stack[-1].children.append(node)
+        if tag not in VOID_TAGS:
+            self.stack.append(node)
+
+    def handle_startendtag(self, tag, attrs):
+        tag = tag.lower()
+        node = Node(tag, attrs)
+        self.stack[-1].children.append(node)
+
+    def handle_endtag(self, tag):
+        tag = tag.lower()
+        for i in range(len(self.stack) - 1, 0, -1):
+            if self.stack[i].tag == tag:
+                self.stack = self.stack[:i]
+                return
+
+    def handle_data(self, data):
+        self.stack[-1].children.append(data)
+
+def log(message):
+    print(message)
+
+def attr(node, name):
+    return node.attrs.get(name, "")
+
+def clean_text(value):
+    value = re.sub(r"<[^>]+>", " ", value or "")
+    value = html.unescape(value)
+    value = re.sub(r"\s+", " ", value).strip()
+    return value
+
+def yaml_quote(value):
+    value = html.unescape(value or "")
+    value = re.sub(r"\s+", " ", value).strip()
+    value = value.replace("\\", "\\\\").replace('"', '\\"')
+    return '"' + value + '"'
+
+def get_title(raw, fallback):
+    m = re.search(r"<title[^>]*>(.*?)</title>", raw, flags=re.I | re.S)
+    if m:
+        return clean_text(m.group(1))
+    return fallback
+
+def get_description(raw, fallback):
+    for m in re.finditer(r"<meta\b[^>]*>", raw, flags=re.I | re.S):
+        tag = m.group(0)
+        if not re.search(r"name\s*=\s*['\"]description['\"]", tag, flags=re.I):
+            continue
+        content = re.search(r"content\s*=\s*['\"]([^'\"]*)['\"]", tag, flags=re.I | re.S)
+        if content:
+            return html.unescape(content.group(1)).strip()
+    return fallback
+
+def get_jsonld(raw, old_url, new_url):
+    blocks = re.findall(
+        r"<script\s+type=['\"]application/ld\+json['\"](?:\s+nonce=['\"]\{\{\s*g\.nonce\s*\}\}['\"])?\s*>(.*?)</script>",
+        raw,
+        flags=re.I | re.S
+    )
+
+    cleaned = []
+    for block in blocks:
+        block = block.strip().replace(old_url, new_url)
+        if block:
+            cleaned.append(block)
+
+    return cleaned
+
+def node_text(node):
+    if isinstance(node, str):
+        return node
+    return "".join(node_text(child) for child in node.children)
+
+def has_h1(node):
+    if isinstance(node, Node):
+        if node.tag == "h1":
+            return True
+        return any(has_h1(child) for child in node.children)
+    return False
+
+def find_article_card(node):
+    if isinstance(node, Node):
+        classes = set(attr(node, "class").split())
+        if node.tag == "div" and "card-body" in classes and has_h1(node):
+            return node
+        for child in node.children:
+            found = find_article_card(child)
+            if found:
+                return found
+    return None
+
+def normalize_url(url):
+    url = html.unescape(url or "").strip()
+    if url.startswith("/"):
+        return "https://algoway.trade" + url
+    return url
+
+def escape_mdx_text(value):
+    value = html.unescape(value or "")
+    value = value.replace("{", "\\{").replace("}", "\\}")
+    value = value.replace("<", "&lt;").replace(">", "&gt;")
+    return value
+
+def render_inline(node):
+    if isinstance(node, str):
+        return escape_mdx_text(node)
+
+    tag = node.tag
+
+    if tag in ("strong", "b"):
+        value = render_inline_children(node).strip()
+        return f"**{value}**" if value else ""
+
+    if tag in ("em", "i"):
+        value = render_inline_children(node).strip()
+        return f"*{value}*" if value else ""
+
+    if tag == "code":
+        value = html.unescape(node_text(node)).strip().replace("`", "\\`")
+        return f"`{value}`" if value else ""
+
+    if tag == "a":
+        href = normalize_url(attr(node, "href"))
+        value = render_inline_children(node).strip()
+        if href and value:
+            return f"[{value}]({href})"
+        return value
+
+    if tag == "img":
+        src = normalize_url(attr(node, "src"))
+        alt = clean_text(attr(node, "alt"))
+        if src:
+            return f"![{alt}]({src})"
+        return ""
+
+    if tag == "br":
+        return "\n"
+
+    return render_inline_children(node)
+
+def render_inline_children(node):
+    result = "".join(render_inline(child) for child in node.children)
+    result = re.sub(r"[ \t]+", " ", result)
+    result = re.sub(r" *\n *", "\n", result)
+    result = re.sub(r"\s+([,.;:!?])", r"\1", result)
+    return result
+
+def render_list(node, ordered=False, indent=0):
+    lines = []
+    index = 1
+
+    for child in node.children:
+        if not isinstance(child, Node) or child.tag != "li":
+            continue
+
+        inline_parts = []
+        nested_parts = []
+
+        for item in child.children:
+            if isinstance(item, Node) and item.tag in ("ul", "ol"):
+                nested_parts.append(render_list(item, item.tag == "ol", indent + 2).rstrip())
+            else:
+                inline_parts.append(render_inline(item))
+
+        text = re.sub(r"\s+", " ", "".join(inline_parts)).strip()
+        marker = f"{index}." if ordered else "-"
+        prefix = " " * indent + marker + " "
+
+        if text:
+            lines.append(prefix + text)
+        else:
+            lines.append(prefix.rstrip())
+
+        for nested in nested_parts:
+            if nested:
+                lines.append(nested)
+
+        index += 1
+
+    return "\n".join(lines) + "\n\n"
+
+def render_table(node):
+    rows = []
+
+    def collect(n):
+        if isinstance(n, Node):
+            if n.tag == "tr":
+                row = []
+                for child in n.children:
+                    if isinstance(child, Node) and child.tag in ("th", "td"):
+                        cell = render_inline_children(child).strip().replace("|", "\\|")
+                        row.append(cell)
+                if row:
+                    rows.append(row)
+
+            for child in n.children:
+                collect(child)
+
+    collect(node)
+
+    if not rows:
+        return ""
+
+    width = max(len(row) for row in rows)
+    rows = [row + [""] * (width - len(row)) for row in rows]
+
+    out = []
+    out.append("| " + " | ".join(rows[0]) + " |")
+    out.append("| " + " | ".join(["---"] * width) + " |")
+
+    for row in rows[1:]:
+        out.append("| " + " | ".join(row) + " |")
+
+    return "\n".join(out) + "\n\n"
+
+def render_block_image(node):
+    src = normalize_url(attr(node, "src"))
+    alt = clean_text(attr(node, "alt"))
+    if not src:
+        return ""
+    return f'<img src="{src}" alt="{alt}" style={{width: "100%", height: "auto"}} />\n\n'
+
+def render_block_link(node):
+    href = normalize_url(attr(node, "href"))
+    image = None
+
+    for child in node.children:
+        if isinstance(child, Node) and child.tag == "img":
+            image = child
+            break
+
+    if image and href:
+        src = normalize_url(attr(image, "src"))
+        alt = clean_text(attr(image, "alt"))
+        if src:
+            return f'<a href="{href}"><img src="{src}" alt="{alt}" style={{width: "100%", height: "auto"}} /></a>\n\n'
+
+    text = render_inline(node).strip()
+    return text + "\n\n" if text else ""
+
+def render_block(node):
+    if isinstance(node, str):
+        return ""
+
+    tag = node.tag
+    classes = set(attr(node, "class").split())
+
+    if tag == "nav" and "toc" in classes:
+        return ""
+
+    if tag in ("script", "style"):
+        return ""
+
+    if re.fullmatch(r"h[1-6]", tag):
+        level = int(tag[1])
+        text = render_inline_children(node).strip()
+        return "\n" + ("#" * level) + " " + text + "\n\n" if text else ""
+
+    if tag == "p":
+        text = render_inline_children(node).strip()
+        return text + "\n\n" if text else ""
+
+    if tag == "pre":
+        code = html.unescape(node_text(node)).strip("\n")
+        code = code.replace("```", "'''")
+        lang = "json" if code.strip().startswith(("{", "[")) else ""
+        return f"```{lang}\n{code}\n```\n\n" if code.strip() else ""
+
+    if tag == "ul":
+        return render_list(node, ordered=False)
+
+    if tag == "ol":
+        return render_list(node, ordered=True)
+
+    if tag == "table":
+        return render_table(node)
+
+    if tag == "img":
+        return render_block_image(node)
+
+    if tag == "a":
+        return render_block_link(node)
+
+    if tag == "iframe":
+        src = normalize_url(attr(node, "src"))
+        title = clean_text(attr(node, "title")) or "Video"
+        if src:
+            return f'<iframe src="{src}" title="{title}" width="100%" height="420" allowFullScreen></iframe>\n\n'
+        return ""
+
+    if tag == "blockquote":
+        inner = render_children(node).strip()
+        if not inner:
+            return ""
+        return "\n".join("> " + line for line in inner.splitlines()) + "\n\n"
+
+    if tag == "hr":
+        return "---\n\n"
+
+    return render_children(node)
+
+def render_children(node):
+    return "".join(render_block(child) for child in node.children if isinstance(child, Node))
+
+def migrate_one(name, cfg):
+    log("")
+    log("===== MIGRATE " + name + " =====")
+
+    src_file = Path(cfg["src_file"])
+    dst_file = Path(cfg["dst_file"])
+    tmp_file = Path(str(src_file) + ".tmp")
+
+    src_file.parent.mkdir(parents=True, exist_ok=True)
+
+    log("INFO: downloading " + cfg["src_url"])
+    res = subprocess.run([
+        "curl", "-L", "--fail", "--silent", "--show-error",
+        cfg["src_url"], "-o", str(tmp_file)
+    ])
+
+    if res.returncode != 0:
+        log("ERROR: curl failed for " + name)
+        return False
+
+    if not tmp_file.exists() or tmp_file.stat().st_size == 0:
+        log("ERROR: downloaded file is empty for " + name)
+        return False
+
+    if not dst_file.exists():
+        log("ERROR: target MDX not found: " + str(dst_file))
+        return False
+
+    tmp_file.replace(src_file)
+    log("OK: source saved: " + str(src_file))
+
+    raw = src_file.read_text(encoding="utf-8", errors="ignore")
+
+    parser = Parser()
+    parser.feed(raw)
+
+    card = find_article_card(parser.root)
+    if not card:
+        log("ERROR: article card-body with H1 not found for " + name)
+        return False
+
+    body = render_children(card)
+    body = re.sub(r"\n{3,}", "\n\n", body).strip() + "\n"
+
+    if len(body.encode("utf-8")) < 3000:
+        log("ERROR: converted body is too short for " + name)
+        log("INFO: body_bytes=" + str(len(body.encode("utf-8"))))
+        return False
+
+    title = get_title(raw, cfg["fallback_title"])
+    description = get_description(raw, cfg["fallback_description"])
+    jsonld_blocks = get_jsonld(raw, cfg["old_url"], cfg["new_url"])
+
+    backup = Path(str(dst_file) + ".bak.migrate." + name)
+    backup.write_text(dst_file.read_text(encoding="utf-8", errors="ignore"), encoding="utf-8")
+    log("OK: backup created: " + str(backup))
+
+    mdx = ""
+    mdx += "---\n"
+    mdx += "title: " + yaml_quote(title) + "\n"
+    mdx += "sidebar_label: " + yaml_quote(cfg["sidebar_label"]) + "\n"
+    mdx += "pagination_label: " + yaml_quote(cfg["pagination_label"]) + "\n"
+    mdx += "description: " + yaml_quote(description) + "\n"
+    mdx += "hide_table_of_contents: true\n"
+    mdx += "---\n\n"
+    mdx += 'import Head from "@docusaurus/Head";\n\n'
+    mdx += "export const jsonLdBlocks = " + json.dumps(jsonld_blocks, ensure_ascii=False, indent=2) + ";\n\n"
+    mdx += "<Head>\n"
+    mdx += "  {jsonLdBlocks.map((item, index) => (\n"
+    mdx += "    <script\n"
+    mdx += "      key={index}\n"
+    mdx += '      type="application/ld+json"\n'
+    mdx += "      dangerouslySetInnerHTML={{__html: item}}\n"
+    mdx += "    />\n"
+    mdx += "  ))}\n"
+    mdx += "</Head>\n\n"
+    mdx += '<div className="card mt-4">\n'
+    mdx += '<div className="card-body p-4">\n\n'
+    mdx += body
+    mdx += "\n</div>\n</div>\n"
+
+    dst_file.write_text(mdx, encoding="utf-8")
+
+    verify = dst_file.read_text(encoding="utf-8", errors="ignore")
+
+    checks = {
+        "card_wrapper": '<div className="card mt-4">' in verify,
+        "card_body": '<div className="card-body p-4">' in verify,
+        "head_import": 'import Head from "@docusaurus/Head";' in verify,
+        "jsonld": "application/ld+json" in verify,
+        "hide_toc": "hide_table_of_contents: true" in verify,
+        "no_raw_html_article": "dangerouslySetInnerHTML={{__html: articleHtml}}" not in verify,
+    }
+
+    failed = [key for key, value in checks.items() if not value]
+
+    log("OK: MDX written: " + str(dst_file))
+    log("INFO: title=" + title)
+    log("INFO: jsonld_blocks=" + str(len(jsonld_blocks)))
+    log("INFO: mdx_bytes=" + str(len(mdx.encode("utf-8"))))
+    log("INFO: markdown_headings=" + str(len(re.findall(r'^#{1,6} ', mdx, flags=re.M))))
+    log("INFO: failed_checks=" + ",".join(failed) if failed else "INFO: failed_checks=none")
+
+    if failed:
+        log("ERROR: verification failed for " + name)
+        return False
+
+    return True
+
+def main():
+    if STATUS_FILE.exists():
+        STATUS_FILE.unlink()
+
+    requested = sys.argv[1:] or ["tradelocker", "jsonschema"]
+
+    ok_all = True
+
+    for name in requested:
+        if name not in PAGES:
+            log("ERROR: unknown page key: " + name)
+            ok_all = False
+            continue
+
+        if not migrate_one(name, PAGES[name]):
+            ok_all = False
+
+    if ok_all:
+        STATUS_FILE.write_text("OK\n", encoding="utf-8")
+        log("")
+        log("OK: all requested pages migrated")
+    else:
+        log("")
+        log("ERROR: migration finished with errors")
+
+main()

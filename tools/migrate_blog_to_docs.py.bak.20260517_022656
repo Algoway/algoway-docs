@@ -1,0 +1,268 @@
+from pathlib import Path
+import html
+import json
+import re
+import subprocess
+import sys
+
+STATUS_FILE = Path("/tmp/algoway_docs_migration_ok")
+
+PAGES = {
+    "tradelocker": {
+        "src_url": "https://algoway.trade/blog/tradeLocker-setup-guide.html",
+        "src_file": "/opt/algoway-docs/migration/sources/tradelocker-setup-guide-source.html",
+        "dst_file": "/opt/algoway-docs/docs/broker-platforms/tradelocker-setup.mdx",
+        "old_url": "https://algoway.trade/blog/tradeLocker-setup-guide.html",
+        "new_url": "https://docs.algoway.trade/docs/broker-platforms/tradelocker-setup/",
+        "sidebar_label": "TradingView to TradeLocker",
+        "pagination_label": "TradingView to TradeLocker",
+        "fallback_title": "TradingView to TradeLocker Webhook Automation",
+        "fallback_description": "Configure TradeLocker route with AlgoWay."
+    },
+    "jsonschema": {
+        "src_url": "https://algoway.trade/blog/json-schema-guide.html",
+        "src_file": "/opt/algoway-docs/migration/sources/json-schema-guide-source.html",
+        "dst_file": "/opt/algoway-docs/docs/tradingview/json-schema.mdx",
+        "old_url": "https://algoway.trade/blog/json-schema-guide.html",
+        "new_url": "https://docs.algoway.trade/docs/tradingview/json-schema/",
+        "sidebar_label": "JSON Schema",
+        "pagination_label": "JSON Schema",
+        "fallback_title": "AlgoWay JSON Schema",
+        "fallback_description": "AlgoWay JSON schema fields and webhook parameters."
+    }
+}
+
+def log(message):
+    print(message)
+
+def clean_text(value):
+    value = re.sub(r"<[^>]+>", " ", value or "")
+    value = html.unescape(value)
+    value = re.sub(r"\s+", " ", value).strip()
+    return value
+
+def yaml_quote(value):
+    value = html.unescape(value or "")
+    value = re.sub(r"\s+", " ", value).strip()
+    value = value.replace("\\", "\\\\").replace('"', '\\"')
+    return '"' + value + '"'
+
+def get_title(raw, fallback):
+    match = re.search(r"<title[^>]*>(.*?)</title>", raw, flags=re.I | re.S)
+    if match:
+        return clean_text(match.group(1))
+    return fallback
+
+def get_description(raw, fallback):
+    for match in re.finditer(r"<meta\b[^>]*>", raw, flags=re.I | re.S):
+        tag = match.group(0)
+        if not re.search(r"name\s*=\s*['\"]description['\"]", tag, flags=re.I):
+            continue
+        content = re.search(r"content\s*=\s*['\"]([^'\"]*)['\"]", tag, flags=re.I | re.S)
+        if content:
+            return html.unescape(content.group(1)).strip()
+    return fallback
+
+def get_jsonld(raw, old_url, new_url):
+    blocks = re.findall(
+        r"<script\s+type=['\"]application/ld\+json['\"](?:\s+nonce=['\"]\{\{\s*g\.nonce\s*\}\}['\"])?\s*>(.*?)</script>",
+        raw,
+        flags=re.I | re.S
+    )
+
+    cleaned = []
+    for block in blocks:
+        block = block.strip().replace(old_url, new_url)
+        if block:
+            cleaned.append(block)
+
+    return cleaned
+
+def find_article_html(raw):
+    h1 = re.search(r"<h1\b[^>]*>.*?</h1>", raw, flags=re.I | re.S)
+    if not h1:
+        return ""
+
+    before_h1 = raw[:h1.start()]
+    starts = list(re.finditer(
+        r"<div\b[^>]*class=['\"][^'\"]*\bcard-body\b[^'\"]*['\"][^>]*>",
+        before_h1,
+        flags=re.I | re.S
+    ))
+
+    if not starts:
+        return ""
+
+    start = starts[-1].end()
+    div_re = re.compile(r"</?div\b[^>]*>", flags=re.I | re.S)
+    depth = 1
+
+    for match in div_re.finditer(raw, start):
+        token = match.group(0).lower()
+        if token.startswith("</div"):
+            depth -= 1
+            if depth == 0:
+                return raw[start:match.start()]
+        else:
+            depth += 1
+
+    return ""
+
+def absolutize_urls(value):
+    return re.sub(
+        r"(href|src)=['\"](/[^'\"]*)['\"]",
+        lambda m: f'{m.group(1)}="https://algoway.trade{m.group(2)}"',
+        value
+    )
+
+def remove_first_h1(value):
+    return re.sub(
+        r"^\s*<h1\b[^>]*>.*?</h1>\s*",
+        "",
+        value,
+        count=1,
+        flags=re.I | re.S
+    )
+
+def remove_old_toc(value):
+    value = re.sub(
+        r"<nav\b[^>]*class=['\"][^'\"]*\btoc\b[^'\"]*['\"][^>]*>.*?</nav>",
+        "",
+        value,
+        flags=re.I | re.S
+    )
+    return value
+
+def normalize_article_html(value):
+    value = absolutize_urls(value)
+    value = remove_first_h1(value)
+    value = remove_old_toc(value)
+
+    value = re.sub(r"\sclass=['\"][^'\"]*['\"]", "", value, flags=re.I)
+    value = re.sub(r"\sstyle=['\"][^'\"]*['\"]", "", value, flags=re.I)
+    value = re.sub(r"\sfetchpriority=['\"][^'\"]*['\"]", "", value, flags=re.I)
+    value = re.sub(r"\sdecoding=['\"][^'\"]*['\"]", "", value, flags=re.I)
+    value = re.sub(r"\sloading=['\"][^'\"]*['\"]", "", value, flags=re.I)
+    value = re.sub(r"\swidth=['\"][^'\"]*['\"]", "", value, flags=re.I)
+    value = re.sub(r"\sheight=['\"][^'\"]*['\"]", "", value, flags=re.I)
+
+    value = re.sub(r"\n{3,}", "\n\n", value)
+    return value.strip()
+
+def migrate_one(name, cfg):
+    log("")
+    log("===== MIGRATE " + name + " =====")
+
+    src_file = Path(cfg["src_file"])
+    dst_file = Path(cfg["dst_file"])
+    tmp_file = Path(str(src_file) + ".tmp")
+
+    src_file.parent.mkdir(parents=True, exist_ok=True)
+
+    log("INFO: downloading " + cfg["src_url"])
+    result = subprocess.run([
+        "curl", "-L", "--fail", "--silent", "--show-error",
+        cfg["src_url"], "-o", str(tmp_file)
+    ])
+
+    if result.returncode != 0:
+        log("ERROR: curl failed")
+        return False
+
+    if not tmp_file.exists() or tmp_file.stat().st_size == 0:
+        log("ERROR: downloaded file is empty")
+        return False
+
+    if not dst_file.exists():
+        log("ERROR: target MDX not found: " + str(dst_file))
+        return False
+
+    tmp_file.replace(src_file)
+    log("OK: source saved: " + str(src_file))
+
+    raw = src_file.read_text(encoding="utf-8", errors="ignore")
+    title = get_title(raw, cfg["fallback_title"])
+    description = get_description(raw, cfg["fallback_description"])
+    jsonld_blocks = get_jsonld(raw, cfg["old_url"], cfg["new_url"])
+
+    article_html = find_article_html(raw)
+    article_html = normalize_article_html(article_html)
+
+    if len(article_html.encode("utf-8")) < 3000:
+        log("ERROR: article HTML is too short")
+        log("INFO: article_html_bytes=" + str(len(article_html.encode("utf-8"))))
+        return False
+
+    backup = Path(str(dst_file) + ".bak.template." + name)
+    backup.write_text(dst_file.read_text(encoding="utf-8", errors="ignore"), encoding="utf-8")
+    log("OK: backup created: " + str(backup))
+
+    mdx = ""
+    mdx += "---\n"
+    mdx += "title: " + yaml_quote(title) + "\n"
+    mdx += "sidebar_label: " + yaml_quote(cfg["sidebar_label"]) + "\n"
+    mdx += "pagination_label: " + yaml_quote(cfg["pagination_label"]) + "\n"
+    mdx += "description: " + yaml_quote(description) + "\n"
+    mdx += "hide_table_of_contents: true\n"
+    mdx += "---\n\n"
+    mdx += 'import MigratedDocArticle from "@site/src/components/MigratedDocArticle";\n\n'
+    mdx += "export const jsonLdBlocks = " + json.dumps(jsonld_blocks, ensure_ascii=False, indent=2) + ";\n\n"
+    mdx += "export const articleHtml = " + json.dumps(article_html, ensure_ascii=False, indent=2) + ";\n\n"
+    mdx += "<MigratedDocArticle jsonLdBlocks={jsonLdBlocks} articleHtml={articleHtml} />\n"
+
+    dst_file.write_text(mdx, encoding="utf-8")
+
+    verify = dst_file.read_text(encoding="utf-8", errors="ignore")
+
+    checks = {
+        "component_import": 'import MigratedDocArticle from "@site/src/components/MigratedDocArticle";' in verify,
+        "component_call": "<MigratedDocArticle" in verify,
+        "jsonld": "application/ld+json" in verify,
+        "hide_toc": "hide_table_of_contents: true" in verify,
+        "safe_json_string": "export const articleHtml = " in verify,
+        "no_old_raw_template": "dangerouslySetInnerHTML={{__html: articleHtml}}" not in verify,
+        "no_html_h1": "<h1" not in article_html.lower(),
+        "no_old_toc": "<nav" not in article_html.lower(),
+    }
+
+    failed = [key for key, value in checks.items() if not value]
+
+    log("OK: MDX written: " + str(dst_file))
+    log("INFO: title=" + title)
+    log("INFO: jsonld_blocks=" + str(len(jsonld_blocks)))
+    log("INFO: article_html_bytes=" + str(len(article_html.encode("utf-8"))))
+    log("INFO: mdx_bytes=" + str(len(mdx.encode("utf-8"))))
+    log("INFO: failed_checks=" + (",".join(failed) if failed else "none"))
+
+    if failed:
+        log("ERROR: verification failed")
+        return False
+
+    return True
+
+def main():
+    if STATUS_FILE.exists():
+        STATUS_FILE.unlink()
+
+    requested = sys.argv[1:] or ["tradelocker", "jsonschema"]
+    ok_all = True
+
+    for name in requested:
+        cfg = PAGES.get(name)
+        if not cfg:
+            log("ERROR: unknown page key: " + name)
+            ok_all = False
+            continue
+
+        if not migrate_one(name, cfg):
+            ok_all = False
+
+    if ok_all:
+        STATUS_FILE.write_text("OK\n", encoding="utf-8")
+        log("")
+        log("OK: all requested pages migrated")
+    else:
+        log("")
+        log("ERROR: migration finished with errors")
+
+main()

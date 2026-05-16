@@ -1,0 +1,510 @@
+/*
+ * AlgoWay — Blog Unified Style
+ * Включает: стили статей (aw-blog-article) + листинг блога (aw-blog-index)
+ * Единый стиль для всех статей блога
+ * Подключается в layout_top.html после custom-style.css
+ */
+
+/* ============================================================
+   ПЕРЕМЕННЫЕ
+   ============================================================ */
+:root {
+  --aw-accent:       #7f2bff;
+  --aw-accent-light: rgba(127, 43, 255, 0.10);
+  --aw-text:         #1a1a1a;
+  --aw-text-muted:   #555;
+  --aw-border:       rgba(0, 0, 0, 0.09);
+  --aw-bg-code:      #0b0f14;
+  --aw-color-code:   #d5f5e3;
+  --aw-border-code:  #1f2a36;
+  --aw-warn-bg:      rgba(240, 173, 78, 0.13);
+  --aw-warn-border:  #f0ad4e;
+  --aw-info-bg:      rgba(91, 192, 222, 0.12);
+  --aw-info-border:  #5bc0de;
+  --aw-danger-bg:    rgba(220, 53, 69, 0.09);
+  --aw-danger-border:#dc3545;
+  --aw-radius:       10px;
+  --aw-radius-sm:    6px;
+  --aw-shadow:       0 2px 16px rgba(0,0,0,0.07);
+}
+
+/* ============================================================
+   БАЗОВЫЙ ВРАППЕР СТАТЬИ
+   Унифицирует все варианты: .article-manual-page, .schema-page,
+   .manual-page, .telegram-guide-page, .backtest-page,
+   .tv-article-page, .aw-article-wrap, .pricing-guide-page,
+   .alpaca-article-wrap, контейнеры со style="margin-top:110px"
+   ============================================================ */
+.aw-blog-article {
+  margin-top: 110px;
+  margin-bottom: 48px;
+}
+
+.aw-blog-shell {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   КАРТОЧКА-ОБЁРТКА
+   ============================================================ */
+.aw-blog-article .card {
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius);
+  overflow: hidden;
+  box-shadow: var(--aw-shadow);
+}
+
+.aw-blog-article .card-body {
+  padding: 28px 32px 36px;
+}
+
+@media (max-width: 767px) {
+  .aw-blog-article .card-body {
+    padding: 18px 16px 24px;
+  }
+}
+
+/* ============================================================
+   HERO-ИЗОБРАЖЕНИЕ (первая картинка статьи)
+   ============================================================ */
+.aw-blog-article .card-body > img:first-child,
+.aw-blog-article .article-hero,
+.aw-blog-article .article-cover,
+.aw-blog-article .hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--aw-radius-sm);
+  margin-bottom: 1.75rem;
+}
+
+/* ============================================================
+   ТИПОГРАФИКА
+   ============================================================ */
+.aw-blog-article h1,
+.aw-blog-article h2,
+.aw-blog-article h3,
+.aw-blog-article h4,
+.aw-blog-article h5 {
+  color: var(--aw-text);
+  line-height: 1.3;
+}
+
+.aw-blog-article h2 { margin-top: 36px; margin-bottom: 12px; font-size: 22px; font-weight: 800; }
+.aw-blog-article h3 { margin-top: 28px; margin-bottom: 10px; font-size: 18px; font-weight: 700; }
+.aw-blog-article h4 { margin-top: 22px; margin-bottom: 8px;  font-size: 16px; font-weight: 700; }
+.aw-blog-article h5 { margin-top: 18px; margin-bottom: 6px;  font-size: 14px; font-weight: 700; }
+
+.aw-blog-article .card-body > h2:first-child,
+.aw-blog-article .card-body > h3:first-child { margin-top: 0; }
+
+.aw-blog-article p,
+.aw-blog-article li {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #333;
+}
+
+.aw-blog-article ul,
+.aw-blog-article ol {
+  padding-left: 22px;
+  margin-bottom: 14px;
+}
+
+.aw-blog-article li { margin-bottom: 5px; }
+
+.aw-blog-article a {
+  color: var(--aw-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.aw-blog-article a:hover { color: #5a1db8; }
+
+/* ============================================================
+   INLINE-КОД
+   ============================================================ */
+.aw-blog-article p code,
+.aw-blog-article li code,
+.aw-blog-article td code {
+  background: rgba(0,0,0,0.06);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+/* ============================================================
+   БЛОК КОДА (pre)
+   ============================================================ */
+.aw-blog-article pre {
+  margin: 14px 0 18px;
+  padding: 16px 18px;
+  background: var(--aw-bg-code);
+  color: var(--aw-color-code);
+  border: 1px solid var(--aw-border-code);
+  border-radius: var(--aw-radius);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.aw-blog-article pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-family: Consolas, Monaco, "Courier New", monospace;
+}
+
+/* ============================================================
+   CALLOUT / NOTE / WARNING / DANGER
+   ============================================================ */
+.aw-blog-article .callout,
+.aw-blog-article .note,
+.aw-blog-article .note-box,
+.aw-blog-article .info-box,
+.aw-blog-article .url-box {
+  padding: 13px 16px;
+  margin: 16px 0;
+  border-radius: var(--aw-radius-sm);
+  border-left: 4px solid var(--aw-info-border);
+  background: var(--aw-info-bg);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.aw-blog-article .callout.warn,
+.aw-blog-article .note,
+.aw-blog-article .note-box,
+.aw-blog-article .clone-box {
+  border-left-color: var(--aw-warn-border);
+  background: var(--aw-warn-bg);
+}
+
+.aw-blog-article .callout.danger,
+.aw-blog-article .alert-danger {
+  border-left: 4px solid var(--aw-danger-border);
+  background: var(--aw-danger-bg);
+  border-radius: var(--aw-radius-sm);
+}
+
+.aw-blog-article .callout p:last-child,
+.aw-blog-article .note p:last-child,
+.aw-blog-article .info-box p:last-child,
+.aw-blog-article .info-box ul:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   ШАГИ (step + badge)
+   ============================================================ */
+.aw-blog-article .step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 16px 0 8px;
+}
+
+.aw-blog-article .step .badge {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--aw-accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.aw-blog-article .step p { margin: 0; }
+
+/* ============================================================
+   FIGURE / ИЗОБРАЖЕНИЯ ВНУТРИ СТАТЬИ
+   ============================================================ */
+.aw-blog-article figure {
+  margin: 18px 0 22px;
+}
+
+.aw-blog-article figure img,
+.aw-blog-article .guide-img,
+.aw-blog-article .article-img,
+.aw-blog-article .img-card,
+.aw-blog-article .tv-inline-img,
+.aw-blog-article .tv-article-inline-img,
+.aw-blog-article .guide-image,
+.aw-blog-article img:not(.dashboard-logo):not(.img-responsive) {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  border-radius: var(--aw-radius-sm);
+  border: 1px solid rgba(0,0,0,0.06);
+  margin: 10px auto 14px;
+}
+
+.aw-blog-article figcaption {
+  font-size: 12.5px;
+  color: var(--aw-text-muted);
+  text-align: center;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+/* Узкие изображения (guide-image-narrow) */
+.aw-blog-article .guide-image-narrow {
+  width: 55%;
+  max-width: 100%;
+  margin: 1rem auto 1.5rem;
+}
+
+/* ============================================================
+   ВИДЕО (iframe, video)
+   ============================================================ */
+.aw-blog-article .hero-video,
+.aw-blog-article .guide-video,
+.aw-blog-article iframe.guide-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: var(--aw-radius-sm);
+  margin: 14px 0 18px;
+}
+
+/* ============================================================
+   GRID (двухколоночный макет внутри статьи)
+   ============================================================ */
+.aw-blog-article .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 18px 0;
+  align-items: start;
+}
+
+@media (max-width: 767px) {
+  .aw-blog-article .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   TOC (таблица содержимого)
+   ============================================================ */
+.aw-blog-article nav.toc,
+.aw-blog-article .toc {
+  background: rgba(0,0,0,0.025);
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius-sm);
+  padding: 14px 18px;
+  margin: 20px 0 26px;
+  display: inline-block;
+  min-width: 220px;
+}
+
+.aw-blog-article nav.toc b,
+.aw-blog-article .toc b {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--aw-text-muted);
+}
+
+.aw-blog-article nav.toc a,
+.aw-blog-article .toc a {
+  display: block;
+  font-size: 13.5px;
+  text-decoration: none;
+  color: var(--aw-accent);
+  padding: 2px 0;
+  line-height: 1.5;
+}
+
+.aw-blog-article nav.toc a:hover,
+.aw-blog-article .toc a:hover {
+  text-decoration: underline;
+}
+
+.aw-blog-article .toc li { margin-bottom: 4px; }
+
+/* ============================================================
+   ТАБЛИЦЫ
+   ============================================================ */
+.aw-blog-article .table-responsive {
+  margin: 16px 0 20px;
+  border-radius: var(--aw-radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--aw-border);
+}
+
+.aw-blog-article .table {
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.aw-blog-article .table > thead > tr > th {
+  font-weight: 700;
+  background: rgba(0,0,0,0.03);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--aw-border);
+}
+
+.aw-blog-article .table > tbody > tr > td {
+  vertical-align: top;
+}
+
+/* ============================================================
+   БЕЙДЖИ / ТЕГИ
+   ============================================================ */
+.aw-blog-article .badge-kv,
+.aw-blog-article .field-name,
+.aw-blog-article .kbd {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.05);
+  border: 1px solid var(--aw-border);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   HR
+   ============================================================ */
+.aw-blog-article hr {
+  margin: 24px 0;
+  border-color: var(--aw-border);
+}
+
+/* ============================================================
+   FOOTER СТАТЬИ
+   ============================================================ */
+.aw-blog-article > .container > footer,
+.aw-blog-article footer {
+  margin-top: 24px;
+  font-size: 12.5px;
+  color: var(--aw-text-muted);
+  text-align: center;
+}
+
+/* ============================================================
+   УТИЛИТЫ — совместимость со старыми классами
+   Чтобы старый HTML без переписывания тоже выглядел правильно
+   ============================================================ */
+
+/* Старые page-specific классы — сбрасываем margin-top на ноль,
+   базовый враппер .aw-blog-article уже всё выставляет */
+.article-manual-page,
+.schema-page,
+.manual-page,
+.telegram-guide-page,
+.backtest-page,
+.pricing-guide-page,
+.alpaca-article-wrap,
+.aw-article-wrap,
+.pine-manual-page {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Старые оболочки — унифицируем max-width */
+.article-shell,
+.backtest-shell,
+.aw-article-col,
+.aw-guide-shell {
+  max-width: 900px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  float: none !important;
+}
+
+/* Старые card-body падинги */
+.article-manual-page .card-body,
+.schema-page .card-body,
+.manual-page .card-body,
+.telegram-guide-page .card-body,
+.backtest-card .card-body,
+.aw-article-body,
+.alpaca-article-card .card-body {
+  padding: 28px 32px 36px !important;
+}
+
+@media (max-width: 767px) {
+  .article-manual-page .card-body,
+  .schema-page .card-body,
+  .manual-page .card-body,
+  .telegram-guide-page .card-body,
+  .backtest-card .card-body,
+  .aw-article-body,
+  .alpaca-article-card .card-body {
+    padding: 18px 16px 24px !important;
+  }
+}
+
+/* ============================================================
+   СТРАНИЦА-ЛИСТИНГ БЛОГА (index.html)
+   Класс вешается прямо на div.container — не трогаем вложенность Bootstrap
+   ============================================================ */
+.aw-blog-index {
+  margin-top: 110px !important;
+  margin-bottom: 40px;
+}
+
+/* Кнопки Read more */
+.aw-blog-index .btn {
+  font-weight: 600;
+  color: #fff;
+  background: var(--aw-accent);
+  border: 1px solid var(--aw-accent);
+  padding: 6px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.18s, opacity 0.18s;
+}
+
+.aw-blog-index .btn:hover {
+  opacity: 0.85;
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Карточки */
+.aw-blog-index .card {
+  border: 1px solid var(--aw-border);
+  border-radius: var(--aw-radius);
+  overflow: hidden;
+  box-shadow: var(--aw-shadow);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.aw-blog-index .card:hover {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.aw-blog-index .card-img-top {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0;
+  /* Переопределяем общий стиль img из aw-blog-article — он сюда не попадает,
+     но на всякий случай */
+}
+
+@media (max-width: 767px) {
+  .aw-blog-index {
+    margin-top: 80px !important;
+  }
+}

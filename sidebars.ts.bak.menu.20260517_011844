@@ -1,0 +1,80 @@
+import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
+
+const sidebars: SidebarsConfig = {
+  docsSidebar: [
+    {
+      type: 'category',
+      label: 'Getting Started',
+      items: [
+        'intro',
+        'getting-started/overview',
+        'getting-started/how-algoway-works',
+        'getting-started/create-first-webhook',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'TradingView Webhooks',
+      items: [
+        'tradingview-webhooks/overview',
+        'tradingview-webhooks/create-alert',
+        'tradingview-webhooks/json-examples',
+        'tradingview-webhooks/pine-script-examples',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Webhook JSON',
+      items: [
+        'webhook-json/reference',
+        'webhook-json/order-actions',
+        'webhook-json/order-types',
+        'webhook-json/trade-type',
+        'webhook-json/stop-loss-take-profit',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'MetaTrader 5',
+      items: [
+        'metatrader-5/overview',
+        'metatrader-5/tradingview-to-mt5',
+        'metatrader-5/ea-installation',
+        'metatrader-5/common-errors',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Platforms',
+      items: [
+        'supported-platforms/overview',
+        'tradelocker/setup',
+        'match-trader/setup',
+        'dxtrade/setup',
+        'ctrader/setup',
+        'crypto-exchanges/overview',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Telegram AI',
+      items: [
+        'telegram-ai/overview',
+        'telegram-ai/signal-format',
+        'telegram-ai/validation',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Troubleshooting',
+      items: [
+        'troubleshooting/overview',
+        'troubleshooting/error',
+        'troubleshooting/mt5-error-4752',
+        'troubleshooting/mt5-error-4756',
+      ],
+    },
+  ],
+};
+
+export default sidebars;

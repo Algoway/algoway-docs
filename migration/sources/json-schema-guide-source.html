@@ -1,0 +1,1667 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>AlgoWay JSON Schema for Webhook Automation: Market, Limit, Stop, SL/TP and Trade Type</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="AlgoWay JSON schema guide for webhook trading automation: market, limit and stop orders, closeall, price, sl_price, tp_price, trade_type, platform_name, ticker, order_action, order_contracts and examples." />
+	<link rel="canonical" href="https://algoway.trade/blog/json-schema-guide.html" />
+
+	<meta property="og:title" content="AlgoWay JSON Schema for TradingView Webhook Automation" />
+	<meta property="og:description" content="Required and optional AlgoWay webhook JSON fields: order_type market/limit/stop, closeall, entry price, sl_price, tp_price, trade_type, order_action, symbols, SL/TP, trailing and platform routing." />
+	<meta property="og:url" content="https://algoway.trade/blog/json-schema-guide.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AlgoWay JSON Schema Guide" />
+	<meta name="twitter:description" content="AlgoWay webhook JSON fields for market, limit and stop orders, closeall, trade_type override, SL/TP prices, trailing, modify, breakeven and close_side." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/json@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>AlgoWay JSON Schema for TradingView Webhook Automation: Market, Limit, Stop and Trade Type</strong></h1>
+
+        <img src="/static/img/blog-img/json@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="AlgoWay JSON schema for TradingView webhook automation"
+             class="article-hero"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>AlgoWay uses JSON messages to understand trading alerts from TradingView, TrendSpider, custom bots and external webhook systems.</strong> The JSON tells AlgoWay which platform should receive the order, which symbol to trade, which action to perform, what size to use, whether the entry is a market, limit or stop order, which entry price should be used for pending orders, and whether optional management fields such as Stop Loss, Take Profit, trailing stop, trade mode override, modify, breakeven, closeall or hedge-side closing should be applied.</p>
+
+        <p>This guide is written for users searching for <strong>AlgoWay JSON schema</strong>, <strong>TradingView webhook JSON</strong>, <strong>webhook trading bot JSON</strong>, <strong>TradingView alert JSON example</strong>, <strong>order_action buy sell flat close closeall</strong>, <strong>close all positions webhook JSON</strong>, <strong>order_type market limit stop</strong>, <strong>limit order webhook JSON</strong>, <strong>stop order webhook JSON</strong>, <strong>webhook stop loss take profit JSON</strong>, <strong>sl_price tp_price</strong>, <strong>trade_type hedge netting opposite inverse</strong>, <strong>trailing_pips</strong>, <strong>breakeven webhook</strong>, and <strong>modify order webhook</strong>.</p>
+
+        <p>The basic route is:</p>
+
+        <pre><code>TradingView / TrendSpider / custom alert → AlgoWay webhook URL → AlgoWay JSON parser → selected broker, exchange or trading platform</code></pre>
+
+        <p>If the JSON is valid and the route is configured correctly, AlgoWay can normalize the signal and send it to the selected destination. If the JSON is invalid or required fields are missing, the request is rejected before execution.</p>
+
+        <p class="text-muted">Last updated: 2026-05-15 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#why-json">Why JSON matters</a></li>
+                <li><a href="#required">Required fields</a></li>
+                <li><a href="#actions">order_action values</a></li>
+                <li><a href="#closeall">closeall: close all positions</a></li>
+                <li><a href="#order-type">order_type: market, limit and stop</a></li>
+                <li><a href="#trade-type">trade_type override</a></li>
+                <li><a href="#optional">Optional fields</a></li>
+                <li><a href="#sltp">SL/TP fields</a></li>
+                <li><a href="#trailing">trailing_pips support</a></li>
+                <li><a href="#modify">modify and breakeven</a></li>
+                <li><a href="#close-side">close_side for hedge mode</a></li>
+                <li><a href="#platforms">platform_name values</a></li>
+                <li><a href="#examples">JSON examples</a></li>
+                <li><a href="#validation">Validation checklist</a></li>
+                <li><a href="#problems">Common problems</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: Minimal AlgoWay JSON</h2>
+
+        <p>The minimal JSON for opening a trade usually contains four required fields:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10"
+}</code></pre>
+
+        <p>For TradingView strategy alerts, the same structure can use TradingView placeholders:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>For pending entries, add <code>order_type</code> and <code>price</code>. If <code>order_type</code> is missing, AlgoWay treats the order as <code>market</code> by default.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10",
+  "order_type": "limit",
+  "price": "1.0800",
+  "sl_price": "1.0750",
+  "tp_price": "1.0950"
+}</code></pre>
+
+        <p>To close all open positions for one symbol, use <code>order_action</code> as <code>closeall</code>. This action does not require <code>order_contracts</code>.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "closeall"
+}</code></pre>
+
+        <p>If one specific alert must use another position behavior than the webhook default, add <code>trade_type</code>. If <code>trade_type</code> is missing, AlgoWay uses the required Trade Type configured in the webhook dashboard.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "sell",
+  "order_contracts": "0.05",
+  "trade_type": "hedge"
+}</code></pre>
+
+        <p>For TrendSpider alerts, the structure can use TrendSpider placeholders:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_action": "buy",
+  "order_contracts": 1,
+  "price": "%last_price%",
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <h2 id="why-json" class="mt-4">Why JSON Matters in Webhook Trading Automation</h2>
+
+        <p>A webhook URL only delivers a message. The JSON body tells AlgoWay what the message means. Without a clear schema, the receiving system cannot reliably know whether the alert is a buy, sell, close, closeall, modify, breakeven or another action.</p>
+
+        <p>Good JSON makes automation safer because it defines:</p>
+
+        <ul>
+            <li>destination platform route;</li>
+            <li>trading symbol;</li>
+            <li>direction or management action;</li>
+            <li>order size;</li>
+            <li>optional execution price for logs;</li>
+            <li>optional SL/TP;</li>
+            <li>optional trailing stop;</li>
+            <li>optional comment or position identifier;</li>
+            <li>optional hedge-side close behavior;</li>
+            <li>optional close-all behavior for supported routes.</li>
+        </ul>
+
+        <p>If the alert message is valid JSON, webhook receivers can parse it consistently. If it is broken text, missing quotes or incomplete JSON, AlgoWay cannot safely treat it as an execution command.</p>
+
+        <h2 id="required" class="mt-4">Required Fields</h2>
+
+        <p>AlgoWay's core schema expects these fields for normal order routing.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Required</th>
+                    <th>Example</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>platform_name</code></td>
+                    <td>Yes</td>
+                    <td><code>metatrader5</code></td>
+                    <td>Defines which platform handler should process the alert.</td>
+                </tr>
+                <tr>
+                    <td><code>ticker</code></td>
+                    <td>Yes</td>
+                    <td><code>EURUSD</code>, <code>BTCUSDT</code>, <code>XAUUSD</code></td>
+                    <td>Defines the market instrument.</td>
+                </tr>
+                <tr>
+                    <td><code>order_action</code></td>
+                    <td>Yes</td>
+                    <td><code>buy</code>, <code>sell</code>, <code>flat</code>, <code>closeall</code></td>
+                    <td>Defines order direction or management action.</td>
+                </tr>
+                <tr>
+                    <td><code>order_contracts</code></td>
+                    <td>Yes for normal entry orders. No for <code>closeall</code>.</td>
+                    <td><code>0.10</code>, <code>1</code>, <code>0.001</code></td>
+                    <td>Defines trade size, lot, contracts or quantity depending on platform.</td>
+                </tr>
+                <tr>
+                    <td><code>order_type</code></td>
+                    <td>No</td>
+                    <td><code>market</code>, <code>limit</code>, <code>stop</code></td>
+                    <td>Defines entry order type. If missing, AlgoWay treats the order as <code>market</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>price</code></td>
+                    <td>Required when <code>order_type</code> is <code>limit</code> or <code>stop</code></td>
+                    <td><code>1.0800</code>, <code>{{close}}</code></td>
+                    <td>Defines the entry price for limit and stop orders. For market orders it can still be used for logs.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Practical rule:</strong> include <code>order_contracts</code> in every normal entry alert. Do not include <code>order_contracts</code> when using <code>order_action</code> as <code>closeall</code>.
+        </div>
+
+        <h2 id="actions" class="mt-4">order_action Values and Normalization</h2>
+
+        <p><code>order_action</code> tells AlgoWay what the alert is trying to do.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>Meaning</th>
+                    <th>Typical use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>buy</code></td>
+                    <td>Buy-side entry.</td>
+                    <td>Long entry, spot buy, futures long.</td>
+                </tr>
+                <tr>
+                    <td><code>sell</code></td>
+                    <td>Sell-side entry or short-side entry depending on platform.</td>
+                    <td>Short entry, sell order, futures short.</td>
+                </tr>
+                <tr>
+                    <td><code>flat</code></td>
+                    <td>Close or flatten matching exposure.</td>
+                    <td>Exit signal, close position, strategy goes flat.</td>
+                </tr>
+                <tr>
+                    <td><code>close</code></td>
+                    <td>Close instruction. AlgoWay normalizes it to <code>flat</code>.</td>
+                    <td>Exit signal, close command from external tools, pending-order cleanup where supported.</td>
+                </tr>
+                <tr>
+                    <td><code>closeall</code></td>
+                    <td>Close all open positions for the specified ticker without sending <code>order_contracts</code>.</td>
+                    <td>Close all active exposure on one symbol with one command.</td>
+                </tr>
+                <tr>
+                    <td><code>modify</code></td>
+                    <td>Update an existing position or order.</td>
+                    <td>Change SL/TP or management fields without opening a new trade.</td>
+                </tr>
+                <tr>
+                    <td><code>breakeven</code></td>
+                    <td>Move Stop Loss to entry price where supported.</td>
+                    <td>Position protection after price moves in favor.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="mt-3">Normalization Rules</h3>
+
+        <p>AlgoWay can normalize common directional words into the internal action model:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Incoming value</th>
+                    <th>Normalized value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>long</code></td><td><code>buy</code></td></tr>
+                <tr><td><code>short</code></td><td><code>sell</code></td></tr>
+                <tr><td><code>close</code></td><td><code>flat</code></td></tr>
+                <tr><td><code>closelong</code>, <code>closeshort</code>, <code>closeall</code></td><td><code>flat</code> with route-specific close behavior</td></tr>
+            </tbody>
+        </table>
+
+        <p>This allows TradingView messages like <code>{{strategy.market_position}}</code> to be used in many workflows, but you should still test exactly how your destination route handles the normalized action.</p>
+
+        <h2 id="closeall" class="mt-4">order_action = closeall: Close All Positions</h2>
+
+        <p><code>closeall</code> is a close-only action that closes all open positions for the specified ticker with one command. It does not open a new trade and does not require <code>order_contracts</code>.</p>
+
+        <p>This action is useful when a user wants to exit all active exposure on one symbol without calculating the current lot size, contract amount or remaining position volume.</p>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Important:</strong> when <code>order_action</code> is <code>closeall</code>, do not send <code>order_contracts</code>. AlgoWay will send a close-all instruction for the specified symbol where the destination route supports this action.
+        </div>
+
+        <h3 class="mt-3">Minimal closeall Example</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "closeall"
+}</code></pre>
+
+        <h3 class="mt-3">How to Use closeall</h3>
+
+        <p>Use <code>closeall</code> when the alert must close every open position on the selected symbol. The JSON must include <code>platform_name</code>, <code>ticker</code> and <code>order_action</code>. The <code>order_contracts</code>, <code>order_type</code> and <code>price</code> fields are not required for this action.</p>
+
+        <p>For MetaTrader 5 users, <code>closeall</code> requires AlgoWay EA version <strong>2.10b</strong> or newer.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "closeall"
+}</code></pre>
+
+        <h2 id="order-type" class="mt-4">order_type: market, limit and stop Orders</h2>
+
+        <p><code>order_type</code> defines how AlgoWay should treat an entry alert. Supported values are <code>market</code>, <code>limit</code> and <code>stop</code>.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>order_type</th>
+                    <th>price required?</th>
+                    <th>Meaning</th>
+                    <th>Typical use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>market</code></td>
+                    <td>No</td>
+                    <td>Execute immediately at available market price.</td>
+                    <td>Standard TradingView strategy entry, fast webhook execution, default mode.</td>
+                </tr>
+                <tr>
+                    <td><code>limit</code></td>
+                    <td>Yes</td>
+                    <td>Create a limit entry at the specified <code>price</code>.</td>
+                    <td>Buy below market, sell above market, pullback entries.</td>
+                </tr>
+                <tr>
+                    <td><code>stop</code></td>
+                    <td>Yes</td>
+                    <td>Create a stop entry at the specified <code>price</code>.</td>
+                    <td>Breakout entries, momentum confirmation, stop-market style triggers where supported.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Default behavior:</strong> if <code>order_type</code> is not included, AlgoWay treats the entry as <code>market</code>. This keeps old TradingView webhook JSON messages backward compatible.
+        </div>
+
+        <p>When <code>order_type</code> is <code>limit</code> or <code>stop</code>, include <code>price</code>. In this context, <code>price</code> is not only a log value; it is the requested entry price for the pending order.</p>
+
+        <h3 class="mt-3">Market Order Example</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10",
+  "order_type": "market"
+}</code></pre>
+
+        <h3 class="mt-3">Limit Order Example with Absolute SL/TP</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10",
+  "order_type": "limit",
+  "price": "1.0800",
+  "sl_price": "1.0750",
+  "tp_price": "1.0950"
+}</code></pre>
+
+        <h3 class="mt-3">Stop Order Example with Absolute SL/TP</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "buy",
+  "order_contracts": "0.05",
+  "order_type": "stop",
+  "price": "2365.00",
+  "sl_price": "2352.00",
+  "tp_price": "2395.00"
+}</code></pre>
+
+        <p><code>sl_price</code> and <code>tp_price</code> can be used together with <code>market</code>, <code>limit</code> or <code>stop</code> entries where the selected destination supports absolute Stop Loss and Take Profit prices. For distance-style SL/TP, use <code>stop_loss</code> and <code>take_profit</code>.</p>
+
+        <h3 class="mt-3">Closing a Position or Cleaning a Pending Entry</h3>
+
+        <p>To close a position or send a close command, use <code>order_action</code> as <code>flat</code> or <code>close</code>. <code>close</code> is normalized to <code>flat</code>. For close-only messages, <code>order_type</code> and <code>price</code> are normally not required.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "flat",
+  "order_contracts": "0.10"
+}</code></pre>
+
+        <p>If the route supports pending-order cleanup, a <code>flat</code> or <code>close</code> command can also be used to remove pending entries connected with the same symbol, route, comment or order identifier. Exact behavior depends on the destination handler and route settings.</p>
+
+        <h2 id="trade-type" class="mt-4">trade_type: Per-Order Trade Mode Override</h2>
+
+        <p><code>trade_type</code> lets one JSON message override the Trade Type configured in the webhook dashboard. Supported values are <code>hedge</code>, <code>netting</code>, <code>opposite</code> and <code>inverse</code>.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>trade_type</th>
+                    <th>Meaning</th>
+                    <th>Typical use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>hedge</code></td>
+                    <td>Allow separate long and short exposure where the destination supports it.</td>
+                    <td>Strategy legs, multi-signal workflows, independent long/short handling.</td>
+                </tr>
+                <tr>
+                    <td><code>netting</code></td>
+                    <td>Use net-position behavior for this order.</td>
+                    <td>One net exposure per symbol, no separate long/short stacking.</td>
+                </tr>
+                <tr>
+                    <td><code>opposite</code></td>
+                    <td>Send the opposite side of the incoming signal.</td>
+                    <td>Inverse execution strategy, copy opposite behavior.</td>
+                </tr>
+                <tr>
+                    <td><code>inverse</code></td>
+                    <td>Invert the incoming direction where the route supports inverse mode.</td>
+                    <td>Contrarian mirroring, inverse copy-trading logic.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>If <code>trade_type</code> is missing, AlgoWay uses the Trade Type selected in the webhook settings. In the webhook creation form this setting is required, so the route always has a default behavior. Use <code>trade_type</code> in JSON only when this exact alert must behave differently from the webhook default.</p>
+
+        <h3 class="mt-3">Example: One Order Forced to Hedge Mode</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "buy",
+  "order_contracts": "0.05",
+  "trade_type": "hedge"
+}</code></pre>
+
+        <h3 class="mt-3">Example: Limit Order with trade_type Override</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "NAS100",
+  "order_action": "sell",
+  "order_contracts": "1",
+  "order_type": "limit",
+  "price": "18350.0",
+  "sl_price": "18430.0",
+  "tp_price": "18100.0",
+  "trade_type": "netting"
+}</code></pre>
+
+        <p>For a full explanation of hedge, netting, opposite and inverse behavior, read <a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a>.</p>
+
+        <h2 id="optional" class="mt-4">Optional Fields</h2>
+
+        <p>Optional fields add execution context, risk controls, management actions or logging labels.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Example</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>order_type</code></td>
+                    <td><code>market</code>, <code>limit</code>, <code>stop</code></td>
+                    <td>Optional entry type. If missing, default is <code>market</code>. If <code>limit</code> or <code>stop</code>, <code>price</code> is required.</td>
+                </tr>
+                <tr>
+                    <td><code>trade_type</code></td>
+                    <td><code>hedge</code>, <code>netting</code>, <code>opposite</code>, <code>inverse</code></td>
+                    <td>Overrides the webhook Trade Type for this specific order. If missing, webhook settings are used.</td>
+                </tr>
+                <tr>
+                    <td><code>stop_loss</code></td>
+                    <td><code>100</code></td>
+                    <td>Distance-style Stop Loss value. Usually interpreted as points, pips or route-specific distance.</td>
+                </tr>
+                <tr>
+                    <td><code>take_profit</code></td>
+                    <td><code>200</code></td>
+                    <td>Distance-style Take Profit value. Usually interpreted in the same model as <code>stop_loss</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>sl_price</code></td>
+                    <td><code>1.0845</code></td>
+                    <td>Absolute Stop Loss price level.</td>
+                </tr>
+                <tr>
+                    <td><code>tp_price</code></td>
+                    <td><code>1.0950</code></td>
+                    <td>Absolute Take Profit price level.</td>
+                </tr>
+                <tr>
+                    <td><code>price</code></td>
+                    <td><code>{{close}}</code>, <code>%last_price%</code></td>
+                    <td>Tracking price from the alert source. Useful for logs and comparison.</td>
+                </tr>
+                <tr>
+                    <td><code>trailing_pips</code></td>
+                    <td><code>80</code></td>
+                    <td>Trailing stop value where supported by the platform route.</td>
+                </tr>
+                <tr>
+                    <td><code>comment</code></td>
+                    <td><code>TV#12345</code></td>
+                    <td>User label, alert label, EA comment, magic-like reference or debug tag.</td>
+                </tr>
+                <tr>
+                    <td><code>close_side</code></td>
+                    <td><code>long</code>, <code>short</code></td>
+                    <td>Used with <code>flat</code> in hedge mode to close only one side.</td>
+                </tr>
+                <tr>
+                    <td><code>order_id</code></td>
+                    <td><code>Long Entry 1</code></td>
+                    <td>Optional position leg or strategy signal identifier where supported.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Empty strings are treated as missing values and ignored. Numeric fields must be parseable as numbers. A non-numeric value in a numeric field can trigger validation failure.</p>
+
+        <h2 id="sltp" class="mt-4">Stop Loss and Take Profit Fields</h2>
+
+        <p>AlgoWay supports two common SL/TP styles. Both can be used with <code>market</code>, <code>limit</code> and <code>stop</code> entries where the selected platform route supports them:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Style</th>
+                    <th>Fields</th>
+                    <th>Example</th>
+                    <th>Best use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Distance-style</td>
+                    <td><code>stop_loss</code>, <code>take_profit</code></td>
+                    <td><code>"stop_loss": "100"</code></td>
+                    <td>When route expects points, pips or configured distance.</td>
+                </tr>
+                <tr>
+                    <td>Absolute price</td>
+                    <td><code>sl_price</code>, <code>tp_price</code></td>
+                    <td><code>"sl_price": "1.0845"</code></td>
+                    <td>When the alert source already calculates exact price levels.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Do not mix meanings.</strong> <code>stop_loss: 100</code> is not the same as <code>sl_price: 100</code>. One is a distance-style value; the other is an absolute price field.
+        </div>
+
+        <h2 id="trailing" class="mt-4">trailing_pips Support</h2>
+
+        <p><code>trailing_pips</code> is a route-dependent field. Some destinations support native trailing-stop behavior. Others ignore the field or delegate trailing logic to an EA, broker-side feature or separate management workflow.</p>
+
+        <h3 class="mt-3">Platforms with Direct trailing_pips Processing in Current AlgoWay Schema</h3>
+
+        <ul class="platform-list">
+            <li>✅ <strong>Binance Futures</strong> — trailing value sent to the futures handler where supported.</li>
+            <li>✅ <strong>Bybit Futures</strong> — trailing-stop parameter supported by route where configured.</li>
+            <li>✅ <strong>Bitget Futures</strong> — trailing stop can be passed by the futures handler where supported.</li>
+            <li>✅ <strong>Capital.com</strong> — field interpreted and added to order options where supported.</li>
+            <li>✅ <strong>DxTrade</strong> — dynamic trailing field can be parsed and transmitted.</li>
+            <li>✅ <strong>Match-Trader</strong> — trailing distance can be passed when non-zero and supported.</li>
+        </ul>
+
+        <h3 class="mt-3">Platforms That May Ignore or Delegate trailing_pips</h3>
+
+        <ul class="platform-list">
+            <li>⚠️ <strong>MetaTrader 5</strong> — trailing behavior depends on the current EA workflow and route settings. Test before relying on it.</li>
+            <li>❌ <strong>cTrader</strong> — no generic webhook-level trailing in the current schema; broker/platform handling may differ.</li>
+            <li>❌ <strong>OKX</strong>, <strong>MEXC</strong>, <strong>BitMart</strong> — trailing is not implemented in current handlers.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> do not assume that adding <code>trailing_pips</code> creates a trailing stop on every platform. Check the route documentation and test with small size.
+        </div>
+
+        <h2 id="modify" class="mt-4">modify and breakeven Actions</h2>
+
+        <h3 class="mt-3">order_action = modify</h3>
+
+        <p><code>modify</code> updates an existing open position or order without opening a new trade. It is commonly used to change Stop Loss, Take Profit or absolute SL/TP fields.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "modify",
+  "ticker": "EURUSD",
+  "comment": "TV#12345",
+  "sl_price": "1.0845",
+  "tp_price": "1.0950"
+}</code></pre>
+
+        <p>Where a platform supports identification, <code>comment</code>, <code>order_id</code> or another route-specific reference may help identify which position should be modified.</p>
+
+        <h3 class="mt-3">order_action = breakeven</h3>
+
+        <p><code>breakeven</code> is a position management action. It moves Stop Loss to the entry price where the route and platform support that behavior.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "breakeven",
+  "ticker": "GBPUSD",
+  "order_contracts": "0.10"
+}</code></pre>
+
+        <p><code>breakeven</code> does not open a new trade. It manages an existing position.</p>
+
+        <h2 id="close-side" class="mt-4">close_side for Hedge Mode</h2>
+
+        <p>In hedge mode, a symbol can have long-side and short-side exposure. A generic <code>flat</code> command can close all matching exposure depending on the platform handler. Use <code>close_side</code> when you want to close only one side.</p>
+
+        <h3 class="mt-3">Close Only Long Positions</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "close_side": "long"
+}</code></pre>
+
+        <h3 class="mt-3">Close Only Short Positions</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "close_side": "short"
+}</code></pre>
+
+        <p>If <code>close_side</code> is omitted, the platform handler may close all matching positions on the symbol. Test the behavior on your destination route before live use.</p>
+
+        <h2 id="platforms" class="mt-4">Common platform_name Values</h2>
+
+        <p><code>platform_name</code> must match the destination route configured in AlgoWay.</p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th><code>platform_name</code></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>MetaTrader 5</td><td><code>metatrader5</code></td></tr>
+                    <tr><td>TradeLocker</td><td><code>tradelocker</code></td></tr>
+                    <tr><td>Match-Trader</td><td><code>matchtrader</code></td></tr>
+                    <tr><td>DxTrade</td><td><code>dxtrade</code></td></tr>
+                    <tr><td>cTrader</td><td><code>ctrader</code></td></tr>
+                    <tr><td>cTrader Open API</td><td><code>ctrader-oapi</code></td></tr>
+                    <tr><td>Capital.com</td><td><code>capitalcom</code></td></tr>
+                    <tr><td>Alpaca</td><td><code>alpaca</code></td></tr>
+                    <tr><td>Tradovate</td><td><code>tradovate</code></td></tr>
+                    <tr><td>ProjectX</td><td><code>projectx</code></td></tr>
+                    <tr><td>Binance</td><td><code>binance</code></td></tr>
+                    <tr><td>Bybit</td><td><code>bybit</code></td></tr>
+                    <tr><td>OKX</td><td><code>okx</code></td></tr>
+                    <tr><td>BitMEX</td><td><code>bitmex</code></td></tr>
+                    <tr><td>Bitget</td><td><code>bitget</code></td></tr>
+                    <tr><td>BitMart</td><td><code>bitmart</code></td></tr>
+                    <tr><td>BingX</td><td><code>bingx</code></td></tr>
+                    <tr><td>Coinbase</td><td><code>coinbase</code></td></tr>
+                    <tr><td>HyperLiquid</td><td><code>hyperliquid</code></td></tr>
+                    <tr><td>Kraken</td><td><code>kraken</code></td></tr>
+                    <tr><td>KuCoin</td><td><code>kucoin</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 id="examples" class="mt-4">Copy-Paste JSON Examples</h2>
+
+        <h3 class="mt-3">0. Market Order by Default</h3>
+
+        <p>If <code>order_type</code> is missing, AlgoWay treats this as a market order.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10"
+}</code></pre>
+
+        <h3 class="mt-3">0.1 Limit Entry with price, sl_price and tp_price</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "order_type": "limit",
+  "price": "1.0800",
+  "sl_price": "1.0750",
+  "tp_price": "1.0950"
+}</code></pre>
+
+        <h3 class="mt-3">0.2 Stop Entry with trade_type Override</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "sell",
+  "ticker": "XAUUSD",
+  "order_contracts": "0.05",
+  "order_type": "stop",
+  "price": "2338.00",
+  "sl_price": "2350.00",
+  "tp_price": "2310.00",
+  "trade_type": "inverse"
+}</code></pre>
+
+        <h3 class="mt-3">0.3 Close Command</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "close",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10"
+}</code></pre>
+
+        <h3 class="mt-3">0.4 Close All Positions on Symbol</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "closeall"
+}</code></pre>
+
+        <h3 class="mt-3">1. Open BUY with SL/TP by Distance</h3>
+
+        <pre><code>{
+  "platform_name": "binance",
+  "order_action": "buy",
+  "ticker": "BTCUSDT.P",
+  "order_contracts": "0.10",
+  "stop_loss": "150",
+  "take_profit": "300"
+}</code></pre>
+
+        <h3 class="mt-3">2. Open SELL with Absolute SL/TP Prices</h3>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "order_action": "sell",
+  "ticker": "XAUUSD",
+  "order_contracts": "0.05",
+  "sl_price": "2055.50",
+  "tp_price": "2038.00"
+}</code></pre>
+
+        <h3 class="mt-3">3. Open BUY with trailing_pips</h3>
+
+        <pre><code>{
+  "platform_name": "bybit",
+  "order_action": "buy",
+  "ticker": "BTCUSDT",
+  "order_contracts": "0.10",
+  "stop_loss": "120",
+  "trailing_pips": "80"
+}</code></pre>
+
+        <h3 class="mt-3">4. Hedge: Close Only Long Positions</h3>
+
+        <pre><code>{
+  "platform_name": "matchtrader",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "close_side": "long"
+}</code></pre>
+
+        <h3 class="mt-3">5. Use LONG / SHORT Normalization</h3>
+
+        <pre><code>{
+  "platform_name": "ctrader",
+  "order_action": "long",
+  "ticker": "USDJPY",
+  "order_contracts": "0.10",
+  "stop_loss": "100"
+}</code></pre>
+
+        <h3 class="mt-3">6. Modify Existing Position SL/TP</h3>
+
+        <pre><code>{
+  "platform_name": "okx",
+  "order_action": "modify",
+  "ticker": "ETHUSDT",
+  "comment": "TV#12345",
+  "stop_loss": "140",
+  "take_profit": "280"
+}</code></pre>
+
+        <h3 class="mt-3">7. Move Position to Breakeven</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "breakeven",
+  "ticker": "GBPUSD",
+  "order_contracts": "0.10"
+}</code></pre>
+
+        <h3 class="mt-3">8. TradingView Strategy Alert JSON</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <h3 class="mt-3">9. TradingView Close All Alert JSON</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "closeall"
+}</code></pre>
+
+        <h3 class="mt-3">10. TrendSpider Standard Alert JSON</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_action": "buy",
+  "order_contracts": 1,
+  "price": "%last_price%",
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <h3 class="mt-3">11. Close / Flat Signal</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "flat",
+  "order_contracts": "0.10"
+}</code></pre>
+
+        <h2 id="validation" class="mt-4">Validation Checklist Before Sending Live Alerts</h2>
+
+        <p>Before using live size, check:</p>
+
+        <ul>
+            <li>JSON is one complete object;</li>
+            <li>all keys use double quotes;</li>
+            <li>all string values use double quotes;</li>
+            <li>there are no trailing commas;</li>
+            <li><code>platform_name</code> matches your AlgoWay route;</li>
+            <li><code>ticker</code> matches or maps to the destination symbol;</li>
+            <li><code>order_action</code> is valid;</li>
+            <li><code>order_contracts</code> is valid for entry alerts;</li>
+            <li><code>order_contracts</code> is omitted when <code>order_action</code> is <code>closeall</code>;</li>
+            <li><code>order_type</code>, when present, is one of <code>market</code>, <code>limit</code> or <code>stop</code>;</li>
+            <li><code>price</code> is present and numeric when <code>order_type</code> is <code>limit</code> or <code>stop</code>;</li>
+            <li><code>trade_type</code>, when present, is one of <code>hedge</code>, <code>netting</code>, <code>opposite</code> or <code>inverse</code>;</li>
+            <li>SL/TP fields match the intended distance or absolute-price model;</li>
+            <li><code>trailing_pips</code> is supported by the destination route;</li>
+            <li><code>close_side</code> is used only when hedge-side close behavior is required;</li>
+            <li>MetaTrader 5 users have AlgoWay EA version <strong>2.10b</strong> or newer for <code>closeall</code>;</li>
+            <li>AlgoWay logs show the received payload;</li>
+            <li>destination platform accepts a small test order.</li>
+        </ul>
+
+        <h2 id="problems" class="mt-4">Common JSON Problems</h2>
+
+        <h3 class="mt-3">Invalid JSON</h3>
+        <p>Use double quotes and remove trailing commas. A missing quote or extra comma can stop the webhook before AlgoWay routes the command. See: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <h3 class="mt-3">Wrong platform_name</h3>
+        <p>If the AlgoWay route is ProjectX but the JSON says <code>metatrader5</code>, the message can be rejected or routed incorrectly.</p>
+
+        <h3 class="mt-3">order_contracts Missing on Entry</h3>
+        <p>Entry actions should include <code>order_contracts</code>. The value must be convertible to a floating-point number.</p>
+
+        <h3 class="mt-3">order_contracts Used with closeall</h3>
+        <p>Do not send <code>order_contracts</code> with <code>order_action</code> set to <code>closeall</code>. This action closes all open positions for the specified symbol and does not need lot, contract or quantity size.</p>
+
+        <h3 class="mt-3">Old MetaTrader 5 EA Version with closeall</h3>
+        <p>MetaTrader 5 users must update AlgoWay EA to version <strong>2.10b</strong> or newer before using <code>closeall</code>.</p>
+
+        <h3 class="mt-3">Symbol Mismatch</h3>
+        <p><code>{{ticker}}</code>, <code>%alert_symbol%</code> or a fixed ticker may not match the broker or exchange symbol. Use the exact symbol or configure mapping.</p>
+
+        <h3 class="mt-3">Wrong SL/TP Model</h3>
+        <p>Do not use <code>stop_loss</code> when you mean an absolute price. Use <code>sl_price</code> for exact price levels.</p>
+
+        <h3 class="mt-3">order_type limit or stop Without price</h3>
+        <p>If <code>order_type</code> is <code>limit</code> or <code>stop</code>, the alert must include <code>price</code>. Without <code>price</code>, AlgoWay does not know the requested entry level for the pending order.</p>
+
+        <h3 class="mt-3">Wrong trade_type Value</h3>
+        <p><code>trade_type</code> must be <code>hedge</code>, <code>netting</code>, <code>opposite</code> or <code>inverse</code>. If you omit it, AlgoWay uses the Trade Type configured in the webhook dashboard.</p>
+
+        <h3 class="mt-3">Using order_type on Close Commands</h3>
+        <p>For <code>flat</code>, <code>close</code> or <code>closeall</code> messages, the important field is <code>order_action</code>. <code>order_type</code> is normally not needed for closing exposure or cleaning supported pending entries.</p>
+
+        <h3 class="mt-3">trailing_pips Ignored</h3>
+        <p>The destination route may not support webhook-level trailing. Test the route and check platform logs.</p>
+
+        <h3 class="mt-3">flat Closes More Than Expected</h3>
+        <p>In hedge mode, use <code>close_side</code> when you want only one side closed. Without it, the handler may close all matching symbol exposure.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a TradingView webhook alert</a></li>
+            <li><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual TradingView webhook alerts</a></li>
+            <li><a href="/blog/how-to-use-algoway-with-trendspider.html">TrendSpider webhook automation with AlgoWay</a></li>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate webhook alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">TradingView to MetaTrader 5 with AlgoWay</a></li>
+            <li><a href="/blog/how-to-connect-projectx.html">TradingView to ProjectX with AlgoWay</a></li>
+            <li><a href="/blog/algoway-tradovate-integration-guide.html">TradingView to Tradovate with AlgoWay</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>AlgoWay JSON schema is the language that turns webhook alerts into executable trading commands.</strong> The core fields are <code>platform_name</code>, <code>ticker</code>, <code>order_action</code> and <code>order_contracts</code> for normal entry orders. <code>order_type</code> adds support for <code>market</code>, <code>limit</code> and <code>stop</code> entries, while <code>price</code> becomes required for pending limit and stop orders. <code>trade_type</code> can override the webhook Trade Type for one specific alert.</p>
+
+        <p>Use <code>order_action</code> as <code>closeall</code> when the alert must close all open positions for one symbol without sending <code>order_contracts</code>. MetaTrader 5 users must update AlgoWay EA to version <strong>2.10b</strong> or newer before using this action.</p>
+
+        <p>Optional fields such as <code>stop_loss</code>, <code>take_profit</code>, <code>sl_price</code>, <code>tp_price</code>, <code>trailing_pips</code>, <code>comment</code>, <code>order_id</code> and <code>close_side</code> add risk control, logs and position management. Start with the minimal JSON, test it with small size, check AlgoWay Webhook Logs, then add pending orders, SL/TP, trailing, modify, breakeven, closeall or hedge-side behavior only after the basic route works.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "AlgoWay JSON Schema for TradingView Webhook Automation",
+                  "description": "Complete AlgoWay JSON schema guide for webhook trading automation: required fields, order_type market limit stop, price, closeall, trade_type hedge netting opposite inverse, platform_name, ticker, order_action, order_contracts, SL/TP, trailing_pips, modify, breakeven, close_side and copy-paste examples.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/json-schema-guide.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-15T00:00:00+00:00",
+                  "articleSection": "Webhook JSON Schema",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What fields are required in AlgoWay JSON?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The core AlgoWay JSON fields are platform_name, ticker, order_action and order_contracts for normal entry orders. For closeall, order_contracts is not required."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What values can order_action use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common order_action values are buy, sell, flat, closeall, modify and breakeven. AlgoWay can normalize long to buy, short to sell and close to flat."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I close all positions with AlgoWay JSON?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use order_action with the value closeall and include platform_name and ticker. Do not include order_contracts. MetaTrader 5 users need AlgoWay EA version 2.10b or newer."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between stop_loss and sl_price?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "stop_loss is a distance-style field, often interpreted as points or pips depending on the route. sl_price is an absolute Stop Loss price level."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does trailing_pips work on every platform?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. trailing_pips is route-dependent. Some platforms process it directly, while others ignore it or require EA-side or platform-side trailing logic."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I send a limit or stop order with AlgoWay JSON?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use order_type with value limit or stop and include price as the requested entry price. If order_type is missing, AlgoWay treats the order as market."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does trade_type do in AlgoWay JSON?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "trade_type overrides the webhook Trade Type for one specific order. Supported values are hedge, netting, opposite and inverse. If trade_type is missing, AlgoWay uses the webhook settings."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does close_side do?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "close_side is used with order_action flat in hedge mode to close only long or only short positions. If omitted, the handler may close all matching positions on the symbol."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "AlgoWay JSON Schema for Webhook Automation",
+                                      "item": "https://algoway.trade/blog/json-schema-guide.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

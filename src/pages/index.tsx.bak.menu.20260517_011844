@@ -1,0 +1,137 @@
+import React from 'react';
+import Layout from '@theme/Layout';
+import Link from '@docusaurus/Link';
+import Heading from '@theme/Heading';
+import styles from './index.module.css';
+
+const menu = [
+  {
+    title: 'Core',
+    items: [
+      ['All docs', '/docs/intro'],
+      ['Getting started', '/docs/getting-started/overview'],
+      ['How AlgoWay works', '/docs/getting-started/how-algoway-works'],
+      ['Create first webhook', '/docs/getting-started/create-first-webhook'],
+    ],
+  },
+  {
+    title: 'JSON & Alerts',
+    items: [
+      ['Webhook JSON reference', '/docs/webhook-json/reference'],
+      ['Order actions', '/docs/webhook-json/order-actions'],
+      ['Order types', '/docs/webhook-json/order-types'],
+      ['Trade type', '/docs/webhook-json/trade-type'],
+      ['SL / TP fields', '/docs/webhook-json/stop-loss-take-profit'],
+    ],
+  },
+  {
+    title: 'MT5 / Expert Advisors',
+    items: [
+      ['MetaTrader 5 overview', '/docs/metatrader-5/overview'],
+      ['TradingView to MT5', '/docs/metatrader-5/tradingview-to-mt5'],
+      ['MT5 EA installation', '/docs/metatrader-5/ea-installation'],
+      ['MT5 common errors', '/docs/metatrader-5/common-errors'],
+    ],
+  },
+  {
+    title: 'Integrations',
+    items: [
+      ['Supported platforms', '/docs/supported-platforms/overview'],
+      ['TradeLocker', '/docs/tradelocker/setup'],
+      ['Match-Trader', '/docs/match-trader/setup'],
+      ['DXtrade', '/docs/dxtrade/setup'],
+      ['cTrader', '/docs/ctrader/setup'],
+      ['Crypto exchanges', '/docs/crypto-exchanges/overview'],
+    ],
+  },
+  {
+    title: 'Telegram AI',
+    items: [
+      ['Telegram AI copier', '/docs/telegram-ai/overview'],
+      ['Signal format', '/docs/telegram-ai/signal-format'],
+      ['Validation', '/docs/telegram-ai/validation'],
+    ],
+  },
+  {
+    title: 'Errors',
+    items: [
+      ['Troubleshooting', '/docs/troubleshooting/overview'],
+      ['415 error', '/docs/troubleshooting/error'],
+      ['MT5 error 4752', '/docs/troubleshooting/mt5-error-4752'],
+      ['MT5 error 4756', '/docs/troubleshooting/mt5-error-4756'],
+    ],
+  },
+];
+
+const cards = [
+  ['TradingView Webhook Automation', 'Create TradingView alerts, send JSON messages and route signals through AlgoWay.', '/docs/tradingview-webhooks/overview'],
+  ['Webhook JSON Reference', 'Fields for ticker, action, order type, trade type, SL, TP, trailing stop and platform routing.', '/docs/webhook-json/reference'],
+  ['TradingView to MetaTrader 5', 'Connect TradingView alerts to MetaTrader 5 through AlgoWay and the MT5 Expert Advisor.', '/docs/metatrader-5/tradingview-to-mt5'],
+  ['Telegram AI Signal Copier', 'Convert Telegram trading signals into validated AlgoWay webhook commands.', '/docs/telegram-ai/overview'],
+  ['Supported Execution Destinations', 'MT5, TradeLocker, Match-Trader, DXtrade, cTrader, futures, crypto and CFD routes.', '/docs/supported-platforms/overview'],
+  ['Troubleshooting', 'Fix JSON, webhook, MT5 and broker-side execution errors.', '/docs/troubleshooting/overview'],
+];
+
+export default function Home(): React.ReactNode {
+  return (
+    <Layout
+      title="TradingView Webhook Automation Docs"
+      description="AlgoWay documentation for TradingView webhook automation, MetaTrader 5, webhook JSON, Telegram AI signal copier and supported execution platforms."
+    >
+      <main className={styles.page}>
+        <div className={styles.shell}>
+          <aside className={styles.sidebar}>
+            <h2>AlgoWay Docs</h2>
+            <p>Main documentation clusters and core pages.</p>
+
+            {menu.map((group) => (
+              <div className={styles.menuGroup} key={group.title}>
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.items.map(([label, href]) => (
+                    <li key={href}>
+                      <Link to={href}>{label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </aside>
+
+          <section className={styles.content}>
+            <div className={styles.card}>
+              <Heading as="h1">
+                TradingView Webhook Automation Docs: MT5, TradeLocker, DXtrade, cTrader, Telegram AI & Crypto Guides
+              </Heading>
+
+              <p className={styles.lead}>
+                AlgoWay Docs is a practical documentation hub for TradingView webhook automation,
+                webhook JSON messages, MT5 automated trading, Telegram AI signal copying,
+                Pine Script alerts and broker integration guides.
+              </p>
+
+              <div className={styles.introBox}>
+                <p>
+                  Choose the route you need: TradingView to MT5, TradingView to TradeLocker,
+                  TradingView to DXtrade, TradingView to cTrader, Telegram signals to MT5,
+                  Pine Script alert messages, crypto exchange routing or MT5 Expert Advisor troubleshooting.
+                </p>
+              </div>
+
+              <Heading as="h2">Documentation sections</Heading>
+
+              <div className={styles.grid}>
+                {cards.map(([title, text, href]) => (
+                  <Link className={styles.docCard} to={href} key={href}>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </Layout>
+  );
+}

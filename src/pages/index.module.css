@@ -1,0 +1,174 @@
+.page {
+  padding: 110px 0 54px;
+  background: #f9f9f9;
+}
+
+.shell {
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px;
+}
+
+.sidebar {
+  align-self: start;
+  position: sticky;
+  top: 96px;
+  padding: 28px 30px;
+  border: 1px solid rgba(0,0,0,0.09);
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+.sidebar h2 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.sidebar p {
+  margin: 0 0 20px;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.menuGroup {
+  margin-bottom: 18px;
+}
+
+.menuGroup h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 800;
+  color: #111;
+}
+
+.menuGroup ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.menuGroup li {
+  margin-bottom: 8px;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.menuGroup a {
+  color: #7f2bff;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.content {
+  min-width: 0;
+}
+
+.card {
+  padding: 30px 34px 40px;
+  border: 1px solid rgba(0,0,0,0.09);
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+.card h1 {
+  max-width: 980px;
+  margin: 0 auto 18px;
+  text-align: center;
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.lead {
+  max-width: 980px;
+  margin: 0 auto 18px;
+  color: #444;
+  line-height: 1.7;
+  text-align: center;
+  font-size: 15px;
+}
+
+.introBox {
+  max-width: 1080px;
+  margin: 0 auto 22px;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.introBox p {
+  margin: 0;
+  color: #444;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.card h2 {
+  margin: 20px 0 18px;
+  text-align: center;
+  font-size: 23px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.docCard {
+  display: block;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #111827;
+  text-decoration: none !important;
+}
+
+.docCard:hover {
+  text-decoration: none !important;
+  border-color: rgba(127,43,255,0.35);
+}
+
+.docCard h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.docCard p {
+  margin: 0;
+  color: #555;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+@media (max-width: 996px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
