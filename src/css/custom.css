@@ -643,3 +643,126 @@ svg[aria-label="(opens in new tab)"] {
   font-weight: 800 !important;
   letter-spacing: .01em !important;
 }
+
+/* Final logo/title vertical alignment */
+.navbar__brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  height: 64px !important;
+  gap: 10px !important;
+}
+
+.navbar__logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-right: 0 !important;
+}
+
+.navbar__logo img {
+  width: 56px !important;
+  height: 56px !important;
+  object-fit: contain !important;
+}
+
+.navbar__title {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  height: 56px !important;
+  margin-left: 0 !important;
+  line-height: 1.05 !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  letter-spacing: .02em !important;
+}
+
+.navbar__title::after {
+  content: 'BE CONNECTED';
+  display: block !important;
+  margin-top: 2px !important;
+  font-size: 18px !important;
+  line-height: 1.05 !important;
+  font-weight: 800 !important;
+  letter-spacing: .01em !important;
+}
+
+/* ALGOWAY UNIFIED DOC THEME START */
+
+.algoway-doc-layout {
+  width: 100%;
+}
+
+.algoway-doc-item-container {
+  max-width: 1060px;
+  margin: 0 auto;
+}
+
+.algoway-doc-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.algoway-doc-card-body {
+  padding: 2rem !important;
+}
+
+.algoway-doc-card .theme-doc-markdown {
+  max-width: none;
+}
+
+.algoway-doc-card .theme-doc-markdown > header h1 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.algoway-doc-card .theme-doc-markdown > .card:first-of-type {
+  border: 0 !important;
+  box-shadow: none !important;
+  margin-top: 0 !important;
+  background: transparent !important;
+}
+
+.algoway-doc-card .theme-doc-markdown > .card:first-of-type > .card-body {
+  padding: 0 !important;
+}
+
+.algoway-doc-card .theme-doc-markdown p {
+  line-height: 1.7;
+}
+
+.algoway-doc-card .theme-doc-markdown img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+  border-radius: 8px;
+}
+
+.algoway-doc-card .theme-doc-markdown iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-height: 420px;
+  margin: 1.5rem auto;
+  border: 0;
+  border-radius: 8px;
+}
+
+.algoway-doc-card .theme-doc-markdown table {
+  width: 100%;
+}
+
+.algoway-doc-card .theme-doc-markdown th {
+  background: #f5f2ff;
+}
+
+@media (max-width: 768px) {
+  .algoway-doc-card-body {
+    padding: 1.25rem !important;
+  }
+}
+
+/* ALGOWAY UNIFIED DOC THEME END */
