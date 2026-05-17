@@ -4,20 +4,452 @@ sidebar_label: "JSON Schema"
 pagination_label: "JSON Schema"
 description: "AlgoWay JSON schema guide for webhook trading automation: market, limit and stop orders, closeall, price, sl_price, tp_price, trade_type, platform_name, ticker, order_action, order_contracts and examples."
 hide_table_of_contents: true
+jsonld:
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "AlgoWay JSON Schema for TradingView Webhook Automation",
+                      "description": "Complete AlgoWay JSON schema guide for webhook trading automation: required fields, order_type market limit stop, price, closeall, trade_type hedge netting opposite inverse, platform_name, ticker, order_action, order_contracts, SL/TP, trailing_pips, modify, breakeven, close_side and copy-paste examples.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/tradingview/json-schema/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-15T00:00:00+00:00",
+                      "articleSection": "Webhook JSON Schema",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What fields are required in AlgoWay JSON?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The core AlgoWay JSON fields are platform_name, ticker, order_action and order_contracts for normal entry orders. For closeall, order_contracts is not required."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What values can order_action use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common order_action values are buy, sell, flat, closeall, modify and breakeven. AlgoWay can normalize long to buy, short to sell and close to flat."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I close all positions with AlgoWay JSON?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use order_action with the value closeall and include platform_name and ticker. Do not include order_contracts. MetaTrader 5 users need AlgoWay EA version 2.10b or newer."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the difference between stop_loss and sl_price?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "stop_loss is a distance-style field, often interpreted as points or pips depending on the route. sl_price is an absolute Stop Loss price level."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does trailing_pips work on every platform?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. trailing_pips is route-dependent. Some platforms process it directly, while others ignore it or require EA-side or platform-side trailing logic."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I send a limit or stop order with AlgoWay JSON?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use order_type with value limit or stop and include price as the requested entry price. If order_type is missing, AlgoWay treats the order as market."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What does trade_type do in AlgoWay JSON?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "trade_type overrides the webhook Trade Type for one specific order. Supported values are hedge, netting, opposite and inverse. If trade_type is missing, AlgoWay uses the webhook settings."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What does close_side do?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "close_side is used with order_action flat in hedge mode to close only long or only short positions. If omitted, the handler may close all matching positions on the symbol."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                                {
+                                          "@type": "ListItem",
+                                          "position": 1,
+                                          "name": "Home",
+                                          "item": "https://algoway.trade/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 2,
+                                          "name": "Blog",
+                                          "item": "https://algoway.trade/blog/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 3,
+                                          "name": "AlgoWay JSON Schema for Webhook Automation",
+                                          "item": "https://docs.algoway.trade/docs/tradingview/json-schema/"
+                                }
+                      ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-import MigratedDocArticle from "@site/src/components/MigratedDocArticle";
-
-export const jsonLdBlocks = [
-  "{\n                  \"@context\": \"https://schema.org\",\n                  \"@type\": \"TechArticle\",\n                  \"headline\": \"AlgoWay JSON Schema for TradingView Webhook Automation\",\n                  \"description\": \"Complete AlgoWay JSON schema guide for webhook trading automation: required fields, order_type market limit stop, price, closeall, trade_type hedge netting opposite inverse, platform_name, ticker, order_action, order_contracts, SL/TP, trailing_pips, modify, breakeven, close_side and copy-paste examples.\",\n                  \"author\": {\n                            \"@type\": \"Organization\",\n                            \"name\": \"AlgoWay\",\n                            \"url\": \"https://algoway.trade/\"\n                  },\n                  \"publisher\": {\n                            \"@type\": \"Organization\",\n                            \"name\": \"AlgoWay\",\n                            \"logo\": {\n                                      \"@type\": \"ImageObject\",\n                                      \"url\": \"https://algoway.trade/static/img/social.jpg\"\n                            }\n                  },\n                  \"mainEntityOfPage\": {\n                            \"@type\": \"WebPage\",\n                            \"@id\": \"https://docs.algoway.trade/docs/tradingview/json-schema/\"\n                  },\n                  \"image\": \"https://algoway.trade/static/img/social.jpg\",\n                  \"dateModified\": \"2026-05-15T00:00:00+00:00\",\n                  \"articleSection\": \"Webhook JSON Schema\",\n                  \"datePublished\": \"2026-05-12T00:00:00+00:00\"\n        }",
-  "{\n          \"@context\": \"https://schema.org\",\n          \"@type\": \"FAQPage\",\n          \"mainEntity\": [\n            {\n              \"@type\": \"Question\",\n              \"name\": \"What fields are required in AlgoWay JSON?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"The core AlgoWay JSON fields are platform_name, ticker, order_action and order_contracts for normal entry orders. For closeall, order_contracts is not required.\"\n              }\n            },\n            {\n              \"@type\": \"Question\",\n              \"name\": \"What values can order_action use?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"Common order_action values are buy, sell, flat, closeall, modify and breakeven. AlgoWay can normalize long to buy, short to sell and close to flat.\"\n              }\n            },\n            {\n              \"@type\": \"Question\",\n              \"name\": \"How do I close all positions with AlgoWay JSON?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"Use order_action with the value closeall and include platform_name and ticker. Do not include order_contracts. MetaTrader 5 users need AlgoWay EA version 2.10b or newer.\"\n              }\n            },\n            {\n              \"@type\": \"Question\",\n              \"name\": \"What is the difference between stop_loss and sl_price?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"stop_loss is a distance-style field, often interpreted as points or pips depending on the route. sl_price is an absolute Stop Loss price level.\"\n              }\n            },\n            {\n              \"@type\": \"Question\",\n              \"name\": \"Does trailing_pips work on every platform?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"No. trailing_pips is route-dependent. Some platforms process it directly, while others ignore it or require EA-side or platform-side trailing logic.\"\n              }\n            },\n            {\n              \"@type\": \"Question\",\n              \"name\": \"How do I send a limit or stop order with AlgoWay JSON?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"Use order_type with value limit or stop and include price as the requested entry price. If order_type is missing, AlgoWay treats the order as market.\"\n              }\n            },\n            {\n              \"@type\": \"Question\",\n              \"name\": \"What does trade_type do in AlgoWay JSON?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"trade_type overrides the webhook Trade Type for one specific order. Supported values are hedge, netting, opposite and inverse. If trade_type is missing, AlgoWay uses the webhook settings.\"\n              }\n            },\n            {\n              \"@type\": \"Question\",\n              \"name\": \"What does close_side do?\",\n              \"acceptedAnswer\": {\n                \"@type\": \"Answer\",\n                \"text\": \"close_side is used with order_action flat in hedge mode to close only long or only short positions. If omitted, the handler may close all matching positions on the symbol.\"\n              }\n            }\n          ]\n        }",
-  "{\n                  \"@context\": \"https://schema.org\",\n                  \"@type\": \"BreadcrumbList\",\n                  \"itemListElement\": [\n                            {\n                                      \"@type\": \"ListItem\",\n                                      \"position\": 1,\n                                      \"name\": \"Home\",\n                                      \"item\": \"https://algoway.trade/\"\n                            },\n                            {\n                                      \"@type\": \"ListItem\",\n                                      \"position\": 2,\n                                      \"name\": \"Blog\",\n                                      \"item\": \"https://algoway.trade/blog/\"\n                            },\n                            {\n                                      \"@type\": \"ListItem\",\n                                      \"position\": 3,\n                                      \"name\": \"AlgoWay JSON Schema for Webhook Automation\",\n                                      \"item\": \"https://docs.algoway.trade/docs/tradingview/json-schema/\"\n                            }\n                  ]\n        }",
-  "{\n  \"@context\": \"https://schema.org\",\n  \"@graph\": [\n    {\n      \"@type\": \"Organization\",\n      \"@id\": \"https://algoway.trade/#organization\",\n      \"name\": \"AlgoWay\",\n\t  \"image\": \"https://algoway.trade/static/img/social.jpg\",\n\t  \"logo\": \"https://algoway.trade/static/img/logo-64.webp\",\n      \"alternateName\": [\n        \"AlgoWay Connector\",\n        \"ALGOWAY\"\n      ],\n      \"legalName\": \"IE Samvel Mayilyan\",\n      \"url\": \"https://algoway.trade/\",\n      \"email\": \"connect@algoway.trade\",\n      \"telephone\": \"+37497272707\",\n      \"address\": {\n        \"@type\": \"PostalAddress\",\n        \"streetAddress\": \"str. Besarion Zhgenti 49/20\",\n        \"addressLocality\": \"Tbilisi\",\n\t\t\"postalCode\": \"0186\",\n        \"addressCountry\": \"GE\"\n      },\n      \"founder\": {\n        \"@type\": \"Person\",\n        \"name\": \"Samvel Mayilyan\"\n      },\n      \"contactPoint\": [\n        {\n          \"@type\": \"ContactPoint\",\n          \"contactType\": \"customer support\",\n          \"email\": \"connect@algoway.trade\",\n          \"telephone\": \"+37497272707\",\n          \"availableLanguage\": [\n            \"English\"\n          ]\n        },\n        {\n          \"@type\": \"ContactPoint\",\n          \"contactType\": \"customer support\",\n          \"telephone\": \"+995568889122\",\n          \"availableLanguage\": [\n            \"English\"\n          ]\n        },\n        {\n          \"@type\": \"ContactPoint\",\n          \"contactType\": \"customer support\",\n          \"url\": \"https://t.me/AlgoWaySupport\",\n          \"availableLanguage\": [\n            \"English\"\n          ]\n        }\n      ],\n      \"sameAs\": [\n        \"https://www.facebook.com/algoway/\",\n        \"https://x.com/ALGOWAY180660\",\n        \"https://www.linkedin.com/company/algoway/\",\n        \"https://t.me/algoway_trade\",\n        \"https://t.me/AlgoWaySupport\",\n        \"https://www.trustpilot.com/review/algoway.trade\"\n      ]\n    },\n    {\n      \"@type\": \"WebSite\",\n      \"@id\": \"https://algoway.trade/#website\",\n      \"name\": \"AlgoWay\",\n      \"url\": \"https://algoway.trade/\",\n      \"inLanguage\": \"en\",\n      \"publisher\": {\n        \"@id\": \"https://algoway.trade/#organization\"\n      },\n      \"potentialAction\": {\n        \"@type\": \"RegisterAction\",\n        \"target\": {\n          \"@type\": \"EntryPoint\",\n          \"urlTemplate\": \"https://algoway.trade/register\",\n          \"actionPlatform\": [\n            \"https://schema.org/DesktopWebPlatform\",\n            \"https://schema.org/MobileWebPlatform\"\n          ]\n        }\n      }\n    },\n    {\n      \"@type\": \"SoftwareApplication\",\n      \"@id\": \"https://algoway.trade/#software-application\",\n      \"name\": \"AlgoWay Connector\",\n      \"alternateName\": \"AlgoWay\",\n      \"url\": \"https://algoway.trade/\",\n      \"mainEntityOfPage\": {\n        \"@id\": \"https://algoway.trade/#website\"\n      },\n      \"applicationCategory\": \"FinanceApplication\",\n      \"applicationSubCategory\": \"Trading automation middleware\",\n      \"operatingSystem\": \"Web\",\n      \"browserRequirements\": \"Requires JavaScript and a modern web browser\",\n      \"inLanguage\": \"en\",\n      \"isAccessibleForFree\": false,\n      \"author\": {\n        \"@id\": \"https://algoway.trade/#organization\"\n      },\n      \"publisher\": {\n        \"@id\": \"https://algoway.trade/#organization\"\n      },\n      \"provider\": {\n        \"@id\": \"https://algoway.trade/#organization\"\n      },\n      \"termsOfService\": \"https://algoway.trade/terms\",\n      \"featureList\": [\n        \"Webhook Automation\",\n        \"Fast Execution\",\n        \"Cancel Anytime\",\n        \"Free trade metrics\",\n        \"Test tools for debugging\",\n        \"TradingView signal source\",\n        \"MT5 signal source\",\n        \"cTrader signal source\",\n        \"20+ supported trading platforms\",\n        \"Optional Windows VPS\",\n        \"Multiple strategies\",\n        \"Unlimited pairs or symbols\",\n        \"Unlimited alerts\"\n      ],\n      \"keywords\": \"TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com\",\n      \"softwareHelp\": {\n        \"@type\": \"CreativeWork\",\n        \"name\": \"AlgoWay Q&A\",\n        \"url\": \"https://t.me/AlgoWaySupport\"\n      },\n      \"offers\": {\n        \"@type\": \"Offer\",\n        \"url\": \"https://algoway.trade/register\",\n        \"price\": \"6\",\n        \"priceCurrency\": \"USD\",\n        \"availability\": \"https://schema.org/InStock\",\n        \"category\": \"Subscription\",\n        \"description\": \"Starts from 6 USD per month. 14-day trial. No credit card required.\"\n      },\n      \"aggregateRating\": {\n        \"@type\": \"AggregateRating\",\n        \"ratingValue\": \"4.8\",\n        \"reviewCount\": \"41\",\n        \"bestRating\": \"5\",\n        \"worstRating\": \"1\"\n      },\n      \"review\": [\n        {\n          \"@type\": \"Review\",\n          \"author\": {\n            \"@type\": \"Person\",\n            \"name\": \"HI PROS\"\n          },\n          \"datePublished\": \"2026-01-29T00:00:00+00:00\",\n          \"name\": \"Great Price and totally worth it\",\n          \"reviewBody\": \"Very fast broker connections. Open and close positions completely automated.\",\n          \"reviewRating\": {\n            \"@type\": \"Rating\",\n            \"ratingValue\": \"5\",\n            \"bestRating\": \"5\",\n            \"worstRating\": \"1\"\n          }\n        },\n        {\n          \"@type\": \"Review\",\n          \"author\": {\n            \"@type\": \"Person\",\n            \"name\": \"Michael Knaus\"\n          },\n          \"datePublished\": \"2026-02-02T00:00:00+00:00\",\n          \"name\": \"Excellent and incredibly helpful\",\n          \"reviewBody\": \"Strong help with a TradingView indicator issue and excellent support.\",\n          \"reviewRating\": {\n            \"@type\": \"Rating\",\n            \"ratingValue\": \"5\",\n            \"bestRating\": \"5\",\n            \"worstRating\": \"1\"\n          }\n        },\n        {\n          \"@type\": \"Review\",\n          \"author\": {\n            \"@type\": \"Person\",\n            \"name\": \"haseeb rahman\"\n          },\n          \"datePublished\": \"2025-12-09T00:00:00+00:00\",\n          \"name\": \"Best professional support\",\n          \"reviewBody\": \"24/7 support and very helpful guidance to understand the system.\",\n          \"reviewRating\": {\n            \"@type\": \"Rating\",\n            \"ratingValue\": \"5\",\n            \"bestRating\": \"5\",\n            \"worstRating\": \"1\"\n          }\n        },\n        {\n          \"@type\": \"Review\",\n          \"author\": {\n            \"@type\": \"Person\",\n            \"name\": \"Renu\"\n          },\n          \"datePublished\": \"2025-11-18T00:00:00+00:00\",\n          \"name\": \"Trades execute as per alerts\",\n          \"reviewBody\": \"Trades execute as per the alerts and support from the developer is prompt.\",\n          \"reviewRating\": {\n            \"@type\": \"Rating\",\n            \"ratingValue\": \"5\",\n            \"bestRating\": \"5\",\n            \"worstRating\": \"1\"\n          }\n        },\n        {\n          \"@type\": \"Review\",\n          \"author\": {\n            \"@type\": \"Person\",\n            \"name\": \"Federica\"\n          },\n          \"datePublished\": \"2025-12-27T00:00:00+00:00\",\n          \"name\": \"Very good tools\",\n          \"reviewBody\": \"Very good tools and support from Samvel.\",\n          \"reviewRating\": {\n            \"@type\": \"Rating\",\n            \"ratingValue\": \"5\",\n            \"bestRating\": \"5\",\n            \"worstRating\": \"1\"\n          }\n        },\n        {\n          \"@type\": \"Review\",\n          \"author\": {\n            \"@type\": \"Person\",\n            \"name\": \"Sephrus\"\n          },\n          \"datePublished\": \"2026-02-20T00:00:00+00:00\",\n          \"name\": \"Trial and support\",\n          \"reviewBody\": \"The trial was useful and support was quick and useful.\",\n          \"reviewRating\": {\n            \"@type\": \"Rating\",\n            \"ratingValue\": \"5\",\n            \"bestRating\": \"5\",\n            \"worstRating\": \"1\"\n          }\n        }\n      ]\n    },\n    {\n      \"@type\": \"Service\",\n      \"@id\": \"https://algoway.trade/#cloud-mt5-vps-service\",\n      \"name\": \"AlgoWay Cloud MT5 VPS\",\n      \"serviceType\": \"Managed Windows VPS for MetaTrader 5\",\n      \"provider\": {\n        \"@id\": \"https://algoway.trade/#organization\"\n      },\n      \"url\": \"https://algoway.trade/\",\n      \"description\": \"Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.\",\n      \"offers\": [\n        {\n          \"@type\": \"Offer\",\n          \"name\": \"CNT BASIC VPS\",\n          \"price\": \"12\",\n          \"priceCurrency\": \"USD\",\n          \"availability\": \"https://schema.org/InStock\"\n        },\n        {\n          \"@type\": \"Offer\",\n          \"name\": \"CNT PRO VPS\",\n          \"price\": \"20\",\n          \"priceCurrency\": \"USD\",\n          \"availability\": \"https://schema.org/InStock\"\n        },\n        {\n          \"@type\": \"Offer\",\n          \"name\": \"OVH BASIC VPS\",\n          \"price\": \"16\",\n          \"priceCurrency\": \"USD\",\n          \"availability\": \"https://schema.org/InStock\"\n        },\n        {\n          \"@type\": \"Offer\",\n          \"name\": \"OVH PRO VPS\",\n          \"price\": \"26\",\n          \"priceCurrency\": \"USD\",\n          \"availability\": \"https://schema.org/InStock\"\n        }\n      ]\n    },\n    {\n      \"@type\": \"ItemList\",\n      \"@id\": \"https://algoway.trade/#supported-trading-platforms\",\n      \"name\": \"Supported trading platforms\",\n      \"numberOfItems\": 20,\n      \"itemListElement\": [\n        { \"@type\": \"ListItem\", \"position\": 1, \"name\": \"MetaTrader 5\" },\n        { \"@type\": \"ListItem\", \"position\": 2, \"name\": \"TradeLocker\" },\n        { \"@type\": \"ListItem\", \"position\": 3, \"name\": \"Match-Trader\" },\n        { \"@type\": \"ListItem\", \"position\": 4, \"name\": \"DxTrade\" },\n        { \"@type\": \"ListItem\", \"position\": 5, \"name\": \"cTrader\" },\n        { \"@type\": \"ListItem\", \"position\": 6, \"name\": \"Alpaca\" },\n        { \"@type\": \"ListItem\", \"position\": 7, \"name\": \"Capital.com\" },\n        { \"@type\": \"ListItem\", \"position\": 8, \"name\": \"Bybit\" },\n        { \"@type\": \"ListItem\", \"position\": 9, \"name\": \"Binance\" },\n        { \"@type\": \"ListItem\", \"position\": 10, \"name\": \"OKX\" },\n        { \"@type\": \"ListItem\", \"position\": 11, \"name\": \"BitMEX\" },\n        { \"@type\": \"ListItem\", \"position\": 12, \"name\": \"BitMart\" },\n        { \"@type\": \"ListItem\", \"position\": 13, \"name\": \"Bitget\" },\n        { \"@type\": \"ListItem\", \"position\": 14, \"name\": \"BingX\" },\n        { \"@type\": \"ListItem\", \"position\": 15, \"name\": \"Tradovate\" },\n        { \"@type\": \"ListItem\", \"position\": 16, \"name\": \"ProjectX\" },\n        { \"@type\": \"ListItem\", \"position\": 17, \"name\": \"HyperLiquid\" },\n        { \"@type\": \"ListItem\", \"position\": 18, \"name\": \"Kraken\" },\n        { \"@type\": \"ListItem\", \"position\": 19, \"name\": \"KuCoin\" },\n        { \"@type\": \"ListItem\", \"position\": 20, \"name\": \"Gate.io\" }\n      ]\n    }\n  ]\n}"
-];
-
-<MigratedDocArticle jsonLdBlocks={jsonLdBlocks}>
-
-## **AlgoWay JSON Schema for TradingView Webhook Automation: Market, Limit, Stop and Trade Type**
+# **AlgoWay JSON Schema for TradingView Webhook Automation: Market, Limit, Stop and Trade Type**
 
 ![AlgoWay JSON schema for TradingView webhook automation](https://algoway.trade/static/img/blog-img/json@2x.jpg)
 
@@ -348,6 +780,7 @@ AlgoWay supports two common SL/TP styles. Both can be used with `market`, `limit
 
 ### Platforms with Direct trailing_pips Processing in Current AlgoWay Schema
 
+- ✅ **MetaTrader 5** — trailing stop is supported. It can be enabled in the EA settings or sent from the webhook with `trailing_pips`. The EA manages trailing by modifying SL, so the EA must be running and connected. Broker stop-level and freeze-level rules may affect SL movement.
 - ✅ **Binance Futures** — trailing value sent to the futures handler where supported.
 - ✅ **Bybit Futures** — trailing-stop parameter supported by route where configured.
 - ✅ **Bitget Futures** — trailing stop can be passed by the futures handler where supported.
@@ -357,8 +790,7 @@ AlgoWay supports two common SL/TP styles. Both can be used with `market`, `limit
 
 ### Platforms That May Ignore or Delegate trailing_pips
 
-- ⚠️ **MetaTrader 5** — trailing behavior depends on the current EA workflow and route settings. Test before relying on it.
-- ❌ **cTrader** — no generic webhook-level trailing in the current schema; broker/platform handling may differ.
+- ❌ **cTrader FIX** — no generic webhook-level trailing in the current schema; broker/platform handling may differ.
 - ❌ **OKX**, **MEXC**, **BitMart** — trailing is not implemented in current handlers.
 
 ## modify and breakeven Actions
@@ -746,5 +1178,3 @@ In hedge mode, use `close_side` when you want only one side closed. Without it, 
 Use `order_action` as `closeall` when the alert must close all open positions for one symbol without sending `order_contracts`. MetaTrader 5 users must update AlgoWay EA to version **2.10b** or newer before using this action.
 
 Optional fields such as `stop_loss`, `take_profit`, `sl_price`, `tp_price`, `trailing_pips`, `comment`, `order_id` and `close_side` add risk control, logs and position management. Start with the minimal JSON, test it with small size, check AlgoWay Webhook Logs, then add pending orders, SL/TP, trailing, modify, breakeven, closeall or hedge-side behavior only after the basic route works.
-
-</MigratedDocArticle>

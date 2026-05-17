@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "@docusaurus/Head";
 import {useDoc} from "@docusaurus/plugin-content-docs/client";
 import DocItemPaginator from "@theme/DocItem/Paginator";
 import DocVersionBanner from "@theme/DocVersionBanner";
@@ -13,11 +14,24 @@ type Props = {
 };
 
 export default function DocItemLayout({children}: Props) {
-  const {metadata} = useDoc();
+  const doc: any = useDoc();
+  const metadata = doc.metadata;
+  const frontMatter = doc.frontMatter || {};
+  const jsonLdBlocks = Array.isArray(frontMatter.jsonld) ? frontMatter.jsonld : [];
 
   return (
     <div className="row algoway-doc-layout">
       <div className="col">
+        <Head>
+          {jsonLdBlocks.map((item: string, index: number) => (
+            <script
+              key={index}
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{__html: item}}
+            />
+          ))}
+        </Head>
+
         <ContentVisibility metadata={metadata} />
         <DocVersionBanner />
 
