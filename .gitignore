@@ -24,3 +24,4 @@ yarn-error.log*
 *.bak.*
 *.broken-*.bak.*
 migration/emergency_restore_*/
+migration/backups/decap_revert_*/

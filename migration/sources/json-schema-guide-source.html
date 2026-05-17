@@ -130,6 +130,7 @@
                         <!-- Header Nav Start -->
                         <div id="headerNav" class="header--nav navbar-collapse collapse">
                             <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
                                 <li><a href="/#platforms">PLATFORMS</a></li>
 								<li><a href="/#pricing">PRICING</a></li>
                                 <li><a href="/blog/">BLOG</a></li>
@@ -137,6 +138,7 @@
                                 <li><a href="https://tradingfew.com">NEWS</a></li>
                                 <li><a href="/#about">ABOUT</a></li>
                                 <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
                                 <li><a href="/#contact">CONTACT</a></li>
                             </ul>
                         </div>
@@ -793,6 +795,7 @@
         <h3 class="mt-3">Platforms with Direct trailing_pips Processing in Current AlgoWay Schema</h3>
 
         <ul class="platform-list">
+			<li>✅ <strong>MetaTrader 5</strong> — trailing stop is supported. It can be enabled in the EA settings or sent from the webhook with <code>trailing_pips</code>. The EA manages trailing by modifying SL, so the EA must be running and connected. Broker stop-level and freeze-level rules may affect SL movement.</li>
             <li>✅ <strong>Binance Futures</strong> — trailing value sent to the futures handler where supported.</li>
             <li>✅ <strong>Bybit Futures</strong> — trailing-stop parameter supported by route where configured.</li>
             <li>✅ <strong>Bitget Futures</strong> — trailing stop can be passed by the futures handler where supported.</li>
@@ -804,8 +807,7 @@
         <h3 class="mt-3">Platforms That May Ignore or Delegate trailing_pips</h3>
 
         <ul class="platform-list">
-            <li>⚠️ <strong>MetaTrader 5</strong> — trailing behavior depends on the current EA workflow and route settings. Test before relying on it.</li>
-            <li>❌ <strong>cTrader</strong> — no generic webhook-level trailing in the current schema; broker/platform handling may differ.</li>
+            <li>❌ <strong>cTrader FIX</strong> — no generic webhook-level trailing in the current schema; broker/platform handling may differ.</li>
             <li>❌ <strong>OKX</strong>, <strong>MEXC</strong>, <strong>BitMart</strong> — trailing is not implemented in current handlers.</li>
         </ul>
 
