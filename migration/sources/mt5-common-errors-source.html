@@ -1,0 +1,1073 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Fix Common MT5 EA Errors in AlgoWay Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Fix common MT5 EA errors in AlgoWay: 4752, 4756, 4014, market closed, invalid JSON, symbol mapping and WebSocket connection checks." />
+	<link rel="canonical" href="https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html" />
+
+	<meta property="og:title" content="How to Fix Common MT5 EA Errors in AlgoWay Automation" />
+	<meta property="og:description" content="A current troubleshooting hub for AlgoWayWS-MT5 EA, TradingView-to-MT5 automation, webhook JSON, execution errors, symbol mapping, broker restrictions and MetaTrader 5 logs." />
+	<meta property="og:url" content="https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="How to Fix Common MT5 EA Errors" />
+	<meta name="twitter:description" content="Troubleshoot AlgoWayWS-MT5 EA errors, TradingView-to-MT5 webhook failures, JSON problems, MT5 trade retcodes and broker execution issues." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/mt5-common-errors@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1><strong>How to Fix Common MT5 EA Errors in TradingView-to-MT5 Automation with AlgoWay</strong></h1>
+
+        <img src="/static/img/blog-img/mt5-common-errors@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How to fix common MT5 EA errors in AlgoWay TradingView to MetaTrader 5 automation"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>Most MetaTrader 5 Expert Advisor errors are not random.</strong> When TradingView sends a webhook signal to AlgoWay and AlgoWay routes it to MetaTrader 5 through the AlgoWayWS-MT5 EA, a failed trade usually belongs to one of a few groups: MT5 permissions, EA connection, invalid JSON, wrong symbol mapping, broker order rules, market sessions, or request rate limits.</p>
+
+        <p>This guide updates the old AlgoWay MT5 common errors page for the current <strong>AlgoWayWS-MT5 EA 2.10</strong> workflow. It still covers the classic MT5 errors from the original article — <strong>4752</strong>, <strong>4756</strong>, <strong>4014</strong>, <strong>10018</strong>, and <strong>10024</strong> — but now places them inside the current TradingView-to-MT5 automation chain:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → AlgoWayWS-MT5 EA → MetaTrader 5 broker server</code></pre>
+
+        <p>Use this page if you are searching for <strong>MT5 EA error 4752</strong>, <strong>MetaTrader 5 error 4756</strong>, <strong>MT5 error 4014</strong>, <strong>TRADE_RETCODE_MARKET_CLOSED 10018</strong>, <strong>MT5 error 10024 too many requests</strong>, or <strong>TradingView to MT5 automation not working</strong>.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <h2 class="mt-4">Quick Diagnostic: Where Did the Failure Happen?</h2>
+
+        <p>Before fixing an MT5 error, identify the layer where the failure happened. This prevents guessing.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>Typical symptom</th>
+                    <th>Where to check</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TradingView</td>
+                    <td>Alert does not send, webhook fails, message is not JSON</td>
+                    <td>TradingView alert settings and message body</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay webhook</td>
+                    <td>Payload rejected, invalid fields, Error 415</td>
+                    <td>AlgoWay webhook logs</td>
+                </tr>
+                <tr>
+                    <td>AlgoWayWS-MT5 EA</td>
+                    <td>EA not connected, wrong UUID, DLL permission problem</td>
+                    <td>MT5 Experts tab and AlgoWay dashboard</td>
+                </tr>
+                <tr>
+                    <td>MetaTrader 5 terminal</td>
+                    <td>AutoTrading disabled, EA not allowed to trade</td>
+                    <td>MT5 toolbar, Options, EA properties</td>
+                </tr>
+                <tr>
+                    <td>Broker server</td>
+                    <td>Market closed, request rejected, invalid stops, wrong lot size</td>
+                    <td>MT5 Journal, Experts tab, symbol specification</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>If the signal never reaches AlgoWay, this is not an MT5 error. If AlgoWay receives the payload but MT5 does not react, check the AlgoWayWS-MT5 EA connection. If MT5 receives the command but the broker rejects it, check symbol rules, volume, stops, filling type and sessions.</p>
+
+        <h2 class="mt-4">Current AlgoWayWS-MT5 Troubleshooting Checklist</h2>
+
+        <p>Check these items before focusing on a specific error code:</p>
+
+        <ol>
+            <li>AlgoWay webhook is created for <strong>MetaTrader 5</strong>.</li>
+            <li>Current <strong>AlgoWayWS-MT5 EA</strong> is installed, not an old EA build.</li>
+            <li>MT5 <strong>AlgoTrading</strong> button is enabled.</li>
+            <li>EA is attached to a chart and allowed to trade.</li>
+            <li>Required EA permissions, including DLL imports for the current WebSocket EA, are enabled.</li>
+            <li>Webhook UUID in the EA matches the AlgoWay dashboard.</li>
+            <li>TradingView alert message is valid JSON.</li>
+            <li>The symbol exists in MT5 Market Watch exactly as the broker names it.</li>
+            <li>Order size follows the broker's minimum lot and lot step rules.</li>
+            <li>Market is open for the selected symbol.</li>
+            <li>AlgoWay webhook logs and MT5 Experts logs are checked together.</li>
+        </ol>
+
+        <p>Current setup guide: <a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a>.</p>
+
+        <h2 class="mt-4">Error 4752 — Trading Disabled / AutoTrading Disabled</h2>
+
+        <pre><code>OrderSend failed. Error code: 4752
+autotrading disabled by client/server</code></pre>
+
+        <p><strong>What it means:</strong> MT5 or the broker does not allow the Expert Advisor to place trades. This is usually a permission problem, not a TradingView problem and not a JSON problem.</p>
+
+        <p>Common causes:</p>
+
+        <ul>
+            <li>the global MT5 <strong>AlgoTrading</strong> button is disabled;</li>
+            <li>the EA is attached but trading is not allowed in EA properties;</li>
+            <li>MT5 Options block algorithmic trading;</li>
+            <li>the account is read-only or investor login is used;</li>
+            <li>the broker disabled trading for that account or symbol.</li>
+        </ul>
+
+        <h3 class="mt-3">How to fix 4752</h3>
+
+        <ol>
+            <li>Check the MT5 toolbar and enable <strong>AlgoTrading</strong>.</li>
+            <li>Right-click the chart → <strong>Expert Advisors</strong> → <strong>Properties</strong>.</li>
+            <li>Confirm that the EA is allowed to trade.</li>
+            <li>Open <strong>Tools → Options → Expert Advisors</strong> and allow algorithmic trading.</li>
+            <li>Check that the account is not investor/read-only mode.</li>
+            <li>Try a small manual order on the same symbol. If manual trading also fails, the issue is account or broker permission.</li>
+        </ol>
+
+        <p>If the button is disabled or the broker blocks trading, AlgoWay cannot force MT5 to execute the trade. Fix the terminal or broker permission first.</p>
+
+        <h2 class="mt-4">Error 4756 — Request Rejected</h2>
+
+        <pre><code>OrderSend failed. Error code: 4756
+request rejected</code></pre>
+
+        <p><strong>What it means:</strong> the broker rejected the trade request. The signal may have reached AlgoWay and MT5 correctly, but the final order parameters did not pass broker-side rules.</p>
+
+        <p>Common causes:</p>
+
+        <ul>
+            <li>wrong symbol or symbol suffix;</li>
+            <li>symbol is not tradable or not selected in Market Watch;</li>
+            <li>order volume is below minimum lot or does not match lot step;</li>
+            <li>wrong filling type for the broker;</li>
+            <li>market has no fresh quotes;</li>
+            <li>SL/TP values are invalid or too close to market price;</li>
+            <li>the selected account mode does not match the AlgoWay execution mode.</li>
+        </ul>
+
+        <h3 class="mt-3">How to fix 4756</h3>
+
+        <ol>
+            <li>Open <strong>Market Watch</strong> and confirm the broker symbol exists.</li>
+            <li>Right-click the symbol → <strong>Specification</strong>.</li>
+            <li>Check minimum volume, volume step, stops level, filling type and trading sessions.</li>
+            <li>Send a very small valid test order manually in MT5.</li>
+            <li>Update AlgoWay symbol mapping if TradingView sends a different ticker.</li>
+            <li>Test the same payload again from AlgoWay logs.</li>
+        </ol>
+
+        <p>For TradingView automation, 4756 often means that the alert is technically delivered, but the final broker request is not acceptable.</p>
+
+        <h2 class="mt-4">Error 4014 — Function Not Allowed / Wrong Context</h2>
+
+        <pre><code>Error code: 4014
+function is not allowed for call</code></pre>
+
+        <p><strong>What it means:</strong> 4014 depends on the context. In older WebRequest-based EAs it often meant the URL was not allowed in MT5 options. In newer WebSocket/DLL-based workflows, it can indicate that the terminal or strategy tester context does not allow the function being called.</p>
+
+        <p>For old AlgoWay MT5 pages, 4014 was usually explained as a WebRequest whitelist issue. The current AlgoWayWS-MT5 EA workflow is WebSocket-based, so the first checks are different: current EA version, DLL imports, live/demo chart context, and MT5 permissions.</p>
+
+        <h3 class="mt-3">How to fix 4014 in current AlgoWayWS-MT5 workflow</h3>
+
+        <ol>
+            <li>Confirm that you are using the current AlgoWayWS-MT5 EA, not an old WebRequest EA.</li>
+            <li>Open <strong>Tools → Options → Expert Advisors</strong>.</li>
+            <li>Enable the permissions required by the current EA setup guide, including DLL imports where required.</li>
+            <li>Do not test WebSocket/connection logic in an unsupported strategy tester context.</li>
+            <li>Check the MT5 Experts log for the exact function or permission that failed.</li>
+        </ol>
+
+        <h3 class="mt-3">If You Are Still Using an Old WebRequest EA</h3>
+
+        <p>If your build still uses WebRequest, open:</p>
+
+        <pre><code>MT5 → Tools → Options → Expert Advisors</code></pre>
+
+        <p>Then allow WebRequest for the required AlgoWay URL exactly as specified by the old EA guide. For current installation, follow the current AlgoWayWS-MT5 setup instead.</p>
+
+        <h2 class="mt-4">Error 10018 — Market Closed</h2>
+
+        <pre><code>OrderSend failed. Error code: 10018
+TRADE_RETCODE_MARKET_CLOSED</code></pre>
+
+        <p><strong>What it means:</strong> the broker server says the selected market is closed. The Expert Advisor may be working correctly, but the symbol is not currently available for trading.</p>
+
+        <p>Common causes:</p>
+
+        <ul>
+            <li>weekend or holiday closure;</li>
+            <li>symbol has limited exchange hours;</li>
+            <li>broker session starts later than the chart timestamp;</li>
+            <li>CFD, index, stock, metal, futures or crypto CFD has specific session rules;</li>
+            <li>strategy tester session data differs from live broker schedule.</li>
+        </ul>
+
+        <h3 class="mt-3">How to fix 10018</h3>
+
+        <ol>
+            <li>Open <strong>Market Watch</strong>.</li>
+            <li>Right-click the symbol → <strong>Specification</strong>.</li>
+            <li>Check the listed trading sessions.</li>
+            <li>Compare the broker server time with the current session window.</li>
+            <li>Wait until the market opens or configure AlgoWay/EA session filters.</li>
+        </ol>
+
+        <p>This is not solved by changing the webhook URL. The broker is telling MT5 that the market cannot currently accept orders.</p>
+
+        <h2 class="mt-4">Error 10024 — Too Many Requests</h2>
+
+        <pre><code>OrderSend failed. Error code: 10024
+TRADE_RETCODE_TOO_MANY_REQUESTS</code></pre>
+
+        <p><strong>What it means:</strong> too many order requests are being sent in a short time. MT5 or the broker rejects the request stream to protect the trading server.</p>
+
+        <p>Common causes:</p>
+
+        <ul>
+            <li>TradingView alert fires repeatedly;</li>
+            <li>strategy sends multiple alerts on the same bar;</li>
+            <li>several EAs or signals trade the same account at the same time;</li>
+            <li>retry logic sends new requests without waiting;</li>
+            <li>webhook message is triggered on every tick instead of confirmed bar close.</li>
+        </ul>
+
+        <h3 class="mt-3">How to fix 10024</h3>
+
+        <ol>
+            <li>Check TradingView alert frequency.</li>
+            <li>Use confirmed-bar logic where appropriate.</li>
+            <li>Avoid multiple alerts for the same signal.</li>
+            <li>Check AlgoWay logs for duplicate payloads.</li>
+            <li>Disable other EAs temporarily to isolate the source.</li>
+            <li>Use safer retry timing and avoid immediate repeated order sends.</li>
+        </ol>
+
+        <p>If AlgoWay receives the same webhook many times, the problem may be in the TradingView alert condition or Pine Script logic, not in MT5.</p>
+
+        <h2 class="mt-4">Invalid Stops — SL/TP Rejected by Broker</h2>
+
+        <p>Invalid stops are a common cause of rejected MT5 orders. The broker can reject Stop Loss or Take Profit values if they are on the wrong side of the market, too close to the current price, or rounded incorrectly for the symbol digits.</p>
+
+        <p>Example problems:</p>
+
+        <ul>
+            <li>BUY order has Stop Loss above entry price;</li>
+            <li>SELL order has Stop Loss below entry price;</li>
+            <li>Stop Loss or Take Profit is closer than the broker's minimum stop distance;</li>
+            <li>price precision does not match the symbol digits;</li>
+            <li>TradingView pip logic does not match MT5 broker symbol logic.</li>
+        </ul>
+
+        <p>Use the <a href="/blog/advanced-risk-management-and-trade-automation.html">advanced risk management guide</a> to understand how AlgoWay handles SL/TP and trailing stop automation.</p>
+
+        <h2 class="mt-4">TradingView Alert Reaches AlgoWay but MT5 Does Not Trade</h2>
+
+        <p>If TradingView fires and AlgoWay logs show the payload, but MT5 does not trade, check these items:</p>
+
+        <ul>
+            <li>AlgoWayWS-MT5 EA is connected;</li>
+            <li>webhook UUID in the EA is correct;</li>
+            <li>MT5 AlgoTrading is enabled;</li>
+            <li>DLL imports are enabled if required by the EA;</li>
+            <li>symbol mapping matches broker Market Watch;</li>
+            <li>trade mode matches account behavior;</li>
+            <li>lot size is accepted by broker specification;</li>
+            <li>MT5 Experts log shows the command being received.</li>
+        </ul>
+
+        <p>If AlgoWay logs are empty, the issue is before MT5. Check TradingView webhook URL, alert status and JSON message.</p>
+
+        <h2 class="mt-4">TradingView Webhook Error 415 Is Not an MT5 Error</h2>
+
+        <p>Error 415 usually happens before MetaTrader 5 is involved. It means the webhook server rejected the content type or message format. In TradingView setups, this often happens when the alert message is not valid JSON.</p>
+
+        <p>Use this guide: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <p>Example of valid JSON:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <h2 class="mt-4">Symbol Mapping: TradingView Ticker vs Broker MT5 Symbol</h2>
+
+        <p>One of the most common TradingView-to-MT5 automation problems is symbol naming. TradingView may send a clean ticker, while the broker uses suffixes, prefixes or contract-specific names.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>TradingView ticker</th>
+                    <th>Possible MT5 broker symbol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>EURUSD</code></td>
+                    <td><code>EURUSD.a</code>, <code>EURUSDm</code>, <code>EURUSD.r</code></td>
+                </tr>
+                <tr>
+                    <td><code>XAUUSD</code></td>
+                    <td><code>XAUUSD.a</code>, <code>GOLD</code>, <code>XAUUSDm</code></td>
+                </tr>
+                <tr>
+                    <td><code>BTCUSDT</code></td>
+                    <td><code>BTCUSDTm</code>, <code>BTCUSD</code>, <code>BTCUSD.r</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Always check the exact symbol in MT5 Market Watch. If needed, configure symbol mapping in the current AlgoWayWS-MT5 setup.</p>
+
+        <h2 class="mt-4">Hedge, Reverse and Opposite Mode Errors</h2>
+
+        <p>Some failures are not error-code problems. They happen because the selected execution mode does not match the account behavior.</p>
+
+        <ul>
+            <li><strong>Hedge Mode</strong> expects the account or platform to support separate BUY and SELL positions.</li>
+            <li><strong>Reverse Mode</strong> closes the current position and waits for the next entry.</li>
+            <li><strong>Opposite Mode</strong> closes the current side and immediately opens the opposite side.</li>
+        </ul>
+
+        <p>Full explanation: <a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a>.</p>
+
+        <h2 class="mt-4">When to Use the Separate Error Guides</h2>
+
+        <p>This page is the main troubleshooting hub. Use the separate pages when the error is specific:</p>
+
+        <ul>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">MT5 Error 4752 — Trading Disabled</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">MT5 Error 4756 — Request Rejected</a></li>
+            <li><a href="/blog/algoway-415.html">AlgoWay Webhook Error 415</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">TradingView to MT5 setup guide</a></li>
+            <li><a href="/blog/algoway-mt5-expert-advisor-installation-guide.html">MT5 Expert Advisor installation guide</a></li>
+            <li><a href="/blog/algowaymt5-all-parameters-v184.html">Legacy MT5 parameters mapped to current EA</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Troubleshooting Order</h2>
+
+        <p>When AlgoWay MT5 automation fails, use this order:</p>
+
+        <ol>
+            <li>Check whether TradingView fired the alert.</li>
+            <li>Check whether AlgoWay received the webhook.</li>
+            <li>Check whether the JSON is valid.</li>
+            <li>Check whether AlgoWayWS-MT5 EA is connected.</li>
+            <li>Check MT5 AlgoTrading and EA permissions.</li>
+            <li>Check symbol mapping and broker symbol specification.</li>
+            <li>Check lot size, stops, filling type and market session.</li>
+            <li>Read MT5 Experts and Journal logs.</li>
+            <li>Then search the specific error code.</li>
+        </ol>
+
+        <p><strong>AlgoWay automation is easiest to troubleshoot when you separate the signal layer, webhook layer, EA connection layer and broker execution layer. Do not treat every failed order as the same problem.</strong></p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Fix Common MT5 EA Errors in TradingView-to-MT5 Automation with AlgoWay",
+                  "description": "Troubleshoot common MetaTrader 5 Expert Advisor errors in AlgoWay automation, including 4752, 4756, 4014, 10018, 10024, invalid JSON, symbol mapping and broker execution issues.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "MetaTrader 5 Troubleshooting",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What does MT5 error 4752 mean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "MT5 error 4752 usually means that algorithmic trading is disabled by the terminal, EA settings, account permissions or broker. Enable AlgoTrading, allow the EA to trade and check account permissions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does MT5 error 4756 mean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "MT5 error 4756 means the broker rejected the trade request. Check symbol, lot size, filling type, market quotes, stops, trading sessions and account restrictions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does MT5 error 10018 mean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "MT5 error 10018 means the market is closed for the selected symbol. Check the symbol specification and broker trading sessions."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does TradingView fire but MT5 does not trade?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Check AlgoWay webhook logs, JSON validity, AlgoWayWS-MT5 EA connection, webhook UUID, MT5 AlgoTrading permission, symbol mapping, lot size and broker execution rules."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is webhook Error 415 an MT5 error?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Error 415 usually happens before MT5 receives the command. It is commonly caused by invalid TradingView JSON or unsupported content type in the webhook request."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "Fix Common MT5 EA Errors in AlgoWay Automation",
+                                      "item": "https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

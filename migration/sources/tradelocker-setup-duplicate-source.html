@@ -1,0 +1,1434 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>TradingView to TradeLocker Webhook Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TradingView alerts to TradeLocker with AlgoWay. Add broker URL, email, server, Account ID, JSON alerts, SL/TP and trade mode." />
+	<link rel="canonical" href="https://algoway.trade/blog/tradeLocker-setup-guide.html" />
+
+	<meta property="og:title" content="TradingView to TradeLocker Webhook Automation | AlgoWay" />
+	<meta property="og:description" content="Step-by-step TradingView to TradeLocker setup with AlgoWay: TradeLocker credentials, Account ID, webhook URL, JSON alerts, SL/TP, Hedge or Reverse mode and execution logs." />
+	<meta property="og:url" content="https://algoway.trade/blog/tradeLocker-setup-guide.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="TradingView to TradeLocker Webhook Automation" />
+	<meta name="twitter:description" content="Automate TradeLocker orders from TradingView alerts using AlgoWay webhooks, JSON messages, SL/TP fields and platform logs." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/manuals/tv-td-1@2x.png" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>How to Connect TradingView Alerts to TradeLocker with AlgoWay Webhook Automation</strong></h1>
+
+        <p><strong>AlgoWay lets you automate TradeLocker orders from TradingView alerts through a webhook route.</strong> You create a TradeLocker webhook in AlgoWay, enter your TradeLocker broker URL, email, password, server and numeric Account ID, then paste the AlgoWay webhook URL and JSON message into TradingView.</p>
+
+        <p>This guide is written for traders searching for <strong>TradingView to TradeLocker</strong>, <strong>TradingView TradeLocker webhook</strong>, <strong>TradeLocker automated trading</strong>, <strong>TradeLocker trading bot</strong>, <strong>TradingView alerts to TradeLocker</strong>, <strong>webhook autotrade bot</strong>, <strong>webhook trading bot</strong>, <strong>TradeLocker prop firm automation</strong> and <strong>TradingView alert execution on TradeLocker</strong>.</p>
+
+        <p>The execution route is:</p>
+
+        <pre><code>TradingView strategy or alert → AlgoWay webhook → TradeLocker connection → TradeLocker order execution</code></pre>
+
+        <p>TradingView creates the alert. AlgoWay receives the webhook message, validates the JSON, applies your webhook settings and sends the order to the TradeLocker account connected to that route.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <div class="video-wrap mt-4 mb-4">
+          <h5><strong>Video Tutorial: How to Connect TradingView to TradeLocker</strong></h5>
+          <iframe
+            class="hero-video"
+            src="https://www.youtube.com/embed/HUP683uS4Sg"
+            title="How to connect TradingView to TradeLocker | AlgoWay Automation with TradeLocker"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#what-this-solves">What this setup solves</a></li>
+                <li><a href="#tradelocker-tradingview">TradeLocker TradingView charts vs TradingView webhook automation</a></li>
+                <li><a href="#before">Before you start</a></li>
+                <li><a href="#account-id">Find your TradeLocker Account ID</a></li>
+                <li><a href="#create-webhook">Create a TradeLocker webhook in AlgoWay</a></li>
+                <li><a href="#copy-url">Copy the AlgoWay webhook URL</a></li>
+                <li><a href="#tradingview-alert">Create the TradingView alert</a></li>
+                <li><a href="#json">TradingView to TradeLocker JSON examples</a></li>
+                <li><a href="#modes">Hedge and Reverse trade modes</a></li>
+                <li><a href="#risk">SL/TP, quantity and order fields</a></li>
+                <li><a href="#test">Testing and logs</a></li>
+                <li><a href="#problems">Common problems</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: TradingView to TradeLocker with AlgoWay</h2>
+
+        <p>To connect TradingView alerts to TradeLocker, prepare your TradeLocker login details, create a TradeLocker webhook in AlgoWay, copy the AlgoWay webhook URL, create a TradingView alert, enable <strong>Webhook URL</strong> in TradingView and send a valid JSON message.</p>
+
+        <p>Minimum setup checklist:</p>
+
+        <ol>
+            <li>TradeLocker broker URL or platform URL;</li>
+            <li>TradeLocker email;</li>
+            <li>TradeLocker password;</li>
+            <li>TradeLocker server name from the broker email;</li>
+            <li>numeric TradeLocker Account ID;</li>
+            <li>AlgoWay webhook with <strong>Source</strong> set to TradingView and <strong>Platform</strong> set to TradeLocker;</li>
+            <li>Trade Type selected: Hedge or Reverse;</li>
+            <li>TradingView alert with webhook URL enabled;</li>
+            <li>valid JSON message for TradeLocker execution.</li>
+        </ol>
+
+        <p>After this setup, a TradingView alert can open, close, reverse or manage a TradeLocker order through AlgoWay, depending on the JSON command you send.</p>
+
+        <h2 id="what-this-solves" class="mt-4">What This Setup Solves</h2>
+
+        <p>Many traders use TradingView for strategy logic, Pine Script indicators and alert creation, but their funded account or broker account runs on TradeLocker. The gap is execution. A normal TradingView alert can notify you, but it does not automatically place a TradeLocker order by itself.</p>
+
+        <p>AlgoWay acts as the execution bridge:</p>
+
+        <ul>
+            <li>TradingView remains the signal source;</li>
+            <li>AlgoWay receives the webhook alert;</li>
+            <li>AlgoWay validates the JSON payload;</li>
+            <li>AlgoWay applies route settings such as platform, quantity multiplier and trade mode;</li>
+            <li>TradeLocker receives the final order command;</li>
+            <li>AlgoWay logs the incoming alert and execution response.</li>
+        </ul>
+
+        <p>This is useful for automated TradingView strategies, manual TradingView price alerts, Pine Script alert conditions, prop firm TradeLocker accounts, copy-trading routes and traders who want one automation dashboard for TradeLocker plus other platforms.</p>
+
+        <h2 id="tradelocker-tradingview" class="mt-4">TradeLocker TradingView Charts vs TradingView Webhook Automation</h2>
+
+        <p>TradeLocker includes TradingView charting inside its own platform. That is useful for analysis inside TradeLocker, but it is not the same as taking an alert from your separate TradingView account and turning that alert into an automated TradeLocker order.</p>
+
+        <p>This page is about the second case:</p>
+
+        <pre><code>Your TradingView account → webhook alert → AlgoWay → your TradeLocker account</code></pre>
+
+        <p>That distinction matters for SEO and for users. A trader may search “connect TradeLocker to TradingView” and find information about built-in charting. The real automation question is different: <strong>how to send TradingView webhook alerts to TradeLocker for order execution</strong>. AlgoWay handles that route.</p>
+
+        <h2 id="before" class="mt-4">Before You Start</h2>
+
+        <p>Prepare the following before creating the webhook:</p>
+
+        <ul>
+            <li>AlgoWay account;</li>
+            <li>TradeLocker account from your broker or prop firm;</li>
+            <li>TradeLocker platform URL;</li>
+            <li>email used for TradeLocker login;</li>
+            <li>TradeLocker password;</li>
+            <li>server name from the broker email;</li>
+            <li>TradeLocker Account ID digits;</li>
+            <li>TradingView strategy, indicator or manual alert condition;</li>
+            <li>TradingView plan with webhook alert support;</li>
+            <li>small test size for the first alert.</li>
+        </ul>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Important:</strong> in AlgoWay, the TradeLocker Account ID should be entered as digits only. Do not paste labels, currency symbols or extra text around it.
+        </div>
+
+        <h2 id="account-id" class="mt-4">Step 1. Register on TradeLocker and Find Your Account ID</h2>
+
+        <p>Register on the TradeLocker platform through your broker or prop firm. After registration, the broker normally sends an email with the information needed for login:</p>
+
+        <ul>
+            <li>email;</li>
+            <li>password;</li>
+            <li>TradeLocker platform server name.</li>
+        </ul>
+
+        <p>Log in to the TradeLocker website using those details.</p>
+
+        <img src="/static/img/manuals/tv-td-1@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="TradeLocker platform login screen for TradingView to TradeLocker automation" decoding="async" width="1200" height="675" />
+
+        <p>In the lower-left corner of the TradeLocker platform, click the dollar icon to view the account selector and Account ID.</p>
+
+        <p><strong>Use only the digits of the Account ID in AlgoWay.</strong> If the interface shows text around the number, copy the number only.</p>
+
+        <img src="/static/img/manuals/tv-td-2@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="Find numeric TradeLocker Account ID for AlgoWay webhook setup" decoding="async" width="1200" height="675" />
+
+        <h2 id="create-webhook" class="mt-4">Step 2. Create a TradeLocker Webhook in AlgoWay</h2>
+
+        <p>Log in to AlgoWay and create a webhook route for TradeLocker execution.</p>
+
+        <ol>
+            <li>Open <strong>AlgoWay Dashboard</strong>.</li>
+            <li>Click <strong>Add Webhook</strong>, <strong>Add Trial Webhook</strong> or <strong>Add Main Webhook</strong>.</li>
+            <li>Set <strong>Source</strong> to <strong>TradingView</strong>.</li>
+            <li>Set <strong>Platform</strong> to <strong>TradeLocker</strong>.</li>
+            <li>Choose the quantity multiplier. For direct JSON quantity, use <strong>Absolute</strong> and <code>1</code>.</li>
+            <li>Select <strong>Trade Type</strong>: Hedge or Reverse.</li>
+            <li>Enter the TradeLocker platform URL.</li>
+            <li>Enter the TradeLocker email.</li>
+            <li>Enter the TradeLocker password.</li>
+            <li>Enter the TradeLocker server name.</li>
+            <li>Enter the numeric Account ID.</li>
+            <li>Save the webhook.</li>
+        </ol>
+
+        <img src="/static/img/manuals/tv-td-3@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="Open AlgoWay dashboard to add a TradeLocker webhook for TradingView alerts" decoding="async" width="1200" height="675" />
+
+        <p>The main TradeLocker fields in AlgoWay are:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Example value</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Source</td>
+                    <td>TradingView</td>
+                    <td>The alert source that sends the webhook.</td>
+                </tr>
+                <tr>
+                    <td>Platform</td>
+                    <td>TradeLocker</td>
+                    <td>The destination where the order should be executed.</td>
+                </tr>
+                <tr>
+                    <td>Quantity Multiplier</td>
+                    <td>Absolute → 1</td>
+                    <td>Uses the incoming <code>order_contracts</code> value directly.</td>
+                </tr>
+                <tr>
+                    <td>Trade Type</td>
+                    <td>Hedge or Reverse</td>
+                    <td>Controls whether opposite signals open separate exposure or reverse the current position.</td>
+                </tr>
+                <tr>
+                    <td>URL</td>
+                    <td>TradeLocker platform URL</td>
+                    <td>Defines the TradeLocker environment connected to the webhook.</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>Your TradeLocker login email</td>
+                    <td>Used to connect AlgoWay to the TradeLocker account.</td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>Your TradeLocker password</td>
+                    <td>Used for the TradeLocker connection.</td>
+                </tr>
+                <tr>
+                    <td>Server</td>
+                    <td>Server name from broker email</td>
+                    <td>Identifies the broker server for the account.</td>
+                </tr>
+                <tr>
+                    <td>Account ID</td>
+                    <td>Digits only</td>
+                    <td>Selects the exact TradeLocker account to trade.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <img src="/static/img/manuals/tv-td-4@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="AlgoWay TradeLocker webhook settings with URL email password server and Account ID" decoding="async" width="1200" height="675" />
+
+        <h2 id="copy-url" class="mt-4">Step 3. Copy the AlgoWay Webhook URL</h2>
+
+        <p>After saving the route, AlgoWay shows a webhook URL for that TradeLocker connection. This is the URL TradingView must call when the alert fires.</p>
+
+        <p>The route is specific to your AlgoWay webhook. A typical structure is:</p>
+
+        <pre><code>https://algoway.co/your-webhook-uuid</code></pre>
+
+        <p>Copy the full URL and keep it ready for the TradingView alert window.</p>
+
+        <h2 id="tradingview-alert" class="mt-4">Step 4. Create a TradingView Alert for TradeLocker Execution</h2>
+
+        <p>Open the TradingView chart you want to automate. The alert can come from a strategy, indicator, price level or custom Pine Script condition.</p>
+
+        <ol>
+            <li>Open the symbol and timeframe in TradingView.</li>
+            <li>Click <strong>Alert</strong>.</li>
+            <li>Select the condition that should trigger the order.</li>
+            <li>Choose alert frequency. For strategy automation, <strong>Once Per Bar Close</strong> is often the cleanest starting point.</li>
+            <li>Paste the JSON message into the <strong>Message</strong> field.</li>
+            <li>Open the <strong>Notifications</strong> tab.</li>
+            <li>Enable <strong>Webhook URL</strong>.</li>
+            <li>Paste the AlgoWay webhook URL.</li>
+            <li>Save the alert.</li>
+        </ol>
+
+        <img src="/static/img/manuals/tv-td-5@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="Create TradingView alert condition for TradeLocker automation through AlgoWay" decoding="async" width="1200" height="675" />
+
+        <p>In TradingView, the webhook URL goes in the <strong>Notifications</strong> area. The trade command itself goes in the <strong>Message</strong> field as JSON.</p>
+
+        <img src="/static/img/manuals/tv-td-6@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="Enable TradingView webhook URL and paste AlgoWay webhook for TradeLocker" decoding="async" width="1200" height="675" />
+
+        <p>Copy the JSON format from the AlgoWay dashboard or use one of the examples below, then adapt the symbol, quantity and risk fields to your TradeLocker account.</p>
+
+        <img src="/static/img/manuals/tv-td-7@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="Paste TradeLocker JSON message into TradingView alert message field" decoding="async" width="1200" height="675" />
+
+        <h2 id="json" class="mt-4">TradingView to TradeLocker JSON Examples</h2>
+
+        <p>AlgoWay expects a structured JSON payload. For TradeLocker, the key fields are platform name, symbol, action and quantity. Optional fields can define stop loss, take profit, pending order type, price and linking identifiers.</p>
+
+        <h3 class="mt-3">Basic strategy alert JSON</h3>
+
+        <p>Use this when the TradingView strategy controls direction and quantity:</p>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>This format is useful when the TradingView strategy sends <code>long</code>, <code>short</code> or <code>flat</code> through placeholders and AlgoWay maps the command through the TradeLocker webhook route.</p>
+
+        <h3 class="mt-3">Manual buy order with SL/TP</h3>
+
+        <p>Use this when the alert is a manual condition or an indicator alert and you want to send a fixed buy command:</p>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.01",
+  "stop_loss": "50",
+  "take_profit": "100"
+}</code></pre>
+
+        <h3 class="mt-3">Manual sell order with SL/TP</h3>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "EURUSD",
+  "order_action": "sell",
+  "order_contracts": "0.01",
+  "stop_loss": "50",
+  "take_profit": "100"
+}</code></pre>
+
+        <h3 class="mt-3">Close or flat command</h3>
+
+        <p>Use <code>flat</code> when the TradingView strategy exits and you want AlgoWay to close the relevant TradeLocker exposure according to the selected trade mode.</p>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "EURUSD",
+  "order_action": "flat",
+  "order_contracts": "0.01"
+}</code></pre>
+
+        <h3 class="mt-3">Limit or stop order example</h3>
+
+        <p>If your AlgoWay route supports pending order logic for the selected destination, add <code>order_type</code>. For <code>limit</code> and <code>stop</code>, the <code>price</code> field is the requested entry price or activation price.</p>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_type": "limit",
+  "price": "1.08000",
+  "order_contracts": "0.01",
+  "stop_loss": "50",
+  "take_profit": "100"
+}</code></pre>
+
+        <h3 class="mt-3">Linked strategy command with tv_order_id</h3>
+
+        <p>If you run more than one strategy on the same TradeLocker symbol, a linking ID helps keep commands separated by strategy logic.</p>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.01",
+  "tv_order_id": "LondonBreakout-001",
+  "stop_loss": "50",
+  "take_profit": "100"
+}</code></pre>
+
+        <p>Keep <code>tv_order_id</code> stable for the strategy route that should later modify or close the same logical trade.</p>
+
+        <h2 id="modes" class="mt-4">Hedge and Reverse Trade Modes</h2>
+
+        <p>AlgoWay TradeLocker webhooks can use different trade behavior depending on your strategy.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>Best use case</th>
+                    <th>Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hedge</td>
+                    <td>Strategies that may keep separate long and short logic</td>
+                    <td>Allows separate exposure handling according to supported account behavior.</td>
+                </tr>
+                <tr>
+                    <td>Reverse</td>
+                    <td>Single-direction strategies that should flip exposure</td>
+                    <td>Opposite signals are treated as a reversal workflow instead of independent exposure.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>For a simple TradingView strategy that moves between long, short and flat, Reverse mode is often easier to reason about. For systems where different signals must be isolated, use stable identifiers and choose the mode that matches the account behavior.</p>
+
+        <h2 id="risk" class="mt-4">SL/TP, Quantity and Order Fields</h2>
+
+        <p>A strong TradingView to TradeLocker automation page should not stop at “paste the webhook URL”. Real execution depends on symbol mapping, order size, action, risk fields and logs.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>JSON field</th>
+                    <th>Example</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>platform_name</code></td>
+                    <td><code>tradelocker</code></td>
+                    <td>Tells AlgoWay which destination logic the alert belongs to.</td>
+                </tr>
+                <tr>
+                    <td><code>ticker</code></td>
+                    <td><code>EURUSD</code> or <code>{{ticker}}</code></td>
+                    <td>Symbol to trade on TradeLocker.</td>
+                </tr>
+                <tr>
+                    <td><code>order_action</code></td>
+                    <td><code>buy</code>, <code>sell</code>, <code>flat</code></td>
+                    <td>Trade direction or close command.</td>
+                </tr>
+                <tr>
+                    <td><code>order_contracts</code></td>
+                    <td><code>0.01</code></td>
+                    <td>Trade size. Final behavior also depends on the AlgoWay quantity multiplier.</td>
+                </tr>
+                <tr>
+                    <td><code>stop_loss</code></td>
+                    <td><code>50</code></td>
+                    <td>Stop loss distance or value according to the route configuration.</td>
+                </tr>
+                <tr>
+                    <td><code>take_profit</code></td>
+                    <td><code>100</code></td>
+                    <td>Take profit distance or value according to the route configuration.</td>
+                </tr>
+                <tr>
+                    <td><code>sl_price</code></td>
+                    <td><code>1.07500</code></td>
+                    <td>Absolute stop loss price when supported by the route.</td>
+                </tr>
+                <tr>
+                    <td><code>tp_price</code></td>
+                    <td><code>1.09000</code></td>
+                    <td>Absolute take profit price when supported by the route.</td>
+                </tr>
+                <tr>
+                    <td><code>order_type</code></td>
+                    <td><code>market</code>, <code>limit</code>, <code>stop</code></td>
+                    <td>Defines market or pending order behavior.</td>
+                </tr>
+                <tr>
+                    <td><code>price</code></td>
+                    <td><code>{{close}}</code></td>
+                    <td>Price from TradingView, or pending order entry/activation price for non-market orders.</td>
+                </tr>
+                <tr>
+                    <td><code>tv_order_id</code></td>
+                    <td><code>Strategy-001</code></td>
+                    <td>Links later modify or close commands to a specific strategy order.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Full field reference: <a href="/blog/json-schema-guide.html">AlgoWay JSON Schema Guide</a>.</p>
+
+        <h2 id="test" class="mt-4">Testing and Logs</h2>
+
+        <p>After saving the TradingView alert, wait for the condition to trigger or create a controlled test alert. Then check AlgoWay logs.</p>
+
+        <p>Confirm the following:</p>
+
+        <ul>
+            <li>TradingView alert fired at the expected time;</li>
+            <li>AlgoWay received the webhook call;</li>
+            <li>JSON was parsed without an error;</li>
+            <li><code>platform_name</code> is <code>tradelocker</code>;</li>
+            <li>symbol matches the TradeLocker instrument;</li>
+            <li>order size is correct after the quantity multiplier;</li>
+            <li>TradeLocker response appears in AlgoWay logs;</li>
+            <li>the order appears in the correct TradeLocker account.</li>
+        </ul>
+
+        <p>Start with a small size. Once the route is confirmed, add more advanced fields such as stop loss, take profit, absolute SL/TP prices, pending order type or strategy linking.</p>
+
+        <h2 id="problems" class="mt-4">Common TradingView to TradeLocker Problems</h2>
+
+        <h3 class="mt-3">1. Webhook fires but no TradeLocker order appears</h3>
+        <p>Check the AlgoWay webhook logs first. If there is no incoming webhook entry, the TradingView alert did not reach the AlgoWay URL. If the webhook entry exists, check the parsed JSON and TradeLocker response.</p>
+
+        <h3 class="mt-3">2. Account ID is rejected</h3>
+        <p>Use only the numeric Account ID from TradeLocker. Do not paste currency text, account label, broker name or extra spaces.</p>
+
+        <h3 class="mt-3">3. Wrong symbol</h3>
+        <p>The TradingView ticker and the TradeLocker broker symbol may not always use the same naming format. If an order is rejected, check the exact symbol name in TradeLocker and adjust the JSON <code>ticker</code>.</p>
+
+        <h3 class="mt-3">4. Wrong quantity</h3>
+        <p>Check both <code>order_contracts</code> in the JSON and the Quantity Multiplier in AlgoWay. If you want the incoming value to be used directly, start with Absolute and multiplier <code>1</code>.</p>
+
+        <h3 class="mt-3">5. TradingView sends text instead of JSON</h3>
+        <p>The alert message must be valid JSON. Check quotes, commas and braces. A missing comma or unescaped character can break the payload.</p>
+
+        <h3 class="mt-3">6. Strategy alert sends the wrong direction</h3>
+        <p>Check which TradingView placeholder you use. For strategy automation, <code>{{strategy.market_position}}</code> and <code>{{strategy.order.action}}</code> may produce different behavior depending on how the Pine Script strategy is written.</p>
+
+        <h3 class="mt-3">7. Flat signal does not close what you expected</h3>
+        <p>Check the selected trade mode and whether you use a stable <code>tv_order_id</code>. If multiple strategies trade the same symbol, separated identifiers help avoid closing the wrong logical setup.</p>
+
+        <h2 class="mt-4">Why Use AlgoWay for TradeLocker Automation?</h2>
+
+        <p>Most TradingView to TradeLocker tutorials explain only one narrow step: paste a webhook URL and send an alert. AlgoWay is built around the full route: signal source, webhook receiver, JSON validation, platform connection, execution response and logs.</p>
+
+        <p>AlgoWay is useful when you want:</p>
+
+        <ul>
+            <li>TradingView alert automation for TradeLocker;</li>
+            <li>webhook trading without building your own server;</li>
+            <li>strategy and indicator alerts routed from one dashboard;</li>
+            <li>SL/TP and absolute price fields in the alert payload;</li>
+            <li>Hedge or Reverse behavior configured at route level;</li>
+            <li>execution logs for debugging rejected orders;</li>
+            <li>one account that can also support MT5, Match-Trader, DxTrade, cTrader, Binance, Bybit, OKX, Gate.io, Alpaca, Tradovate and other platforms.</li>
+        </ul>
+
+        <p>Related guides:</p>
+
+        <ul>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">How to automate TradingView alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a TradingView webhook alert</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON Schema Guide</a></li>
+            <li><a href="/blog/tradelocker-update-advanced-stop-loss-take-profit-for-automated-trading.html">TradeLocker advanced SL/TP update</a></li>
+            <li><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">TradingView to Match-Trader setup guide</a></li>
+        </ul>
+
+        <div id="faq" class="faq-box mt-4">
+          <h2><strong>FAQ</strong></h2>
+
+          <div class="faq-item">
+            <p><strong>Can I connect TradingView alerts to TradeLocker?</strong></p>
+            <p>Yes. AlgoWay provides a TradingView to TradeLocker webhook route. TradingView sends the alert to AlgoWay, and AlgoWay forwards the order command to the connected TradeLocker account.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>Is TradeLocker already integrated with TradingView?</strong></p>
+            <p>TradeLocker includes TradingView charting inside its platform. This guide is about a different workflow: sending alerts from your TradingView account to TradeLocker for automated order execution.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>Do I need coding to automate TradingView alerts on TradeLocker?</strong></p>
+            <p>No. You can create an AlgoWay webhook route, copy the webhook URL and paste JSON into a TradingView alert. Pine Script is useful for custom strategies, but the basic webhook setup does not require building your own server.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>What JSON should I use for TradeLocker?</strong></p>
+            <p>At minimum, use <code>platform_name</code>, <code>ticker</code>, <code>order_action</code> and <code>order_contracts</code>. You can also add <code>stop_loss</code>, <code>take_profit</code>, <code>sl_price</code>, <code>tp_price</code>, <code>order_type</code>, <code>price</code> and <code>tv_order_id</code> when supported by your route.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>Can I use TradingView strategy placeholders?</strong></p>
+            <p>Yes. You can use placeholders such as <code>{{ticker}}</code>, <code>{{strategy.market_position}}</code>, <code>{{strategy.order.contracts}}</code> and <code>{{close}}</code> inside the TradingView alert message.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>Can AlgoWay send stop loss and take profit to TradeLocker?</strong></p>
+            <p>Yes. AlgoWay supports stop loss and take profit fields in webhook JSON. Use distance fields such as <code>stop_loss</code> and <code>take_profit</code>, or absolute price fields such as <code>sl_price</code> and <code>tp_price</code> when your route supports them.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>Can I use TradeLocker automation for prop firm accounts?</strong></p>
+            <p>Yes, if your prop firm account is accessible through TradeLocker credentials and the account accepts the order behavior you configure. Use the exact server and numeric Account ID provided by the TradeLocker environment.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>Where do I check errors?</strong></p>
+            <p>Check AlgoWay webhook logs first. They show whether the alert arrived, whether the JSON was valid, and what response came back from the TradeLocker route.</p>
+          </div>
+
+          <div class="faq-item">
+            <p><strong>Is there a free trial for TradingView to TradeLocker automation?</strong></p>
+            <p>Yes. AlgoWay offers a 14-day free trial so you can test the TradingView to TradeLocker webhook route before using it as a main automation connection.</p>
+          </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://algoway.trade/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://algoway.trade/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "TradingView to TradeLocker Webhook Automation",
+      "item": "https://algoway.trade/blog/tradeLocker-setup-guide.html"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Connect TradingView Alerts to TradeLocker with AlgoWay Webhook Automation",
+  "description": "Step-by-step guide to connect TradingView alerts to TradeLocker using AlgoWay webhook automation, JSON messages, Account ID, SL/TP fields, Hedge or Reverse mode and logs.",
+  "image": "https://algoway.trade/static/img/social.jpg",
+  "author": {
+    "@type": "Organization",
+    "name": "AlgoWay",
+    "url": "https://algoway.trade/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoWay",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://algoway.trade/static/img/logo.png"
+    }
+  },
+  "datePublished": "2025-08-22T00:00:00+00:00",
+  "dateModified": "2026-05-12T00:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://algoway.trade/blog/tradeLocker-setup-guide.html"
+  },
+  "keywords": [
+    "TradingView to TradeLocker",
+    "TradingView TradeLocker webhook",
+    "TradeLocker automated trading",
+    "TradeLocker trading bot",
+    "TradingView alerts to TradeLocker",
+    "webhook trading bot",
+    "webhook autotrade bot"
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "TradingView to TradeLocker Setup Guide with AlgoWay",
+  "description": "Step-by-step guide showing how to connect TradingView alerts to TradeLocker using AlgoWay webhook automation.",
+  "thumbnailUrl": [
+    "https://i.ytimg.com/vi/HUP683uS4Sg/hqdefault.jpg"
+  ],
+  "uploadDate": "2025-08-22T00:00:00+00:00",
+  "duration": "PT76S",
+  "embedUrl": "https://www.youtube.com/embed/HUP683uS4Sg",
+  "contentUrl": "https://youtu.be/HUP683uS4Sg",
+  "publisher": {
+    "@type": "Organization",
+    "name": "AlgoWay"
+  },
+  "hasPart": [
+    {
+      "@type": "Clip",
+      "name": "Intro",
+      "startOffset": 0,
+      "endOffset": 10,
+      "url": "https://youtu.be/HUP683uS4Sg?t=0"
+    },
+    {
+      "@type": "Clip",
+      "name": "TradeLocker webhook setup",
+      "startOffset": 10,
+      "endOffset": 35,
+      "url": "https://youtu.be/HUP683uS4Sg?t=10"
+    },
+    {
+      "@type": "Clip",
+      "name": "TradingView alert setup",
+      "startOffset": 35,
+      "endOffset": 55,
+      "url": "https://youtu.be/HUP683uS4Sg?t=35"
+    },
+    {
+      "@type": "Clip",
+      "name": "TradeLocker demo",
+      "startOffset": 55,
+      "endOffset": 76,
+      "url": "https://youtu.be/HUP683uS4Sg?t=55"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Connect TradingView Alerts to TradeLocker with AlgoWay",
+  "description": "Create a TradeLocker webhook in AlgoWay, copy the webhook URL, create a TradingView alert and send JSON commands to automate TradeLocker order execution.",
+  "totalTime": "PT10M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "TradeLocker account"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "AlgoWay account"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "TradingView account"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Find your TradeLocker Account ID",
+      "text": "Log in to TradeLocker, open the account selector and copy only the numeric Account ID."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Create a TradeLocker webhook in AlgoWay",
+      "text": "Open AlgoWay Dashboard, choose TradingView as the source, choose TradeLocker as the platform, enter URL, email, password, server and Account ID, then save the webhook."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Copy the AlgoWay webhook URL",
+      "text": "Copy the unique AlgoWay webhook URL generated for the TradeLocker route."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Create a TradingView alert",
+      "text": "Open TradingView, create an alert, enable Webhook URL, paste the AlgoWay webhook URL and put a valid TradeLocker JSON command into the Message field."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Test the route and check logs",
+      "text": "Trigger a small test alert, confirm the webhook arrives in AlgoWay logs and verify the TradeLocker execution response."
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I connect TradingView alerts to TradeLocker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. AlgoWay provides a TradingView to TradeLocker webhook route. TradingView sends the alert to AlgoWay, and AlgoWay forwards the order command to the connected TradeLocker account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is TradeLocker already integrated with TradingView?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TradeLocker includes TradingView charting inside its platform. This guide is about sending alerts from a TradingView account to TradeLocker for automated order execution."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need coding to automate TradingView alerts on TradeLocker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. You can create an AlgoWay webhook route, copy the webhook URL and paste JSON into a TradingView alert."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What JSON should I use for TradeLocker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At minimum, use platform_name, ticker, order_action and order_contracts. You can also add stop_loss, take_profit, sl_price, tp_price, order_type, price and tv_order_id when supported by your route."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use TradingView strategy placeholders?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can use placeholders such as {{ticker}}, {{strategy.market_position}}, {{strategy.order.contracts}} and {{close}} inside the TradingView alert message."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can AlgoWay send stop loss and take profit to TradeLocker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. AlgoWay supports stop loss and take profit fields in webhook JSON, including distance fields and absolute price fields when the route supports them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use TradeLocker automation for prop firm accounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, if your prop firm account is accessible through TradeLocker credentials and accepts the order behavior configured in AlgoWay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do I check TradingView to TradeLocker errors?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Check AlgoWay webhook logs first. They show whether the alert arrived, whether the JSON was valid and what response came back from the TradeLocker route."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a free trial for TradingView to TradeLocker automation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. AlgoWay offers a 14-day free trial so you can test the TradingView to TradeLocker webhook route before using it as a main automation connection."
+      }
+    }
+  ]
+}
+</script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

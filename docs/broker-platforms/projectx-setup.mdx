@@ -1,10 +1,778 @@
 ---
-title: "ProjectX Route Setup"
-description: "Configure ProjectX route with AlgoWay."
+title: "TradingView to ProjectX Webhook Automation"
+sidebar_label: "ProjectX Setup"
+pagination_label: "ProjectX Setup"
+description: "Connect TradingView alerts to ProjectX with AlgoWay. Enable API access, create an API key, configure account settings and test futures orders."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "How to Connect TradingView Alerts to ProjectX with AlgoWay Webhook Automation",
+                      "description": "Connect TradingView alerts to ProjectX with AlgoWay. Enable ProjectX API Access, create an API key, add a ProjectX webhook, configure prop firm account settings, test futures orders, and use TradingView JSON.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/broker-platforms/projectx-setup/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "Futures Trading Automation",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Connect TradingView to ProjectX with AlgoWay",
+              "description": "Enable ProjectX API access, create an API key, add a ProjectX webhook in AlgoWay and create a TradingView alert with JSON and webhook URL.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Enable ProjectX API Access",
+                  "text": "Activate ProjectX API Access in the ProjectX or connected platform dashboard."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create ProjectX API key",
+                  "text": "Create an API key in the ProjectX-connected trading platform and copy it securely."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create AlgoWay ProjectX webhook",
+                  "text": "Create a webhook in AlgoWay with Source set to TradingView and Platform set to ProjectX."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Test webhook",
+                  "text": "Send a small test webhook from AlgoWay and confirm the ProjectX route works."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create TradingView alert",
+                  "text": "Paste the ProjectX JSON into TradingView alert message, enable Webhook URL, paste the AlgoWay URL and save the alert."
+                }
+              ]
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Can I connect TradingView alerts to ProjectX with AlgoWay?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. AlgoWay can receive TradingView webhook alerts and route structured JSON commands to ProjectX through a ProjectX webhook created in the AlgoWay dashboard."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do I need ProjectX API Access?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, when the selected ProjectX environment requires API Access, it must be active before AlgoWay can route authenticated trading requests to ProjectX."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What JSON fields are required for ProjectX automation?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A basic AlgoWay ProjectX message usually includes platform_name, ticker, order_contracts, order_action and optionally price."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why did my ProjectX webhook fail?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common causes include inactive ProjectX API Access, wrong API key, wrong broker or prop firm selection, demo/live mismatch, invalid JSON, wrong symbol, invalid quantity or prop-firm risk rule rejection."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I use indicator alerts instead of TradingView strategy alerts?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, but strategy placeholders such as {{strategy.order.contracts}} may not exist in indicator alerts. Use fixed values or indicator-specific values that produce valid AlgoWay JSON."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                                {
+                                          "@type": "ListItem",
+                                          "position": 1,
+                                          "name": "Home",
+                                          "item": "https://algoway.trade/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 2,
+                                          "name": "Blog",
+                                          "item": "https://algoway.trade/blog/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 3,
+                                          "name": "TradingView to ProjectX Webhook Automation",
+                                          "item": "https://docs.algoway.trade/docs/broker-platforms/projectx-setup/"
+                                }
+                      ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# ProjectX Route Setup
+# **How to Connect TradingView Alerts to ProjectX with AlgoWay Webhook Automation**
 
-This page is part of the AlgoWay Docs migration.
+![How to connect TradingView alerts to ProjectX with AlgoWay webhook automation](https://algoway.trade/static/img/blog-img/projectx@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**AlgoWay lets you connect TradingView alerts to ProjectX through webhook automation.** You enable ProjectX API Access, create an API key in your ProjectX-connected trading platform, create a ProjectX webhook in AlgoWay, test the connection, and then paste the AlgoWay webhook URL and JSON message into TradingView.
+
+This guide is written for traders searching for **TradingView to ProjectX**, **ProjectX webhook automation**, **ProjectX API trading**, **ProjectX TradingView alerts**, **TopstepX API automation**, **prop firm futures automation**, and **TradingView futures trading bot**.
+
+The execution route is:
+
+```
+TradingView alert → AlgoWay webhook → ProjectX API → ProjectX-connected futures account
+```
+
+TradingView creates the signal. AlgoWay receives and validates the webhook JSON. ProjectX receives the final trading request through the API key and account settings configured in AlgoWay.
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Quick Answer: TradingView to ProjectX with AlgoWay
+
+To automate ProjectX from TradingView through AlgoWay:
+
+1. Enable ProjectX API Access in your ProjectX / connected platform flow.
+2. Create an API key in the ProjectX-connected trading platform.
+3. Create an AlgoWay webhook with **Source** = TradingView and **Platform** = ProjectX.
+4. Select the correct account type, broker/prop firm and trade mode.
+5. Paste your ProjectX account email and API key into AlgoWay.
+6. Send a test webhook from AlgoWay.
+7. Copy the AlgoWay webhook URL.
+8. Create a TradingView alert with valid ProjectX JSON and the AlgoWay webhook URL.
+
+After setup, every matching TradingView alert can be routed to ProjectX through AlgoWay.
+
+## What Is ProjectX API Automation?
+
+ProjectX API automation gives traders a way to automate trading, build custom tools, connect third-party software and manage futures trading workflows through the ProjectX gateway. AlgoWay uses that API layer as the execution destination for TradingView webhook alerts.
+
+In practical terms, ProjectX is used heavily in futures and prop-firm workflows. A trader may run a TradingView strategy on ES, NQ, MES, MNQ or another futures symbol, then use AlgoWay to route the alert into a ProjectX-connected account.
+
+AlgoWay does not replace ProjectX. AlgoWay is the webhook automation layer between TradingView and the ProjectX API.
+
+| Layer | Role |
+| --- | --- |
+| TradingView | Creates the strategy, indicator or manual alert. |
+| AlgoWay | Receives webhook JSON, validates it and routes the command. |
+| ProjectX API | Receives the authenticated trading request. |
+| ProjectX-connected account | Executes or rejects the order according to account and market rules. |
+
+## Before You Start
+
+Prepare the following:
+
+- AlgoWay account;
+- ProjectX account or ProjectX-connected platform access;
+- active ProjectX API Access subscription where required;
+- ProjectX API key;
+- correct ProjectX account email or username;
+- correct Broker / Prop Firm selection in AlgoWay;
+- TradingView strategy, indicator or manual alert;
+- TradingView plan that supports webhook alerts;
+- small test quantity for the first webhook test.
+
+## Step 1. Enable ProjectX API Access
+
+Log in to your ProjectX client area or the connected platform flow and open the API / Subscriptions area. Enable or purchase **ProjectX API Access** if your account requires it.
+
+1. Open your ProjectX or connected platform dashboard.
+2. Go to **Subscriptions** or the API Access section.
+3. Select **ProjectX API Access**.
+4. Complete the subscription process.
+5. Confirm that the subscription status is **Active**.
+
+Do not create the AlgoWay webhook until API access is active. If API access is inactive, AlgoWay can receive the TradingView alert but ProjectX execution may fail.
+
+![ProjectX subscription screen for API Access](https://algoway.trade/static/img/manuals/prjx1.png)
+
+## Step 2. Create an API Key in Your ProjectX Platform
+
+After API Access is active, create an API key inside your ProjectX-connected trading platform. Depending on the firm or environment, this may appear under Settings, API, ProjectX Linking, or another API key section.
+
+1. Open the trading platform linked to ProjectX.
+2. Go to **Settings → API** or the equivalent API key section.
+3. Click **Add API Key** or **Create API Key**.
+4. Copy the generated API key.
+5. Store the key securely because you will paste it into AlgoWay.
+
+![ProjectX platform API key page](https://algoway.trade/static/img/manuals/prjx2.png)
+
+## Step 3. Add a ProjectX Webhook in AlgoWay
+
+Now create the ProjectX route inside AlgoWay.
+
+1. Log in to your **AlgoWay** account.
+2. Open **Dashboard → Add Trial Webhook** or **Add Main Webhook**.
+3. Select **TradingView** as the source.
+4. Select **ProjectX** as the platform.
+5. Fill in the ProjectX-specific fields.
+6. Click **Add Trial Webhook** or save the main webhook.
+
+Main fields:
+
+| AlgoWay field | Recommended value | Purpose |
+| --- | --- | --- |
+| Source | TradingView | The alert source. |
+| Platform | ProjectX | The execution destination. |
+| Quantity Multiplier | Absolute or your selected route logic | Controls how incoming quantity is interpreted. |
+| Trade Type | Reverse / Hedge / One-way | Controls how AlgoWay handles direction and open exposure. |
+| Account Type | Demo or Live | Must match the ProjectX environment you want to trade. |
+| Broker / Prop Firm | Your seller / evaluation / firm from the list | Routes to the correct ProjectX-connected environment. |
+| Username / Email | Your ProjectX account email | Identifies the account for API authentication. |
+| API Key | ProjectX API key | Used by AlgoWay to authenticate ProjectX API requests. |
+
+![AlgoWay ProjectX webhook form](https://algoway.trade/static/img/manuals/prjx3.png)
+
+## Step 4. Send a Test Webhook from AlgoWay
+
+Before connecting TradingView, test the ProjectX route from AlgoWay.
+
+1. Open **Webhook Logs** in AlgoWay.
+2. Click **Test Webhook**.
+3. Select your **projectx** webhook.
+4. Enter a valid futures symbol.
+5. Enter a small quantity.
+6. Select the action.
+7. Click **Send**.
+8. Check AlgoWay logs and the ProjectX-connected account.
+
+![AlgoWay test webhook modal for ProjectX](https://algoway.trade/static/img/manuals/prjx4.png)
+
+If the test webhook fails, do not create the TradingView alert yet. Fix ProjectX API access, account type, broker/firm selection, API key, symbol or quantity first.
+
+## Step 5. Copy the AlgoWay Webhook URL
+
+After the ProjectX webhook is created and tested, copy the webhook URL from AlgoWay.
+
+1. Open **Dashboard → Your Webhooks**.
+2. Find the row where **Platform** is **projectx**.
+3. Click the webhook UUID or copy button.
+4. Use the copied URL in TradingView.
+
+Webhook URL format:
+
+```
+https://algoway.co/your-webhook-uuid
+```
+
+## Step 6. Use Correct JSON for the TradingView Alert
+
+TradingView must send valid JSON to AlgoWay. For a TradingView strategy alert, use this structure:
+
+```json
+{
+  "platform_name": "projectx",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}
+```
+
+TradingView replaces placeholders when the alert fires:
+
+- `{{ticker}}` — TradingView chart ticker;
+- `{{strategy.order.contracts}}` — order size from the TradingView strategy;
+- `{{strategy.market_position}}` — strategy state such as long, short or flat;
+- `{{close}}` — close price at alert time.
+
+### Fixed Test JSON
+
+For a controlled test, use a fixed symbol and small valid quantity:
+
+```json
+{
+  "platform_name": "projectx",
+  "ticker": "MNQ",
+  "order_contracts": 1,
+  "order_action": "buy"
+}
+```
+
+Use the exact symbol format accepted by your ProjectX-connected account. Futures symbols and continuous TradingView tickers can differ from the execution symbol expected by the API route.
+
+## Step 7. Create the TradingView Alert
+
+Now create or edit the TradingView alert.
+
+1. Open the TradingView chart and choose the symbol, for example **SOLUSDT.P**, **ES**, **NQ**, **MES** or **MNQ**, depending on your route.
+2. Create an alert from your strategy, indicator or chart condition.
+3. On the **Message** tab, paste the JSON from Step 6.
+4. Do not change TradingView placeholders unless your route uses fixed values.
+5. Open **Notifications**.
+6. Enable **Webhook URL**.
+7. Paste the AlgoWay webhook URL copied in Step 5.
+8. Click **Create**.
+
+![TradingView alert message with ProjectX JSON](https://algoway.trade/static/img/manuals/prjx7.png)
+
+![TradingView webhook URL configuration for ProjectX automation](https://algoway.trade/static/img/manuals/prjx8.png)
+
+## ProjectX Symbols, Quantity and Account Rules
+
+ProjectX automation is usually futures-focused, so symbol and quantity handling matter. Do not assume that the TradingView ticker is always the final executable symbol.
+
+Before live automation, check:
+
+- TradingView chart ticker;
+- ProjectX accepted symbol format;
+- contract month or continuous symbol behavior;
+- minimum and maximum quantity;
+- account type: demo or live;
+- prop-firm rules;
+- daily loss limit and drawdown rules;
+- market hours;
+- whether the instrument is enabled for the account.
+
+Common futures examples include `ES`, `NQ`, `MES` and `MNQ`, but the exact accepted symbol depends on the connected ProjectX environment and route configuration.
+
+## Strategy Alerts vs Indicator Alerts
+
+The JSON above is written for TradingView strategy alerts because it uses `{{strategy.order.contracts}}` and `{{strategy.market_position}}`.
+
+If you use an indicator alert, those strategy placeholders may not exist. In that case, use fixed values or indicator-specific values that produce valid JSON.
+
+Example indicator-style message:
+
+```json
+{
+  "platform_name": "projectx",
+  "ticker": "{{ticker}}",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "{{close}}"
+}
+```
+
+General guide: [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html).
+
+## Trade Type: Reverse, Hedge and One-Way
+
+The **Trade Type** setting controls how AlgoWay handles new signals when exposure already exists.
+
+- **Reverse:** used when the latest signal should close or replace the current direction.
+- **Hedge:** used when the route/account supports separate long and short exposure.
+- **One-way:** used when the account or strategy should maintain one net direction.
+
+For prop-firm futures accounts, confirm which behavior is allowed before live automation. Full guide: [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html).
+
+## Common ProjectX Webhook Problems
+
+### ProjectX API Access Is Not Active
+
+If the API subscription or API access is inactive, ProjectX can reject the request even when AlgoWay receives the TradingView alert.
+
+### API Key Was Created in the Wrong Environment
+
+Make sure the API key belongs to the correct ProjectX-connected account, prop firm or evaluation environment.
+
+### Wrong Broker / Prop Firm Selected in AlgoWay
+
+The Broker/Prop Firm field must match the ProjectX environment you want to trade.
+
+### Demo vs Live Mismatch
+
+If AlgoWay is configured for demo but the API key or intended account is live, or the reverse, execution can fail or route to the wrong environment.
+
+### Invalid TradingView JSON
+
+The alert message must be valid JSON. Missing quotes, broken commas or plain text messages can stop the route before ProjectX receives anything. See: [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html).
+
+### Wrong Symbol
+
+TradingView symbols and ProjectX executable symbols may differ. Check the exact symbol accepted by the ProjectX route.
+
+### Invalid Quantity
+
+Futures quantities are usually whole contracts. Test with a small valid quantity such as 1 contract where allowed by the account.
+
+### Prop-Firm Risk Rule Rejection
+
+Even if the webhook is valid, a prop-firm account can reject or restrict trades because of risk limits, drawdown, market hours or account status.
+
+### TradingView Webhook URL Is Missing
+
+JSON in the alert message is not enough. Enable **Webhook URL** in the TradingView Notifications tab and paste the AlgoWay URL.
+
+## Why Use AlgoWay Instead of Building a ProjectX TradingView Bot?
+
+You can build your own TradingView-to-ProjectX bot, but you would need a public webhook server, TradingView payload parser, ProjectX API integration, account routing, error handling, logs, order validation and ongoing maintenance.
+
+AlgoWay gives you a ready route:
+
+- TradingView webhook receiver;
+- ProjectX platform route;
+- dashboard-based setup;
+- API key configuration;
+- test webhook tool;
+- webhook logs;
+- JSON examples;
+- multi-platform automation environment.
+
+This makes AlgoWay a no-code **TradingView to ProjectX webhook connector** for futures and prop-trading automation.
+
+## Related AlgoWay Guides
+
+- [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [How to automate TradingView alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html)
+- [How to connect TradingView to Tradovate with AlgoWay](https://algoway.trade/blog/algoway-tradovate-integration-guide.html)
+- [How to copy TradingView alerts to multiple accounts](https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html)
+- [TradingView backtesting and AlgoWay Trade Metrics](https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html)
+
+## Final Summary
+
+**To connect TradingView to ProjectX with AlgoWay, enable ProjectX API Access, create the API key, create a ProjectX webhook in AlgoWay, test the route, copy the webhook URL, and create a TradingView alert with valid JSON.**
+
+ProjectX automation is powerful because it can connect TradingView strategies to futures and prop-firm execution workflows. It also requires careful setup: account type, firm selection, symbol, quantity, risk rules and API access must be correct before live automation.

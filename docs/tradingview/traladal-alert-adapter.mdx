@@ -1,10 +1,903 @@
 ---
-title: "TRALADAL Alert Adapter"
-description: "TradingView alert adapter for AlgoWay automation."
+title: "TradingView Alert Adapter by AlgoWay"
+sidebar_label: "TRALADAL Alert Adapter"
+pagination_label: "TRALADAL Alert Adapter"
+description: "TRALADAL by AlgoWay converts TradingView indicator outputs into backtestable strategy logic and sends JSON webhook alerts for automation."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "AlgoWay Blog",
+          "item": "https://algoway.trade/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "TradingView Alert Adapter for Indicator Automation",
+          "item": "https://docs.algoway.trade/docs/tradingview/traladal-alert-adapter/"
+        }
+      ]
+    }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "TradingView Alert Adapter for Indicator Automation: TRALADAL by AlgoWay",
+                      "description": "TRALADAL is a TradingView alert adapter for indicator automation. It converts indicator outputs into backtestable strategy logic and JSON webhook alerts for AlgoWay.",
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/tradingview/traladal-alert-adapter/"
+                      },
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/logo.png"
+                                }
+                      },
+                      "image": "https://algoway.trade/static/img/blog-img/traladal@2x.jpg",
+                      "about": [
+                                "TradingView alert adapter",
+                                "TradingView indicator automation",
+                                "TradingView webhook trading",
+                                "AlgoWay JSON alerts"
+                      ],
+                      "datePublished": "2026-05-12T00:00:00+00:00",
+                      "dateModified": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "TRALADAL TradingView Alert Adapter",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "description": "Open-source TradingView strategy adapter that converts indicator outputs into backtestable logic and JSON alerts for AlgoWay automation.",
+      "url": "https://docs.algoway.trade/docs/tradingview/traladal-alert-adapter/",
+      "creator": {
+        "@type": "Organization",
+        "name": "AlgoWay"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "ratingCount": "1"
+      }
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to automate TradingView indicator signals with TRALADAL and AlgoWay",
+      "description": "Connect a TradingView indicator output to TRALADAL, backtest the logic, and send JSON webhook alerts to AlgoWay.",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Add your indicator to TradingView",
+          "text": "Add the indicator that produces long, short, confirmation, filter, or close outputs."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Add TRALADAL to the same chart",
+          "text": "Open the adapter settings and select the relevant input sources from the chart."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Configure signal, confirmation, and filter logic",
+          "text": "Map long and short sources, choose comparators, and enable confirmation or filter layers when needed."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Backtest the logic",
+          "text": "Use TradingView Strategy Tester to review trades, drawdown, profit factor, and signal frequency."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Create the webhook alert",
+          "text": "Create a TradingView alert for the adapter, paste the AlgoWay webhook URL, and send the generated JSON payload."
+        }
+      ],
+      "tool": [
+        { "@type": "HowToTool", "name": "TradingView" },
+        { "@type": "HowToTool", "name": "TRALADAL TradingView Alert Adapter" },
+        { "@type": "HowToTool", "name": "AlgoWay webhook" }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a TradingView alert adapter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A TradingView alert adapter converts chart signals, indicator outputs, or strategy decisions into structured alert messages. TRALADAL converts selected TradingView sources into strategy logic and JSON alerts for AlgoWay."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can TRALADAL automate closed-source TradingView indicators?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It can work with closed or invite-only indicators when their usable outputs are available as selectable chart sources. It does not need to edit the original source code."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does TRALADAL generate trading signals?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. TRALADAL does not create signals by itself. It evaluates the sources, confirmations, filters, and exit rules selected by the user."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use TRALADAL for TradingView webhook trading?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The adapter can generate structured alert payloads that are sent to AlgoWay through a TradingView webhook alert."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I backtest indicator signals before sending alerts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The adapter turns selected indicator outputs into strategy logic so they can be reviewed in TradingView Strategy Tester before live automation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is JSON important for TradingView automation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JSON gives AlgoWay a structured instruction with platform, ticker, order action, size, stop loss, take profit, trailing stop, and any platform-specific fields."
+          }
+        }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# TRALADAL Alert Adapter
+# **TradingView Alert Adapter for Indicator Automation: TRALADAL by AlgoWay**
 
-This page is part of the AlgoWay Docs migration.
+![TradingView alert adapter for indicator automation and AlgoWay webhook JSON routing](https://algoway.trade/static/img/blog-img/traladal@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**TRALADAL** is a **TradingView alert adapter** for traders who already use indicators,
+invite-only scripts, visual signals, arrows, oscillator lines, or custom plots, but need a structured way to turn those
+outputs into **backtestable strategy logic** and **JSON webhook alerts** for AlgoWay execution.
+
+The core problem is simple: many TradingView indicators show useful signals, but they are not strategies,
+cannot be tested properly in Strategy Tester, and do not automatically produce broker-ready order instructions.
+TRALADAL sits between the indicator layer and AlgoWay. It reads selected chart sources, applies signal,
+confirmation, filter, exit, and risk rules, then produces an alert payload that AlgoWay can route to MetaTrader 5,
+TradeLocker, cTrader, DXtrade, Match-Trader, Binance, OKX, Bybit, BitMEX, MEXC, Capital.com, and other supported platforms.
+
+Official script page:
+[TradingView Alert Adapter for AlgoWay](https://www.tradingview.com/script/oc2K8Hkq-TradingView-Alert-Adapter-for-AlgoWay/)
+
+#### **Quick answer**
+
+If you have an indicator that produces a visible long/short output, a plotted value, a non-zero event, an arrow stream,
+or a usable source value, TRALADAL can help you test that logic as a TradingView strategy and send the same decision
+as a webhook alert to AlgoWay. AlgoWay then converts the JSON message into the correct action on the selected execution platform.
+
+This gives traders one workflow for both testing and automation: **indicator output → adapter logic → Strategy Tester → JSON alert → AlgoWay webhook → broker or exchange execution**.
+
+#### **Contents**
+
+- [1) Why a TradingView alert adapter is needed](#s1)
+- [2) What TRALADAL does](#s2)
+- [3) How the input-source model works](#s3)
+- [4) Signal → Confirmation → Filter pipeline](#s4)
+- [5) Strategy Mode vs Alert Mode](#s5)
+- [6) Entry, exit, reverse, and flat logic](#s6)
+- [7) Risk parameters for webhook trading automation](#s7)
+- [8) JSON alert payload for AlgoWay](#s8)
+- [9) Practical setup guide](#s9)
+- [10) Full input reference](#s10)
+- [11) Use cases for indicator-based automation](#s11)
+- [12) Troubleshooting](#s12)
+- [13) Related AlgoWay guides](#s13)
+- [14) FAQ](#faq)
+
+#### **1) Why a TradingView alert adapter is needed**
+
+Most TradingView automation searches begin with one of these problems:
+the trader has an indicator, but not a strategy; has visual buy/sell signals, but no historical test;
+has alerts, but no structured JSON payload; or has a profitable-looking setup, but no clean way to route it into MetaTrader 5,
+TradeLocker, Binance, OKX, or another execution venue.
+
+A normal indicator can display lines, labels, arrows, oscillator values, and conditions. That is useful for chart reading,
+but it is not enough for systematic trading. To evaluate a system, the trader needs entries, exits, position behavior,
+stop loss, take profit, trailing stop, and measurable performance metrics such as win rate, drawdown, profit factor,
+net profit, and average trade behavior.
+
+TRALADAL is built for this gap. It does not try to replace the indicator. It reads the indicator output and turns that
+output into a repeatable strategy decision. That makes the page valuable for search intent around
+**how to turn a TradingView indicator into a strategy**, **TradingView indicator automation**,
+**TradingView strategy from indicator signals**, and **TradingView webhook automation**.
+
+| Problem | Without adapter | With TRALADAL |
+| --- | --- | --- |
+| **Indicator is not a strategy** | Signals are visual, but performance is hard to measure objectively. | Indicator output becomes entry/exit logic inside a TradingView strategy. |
+| **Closed-source or invite-only script** | The trader cannot edit the Pine code. | The adapter reads available plotted source outputs from the chart. |
+| **No webhook-ready JSON** | Manual alert text may be inconsistent or incomplete. | The adapter produces structured payloads for AlgoWay routing. |
+| **No clear execution logic** | Opposite signals, neutral states, and exits may be ambiguous. | Buy, sell, flat, reverse, SL, TP, and trailing behavior are explicitly configured. |
+
+#### **2) What TRALADAL does**
+
+TRALADAL is an open-source TradingView strategy and alert adapter. Its job is to connect indicator outputs to
+AlgoWay automation without forcing the trader to rewrite the original indicator. In practical terms, it provides
+a configurable bridge between chart signals and automated execution.
+
+![TRALADAL settings interface for TradingView indicator source automation](https://algoway.trade/static/img/blog-img/traladal-ui-example.png)
+
+TRALADAL focuses on five operational tasks:
+
+- **Read indicator sources:** connect long, short, confirmation, filter, and close sources from TradingView chart outputs.
+- **Build strategy logic:** convert source values into backtestable buy, sell, flat, and reverse behavior.
+- **Control signal quality:** combine triggers with confirmation and filter logic using strict or flexible rules.
+- **Define risk:** attach stop loss, take profit, trailing stop, and sizing values to the automation workflow.
+- **Generate alerts:** produce JSON messages that AlgoWay can receive, parse, and route to the selected platform.
+
+#### **3) How the input-source model works**
+
+TRALADAL is based on TradingView `input.source` logic. That matters because a source input can read values
+from chart data or from another indicator’s plotted output. This is the key mechanism that allows the adapter to work
+with external indicators, including many closed or invite-only scripts that expose usable plots on the chart.
+
+The adapter can evaluate different source styles:
+
+- **Event outputs:** values such as `1`, `-1`, non-zero spikes, arrows, labels, or shape streams.
+- **Continuous values:** EMA, VWAP, RSI, MACD, ATR, custom oscillators, levels, or trend lines.
+- **State outputs:** values that remain active while a condition is true, for example trend-up or trend-down states.
+- **Close sources:** separate values that trigger an explicit flat or exit action.
+
+This design is important for **TradingView indicator automation** because the user does not always control the original script.
+Many commercial indicators are invite-only. TRALADAL does not need to edit them. It only needs a reliable output source that can be selected
+in the adapter settings.
+
+#### **4) Signal → Confirmation → Filter pipeline**
+
+The adapter uses a three-layer decision model. This structure is easier to test than one large condition because each layer has a specific role.
+
+| Layer | Purpose | Typical source | Automation impact |
+| --- | --- | --- | --- |
+| **Signal** | Primary entry trigger. | Arrow, label, crossover event, breakout marker, non-zero event. | Creates buy or sell permission. |
+| **Confirmation** | Directional validation. | Trend line, higher-timeframe state, moving average regime, momentum direction. | Blocks entries that do not match the larger condition. |
+| **Filter** | Noise and environment control. | Volatility filter, session filter, spread guard, oscillator zone, market condition value. | Allows trades only when the environment is acceptable. |
+
+##### **Strict gate**
+
+Use strict logic when the signal should only trade if all conditions agree.
+
+```
+final_long_ok  = SignalLong  AND ConfirmLong  AND FilterOK
+final_short_ok = SignalShort AND ConfirmShort AND FilterOK
+```
+
+##### **Flexible triggers**
+
+Use flexible logic only when the system is intentionally built around several valid trigger sources.
+
+```
+final_long_ok  = (SignalLong OR ConfirmLong) AND FilterOK
+final_short_ok = (SignalShort OR ConfirmShort) AND FilterOK
+```
+
+##### **Minimal adapter test**
+
+Use this mode when checking whether long and short sources are wired correctly.
+
+```
+final_long_ok  = SignalLong
+final_short_ok = SignalShort
+```
+
+#### **5) Strategy Mode vs Alert Mode**
+
+TRALADAL is useful because it connects two workflows that are often separated: historical testing and live alert delivery.
+A trader can first test indicator logic in TradingView Strategy Tester, then use the same configured logic to generate automation alerts.
+
+| Mode | Purpose | What happens | Best use |
+| --- | --- | --- | --- |
+| **Strategy Mode** | Backtest-first workflow. | Entries, exits, SL, TP, trailing, and position behavior are evaluated inside Strategy Tester. | Checking whether the indicator logic has objective historical value. |
+| **Alert Mode** | Automation-first workflow. | The same decisions are emitted as JSON alert messages for AlgoWay. | Sending TradingView alerts to external trading platforms through webhook automation. |
+
+This is the main SEO value of the page: it is not only a TradingView script description. It is a workflow for
+**backtesting indicator signals** and then using them for **TradingView webhook trading**.
+
+#### **6) Entry, exit, reverse, and flat logic**
+
+Automated trading fails when entries are defined but exits are vague. TRALADAL treats exit behavior as part of the automation design.
+That matters because AlgoWay needs to know whether the alert should open, close, reverse, or flatten a position.
+
+##### **Entry behavior**
+
+- **Buy:** emitted when final long permission becomes true.
+- **Sell:** emitted when final short permission becomes true.
+- **Event-based entry:** one-bar signal from an arrow, label, or spike.
+- **State-based entry:** condition remains active while the source stays above, below, equal to, or different from a threshold.
+
+##### **Exit behavior**
+
+- **Flat on neutral:** close the current position when the system no longer confirms direction.
+- **Flat on explicit close source:** close the position when a dedicated close signal fires.
+- **Reverse on opposite signal:** close the current side and open the opposite side when the opposite signal is confirmed.
+- **Close only:** use opposite or close conditions only to exit, not to open the opposite side immediately.
+
+##### **Task mapping**
+
+| System state | Task | Meaning for AlgoWay |
+| --- | --- | --- |
+| Long entry confirmed | `buy` | Open or maintain a long position according to route settings. |
+| Short entry confirmed | `sell` | Open or maintain a short position according to route settings. |
+| Neutral or close condition | `flat` | Close the current position. |
+| Opposite confirmed signal | `buy` or `sell` | Reverse or re-enter depending on the selected route behavior. |
+
+#### **7) Risk parameters for webhook trading automation**
+
+A TradingView alert adapter becomes much more useful when it sends risk parameters together with the entry action.
+TRALADAL can include common AlgoWay risk fields so the execution route receives a full instruction, not only a buy or sell word.
+
+| Risk field | Meaning | Automation use |
+| --- | --- | --- |
+| `stop_loss` | Distance-based stop loss, often in pips or platform-specific units. | Attach protective SL after entry. |
+| `take_profit` | Distance-based take profit. | Attach target TP after entry. |
+| `trailing_pips` | Trailing stop distance. | Move protection as price moves in favor of the trade. |
+| `order_contracts` | Size, contracts, lots, or quantity depending on platform mapping. | Control position size. |
+| `sl_price` / `tp_price` | Absolute stop loss or take profit prices where supported. | Use exact price levels from the strategy or alert. |
+
+The correct risk model depends on the destination. MetaTrader 5, TradeLocker, Binance, OKX, Bybit, MEXC, and other connectors
+may use different execution rules, symbol formats, and precision. AlgoWay handles the platform route, while TRALADAL keeps the alert
+payload explicit and consistent.
+
+#### **8) JSON alert payload for AlgoWay**
+
+The alert payload is the bridge between TradingView and AlgoWay. TradingView fires the alert. AlgoWay reads the message.
+The destination connector executes the instruction. This is why JSON quality matters: every field should be explicit.
+
+##### **Generic AlgoWay payload**
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "stop_loss": 25,
+  "take_profit": 50,
+  "trailing_pips": 0,
+  "comment": "TRALADAL"
+}
+```
+
+##### **Flat payload**
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "flat",
+  "order_contracts": 999999,
+  "comment": "TRALADAL flat"
+}
+```
+
+##### **TradeLocker example with absolute SL/TP**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "XAUUSD",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "sl_price": 2310.50,
+  "tp_price": 2350.00,
+  "comment": "TRALADAL"
+}
+```
+
+##### **Crypto exchange example**
+
+```json
+{
+  "platform_name": "binance",
+  "ticker": "BTCUSDT",
+  "order_action": "sell",
+  "order_contracts": 0.01,
+  "stop_loss": 300,
+  "take_profit": 800,
+  "comment": "TRALADAL"
+}
+```
+
+#### **9) Practical setup guide**
+
+Use this workflow to connect a TradingView indicator to AlgoWay through TRALADAL.
+
+##### **Step 1 — Add the original indicator**
+
+Add the indicator that produces your long, short, confirmation, or filter output. Make sure its visual or plotted values are visible and stable.
+
+##### **Step 2 — Add TRALADAL to the same chart**
+
+Add the TradingView Alert Adapter for AlgoWay. Open the strategy settings and go to the inputs.
+
+##### **Step 3 — Select signal sources**
+
+Choose the long source and short source. If the original indicator exposes separate long and short plots, map each one separately.
+If it exposes one numeric stream, configure the threshold and comparator carefully.
+
+##### **Step 4 — Add confirmation and filter logic**
+
+Use confirmation for direction and filter for environment. For example, signal can be an arrow, confirmation can be a trend line,
+and filter can be a volatility or session condition.
+
+##### **Step 5 — Configure risk and flat behavior**
+
+Set stop loss, take profit, trailing stop, order size, and flat behavior. Test whether the strategy should reverse immediately or close first.
+
+##### **Step 6 — Backtest before live routing**
+
+Open TradingView Strategy Tester and review trades, drawdown, profit factor, and signal frequency. Do not judge the adapter by one or two trades;
+judge the signal logic across enough historical data for the instrument and timeframe.
+
+##### **Step 7 — Create the TradingView alert**
+
+Create an alert on the TRALADAL strategy. Select the option that listens to alert function calls or the strategy alert message,
+paste the AlgoWay webhook URL, and make sure the payload is generated in the expected JSON format.
+
+#### **10) Full input reference**
+
+This reference explains the main TRALADAL input groups and how they affect TradingView automation.
+
+##### **10.1 AlgoWay routing**
+
+| Input | Role | Payload impact | Recommended use |
+| --- | --- | --- | --- |
+| **Webhook UUID** | Identifies the AlgoWay route. | Connects alert to the selected webhook. | Use the exact UUID from AlgoWay dashboard. |
+| **Platform** | Selects destination connector logic. | Sets platform-specific routing behavior. | Use one platform per route for clean testing. |
+| **Symbol override** | Maps TradingView ticker to broker symbol. | Changes the final ticker sent to execution. | Use when broker symbol differs from TradingView symbol. |
+
+##### **10.2 Signal sources**
+
+| Input | Role | Best source type | Common mistake |
+| --- | --- | --- | --- |
+| **Long Signal Source** | Triggers long entries. | Bullish event output, arrow, marker, or positive stream. | Selecting a source that remains active forever. |
+| **Short Signal Source** | Triggers short entries. | Bearish event output, arrow, marker, or negative stream. | Using the same polarity as long without inversion. |
+| **Threshold** | Defines when a source is active. | Numeric level that separates signal from noise. | Setting threshold too low on noisy oscillator values. |
+| **Comparator** | Defines how the source is evaluated. | Greater than, less than, equal, not equal, crossing, or non-zero logic. | Using equality on values that rarely match exactly. |
+
+##### **10.3 Confirmation and filter**
+
+| Input | Role | Recommended source | Automation effect |
+| --- | --- | --- | --- |
+| **Enable Confirmation** | Adds directional validation. | Trend, higher timeframe, MA regime, momentum direction. | Reduces entries against the main condition. |
+| **Confirmation Logic** | Combines signal and confirmation. | AND for strict automation, OR for controlled flexibility. | Changes entry frequency. |
+| **Enable Filter** | Adds environment control. | Volatility, session, spread, market-state, or risk condition. | Blocks trades when the market environment is not acceptable. |
+| **Filter Comparator** | Evaluates filter source. | Threshold comparison based on the chosen indicator. | Controls when automation is allowed or blocked. |
+
+##### **10.4 Exit and risk behavior**
+
+| Input | Role | Payload impact | Recommended use |
+| --- | --- | --- | --- |
+| **Stop Loss** | Defines downside protection. | Sets SL field in JSON or strategy risk model. | Use a value larger than normal spread and noise. |
+| **Take Profit** | Defines target distance. | Sets TP field in JSON or strategy risk model. | Align with historical movement and reward/risk design. |
+| **Trailing Stop** | Defines moving protection. | Sets trailing field for supported routes. | Use only after testing trend persistence. |
+| **Flat behavior** | Defines closing behavior. | Can emit `flat` tasks. | Enable when neutral or close-source exits are part of the system. |
+
+#### **11) Use cases for indicator-based automation**
+
+##### **Closed-source indicator backtesting**
+
+If an invite-only indicator displays long and short values on the chart, TRALADAL can help evaluate those outputs in Strategy Tester.
+This is useful when the trader wants objective statistics before sending live alerts to AlgoWay.
+
+##### **TradingView indicator to webhook bot**
+
+A trader can connect indicator signals to TRALADAL, generate a JSON alert, and send it to AlgoWay. This creates a practical
+**TradingView webhook bot** workflow without hardcoding the original indicator logic into a new script.
+
+##### **Multi-platform signal routing**
+
+The same strategy decision can be routed to different platforms through separate AlgoWay webhooks. This is useful when a trader wants
+one TradingView logic layer but different execution routes for MetaTrader 5, TradeLocker, cTrader, crypto exchanges, or proprietary accounts.
+
+##### **Signal quality testing before automation**
+
+Instead of activating a webhook immediately, the trader can first run the adapter in Strategy Tester, review historical behavior,
+adjust filters, and only then enable live alert delivery.
+
+#### **12) Troubleshooting**
+
+| Problem | Likely cause | What to check |
+| --- | --- | --- |
+| No trades in Strategy Tester | Selected source never becomes active. | Check source selection, threshold, comparator, and long/short polarity. |
+| Too many repeated entries | State source is treated as event source. | Use transition logic, stricter confirmation, or flat behavior. |
+| Only long or only short signals fire | Wrong source mapping or comparator direction. | Verify whether bearish output is negative, zero/non-zero, or a separate plot. |
+| Alert fires but AlgoWay does not execute | Invalid JSON, wrong webhook URL, wrong platform field, or missing symbol mapping. | Check AlgoWay logs, alert message body, and platform-specific required fields. |
+| Backtest and live behavior differ | Realtime bar behavior, repainting source, or different alert frequency. | Use confirmed-bar logic where needed and test alert timing before live execution. |
+
+#### **13) Related AlgoWay guides**
+
+- [How to Turn a TradingView Indicator into a Trading Strategy](https://algoway.trade/blog/how-to-turn-a-tradingview-indicator-into-a-trading-strategy.html)
+- [Guide to Creating a Webhook in TradingView](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [AlgoWay JSON Schema Guide](https://algoway.trade/blog/json-schema-guide.html)
+- [TradingView to MetaTrader 5 Setup Guide](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [TradingView to TradeLocker Setup Guide](https://algoway.trade/blog/tradeLocker-setup-guide.html)
+- [TradingView Algo Trading Without a Paid Subscription](https://algoway.trade/blog/tradingview-algo-trading-without-paid-subscription.html)
+
+#### **FAQ**
+
+##### **What is a TradingView alert adapter?**
+
+A TradingView alert adapter is a script or workflow that converts chart signals, indicator outputs, or strategy decisions into structured alert messages.
+In this case, TRALADAL converts selected TradingView sources into strategy logic and JSON alerts for AlgoWay.
+
+##### **Can TRALADAL automate closed-source TradingView indicators?**
+
+It can work with closed or invite-only indicators when their usable outputs are available as selectable chart sources. It does not need to edit the original source code.
+
+##### **Does TRALADAL generate trading signals?**
+
+No. TRALADAL does not create signals by itself. It evaluates the sources, confirmations, filters, and exit rules selected by the user.
+
+##### **Can I use TRALADAL for TradingView webhook trading?**
+
+Yes. The adapter can generate structured alert payloads that are sent to AlgoWay through a TradingView webhook alert.
+
+##### **Can I backtest indicator signals before sending alerts?**
+
+Yes. That is one of the main purposes of the adapter. It turns selected indicator outputs into strategy logic so they can be reviewed in TradingView Strategy Tester.
+
+##### **Which platforms can AlgoWay route TRALADAL alerts to?**
+
+AlgoWay can route TradingView alerts to supported platforms including MetaTrader 5, TradeLocker, cTrader, DXtrade, Match-Trader, Binance, OKX, Bybit, BitMEX, MEXC, Capital.com, and others.
+
+##### **What should I select in the TradingView alert condition?**
+
+Use the alert option that matches the adapter’s alert generation mode, typically an alert function call or a strategy alert message configuration.
+The webhook URL should be the AlgoWay webhook endpoint.
+
+##### **Why is JSON important for TradingView automation?**
+
+JSON gives AlgoWay a structured instruction: platform, ticker, order action, size, stop loss, take profit, trailing stop, and any platform-specific fields.
+This is more reliable than plain natural-language alert text.

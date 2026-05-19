@@ -1,10 +1,974 @@
 ---
-title: "Pine Script Alert Examples"
-description: "AlgoWay documentation page for Pine Script Alert Examples."
+title: "AlgoWay Pine Script Webhook JSON Examples"
+sidebar_label: "Pine Script Alert Examples"
+pagination_label: "Pine Script Alert Examples"
+description: "Pine Script webhook JSON examples for AlgoWay. Learn alert_message vs alert(), strategy alerts, SL/TP fields, webhook setup, logs and common mistakes."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "AlgoWay Blog",
+                  "item": "https://algoway.trade/blog/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "AlgoWay Pine Script Webhook JSON Examples",
+                  "item": "https://docs.algoway.trade/docs/tradingview-webhooks/pine-script-examples/"
+                }
+              ]
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Send Pine Script Webhook JSON to AlgoWay",
+              "description": "Choose alert_message or alert(), create the correct TradingView alert, paste the AlgoWay webhook URL and verify the received JSON in AlgoWay Webhook Logs.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Choose the Pine Script alert method",
+                  "text": "Use alert_message for strategy order-fill alerts or alert() for script-generated JSON with Any alert() function call."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Build the AlgoWay JSON payload",
+                  "text": "Include platform_name, ticker, order_action, order_contracts and optional risk fields such as Stop Loss, Take Profit or trailing values."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create the TradingView alert",
+                  "text": "Create the alert using the correct condition for the selected method and enable Webhook URL."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Paste the AlgoWay webhook URL",
+                  "text": "Copy the webhook URL from the AlgoWay dashboard and paste it into the TradingView Webhook URL field."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Test and verify logs",
+                  "text": "Trigger a small test alert and confirm the received JSON and destination response in AlgoWay Webhook Logs."
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "AlgoWay Pine Script Webhook JSON Examples: alert_message vs alert()",
+                      "description": "AlgoWay Pine Script webhook JSON examples for TradingView automation. Learn alert_message vs alert(), strategy order-fill alerts, Any alert() function call, platform_name values, SL/TP fields, webhook setup, logs and common Pine Script automation mistakes.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/tradingview-webhooks/pine-script-examples/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "TradingView Pine Script Automation",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is the difference between alert_message and alert() in TradingView?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "alert_message is attached to strategy order commands and is used in strategy order-fill alerts. alert() sends a dynamic message directly when the script calls the function and is used with Any alert() function call."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I use strategy.order.alert_message with AlgoWay?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Add JSON to the alert_message parameter in strategy.entry, strategy.exit or strategy.close. Then create a strategy order-fill alert and put {strategy.order.alert_message} in the TradingView message field."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I use alert() with AlgoWay?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Build the AlgoWay JSON string in Pine Script and send it with alert(). Then create a TradingView alert with Condition set to Any alert() function call and paste the AlgoWay webhook URL."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I use both alert_message and alert() in one strategy?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Technically yes, but it can create duplicate webhook calls if both event types are enabled. Use one method unless duplicate signals are intentional."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why does AlgoWay receive text instead of JSON?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The TradingView alert message may not contain the JSON generated by the script. For alert_message, use {strategy.order.alert_message} in the message field. For alert(), use Any alert() function call."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# Pine Script Alert Examples
+# **AlgoWay Pine Script Alert Examples: alert_message vs alert() for TradingView Webhooks**
 
-This page is part of the AlgoWay documentation migration.
+**AlgoWay supports two correct Pine Script alert approaches for TradingView webhook automation:** JSON sent through `alert_message` on strategy order-fill events, and JSON sent directly through explicit `alert()` calls. Both methods work, but they require different TradingView alert settings.
 
-The full guide will be migrated from the existing AlgoWay blog and manuals.
+This guide is written for traders searching for **AlgoWay Pine Script example**, **TradingView alert_message webhook**, **Pine Script alert() JSON**, **TradingView strategy webhook JSON**, **strategy.order.alert_message**, **Any alert() function call**, **TradingView order fill alert**, and **AlgoWay webhook automation**.
+
+The two routes are:
+
+```
+Option A: strategy.entry / strategy.exit alert_message → TradingView order-fill alert → AlgoWay webhook
+
+Option B: Pine Script alert() call → TradingView Any alert() function call → AlgoWay webhook
+```
+
+The most common mistake is mixing the two methods. If your script uses `alert_message`, create a strategy order-fill alert and use `{{strategy.order.alert_message}}` in the TradingView message field. If your script uses `alert()`, create an alert with **Any alert() function call** and let the script send the JSON.
+
+## Why Pine Script Webhook JSON Matters for TradingView Automation
+
+Pine Script is where many TradingView automated trading workflows start. A trader writes strategy logic, converts an indicator into strategy rules, or connects a public script to an alert condition. The next step is not only creating a TradingView alert. The next step is sending a clean, structured webhook JSON message that AlgoWay can understand and route to the correct execution platform.
+
+This is why the alert message format matters. A chart alert can show a notification, but a TradingView webhook trading bot needs a machine-readable command. AlgoWay expects a clear payload with fields such as `platform_name`, `ticker`, `order_action`, `order_contracts`, price, Stop Loss, Take Profit, trailing stop and other route-specific parameters when they are supported by the destination.
+
+For SEO and practical usage, this page covers the exact cluster traders search for when building automation: **TradingView Pine Script webhook**, **Pine Script JSON alert**, **alert_message webhook**, **alert() function call JSON**, **TradingView strategy webhook automation**, **TradingView to MT5 Pine Script**, **TradingView to TradeLocker webhook**, **TradingView to DxTrade automation**, and **webhook autotrade bot**. These terms describe the same operational problem: how to turn a Pine Script signal into a valid automated trading instruction.
+
+AlgoWay sits after TradingView. TradingView decides when the alert fires. Pine Script decides what message is produced. AlgoWay receives that message, validates the JSON, applies the selected route configuration, and forwards the instruction to MetaTrader 5, TradeLocker, Match-Trader, DxTrade, cTrader, Binance, OKX, Bybit, MEXC, BitMEX, Coinbase, Tradovate, ProjectX or another supported destination.
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Quick Answer
+
+Use **Option A** when you want webhook JSON to be sent only when TradingView strategy orders actually fill. Use **Option B** when you want Pine Script to send dynamic JSON at the moment your code calls `alert()`.
+
+| Method | Pine Script sends JSON through | TradingView alert condition | TradingView message field |
+| --- | --- | --- | --- |
+| **Option A** | `alert_message` inside `strategy.entry()`, `strategy.exit()`, `strategy.close()` or `strategy.order()` | Strategy order-fill alert / order fills | `{{strategy.order.alert_message}}` |
+| **Option B** | `alert()` | **Any alert() function call** | Can stay empty, because the script sends JSON itself |
+
+## alert_message vs alert(): Which One Should You Use?
+
+Both approaches are useful, but they solve different problems.
+
+| Question | Use alert_message | Use alert() |
+| --- | --- | --- |
+| Should the webhook fire only when a strategy order fills? | Yes | Not necessarily |
+| Do you need per-order JSON from strategy.entry / strategy.exit? | Yes | Optional |
+| Do you need fully dynamic JSON at custom code points? | Possible, but tied to order-fill commands | Yes |
+| Can it work in indicators? | No, strategy orders only | Yes, `alert()` works in indicators and strategies |
+| Best AlgoWay use case | Strategy order automation | Advanced dynamic routing, custom conditions, converted indicators |
+
+## How to Choose the Correct Pine Script Alert Method
+
+Use `alert_message` when the TradingView strategy order event is the exact event you want to automate. This is common for backtested strategies where `strategy.entry()`, `strategy.exit()`, `strategy.close()` or `strategy.order()` already defines the trade lifecycle. The advantage is that the webhook message follows the strategy order-fill model, so the automation is tied to the same order events that appear in Strategy Tester.
+
+Use `alert()` when you need more control than order-fill alerts can give you. This method is useful when the script needs to send different JSON for different internal states, when you are converting an indicator into automation, when you need a custom flat command, or when the alert should fire from logic that is not represented by a normal strategy order. Many advanced TradingView webhook automation systems use `alert()` because it gives the script full control over the final payload.
+
+For AlgoWay, both methods are valid. The important rule is consistency. Do not build JSON inside `alert_message` and then create an alert that only listens to `alert()`. Do not send JSON through `alert()` and then expect `{{strategy.order.alert_message}}` to contain it. The Pine Script method and the TradingView alert condition must match.
+
+| Automation goal | Best method | Reason |
+| --- | --- | --- |
+| Execute only confirmed strategy orders | `alert_message` | The webhook follows TradingView order-fill events. |
+| Send custom buy, sell and flat commands | `alert()` | The script controls the full JSON string at runtime. |
+| Convert indicator logic into webhook automation | `alert()` | Indicators do not use strategy order-fill messages. |
+| Keep Strategy Tester as the main source of truth | `alert_message` | Entries and exits stay attached to strategy order commands. |
+
+## Option A — JSON via alert_message on Strategy Orders
+
+**Option A is recommended when your TradingView strategy orders are the source of truth.** The JSON is attached to `strategy.entry()`, `strategy.exit()` or `strategy.close()`. TradingView sends the message when the corresponding order-fill event happens.
+
+### TradingView alert setup for Option A
+
+1. Add the script to the chart.
+2. Create a TradingView alert from the strategy.
+3. Select order-fill / strategy order-fill events in the alert settings.
+4. Enable **Webhook URL**.
+5. Paste your AlgoWay webhook URL.
+6. In the alert message field, enter exactly:
+
+```json
+{{strategy.order.alert_message}}
+```
+
+This placeholder tells TradingView to send the JSON stored in the `alert_message` parameter of the strategy order command.
+
+### Copy-paste Pine Script v6 example
+
+```
+//@version=6
+strategy("AlgoWay Strategy Alerts via alert_message", overlay=true, pyramiding=0, process_orders_on_close=true)
+
+// =====================
+// AlgoWay settings
+// =====================
+aw_enabled = input.bool(true, "Enable AlgoWay alerts")
+
+platform = input.string("metatrader5", "AlgoWay platform",
+     options=[
+         "metatrader5", "tradelocker", "matchtrader", "dxtrade", "ctrader",
+         "capitalcom", "alpaca", "tradovate", "projectx",
+         "binance", "bybit", "okx", "bitmex", "bitmart", "bitget", "bingx",
+         "coinbase", "mexc"
+     ])
+
+qty_type = input.string("Contracts", "Order size type", options=["Contracts", "Cash", "Percent of equity"])
+qty_value = input.float(1.0, "Order size value", step=0.01)
+
+send_risk = input.bool(false, "Send SL/TP fields to AlgoWay")
+sl_points = input.int(100, "Stop Loss distance")
+tp_points = input.int(200, "Take Profit distance")
+
+// =====================
+// Demo strategy logic
+// Replace this block with your own strategy logic.
+// =====================
+fast = ta.ema(close, 9)
+slow = ta.ema(close, 21)
+
+long_signal = ta.crossover(fast, slow)
+short_signal = ta.crossunder(fast, slow)
+
+// =====================
+// Helpers
+// =====================
+calc_qty() =>
+    float qty = na
+    if qty_type == "Percent of equity"
+        qty := close > 0 ? (strategy.equity * qty_value / 100.0) / close : 0.0
+    else if qty_type == "Cash"
+        qty := close > 0 ? qty_value / close : 0.0
+    else
+        qty := qty_value
+    na(qty) ? 0.0 : qty
+
+qty_to_string(float qty) =>
+    str.tostring(qty)
+
+entry_json(string order_id, string action, string qty_string, float sl_price, float tp_price) =>
+    string json = "{" +
+      "\"platform_name\":\"" + platform + "\"," +
+      "\"ticker\":\"" + syminfo.ticker + "\"," +
+      "\"order_id\":\"" + order_id + "\"," +
+      "\"order_action\":\"" + action + "\"," +
+      "\"order_contracts\":\"" + qty_string + "\"," +
+      "\"price\":\"" + str.tostring(close) + "\""
+    if send_risk
+        json += ",\"sl_price\":\"" + str.tostring(sl_price) + "\"," +
+                "\"tp_price\":\"" + str.tostring(tp_price) + "\""
+    json + "}"
+
+flat_json(string order_id, string qty_string) =>
+    "{" +
+      "\"platform_name\":\"" + platform + "\"," +
+      "\"ticker\":\"" + syminfo.ticker + "\"," +
+      "\"order_id\":\"" + order_id + "\"," +
+      "\"order_action\":\"flat\"," +
+      "\"order_contracts\":\"" + qty_string + "\"" +
+    "}"
+
+// =====================
+// Entries with alert_message
+// =====================
+if aw_enabled and long_signal
+    float qty = calc_qty()
+    string qty_string = qty_to_string(qty)
+    float sl_price = close - sl_points * syminfo.mintick
+    float tp_price = close + tp_points * syminfo.mintick
+
+    strategy.close("Short", alert_message=flat_json("Short", qty_string))
+    strategy.entry("Long", strategy.long, qty=qty,
+         alert_message=entry_json("Long", "buy", qty_string, sl_price, tp_price))
+
+if aw_enabled and short_signal
+    float qty = calc_qty()
+    string qty_string = qty_to_string(qty)
+    float sl_price = close + sl_points * syminfo.mintick
+    float tp_price = close - tp_points * syminfo.mintick
+
+    strategy.close("Long", alert_message=flat_json("Long", qty_string))
+    strategy.entry("Short", strategy.short, qty=qty,
+         alert_message=entry_json("Short", "sell", qty_string, sl_price, tp_price))
+
+// =====================
+// Optional strategy-side exits
+// These are Strategy Tester exits. Their alert_message sends flat when the exit order fills.
+// =====================
+if aw_enabled and strategy.position_size > 0
+    float ep = strategy.position_avg_price
+    float sl = ep - sl_points * syminfo.mintick
+    float tp = ep + tp_points * syminfo.mintick
+    string q = qty_to_string(math.abs(strategy.position_size))
+    strategy.exit("Long Exit", from_entry="Long", stop=sl, limit=tp,
+         alert_message=flat_json("Long", q))
+
+if aw_enabled and strategy.position_size < 0
+    float ep = strategy.position_avg_price
+    float sl = ep + sl_points * syminfo.mintick
+    float tp = ep - tp_points * syminfo.mintick
+    string q = qty_to_string(math.abs(strategy.position_size))
+    strategy.exit("Short Exit", from_entry="Short", stop=sl, limit=tp,
+         alert_message=flat_json("Short", q))
+```
+
+## Option B — JSON via Explicit alert() Calls
+
+**Option B is best when you want the Pine Script code itself to decide exactly when to send webhook JSON.** The script calls `alert()` and passes the JSON string directly to TradingView.
+
+### TradingView alert setup for Option B
+
+1. Add the script to the chart.
+2. Create a TradingView alert.
+3. Set **Condition** to **Any alert() function call**.
+4. Enable **Webhook URL**.
+5. Paste your AlgoWay webhook URL.
+6. The message field can stay empty because the script sends the JSON itself.
+
+### Copy-paste Pine Script v6 example
+
+```
+//@version=6
+strategy("AlgoWay Strategy Alerts via alert()", overlay=true, pyramiding=0, process_orders_on_close=true)
+
+// =====================
+// AlgoWay settings
+// =====================
+provider = input.string("AlgoWay", "Automation provider", options=["Off", "AlgoWay"])
+aw_enabled = provider == "AlgoWay"
+
+platform = input.string("metatrader5", "AlgoWay platform",
+     options=[
+         "metatrader5", "tradelocker", "matchtrader", "dxtrade", "ctrader",
+         "capitalcom", "alpaca", "tradovate", "projectx",
+         "binance", "bybit", "okx", "bitmex", "bitmart", "bitget", "bingx",
+         "coinbase", "mexc"
+     ])
+
+qty_type = input.string("Contracts", "Order size type", options=["Contracts", "Cash", "Percent of equity"])
+qty_value = input.float(1.0, "Order size value", step=0.01)
+
+risk_mode = input.string("Off", "Risk fields in AlgoWay JSON", options=["Off", "SL/TP", "SL/TP + Trailing"])
+sl_points = input.int(100, "Stop Loss distance")
+tp_points = input.int(200, "Take Profit distance")
+trailing_pips = input.int(0, "Trailing pips")
+
+// =====================
+// Demo strategy logic
+// Replace this block with your own strategy logic.
+// =====================
+fast = ta.ema(close, 9)
+slow = ta.ema(close, 21)
+
+long_signal = ta.crossover(fast, slow)
+short_signal = ta.crossunder(fast, slow)
+
+// =====================
+// Helpers
+// =====================
+calc_qty() =>
+    float qty = na
+    if qty_type == "Percent of equity"
+        qty := close > 0 ? (strategy.equity * qty_value / 100.0) / close : 0.0
+    else if qty_type == "Cash"
+        qty := close > 0 ? qty_value / close : 0.0
+    else
+        qty := qty_value
+    na(qty) ? 0.0 : qty
+
+qty_to_string(float qty) =>
+    str.tostring(qty)
+
+entry_json(string order_id, string action, string qty_string, float sl_price, float tp_price) =>
+    string json = "{" +
+      "\"platform_name\":\"" + platform + "\"," +
+      "\"ticker\":\"" + syminfo.ticker + "\"," +
+      "\"order_id\":\"" + order_id + "\"," +
+      "\"order_action\":\"" + action + "\"," +
+      "\"order_contracts\":\"" + qty_string + "\"," +
+      "\"price\":\"" + str.tostring(close) + "\""
+    if risk_mode == "SL/TP" or risk_mode == "SL/TP + Trailing"
+        json += ",\"sl_price\":\"" + str.tostring(sl_price) + "\"," +
+                "\"tp_price\":\"" + str.tostring(tp_price) + "\""
+    if risk_mode == "SL/TP + Trailing" and trailing_pips > 0
+        json += ",\"trailing_pips\":\"" + str.tostring(trailing_pips) + "\""
+    json + "}"
+
+flat_json(string order_id, string qty_string) =>
+    "{" +
+      "\"platform_name\":\"" + platform + "\"," +
+      "\"ticker\":\"" + syminfo.ticker + "\"," +
+      "\"order_id\":\"" + order_id + "\"," +
+      "\"order_action\":\"flat\"," +
+      "\"order_contracts\":\"" + qty_string + "\"" +
+    "}"
+
+// =====================
+// Senders
+// =====================
+send_entry(string order_id, string action, bool is_long) =>
+    if aw_enabled
+        float qty = calc_qty()
+        string qty_string = qty_to_string(qty)
+        float sl_price = is_long ? close - sl_points * syminfo.mintick : close + sl_points * syminfo.mintick
+        float tp_price = is_long ? close + tp_points * syminfo.mintick : close - tp_points * syminfo.mintick
+        alert(entry_json(order_id, action, qty_string, sl_price, tp_price), freq=alert.freq_once_per_bar_close)
+
+send_flat(string order_id, float qty) =>
+    if aw_enabled
+        alert(flat_json(order_id, qty_to_string(math.abs(qty))), freq=alert.freq_once_per_bar_close)
+
+// =====================
+// Entries and exits
+// =====================
+if long_signal
+    if strategy.position_size < 0
+        send_flat("Short", strategy.position_size)
+        strategy.close("Short")
+    strategy.entry("Long", strategy.long, qty=calc_qty())
+    send_entry("Long", "buy", true)
+
+if short_signal
+    if strategy.position_size > 0
+        send_flat("Long", strategy.position_size)
+        strategy.close("Long")
+    strategy.entry("Short", strategy.short, qty=calc_qty())
+    send_entry("Short", "sell", false)
+```
+
+## AlgoWay JSON Structure for Pine Script Webhooks
+
+A good Pine Script webhook message should be explicit. Do not rely on vague text such as “buy now” or “close trade” when you want automated execution. Use JSON fields that describe the platform, symbol, action, size and optional risk logic. This gives AlgoWay enough context to process the command and makes troubleshooting much easier in Webhook Logs.
+
+The minimum useful JSON usually contains:
+
+- `platform_name` — the destination connector selected in AlgoWay.
+- `ticker` — the instrument symbol from TradingView or a fixed mapped symbol.
+- `order_action` — buy, sell, flat or another supported route action.
+- `order_contracts` — the quantity, lot size, contracts or route-level size value.
+- `price` — optional but useful for logs, comparison and debugging.
+
+For advanced webhook trading automation, the JSON can also include `sl_price`, `tp_price`, `stop_loss`, `take_profit`, `trailing_pips`, `order_type`, `trade_type`, `tv_order_id` or platform-specific fields. The exact field support depends on the route. A MetaTrader 5 route, a TradeLocker route, a DxTrade route and a crypto exchange route do not always use identical execution rules.
+
+For SEO, this is the central point of the page: **Pine Script is not the execution engine**. Pine Script builds the signal and message. TradingView delivers the webhook. AlgoWay turns the JSON into a trading route. The broker, exchange or terminal performs the final execution.
+
+### Example: simple AlgoWay JSON from Pine Script
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "buy",
+  "order_contracts": "1",
+  "price": "{{close}}"
+}
+```
+
+### Example: risk-aware AlgoWay JSON
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "{{ticker}}",
+  "order_action": "sell",
+  "order_contracts": "1",
+  "sl_price": "{{plot_0}}",
+  "tp_price": "{{plot_1}}",
+  "price": "{{close}}"
+}
+```
+
+The real advantage of AlgoWay is that the same Pine Script alert concept can be reused across several destinations. You can keep the strategy logic in TradingView and change the AlgoWay route when you need MT5, TradeLocker, DxTrade, cTrader or a crypto exchange workflow.
+
+## Common AlgoWay platform_name Values
+
+The `platform_name` field must match the destination route created in AlgoWay.
+
+| Platform | `platform_name` |
+| --- | --- |
+| MetaTrader 5 | `metatrader5` |
+| TradeLocker | `tradelocker` |
+| Match-Trader | `matchtrader` |
+| DxTrade | `dxtrade` |
+| cTrader | `ctrader` |
+| Capital.com | `capitalcom` |
+| Alpaca | `alpaca` |
+| Tradovate | `tradovate` |
+| ProjectX | `projectx` |
+| Binance | `binance` |
+| Bybit | `bybit` |
+| OKX | `okx` |
+| BitMEX | `bitmex` |
+| BitMart | `bitmart` |
+| Bitget | `bitget` |
+| BingX | `bingx` |
+| Coinbase | `coinbase` |
+| MEXC | `mexc` |
+
+Full schema reference: [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html).
+
+## SL/TP and Trailing Fields
+
+The examples above support optional risk fields. Use them only when the selected AlgoWay route supports the field.
+
+| Field | Meaning | Note |
+| --- | --- | --- |
+| `sl_price` | Absolute Stop Loss price | Use when the script calculates exact price levels. |
+| `tp_price` | Absolute Take Profit price | Use when the script calculates exact price levels. |
+| `stop_loss` | Distance-style Stop Loss | Route-dependent: points, pips or configured distance. |
+| `take_profit` | Distance-style Take Profit | Route-dependent: points, pips or configured distance. |
+| `trailing_pips` | Trailing stop value | Route-dependent. Test before using live size. |
+
+## TradingView Webhook Setup
+
+Both options require the AlgoWay webhook URL in TradingView.
+
+1. Create the destination webhook in AlgoWay.
+2. Copy the AlgoWay webhook URL.
+3. Open TradingView and create an alert from the script.
+4. Choose the correct alert condition for Option A or Option B.
+5. Enable **Webhook URL**.
+6. Paste the AlgoWay webhook URL.
+7. Save the alert.
+8. Trigger a small test.
+
+Webhook URL format:
+
+```
+https://algoway.co/your-webhook-uuid
+```
+
+General setup guide: [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html).
+
+## Safe Launch Workflow for Pine Script Webhook Automation
+
+A Pine Script webhook trading setup should be launched in stages. The worst approach is to write a long strategy, paste a complex JSON message, connect a live account and hope that all fields are correct. A better approach is to prove the route step by step.
+
+1. **Compile the script first.** TradingView must accept the Pine Script without syntax errors.
+2. **Select one alert method.** Use either `alert_message` or `alert()`, not both during the first test.
+3. **Send a minimal payload.** Test `platform_name`, `ticker`, `order_action` and `order_contracts` before adding advanced fields.
+4. **Check AlgoWay Webhook Logs.** Confirm that the received payload is valid JSON and that TradingView placeholders are replaced correctly.
+5. **Check the destination response.** If the platform rejects the order, fix symbol, size, credentials, account mode or route settings before editing the strategy logic.
+6. **Add risk fields later.** Stop Loss, Take Profit and trailing stop should be added after the basic buy/sell/flat flow works.
+
+This workflow is useful for TradingView to MT5 automation, TradingView to TradeLocker automation, TradingView to DxTrade automation, TradingView to cTrader automation and crypto exchange webhook routes. The exact connector changes, but the debugging method remains the same: validate the script, validate the alert condition, validate the JSON, validate the AlgoWay route, then validate execution.
+
+### Best SEO keywords matched by this workflow
+
+This launch process directly matches high-intent searches such as **TradingView webhook setup**, **Pine Script webhook JSON**, **TradingView strategy alert to broker**, **AlgoWay webhook logs**, **TradingView alert bot**, **automated trading webhook**, **webhook autotrade bot**, and **TradingView alerts to MT5**. The content is written for traders who are not only reading documentation, but trying to make a real automation route work.
+
+## Testing and Logs
+
+Before live automation, test in layers:
+
+1. Compile the Pine Script without errors.
+2. Confirm the selected method is Option A or Option B.
+3. Create the TradingView alert with the correct condition.
+4. Use a small test size.
+5. Trigger the alert.
+6. Open AlgoWay Webhook Logs.
+7. Confirm the received JSON.
+8. Check the destination platform response.
+9. Confirm the broker or exchange result.
+
+If AlgoWay receives plain text instead of JSON, check the TradingView alert message setup. If AlgoWay receives valid JSON but the trade is rejected, check symbol, size, route credentials, market type and platform response.
+
+## Common Mistakes
+
+### Using alert_message but Selecting Any alert() Function Call
+
+`alert_message` belongs to strategy order-fill alerts. If you want to use `alert_message`, use order-fill events and the `{{strategy.order.alert_message}}` placeholder.
+
+### Using alert() but Creating Only an Order-Fill Alert
+
+If your script uses `alert()`, create the alert with **Any alert() function call** or include alert() call events according to the TradingView alert settings.
+
+### Leaving the Option A Message Field as Default
+
+For Option A, the safest message field is `{{strategy.order.alert_message}}`. Otherwise TradingView may send the default order-fill text instead of your AlgoWay JSON.
+
+### Invalid JSON
+
+Use double quotes, no trailing commas and one JSON object per webhook call. See: [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html).
+
+### Wrong platform_name
+
+`platform_name` must match the AlgoWay route. For example, an OKX route needs `"okx"`, not `"metatrader5"`.
+
+### Wrong Symbol
+
+`syminfo.ticker` may not match the broker or exchange symbol. Use symbol mapping or fixed symbols if required by the destination route.
+
+### Duplicate Alerts
+
+Do not run Option A and Option B at the same time unless you intentionally want both order-fill and alert() events. Duplicate alerts can create duplicate orders.
+
+## Platform-Specific Notes for AlgoWay Pine Script Alerts
+
+The same Pine Script webhook pattern can send signals to different AlgoWay destinations, but each destination may interpret execution details differently. This is important for SEO and for real users because traders often search by destination name, not only by Pine Script syntax.
+
+- **TradingView to MetaTrader 5:** use `platform_name="metatrader5"` and make sure the AlgoWayWS-MT5 EA is connected to the correct webhook route.
+- **TradingView to TradeLocker:** use `platform_name="tradelocker"` and test symbol, account ID, trade type and SL/TP behavior.
+- **TradingView to DxTrade:** use `platform_name="dxtrade"` and verify account credentials, broker URL, symbol format and quantity rules.
+- **TradingView to cTrader:** use `platform_name="ctrader"` and confirm that the cTrader account and route authorization are active.
+- **TradingView to crypto exchanges:** use the correct exchange value such as `binance`, `okx`, `bybit`, `mexc` or `bitmex`, and test market type, margin mode and quantity rules before using normal size.
+
+This is why the `platform_name` field should never be treated as decoration. It is one of the most important routing fields in the AlgoWay JSON message. If the Pine Script sends the wrong value, the route can fail or the payload can be interpreted by the wrong connector logic.
+
+## Related AlgoWay Guides
+
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [How to turn a TradingView indicator into a strategy](https://algoway.trade/blog/how-to-turn-a-tradingview-indicator-into-a-trading-strategy.html)
+- [Manual TradingView webhook alerts](https://algoway.trade/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html)
+- [TradingView backtesting and AlgoWay Trade Metrics](https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html)
+- [TradingView to MetaTrader 5 with AlgoWay](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [Automate TradingView alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+
+## Final Summary
+
+**AlgoWay supports both TradingView Pine Script alert methods, but each requires the correct TradingView alert setup.** Use `alert_message` for strategy order-fill JSON and put `{{strategy.order.alert_message}}` in the alert message field. Use `alert()` for dynamic script-generated JSON and select **Any alert() function call**.
+
+Choose one method, test with small size, check AlgoWay Webhook Logs, and only then connect the final strategy to live automation.

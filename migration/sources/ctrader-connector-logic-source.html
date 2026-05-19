@@ -1,0 +1,1107 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>AlgoWay cTrader Connector Logic Explained</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Understand AlgoWay cTrader connector logic: Reverse mode, Hedge mode, TradingView webhook routing, market orders, SL/TP and troubleshooting." />
+	<link rel="canonical" href="https://algoway.trade/blog/how-the-ctrader-connector-logic-works.html" />
+
+	<meta property="og:title" content="How AlgoWay cTrader Connector Logic Works" />
+	<meta property="og:description" content="Learn how AlgoWay routes TradingView webhook alerts to cTrader, how Reverse and Hedge modes work, what happens with existing positions, market orders, SL/TP and troubleshooting." />
+	<meta property="og:url" content="https://algoway.trade/blog/how-the-ctrader-connector-logic-works.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/blog-img/how-the-ctrader-connector-logic-works@2x.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AlgoWay cTrader Connector Logic" />
+	<meta name="twitter:description" content="Reverse mode, Hedge mode, cTrader webhook automation, cBot execution and TradingView alert routing explained for AlgoWay users." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/how-the-ctrader-connector-logic-works@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>How AlgoWay cTrader Connector Logic Works: Reverse, Hedge and TradingView Webhook Automation</strong></h1>
+
+        <img src="/static/img/blog-img/how-the-ctrader-connector-logic-works@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How AlgoWay cTrader connector logic works for TradingView webhook automation"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>AlgoWay cTrader Connector receives webhook trading commands and applies clear position logic before sending orders to cTrader.</strong> The two most important modes are <strong>Reverse Mode</strong> and <strong>Hedge Mode</strong>. Reverse Mode is designed to close existing exposure before a new direction is handled. Hedge Mode is designed to allow new positions without closing the existing side.</p>
+
+        <p>This guide is written for traders searching for <strong>cTrader connector logic</strong>, <strong>TradingView to cTrader webhook</strong>, <strong>cTrader webhook automation</strong>, <strong>cTrader Reverse mode</strong>, <strong>cTrader Hedge mode</strong>, <strong>cTrader trading bot webhook</strong>, and <strong>AlgoWay cTrader automation</strong>.</p>
+
+        <p>The route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → AlgoWay cTrader connector → cTrader order execution</code></pre>
+
+        <p>TradingView creates the signal. AlgoWay receives the JSON message. The cTrader connector applies the selected trade mode. cTrader then receives the final market order or close action.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#connector-flow">Connector flow</a></li>
+                <li><a href="#reverse">Reverse Mode</a></li>
+                <li><a href="#hedge">Hedge Mode</a></li>
+                <li><a href="#comparison">Reverse vs Hedge</a></li>
+                <li><a href="#json">TradingView JSON examples</a></li>
+                <li><a href="#sltp">SL/TP behavior</a></li>
+                <li><a href="#risk">Risk and symbol checks</a></li>
+                <li><a href="#errors">Troubleshooting</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: What Does the cTrader Connector Do?</h2>
+
+        <p>The AlgoWay cTrader connector receives a structured command such as <code>buy</code>, <code>sell</code>, <code>long</code>, <code>short</code> or <code>flat</code>, checks existing positions for the selected symbol, applies the selected trade mode, and sends the required action to cTrader.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>Main behavior</th>
+                    <th>Best use case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Reverse Mode</strong></td>
+                    <td>Close existing exposure first, then process the new direction when the route is configured to do so.</td>
+                    <td>One-direction strategies that should not keep overlapping exposure.</td>
+                </tr>
+                <tr>
+                    <td><strong>Hedge Mode</strong></td>
+                    <td>Open the new direction without closing existing positions.</td>
+                    <td>Strategies that intentionally allow long and short exposure at the same time.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="connector-flow" class="mt-4">How the AlgoWay cTrader Connector Flow Works</h2>
+
+        <p>The cTrader connector is the execution layer between AlgoWay webhook logic and cTrader order handling. It is not the strategy itself. The strategy can be in TradingView, a manual webhook test, or another source that sends a valid AlgoWay message.</p>
+
+        <p>The normal flow is:</p>
+
+        <ol>
+            <li>TradingView alert fires.</li>
+            <li>TradingView sends JSON to the AlgoWay webhook URL.</li>
+            <li>AlgoWay validates the message and identifies the cTrader route.</li>
+            <li>The connector checks <code>ticker</code>, <code>order_action</code>, <code>order_contracts</code> and route settings.</li>
+            <li>The connector reads current cTrader positions for the symbol.</li>
+            <li>Reverse or Hedge logic is applied.</li>
+            <li>The connector sends close or market order operations to cTrader.</li>
+            <li>AlgoWay logs the received payload and execution result.</li>
+        </ol>
+
+        <p>cTrader itself supports algorithmic trading through cBots, and cBots can perform operations such as sending market orders, modifying positions, closing positions and subscribing to trading events. AlgoWay uses this ecosystem to build an automation bridge around webhook commands.</p>
+
+        <h2 id="reverse" class="mt-4">Reverse Mode</h2>
+
+        <p><strong>Reverse Mode is for strategies that should avoid overlapping exposure on the same instrument.</strong> When a new signal arrives, the connector checks existing positions for the symbol and closes exposure that conflicts with the selected logic.</p>
+
+        <h3 class="mt-3">Objective</h3>
+
+        <p>The objective is to close existing positions for the specified symbol and prepare the account for the new state. Depending on the route behavior and signal design, the system can then open the new direction or only close the old position.</p>
+
+        <h3 class="mt-3">Logic</h3>
+
+        <ul>
+            <li>The connector checks existing positions for the selected <code>ticker</code>.</li>
+            <li>If open positions exist, they are closed through cTrader close operations.</li>
+            <li>The connector avoids leaving conflicting positions when the strategy is intended to be one-directional.</li>
+            <li>If the route is configured to open a new position after closing, the connector uses a market order for the new direction.</li>
+            <li>If the signal is a close-only or flat-style signal, no new position is opened.</li>
+        </ul>
+
+        <h3 class="mt-3">Example: Reverse Mode</h3>
+
+        <p>Current position:</p>
+
+        <pre><code>EURUSD LONG 1.00</code></pre>
+
+        <p>Incoming signal:</p>
+
+        <pre><code>{
+  "platform_name": "ctrader",
+  "ticker": "EURUSD",
+  "order_contracts": 1,
+  "order_action": "short"
+}</code></pre>
+
+        <p>Expected behavior:</p>
+
+        <ol>
+            <li>The connector detects the existing LONG position.</li>
+            <li>The connector closes the LONG position.</li>
+            <li>If the route is configured for reverse-and-open behavior, it opens a SHORT position.</li>
+            <li>If the route is configured as close-first/flat behavior, it stops after closing.</li>
+        </ol>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Important:</strong> always confirm your current route behavior in AlgoWay before assuming that a reverse signal both closes and opens. Some workflows treat an opposite signal as exit-only, while others treat it as close-and-flip.
+        </div>
+
+        <h2 id="hedge" class="mt-4">Hedge Mode</h2>
+
+        <p><strong>Hedge Mode is for strategies that intentionally allow additional exposure without closing current positions.</strong> If a LONG exists and a SHORT signal arrives, the connector can open the SHORT while the LONG remains open, provided the platform/account allows this behavior.</p>
+
+        <h3 class="mt-3">Objective</h3>
+
+        <p>The objective is to add a new position without forcing old positions to close.</p>
+
+        <h3 class="mt-3">Logic</h3>
+
+        <ul>
+            <li>The connector checks current positions for context.</li>
+            <li>Existing positions are not closed automatically.</li>
+            <li>The incoming signal is sent as a new order according to symbol, action and size.</li>
+            <li>Long and short exposure may coexist when supported by the account and platform behavior.</li>
+        </ul>
+
+        <h3 class="mt-3">Example: Hedge Mode</h3>
+
+        <p>Current position:</p>
+
+        <pre><code>EURUSD LONG 1.00</code></pre>
+
+        <p>Incoming signal:</p>
+
+        <pre><code>{
+  "platform_name": "ctrader",
+  "ticker": "EURUSD",
+  "order_contracts": 1,
+  "order_action": "short"
+}</code></pre>
+
+        <p>Expected behavior:</p>
+
+        <ol>
+            <li>The connector detects the existing LONG position.</li>
+            <li>The connector does not close it.</li>
+            <li>The connector opens a new SHORT position.</li>
+            <li>The account now has both long-side and short-side exposure if supported.</li>
+        </ol>
+
+        <h2 id="comparison" class="mt-4">Reverse Mode vs Hedge Mode</h2>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Characteristic</th>
+                    <th>Reverse Mode</th>
+                    <th>Hedge Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Existing positions</td>
+                    <td>Checked and closed when required by route logic</td>
+                    <td>Checked but not closed automatically</td>
+                </tr>
+                <tr>
+                    <td>Opposite signal</td>
+                    <td>Used to remove or replace current exposure</td>
+                    <td>Can create additional opposite exposure</td>
+                </tr>
+                <tr>
+                    <td>Best for</td>
+                    <td>One-direction strategies</td>
+                    <td>Hedged or layered strategies</td>
+                </tr>
+                <tr>
+                    <td>Risk profile</td>
+                    <td>Cleaner exposure, fewer overlapping positions</td>
+                    <td>More flexible but can increase total exposure</td>
+                </tr>
+                <tr>
+                    <td>Main mistake</td>
+                    <td>Expecting instant flip when route is close-only</td>
+                    <td>Forgetting that losses can exist on both sides</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="json" class="mt-4">TradingView JSON Examples for cTrader</h2>
+
+        <p>AlgoWay expects structured JSON. The exact route must match the platform configured in your AlgoWay webhook.</p>
+
+        <h3 class="mt-3">Strategy Alert JSON</h3>
+
+        <pre><code>{
+  "platform_name": "ctrader",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>This version uses TradingView strategy placeholders. TradingView replaces the values when the alert fires.</p>
+
+        <h3 class="mt-3">Fixed Test JSON</h3>
+
+        <pre><code>{
+  "platform_name": "ctrader",
+  "ticker": "EURUSD",
+  "order_contracts": 1,
+  "order_action": "buy"
+}</code></pre>
+
+        <p>Use a small test size first. Confirm the cTrader account accepts the symbol and size before using live strategy values.</p>
+
+        <h3 class="mt-3">Flat / Close-Style JSON</h3>
+
+        <pre><code>{
+  "platform_name": "ctrader",
+  "ticker": "EURUSD",
+  "order_action": "flat"
+}</code></pre>
+
+        <p>Use close-style actions only if your route supports them. Check AlgoWay logs after the test to confirm how the action was interpreted.</p>
+
+        <h2 id="sltp" class="mt-4">Stop Loss and Take Profit Behavior</h2>
+
+        <p>The legacy version of this page explained that the connector uses market orders for fast execution and that SL/TP should be handled by the strategy or route logic instead of assuming they are always attached directly at market-order creation time.</p>
+
+        <p>The practical rule is:</p>
+
+        <ul>
+            <li>if your route supports SL/TP fields, send them explicitly and test them;</li>
+            <li>if your route does not attach SL/TP directly, use TradingView strategy logic to send exit or close signals;</li>
+            <li>do not assume every cTrader account, symbol or route supports the same stop behavior;</li>
+            <li>always verify SL/TP behavior in AlgoWay logs and cTrader history before live size.</li>
+        </ul>
+
+        <p>Example with explicit SL/TP-style fields where supported:</p>
+
+        <pre><code>{
+  "platform_name": "ctrader",
+  "ticker": "EURUSD",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "sl_price": 1.08400,
+  "tp_price": 1.09000
+}</code></pre>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Do not rely on untested SL/TP assumptions.</strong> Send a small test order and confirm whether the cTrader destination applies, modifies or ignores the protective fields according to the current route behavior.
+        </div>
+
+        <h2 id="risk" class="mt-4">Risk, Symbol and Size Checks</h2>
+
+        <p>Most cTrader connector problems are not caused by the webhook itself. They are caused by mismatched symbol names, invalid size, unsupported account behavior or misunderstood mode logic.</p>
+
+        <p>Before live automation, check:</p>
+
+        <ul>
+            <li>TradingView ticker vs cTrader symbol;</li>
+            <li>minimum and maximum order size;</li>
+            <li>volume step;</li>
+            <li>commission and spread;</li>
+            <li>market session;</li>
+            <li>account permissions;</li>
+            <li>Reverse or Hedge mode behavior;</li>
+            <li>whether your strategy sends close signals;</li>
+            <li>whether the same account can hold opposing positions;</li>
+            <li>how the connector logs rejected commands.</li>
+        </ul>
+
+        <h2 class="mt-4">When to Use Reverse Mode</h2>
+
+        <p>Use Reverse Mode when:</p>
+
+        <ul>
+            <li>the strategy should hold only one direction per symbol;</li>
+            <li>an opposite signal means the old position should be closed;</li>
+            <li>you want simpler exposure control;</li>
+            <li>you do not want long and short positions open at the same time;</li>
+            <li>your risk model assumes one active direction.</li>
+        </ul>
+
+        <h2 class="mt-4">When to Use Hedge Mode</h2>
+
+        <p>Use Hedge Mode when:</p>
+
+        <ul>
+            <li>the strategy intentionally layers positions;</li>
+            <li>long and short exposure may exist at the same time;</li>
+            <li>the account and platform behavior support this workflow;</li>
+            <li>you understand the total exposure across all open positions;</li>
+            <li>you have clear close logic for every side.</li>
+        </ul>
+
+        <h2 class="mt-4">cTrader Connector vs cTrader to MT5 Copier</h2>
+
+        <p>This page explains cTrader connector logic when cTrader is the destination for webhook automation. It is different from the cTrader-to-MT5 copier workflow.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Page / workflow</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>cTrader connector logic</td>
+                    <td>TradingView or AlgoWay webhook signal</td>
+                    <td>cTrader</td>
+                </tr>
+                <tr>
+                    <td>cTrader to MT5 copier</td>
+                    <td>cTrader trade action</td>
+                    <td>MetaTrader 5 through AlgoWayWS-MT5 EA</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>For the copier workflow, read: <a href="/blog/ctrader-to-metatrader5-copier-manual.html">How to copy trades from cTrader to MetaTrader 5 with AlgoWay</a>.</p>
+
+        <h2 id="errors" class="mt-4">Troubleshooting cTrader Connector Logic</h2>
+
+        <h3 class="mt-3">AlgoWay Receives the Alert but cTrader Does Not Trade</h3>
+        <p>Check platform route, cTrader credentials, symbol, account state, permissions, order size and the exact error in AlgoWay logs.</p>
+
+        <h3 class="mt-3">Reverse Mode Closes but Does Not Open the Opposite Side</h3>
+        <p>Check whether the route is configured as close-only or close-and-open. The legacy behavior documented for this page warned that reverse logic may close first and not automatically open the opposite side unless the signal or route specifies it.</p>
+
+        <h3 class="mt-3">Hedge Mode Opens Too Many Positions</h3>
+        <p>Hedge Mode does not close existing positions by design. Check alert frequency, duplicate alerts and whether TradingView sends multiple signals per bar.</p>
+
+        <h3 class="mt-3">Wrong Symbol</h3>
+        <p>Check the exact cTrader symbol and compare it with the TradingView ticker. Configure mapping if needed.</p>
+
+        <h3 class="mt-3">Wrong Size</h3>
+        <p>Check <code>order_contracts</code>, quantity multiplier, symbol volume rules and account risk settings.</p>
+
+        <h3 class="mt-3">Invalid JSON</h3>
+        <p>If AlgoWay rejects the webhook before cTrader execution, check JSON syntax. Read: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <h3 class="mt-3">SL/TP Does Not Appear</h3>
+        <p>Check whether your current cTrader route supports direct SL/TP attachment, post-entry modification or strategy-managed exits. Test with small size before relying on protective orders.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/how-the-ctrader-connector-logic-works.html">TradingView to cTrader webhook automation</a></li>
+            <li><a href="/blog/ctrader-to-metatrader5-copier-manual.html">How to copy trades from cTrader to MetaTrader 5 with AlgoWay</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a TradingView webhook alert</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>AlgoWay cTrader connector logic is mainly about how existing positions are handled when a new webhook signal arrives.</strong> Reverse Mode is designed to close or replace current exposure. Hedge Mode is designed to add new exposure without closing existing positions.</p>
+
+        <p>Choose Reverse Mode when your strategy should keep one direction per symbol. Choose Hedge Mode only when your strategy and account are designed to handle overlapping long and short exposure. Test symbols, size, SL/TP behavior and close logic before live automation.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How AlgoWay cTrader Connector Logic Works: Reverse, Hedge and TradingView Webhook Automation",
+                  "description": "Understand AlgoWay cTrader connector logic for TradingView webhook automation: Reverse mode, Hedge mode, order routing, cBot execution, market orders, SL/TP behavior, risk checks and troubleshooting.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/how-the-ctrader-connector-logic-works.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "cTrader Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is AlgoWay cTrader Reverse Mode?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Reverse Mode checks existing positions for the symbol and closes current exposure before processing the new signal according to the route behavior."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is AlgoWay cTrader Hedge Mode?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Hedge Mode opens the new position without automatically closing existing positions, allowing overlapping exposure when supported by the account and platform behavior."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does Reverse Mode always open the opposite position?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Not always. Some workflows use Reverse Mode to close existing exposure first and open a new position only when the signal or route behavior specifies it."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay route TradingView alerts to cTrader?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can receive TradingView webhook JSON and route the command to cTrader according to the configured platform route and trade mode."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does Hedge Mode create multiple positions?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Hedge Mode does not close old positions by design. If alerts fire repeatedly or in opposite directions, it can add more positions unless the strategy sends close logic."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "AlgoWay cTrader Connector Logic Explained",
+                                      "item": "https://algoway.trade/blog/how-the-ctrader-connector-logic-works.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

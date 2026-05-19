@@ -1,10 +1,15 @@
 ---
 title: "Stop Loss and Take Profit"
-description: "AlgoWay documentation page for Stop Loss and Take Profit."
+sidebar_label: "Stop Loss and Take Profit"
+pagination_label: "Stop Loss and Take Profit"
+description: "AlgoWay webhook fields for stop loss, take profit, sl_price and tp_price."
+hide_table_of_contents: true
 ---
+## Stop Loss and Take Profit Fields
 
-# Stop Loss and Take Profit
+AlgoWay supports two common SL/TP styles. Both can be used with `market`, `limit` and `stop` entries where the selected platform route supports them:
 
-This page is part of the AlgoWay documentation migration.
-
-The full guide will be migrated from the existing AlgoWay blog and manuals.
+| Style | Fields | Example | Best use |
+| --- | --- | --- | --- |
+| Distance-style | `stop_loss`, `take_profit` | `"stop_loss": "100"` | When route expects points, pips or configured distance. |
+| Absolute price | `sl_price`, `tp_price` | `"sl_price": "1.0845"` | When the alert source already calculates exact price levels. |

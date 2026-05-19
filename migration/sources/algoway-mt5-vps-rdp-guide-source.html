@@ -1,0 +1,1054 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>AlgoWay MT5 VPS RDP Guide: Connect to OVH and AW VPS</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Step-by-step AlgoWay MT5 VPS guide. Learn how to install an RDP client, wait for VPS activation, connect to OVH VPS by dedicated IP, connect to AW VPS by IP and port, update AlgoWay EA, and start MetaTrader 5 automation." />
+	<link rel="canonical" href="https://algoway.trade/blog/algoway-mt5-vps-rdp-guide.html" />
+
+	<meta property="og:title" content="AlgoWay MT5 VPS RDP Guide" />
+	<meta property="og:description" content="Learn how to connect to AlgoWay MT5 VPS by RDP, use OVH dedicated IP, use AW VPS IP:PORT access, update AlgoWay EA, and run MetaTrader 5 in the cloud." />
+	<meta property="og:url" content="https://algoway.trade/blog/algoway-mt5-vps-rdp-guide.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/blog-img/algoway-vps.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AlgoWay MT5 VPS RDP Guide" />
+	<meta name="twitter:description" content="Connect to AlgoWay MT5 VPS by RDP, use OVH dedicated IP or AW IP:PORT access, update AlgoWay EA, and run MetaTrader 5 automation in the cloud." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/blog-img/algoway-vps.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/algoway-vps.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+        <h1 class="mb-4" style="margin-top: 0;">
+            <strong>AlgoWay MT5 VPS Guide: How to Connect by RDP, Start MetaTrader 5, and Update AlgoWay EA</strong>
+        </h1>
+
+        <img src="/static/img/blog-img/algoway-vps.jpg" width="1200" height="630" fetchpriority="high" alt="AlgoWay MT5 VPS RDP guide for MetaTrader 5 cloud trading automation" style="width:100%; height:auto; margin-bottom:1.5rem;" decoding="async" />
+
+        <p><strong>AlgoWay MT5 VPS</strong> is a cloud Windows server prepared for traders who need MetaTrader 5 to stay online without keeping a personal computer running all day. The VPS is accessed by RDP, includes MetaTrader 5, and is prepared for AlgoWay EA so that MT5 can work as a remote execution terminal for AlgoWay automation.</p>
+
+        <p>This guide explains the complete user flow: how to install an RDP client, when VPS credentials become available, how to connect to an OVH VPS with a dedicated IP address, how to connect to an AW VPS with an IP and custom RDP port, how to open MetaTrader 5, how to update AlgoWay EA, and how to keep the VPS running after setup.</p>
+
+        <p>The most important difference is simple: <strong>OVH VPS uses a dedicated public IP address</strong>, while <strong>AW VPS uses a public IP address plus a specific RDP port</strong>. If you use the wrong connection format, the RDP session will not open the correct VPS.</p>
+
+        <p class="text-muted"><strong>Last updated:</strong> May 18, 2026</p>
+
+        <h2 class="mt-4">What AlgoWay MT5 VPS Is Used For</h2>
+        <p>AlgoWay MT5 VPS is designed for MetaTrader 5 automation. It gives traders a remote Windows environment where MT5 can stay online, connected to the broker, and ready to receive trading commands through AlgoWay.</p>
+
+        <p>This is useful for TradingView to MT5 automation, MT5 Expert Advisor workflows, MT5 copier routes, and any setup where the MetaTrader 5 terminal must stay open even when the trader's own computer is turned off.</p>
+
+        <p>The VPS service and the AlgoWay webhook service are separate. The VPS is the Windows server where MetaTrader 5 runs. The webhook is the AlgoWay route that receives trading signals and sends them to the selected execution destination. Webhook access is not included in the VPS price.</p>
+
+        <h2 class="mt-4">When VPS Access Details Become Available</h2>
+        <p>After creating an AlgoWay MT5 VPS service, the server may need several minutes before it is ready. During this time, the VPS is being created and prepared on the server side.</p>
+
+        <p>Until the VPS is ready, access details may be hidden in the AlgoWay dashboard. This is normal. The RDP address, Windows login, Windows password, and RDP download button become available only after the VPS reaches the ready state.</p>
+
+        <p>In the VPS table, wait until the service status shows that the VPS is ready. Once the VPS is active, you can copy the Windows login and password, download the RDP file, or enter the connection details manually in your RDP client.</p>
+
+        <h2 class="mt-4">What You Need Before Connecting</h2>
+        <p>Before opening the VPS, make sure you have these details from your AlgoWay dashboard:</p>
+
+        <ul>
+            <li><strong>RDP address</strong> — the VPS IP address, or IP address with port for AW VPS.</li>
+            <li><strong>Windows login</strong> — the username for the remote Windows server.</li>
+            <li><strong>Windows password</strong> — the password for the remote Windows server.</li>
+            <li><strong>Download RDP button</strong> — the easiest connection method when available.</li>
+            <li><strong>VPS status</strong> — the server must be ready before the connection details can be used.</li>
+        </ul>
+
+        <p>If the login and password are still hidden, wait for activation to finish and refresh the page.</p>
+
+        <h2 class="mt-4">How to Install an RDP Client</h2>
+        <p>RDP means Remote Desktop Protocol. It allows you to open the Windows desktop of your AlgoWay VPS from your own device.</p>
+
+        <h3 class="mt-4">Windows</h3>
+        <p>On Windows, you can use the built-in Remote Desktop Connection application. Open the Start menu, search for <strong>Remote Desktop Connection</strong>, and launch it. You can also press <strong>Win + R</strong>, type <code>mstsc</code>, and press Enter.</p>
+
+        <p>After the application opens, enter the VPS address from the AlgoWay dashboard and connect with your Windows login and password.</p>
+
+        <h3 class="mt-4">macOS</h3>
+        <p>On macOS, install <strong>Windows App</strong> or <strong>Microsoft Remote Desktop</strong> from the Mac App Store. After installation, add a new PC connection and enter the RDP address, Windows login, and Windows password from your AlgoWay dashboard.</p>
+
+        <h3 class="mt-4">iPhone and iPad</h3>
+        <p>On iPhone or iPad, install the Microsoft remote desktop client from the App Store. Add a new PC connection, enter the VPS address, then log in with the Windows username and password.</p>
+
+        <h3 class="mt-4">Android</h3>
+        <p>On Android, install the Microsoft remote desktop client from Google Play. Add a new PC connection and use the VPS details shown in your AlgoWay dashboard.</p>
+
+        <h2 class="mt-4">The Easiest Method: Download the RDP File</h2>
+        <p>When your VPS is ready, the AlgoWay dashboard can show a <strong>Download RDP</strong> button. This is the easiest way to connect.</p>
+
+        <ol>
+            <li>Open the AlgoWay dashboard.</li>
+            <li>Go to your MT5 VPS service.</li>
+            <li>Wait until the VPS status is ready.</li>
+            <li>Click <strong>Download RDP</strong>.</li>
+            <li>Open the downloaded RDP file on your device.</li>
+            <li>Enter the Windows password when requested.</li>
+        </ol>
+
+        <p>The RDP file already contains the server connection address. This reduces the chance of entering the wrong IP address or missing the custom port for AW VPS.</p>
+
+        <h2 class="mt-4">How to Connect to OVH VPS</h2>
+        <p>OVH VPS plans use a dedicated public IP address. Each OVH VPS receives its own IP address for RDP access.</p>
+
+        <p>For manual connection, enter the VPS IP address exactly as shown in the AlgoWay dashboard:</p>
+
+        <pre><code>123.123.123.123</code></pre>
+
+        <p>If your RDP client asks for a port separately, use the standard RDP port:</p>
+
+        <pre><code>3389</code></pre>
+
+        <h3 class="mt-4">OVH VPS connection steps</h3>
+        <ol>
+            <li>Open your RDP client.</li>
+            <li>Enter the dedicated OVH VPS IP address.</li>
+            <li>Click <strong>Connect</strong>.</li>
+            <li>Enter the Windows login and password from AlgoWay.</li>
+            <li>Accept the Windows certificate prompt if it appears.</li>
+            <li>Wait until the Windows desktop opens.</li>
+        </ol>
+
+        <p>After the remote desktop opens, you can start MetaTrader 5 and continue the AlgoWay EA setup.</p>
+
+        <h2 class="mt-4">How to Connect to AW VPS</h2>
+        <p>AW VPS plans use a different RDP connection model. Instead of giving each VPS its own public IP address, the service can use one public IP address and separate VPS accounts by custom RDP ports.</p>
+
+        <p>For this reason, AW VPS must be entered with both IP address and port:</p>
+
+        <pre><code>11.22.33.44:40215</code></pre>
+
+        <p>In this example, <code>11.22.33.44</code> is the public server IP address, and <code>40215</code> is the RDP port assigned to that specific VPS.</p>
+
+        <h3 class="mt-4">AW VPS connection steps</h3>
+        <ol>
+            <li>Open your RDP client.</li>
+            <li>Enter the full RDP address in the <strong>IP:PORT</strong> format.</li>
+            <li>Click <strong>Connect</strong>.</li>
+            <li>Enter the Windows login and password from AlgoWay.</li>
+            <li>Accept the Windows certificate prompt if it appears.</li>
+            <li>Wait until the Windows desktop opens.</li>
+        </ol>
+
+        <p>The port is required. If you enter only the IP address without the assigned port, the RDP client will not open the correct VPS.</p>
+
+        <h2 class="mt-4">OVH VPS vs AW VPS Connection Format</h2>
+        <p>The main difference between OVH VPS and AW VPS is the RDP address format.</p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>VPS type</th>
+                        <th>Connection model</th>
+                        <th>RDP address format</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>OVH VPS</td>
+                        <td>Dedicated public IP address</td>
+                        <td><code>IP</code></td>
+                        <td><code>123.123.123.123</code></td>
+                    </tr>
+                    <tr>
+                        <td>AW VPS</td>
+                        <td>Public IP address plus custom RDP port</td>
+                        <td><code>IP:PORT</code></td>
+                        <td><code>11.22.33.44:40215</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="mt-4">First Login to the MT5 VPS</h2>
+        <p>After connecting by RDP, the remote Windows desktop will open. MetaTrader 5 is already installed on the VPS, and AlgoWay EA is prepared inside the environment.</p>
+
+        <p>The normal first-use flow is:</p>
+
+        <ol>
+            <li>Open MetaTrader 5 on the VPS.</li>
+            <li>Log in to your broker account inside MT5.</li>
+            <li>Confirm that MT5 is connected to the broker server.</li>
+            <li>Open the trading chart you want to use.</li>
+            <li>Attach AlgoWay EA to the chart.</li>
+            <li>Enter your AlgoWay webhook UUID inside the EA settings.</li>
+            <li>Confirm that the EA shows a connected status.</li>
+        </ol>
+
+        <p>Once MT5 is connected and AlgoWay EA is active, the VPS can work as the MetaTrader 5 execution side of your AlgoWay automation setup.</p>
+
+        <h2 class="mt-4">Recommended Step: Update AlgoWay EA</h2>
+        <p>After the first MT5 login, it is recommended to update AlgoWay EA from the VPS desktop. This helps make sure that the EA version used on the VPS is current.</p>
+
+        <p>Use this flow:</p>
+
+        <ol>
+            <li>Close MetaTrader 5.</li>
+            <li>Use the AlgoWay EA update shortcut on the VPS desktop.</li>
+            <li>Wait for the update process to finish.</li>
+            <li>Open MetaTrader 5 again.</li>
+            <li>Attach or check AlgoWay EA on the required chart.</li>
+            <li>Confirm that the webhook UUID and connection status are correct.</li>
+        </ol>
+
+        <p>You can also configure MT5 and AlgoWay EA first, then close MT5, run the update, and reopen MT5. After reopening, check that the EA is still attached and connected.</p>
+
+        <h2 class="mt-4">How to Keep MT5 Running on the VPS</h2>
+        <p>After MetaTrader 5 is running on the VPS, you do not need to keep the RDP window open all the time. You can disconnect from the RDP session and leave the VPS running remotely.</p>
+
+        <p>Do not shut down Windows if you want MT5 to continue working. Closing the RDP window or disconnecting from the session is different from shutting down the VPS.</p>
+
+        <p>The correct daily workflow is simple: connect by RDP when you need to check or change something, then disconnect from RDP when you are done. Leave MetaTrader 5 running on the remote Windows server.</p>
+
+        <h2 class="mt-4">AlgoWay MT5 VPS Plans and Prices</h2>
+        <p>AlgoWay currently lists AW and OVH MT5 VPS plans. All listed plans are prepared for MetaTrader 5 usage and remote access by RDP.</p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Provider type</th>
+                        <th>RDP connection</th>
+                        <th>Location</th>
+                        <th>CPU / RAM</th>
+                        <th>Storage</th>
+                        <th>Recommended use</th>
+                        <th>Monthly price</th>
+                        <th>Yearly price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AW Basic VPS</strong></td>
+                        <td>AW</td>
+                        <td>IP + custom RDP port</td>
+                        <td>New York / Frankfurt</td>
+                        <td>1 vCPU / 2 GB RAM</td>
+                        <td>30 GB</td>
+                        <td>1 MT5 terminal</td>
+                        <td>$12</td>
+                        <td>$110</td>
+                    </tr>
+                    <tr>
+                        <td><strong>AW Pro VPS</strong></td>
+                        <td>AW</td>
+                        <td>IP + custom RDP port</td>
+                        <td>New York / Frankfurt</td>
+                        <td>2 vCPU / 4 GB RAM</td>
+                        <td>60 GB</td>
+                        <td>3 MT5 terminals</td>
+                        <td>$20</td>
+                        <td>$220</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OVH Basic VPS</strong></td>
+                        <td>OVH</td>
+                        <td>Dedicated public IP</td>
+                        <td>London / Quebec</td>
+                        <td>1 vCPU / 2 GB RAM</td>
+                        <td>25 GB</td>
+                        <td>1 MT5 terminal</td>
+                        <td>$16</td>
+                        <td>$170</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OVH Pro VPS</strong></td>
+                        <td>OVH</td>
+                        <td>Dedicated public IP</td>
+                        <td>London / Quebec</td>
+                        <td>2 vCPU / 4 GB RAM</td>
+                        <td>50 GB</td>
+                        <td>3 MT5 terminals</td>
+                        <td>$26</td>
+                        <td>$280</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Webhook automation is not included in the VPS price. If you want to receive and execute trading signals through AlgoWay, activate the required AlgoWay webhook route separately.</p>
+
+        <h2 class="mt-4">Common RDP and VPS Problems</h2>
+
+        <h3 class="mt-4">The login and password are hidden</h3>
+        <p>The VPS is not ready yet. Wait until the service finishes activation and the status becomes ready in the AlgoWay dashboard.</p>
+
+        <h3 class="mt-4">The RDP file does not open</h3>
+        <p>Install an RDP client first. On Windows, use Remote Desktop Connection. On macOS, iPhone, iPad, or Android, install the Microsoft remote desktop client from the official app store.</p>
+
+        <h3 class="mt-4">AW VPS does not connect</h3>
+        <p>Check that the RDP address includes both the IP address and the assigned port. AW VPS must be entered in the <code>IP:PORT</code> format.</p>
+
+        <h3 class="mt-4">OVH VPS does not connect</h3>
+        <p>Check that you are using the dedicated public IP address shown in the AlgoWay dashboard.</p>
+
+        <h3 class="mt-4">The Windows password is rejected</h3>
+        <p>Copy the password exactly as shown in the dashboard. Passwords are case-sensitive, and extra spaces can break login.</p>
+
+        <h3 class="mt-4">MetaTrader 5 is not connected to the broker</h3>
+        <p>Open MT5 and check the broker account number, password, broker server name, and the connection status in the terminal.</p>
+
+        <h3 class="mt-4">AlgoWay EA does not show connected status</h3>
+        <p>Check that AlgoWay EA is attached to the chart, the webhook UUID is entered correctly, and MetaTrader 5 is connected to the broker server.</p>
+
+        <h2 class="mt-4">Best Internal Guides to Use with MT5 VPS</h2>
+        <p>After your VPS is connected and MetaTrader 5 is running, continue with the correct AlgoWay guide for your setup:</p>
+
+        <ul>
+            <li><a href="/blog/algoway-mt5-expert-advisor-installation-guide.html">AlgoWay MT5 Expert Advisor Installation Guide</a> — install and configure AlgoWay EA inside MetaTrader 5.</li>
+            <li><a href="/blog/algoway-mt5-ws-v10-overview.html">AlgoWayWS-MT5 Expert Advisor Setup</a> — MT5 WebSocket execution setup.</li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">Create a TradingView Webhook for AlgoWay</a> — connect TradingView alerts to AlgoWay.</li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON Schema Guide</a> — understand the standard AlgoWay webhook payload.</li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 Errors</a> — fix MT5-side connection and execution issues.</li>
+        </ul>
+
+        <h2 class="mt-4">FAQ: AlgoWay MT5 VPS and RDP Connection</h2>
+
+        <h3 class="mt-4">When do I receive VPS access?</h3>
+        <p>VPS access appears after the server is created and activated. Before that, login and password may be hidden in the AlgoWay dashboard.</p>
+
+        <h3 class="mt-4">How do I connect to OVH VPS?</h3>
+        <p>Use the dedicated public IP address shown in the AlgoWay dashboard, or download the RDP file when it is available.</p>
+
+        <h3 class="mt-4">How do I connect to AW VPS?</h3>
+        <p>Use the full RDP address in the <code>IP:PORT</code> format, or download the RDP file from the AlgoWay dashboard.</p>
+
+        <h3 class="mt-4">Is MetaTrader 5 already installed?</h3>
+        <p>Yes. AlgoWay MT5 VPS is prepared with MetaTrader 5 installed.</p>
+
+        <h3 class="mt-4">Is AlgoWay EA included on the VPS?</h3>
+        <p>Yes. AlgoWay EA is prepared inside the VPS environment. After the first login, it is recommended to update AlgoWay EA from the desktop shortcut.</p>
+
+        <h3 class="mt-4">Can I close the RDP window after MT5 is running?</h3>
+        <p>Yes. You can disconnect from RDP while the VPS continues running. Do not shut down Windows if you want MT5 to stay active.</p>
+
+        <h3 class="mt-4">Is webhook service included in the VPS price?</h3>
+        <p>No. Webhook service is separate from VPS hosting and is not included in the VPS price.</p>
+
+        <h3 class="mt-4">Which connection is easier: OVH VPS or AW VPS?</h3>
+        <p>Both can be opened easily with the Download RDP button. For manual connection, OVH VPS uses a dedicated IP address, while AW VPS requires the IP address and assigned RDP port.</p>
+
+        <h2 class="mt-4">Conclusion</h2>
+        <p>AlgoWay MT5 VPS gives traders a remote Windows environment for running MetaTrader 5 and AlgoWay EA in the cloud. After the VPS becomes ready, the user can download the RDP file, connect to Windows, open MetaTrader 5, log in to the broker, update AlgoWay EA, and connect the terminal to an AlgoWay webhook UUID.</p>
+
+        <p>For manual RDP connection, remember the key difference: OVH VPS uses a dedicated public IP address, while AW VPS uses an IP address with a custom RDP port. If you use the correct format and keep MT5 running on the VPS, AlgoWay can use the remote terminal as part of the automated trading execution flow.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "Article",
+                  "headline": "AlgoWay MT5 VPS Guide: How to Connect by RDP, Start MetaTrader 5, and Update AlgoWay EA",
+                  "description": "Step-by-step guide for AlgoWay MT5 VPS users. Learn how to connect by RDP, use OVH dedicated IP, use AW IP:PORT access, update AlgoWay EA, and run MetaTrader 5 automation in the cloud.",
+                  "image": [
+                            "https://algoway.trade/static/img/blog-img/algoway-vps.jpg"
+                  ],
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/logo-64.webp"
+                            }
+                  },
+                  "mainEntityOfPage": "https://algoway.trade/blog/algoway-mt5-vps-rdp-guide.html",
+                  "dateModified": "2026-05-18T00:00:00+00:00",
+                  "datePublished": "2026-05-18T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "When do I receive VPS access?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "VPS access appears after the server is created and activated. Before that, login and password may be hidden in the AlgoWay dashboard."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I connect to OVH VPS?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use the dedicated public IP address shown in the AlgoWay dashboard, or download the RDP file when it is available."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I connect to AW VPS?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use the full RDP address in the IP:PORT format, or download the RDP file from the AlgoWay dashboard."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is MetaTrader 5 already installed?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay MT5 VPS is prepared with MetaTrader 5 installed."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is AlgoWay EA included on the VPS?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay EA is prepared inside the VPS environment. After the first login, it is recommended to update AlgoWay EA from the desktop shortcut."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I close the RDP window after MT5 is running?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. You can disconnect from RDP while the VPS continues running. Do not shut down Windows if you want MT5 to stay active."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is webhook service included in the VPS price?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Webhook service is separate from VPS hosting and is not included in the VPS price."
+              }
+            }
+          ]
+        }
+        </script>
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "AlgoWay MT5 VPS RDP Guide",
+                                      "item": "https://algoway.trade/blog/algoway-mt5-vps-rdp-guide.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

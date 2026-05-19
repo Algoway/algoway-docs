@@ -1,0 +1,1124 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>TradingView to OANDA MT5 with AlgoWay</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TradingView alerts to OANDA MT5 and other MT5 brokers with AlgoWayWS-MT5 EA. Check symbols, permissions, logs and execution." />
+	<link rel="canonical" href="https://algoway.trade/blog/exploring-algoways-compatibility-with-oanda-and-other-mt5-brokers.html" />
+
+	<meta property="og:title" content="TradingView to OANDA MT5 and Other MT5 Brokers with AlgoWay" />
+	<meta property="og:description" content="AlgoWay works with MT5 broker accounts that allow Expert Advisor execution. Learn how to connect TradingView alerts to OANDA MT5 and other MetaTrader 5 brokers through AlgoWayWS-MT5 EA." />
+	<meta property="og:url" content="https://algoway.trade/blog/exploring-algoways-compatibility-with-oanda-and-other-mt5-brokers.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="TradingView to OANDA MT5 with AlgoWay" />
+	<meta name="twitter:description" content="Connect TradingView alerts to OANDA MT5 and other MT5 brokers through AlgoWay webhook automation and AlgoWayWS-MT5 EA." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/basics-of-algorithmic-trading@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>TradingView to OANDA MT5 and Other MetaTrader 5 Brokers with AlgoWay</strong></h1>
+
+        <img src="/static/img/blog-img/basics-of-algorithmic-trading@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="TradingView to OANDA MT5 and other MetaTrader 5 brokers with AlgoWay webhook automation"
+             style="margin-bottom: 1.5rem; width: 100%; height: auto;" decoding="async" />
+
+        <p><strong>Yes, AlgoWay can be used with OANDA MT5 when the account runs through MetaTrader 5 and Expert Advisor trading is allowed.</strong> The same logic applies to other MetaTrader 5 brokers: if the broker gives you a usable MT5 desktop terminal, allows algorithmic trading, and the AlgoWayWS-MT5 Expert Advisor can connect and execute, then TradingView alerts can be routed to that broker through AlgoWay.</p>
+
+        <p>This page is written for traders searching for <strong>TradingView to OANDA MT5</strong>, <strong>OANDA MT5 automated trading</strong>, <strong>OANDA Expert Advisor</strong>, <strong>TradingView alerts to MT5 broker</strong>, <strong>MetaTrader 5 broker compatibility</strong>, <strong>MT5 webhook automation</strong>, and <strong>TradingView to MT5 connector</strong>.</p>
+
+        <p>The execution route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → AlgoWayWS-MT5 EA → OANDA MT5 or another MT5 broker account</code></pre>
+
+        <p>AlgoWay does not connect to the broker brand name directly. It connects to the <strong>MetaTrader 5 terminal</strong> through the AlgoWayWS-MT5 Expert Advisor. The broker matters because the broker controls symbols, account type, market sessions, lot rules, margin rules, order filling and whether EA trading is allowed.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#how-it-works">How AlgoWay works with OANDA MT5</a></li>
+                <li><a href="#compatibility">MT5 broker compatibility checklist</a></li>
+                <li><a href="#brokers">Examples of MT5 brokers</a></li>
+                <li><a href="#setup">Setup workflow</a></li>
+                <li><a href="#json">TradingView JSON example</a></li>
+                <li><a href="#symbol">Symbol mapping</a></li>
+                <li><a href="#errors">Common problems</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: Does AlgoWay Support OANDA?</h2>
+
+        <p>AlgoWay supports OANDA through the MT5 route when the user has access to OANDA MetaTrader 5 and the MT5 terminal allows Expert Advisors to trade. The AlgoWay side is the same as with other MT5 brokers:</p>
+
+        <ol>
+            <li>create a MetaTrader 5 webhook in AlgoWay;</li>
+            <li>install AlgoWayWS-MT5 EA in the MT5 terminal;</li>
+            <li>enter the AlgoWay webhook UUID in the EA inputs;</li>
+            <li>enable Algo Trading and required EA permissions;</li>
+            <li>send TradingView webhook JSON to AlgoWay;</li>
+            <li>let the connected MT5 terminal execute through the broker account.</li>
+        </ol>
+
+        <p>The critical point is not the broker name alone. The critical point is whether the broker's MT5 environment allows the required EA execution workflow.</p>
+
+        <h2 id="how-it-works" class="mt-4">How AlgoWay Works with OANDA MT5</h2>
+
+        <p>OANDA offers MetaTrader 5 in supported regions, and MT5 is designed to run trading robots and Expert Advisors. AlgoWay uses this MT5 automation layer through the AlgoWayWS-MT5 Expert Advisor.</p>
+
+        <p>The process has four layers:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TradingView</td>
+                    <td>Creates the strategy, indicator or manual alert.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay webhook</td>
+                    <td>Receives and validates the JSON signal.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWayWS-MT5 EA</td>
+                    <td>Receives the routed command inside the MT5 terminal.</td>
+                </tr>
+                <tr>
+                    <td>OANDA MT5 or other MT5 broker</td>
+                    <td>Executes or rejects the final order according to broker rules.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>This is why AlgoWay can work across many MT5 brokers: the integration point is the MT5 terminal and EA, not a separate custom API for every broker.</p>
+
+        <h2 id="compatibility" class="mt-4">MT5 Broker Compatibility Checklist</h2>
+
+        <p>Before saying that a broker is ready for AlgoWay automation, check these conditions:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Check</th>
+                    <th>Required state</th>
+                    <th>Why it matters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MetaTrader 5 desktop terminal</td>
+                    <td>Available and logged in</td>
+                    <td>AlgoWayWS-MT5 EA runs inside MT5 desktop.</td>
+                </tr>
+                <tr>
+                    <td>Expert Advisor trading</td>
+                    <td>Allowed</td>
+                    <td>Without EA trading, MT5 can reject orders with permission errors.</td>
+                </tr>
+                <tr>
+                    <td>Algo Trading switch</td>
+                    <td>Enabled</td>
+                    <td>MT5 blocks automated trading if this switch is off.</td>
+                </tr>
+                <tr>
+                    <td>EA chart permissions</td>
+                    <td>Trading allowed</td>
+                    <td>The specific AlgoWayWS-MT5 EA must be allowed to trade.</td>
+                </tr>
+                <tr>
+                    <td>DLL imports</td>
+                    <td>Allowed if required by current EA setup</td>
+                    <td>Needed for the current WebSocket EA workflow.</td>
+                </tr>
+                <tr>
+                    <td>Symbol availability</td>
+                    <td>Visible in Market Watch</td>
+                    <td>TradingView ticker must map to the broker's exact MT5 symbol.</td>
+                </tr>
+                <tr>
+                    <td>Lot rules</td>
+                    <td>Known and tested</td>
+                    <td>Minimum lot, maximum lot and volume step can reject orders.</td>
+                </tr>
+                <tr>
+                    <td>Market session</td>
+                    <td>Open for the symbol</td>
+                    <td>Closed markets reject execution.</td>
+                </tr>
+                <tr>
+                    <td>Filling mode</td>
+                    <td>Compatible with broker symbol</td>
+                    <td>Unsupported filling mode can cause MT5 execution errors.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="brokers" class="mt-4">Examples of MT5 Brokers AlgoWay Can Work With</h2>
+
+        <p>AlgoWay can work with MT5 brokers when the broker account allows the required MT5 EA workflow. Examples of brokers that may offer MT5 access in different regions include:</p>
+
+        <ul>
+            <li>OANDA</li>
+            <li>IC Markets</li>
+            <li>Pepperstone</li>
+            <li>RoboForex</li>
+            <li>Alpari</li>
+            <li>FxPro</li>
+            <li>XM</li>
+            <li>Exness</li>
+            <li>FBS</li>
+            <li>Admirals</li>
+            <li>Octa</li>
+            <li>Deriv</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> this is not a universal guarantee for every account, every country, every symbol or every broker server. Broker availability, MT5 access, EA permissions, instruments and account rules can differ by region and account type.
+        </div>
+
+        <p>The safe rule is simple:</p>
+
+        <pre><code>If the broker gives you working MT5 desktop access and allows Expert Advisors to trade, test AlgoWayWS-MT5 EA on demo or minimal size before live automation.</code></pre>
+
+        <h2 id="setup" class="mt-4">Setup Workflow: TradingView to OANDA MT5 Through AlgoWay</h2>
+
+        <p>The setup is the same for OANDA MT5 and other MT5 brokers.</p>
+
+        <h3 class="mt-3">Step 1. Create a MetaTrader 5 Webhook in AlgoWay</h3>
+
+        <p>In the AlgoWay dashboard, create a webhook with:</p>
+
+        <pre><code>Source: TradingView
+Platform: MetaTrader 5</code></pre>
+
+        <p>After saving, AlgoWay gives you a webhook UUID and webhook URL. The webhook UUID is entered in the MT5 EA inputs. The webhook URL is used in TradingView alerts.</p>
+
+        <h3 class="mt-3">Step 2. Install AlgoWayWS-MT5 EA</h3>
+
+        <p>Install the current AlgoWayWS-MT5 EA in the MT5 terminal connected to your broker account.</p>
+
+        <p>Current setup guide: <a href="/blog/algoway-mt5-ws-v10-overview.html">How to install AlgoWayWS-MT5 EA for TradingView to MT5 webhook automation</a>.</p>
+
+        <h3 class="mt-3">Step 3. Enable MT5 Permissions</h3>
+
+        <p>In MetaTrader 5, check:</p>
+
+        <ul>
+            <li><strong>Algo Trading</strong> is enabled on the toolbar;</li>
+            <li><strong>Allow algorithmic trading</strong> is enabled in Options → Expert Advisors;</li>
+            <li>the EA chart properties allow trading;</li>
+            <li>DLL imports are allowed if required by the current EA setup.</li>
+        </ul>
+
+        <h3 class="mt-3">Step 4. Enter the Webhook UUID in the EA</h3>
+
+        <p>Attach AlgoWayWS-MT5 EA to a chart and paste the AlgoWay webhook UUID into the EA inputs.</p>
+
+        <pre><code>b7534616-6c8c-4582-8af4-7c143d323231</code></pre>
+
+        <p>Use the UUID only, not the full webhook URL.</p>
+
+        <h3 class="mt-3">Step 5. Test with a Small Order</h3>
+
+        <p>Before live TradingView automation, send a small test order through AlgoWay and check:</p>
+
+        <ul>
+            <li>AlgoWay webhook logs;</li>
+            <li>MT5 Experts log;</li>
+            <li>MT5 Journal log;</li>
+            <li>broker position or order window;</li>
+            <li>symbol, lot size and execution result.</li>
+        </ul>
+
+        <h2 id="json" class="mt-4">TradingView JSON Example for OANDA MT5</h2>
+
+        <p>A basic TradingView strategy alert message for an MT5 broker route can look like this:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>For a fixed test, use a direct broker symbol and small valid lot:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.01,
+  "order_action": "buy"
+}</code></pre>
+
+        <p>If your broker uses a suffix, use the exact MT5 symbol or configure mapping:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD.a",
+  "order_contracts": 0.01,
+  "order_action": "buy"
+}</code></pre>
+
+        <p>Full field reference: <a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a>.</p>
+
+        <h2 id="symbol" class="mt-4">Symbol Mapping: TradingView Ticker vs MT5 Broker Symbol</h2>
+
+        <p>Symbol mismatch is one of the most common reasons a TradingView-to-MT5 setup fails. TradingView may send one ticker while the broker's MT5 terminal uses another exact symbol name.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>TradingView ticker</th>
+                    <th>Possible MT5 broker symbol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>EURUSD</code></td>
+                    <td><code>EURUSD</code>, <code>EURUSD.a</code>, <code>EURUSDm</code></td>
+                </tr>
+                <tr>
+                    <td><code>XAUUSD</code></td>
+                    <td><code>XAUUSD</code>, <code>XAUUSD.r</code>, <code>GOLD</code></td>
+                </tr>
+                <tr>
+                    <td><code>US30</code></td>
+                    <td><code>US30</code>, <code>DJ30</code>, <code>US30.cash</code></td>
+                </tr>
+                <tr>
+                    <td><code>DE40</code></td>
+                    <td><code>DE40</code>, <code>GER40</code>, <code>DAX40</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Always check <strong>Market Watch</strong> in the MT5 terminal connected to the broker account. The symbol must exist there and must be tradable.</p>
+
+        <h2 class="mt-4">OANDA Direct TradingView Integration vs AlgoWay MT5 Route</h2>
+
+        <p>Some brokers, including OANDA in supported regions, may offer direct TradingView integration. That is different from AlgoWay's MT5 route.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Direct TradingView broker integration</th>
+                    <th>AlgoWay MT5 route</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TradingView acts as the trading interface connected to the broker.</td>
+                    <td>TradingView sends webhook alerts to AlgoWay.</td>
+                </tr>
+                <tr>
+                    <td>Usually focused on manual or TradingView-side trading.</td>
+                    <td>Designed for structured webhook automation from strategies and alerts.</td>
+                </tr>
+                <tr>
+                    <td>Depends on TradingView's broker integration features.</td>
+                    <td>Depends on MT5 EA execution inside the broker's MT5 terminal.</td>
+                </tr>
+                <tr>
+                    <td>May not be the same as automated Pine Script webhook routing.</td>
+                    <td>Uses JSON, AlgoWay webhooks, logs, EA settings and MT5 execution rules.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>If your goal is direct manual trading from TradingView, use the broker's TradingView integration where available. If your goal is automated TradingView webhook execution through MT5, use the AlgoWay MT5 route.</p>
+
+        <h2 id="errors" class="mt-4">Common Problems with OANDA MT5 and Other MT5 Brokers</h2>
+
+        <h3 class="mt-3">MT5 EA Is Not Connected</h3>
+        <p>Check AlgoWayWS-MT5 EA status, webhook UUID, internet connection, DLL imports and MT5 Experts log.</p>
+
+        <h3 class="mt-3">Trading Disabled by Terminal</h3>
+        <p>If MT5 returns Error 4752, Algo Trading or EA permissions are disabled. Read: <a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">How to fix MT5 Error 4752</a>.</p>
+
+        <h3 class="mt-3">Trade Request Rejected</h3>
+        <p>If MT5 returns Error 4756, the broker or terminal rejected the request. Check symbol, lot size, filling mode, market session, margin, SL/TP and logs. Read: <a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">How to fix MT5 Error 4756</a>.</p>
+
+        <h3 class="mt-3">Wrong Symbol</h3>
+        <p>Check TradingView ticker, MT5 Market Watch and symbol mapping. Broker suffixes are common.</p>
+
+        <h3 class="mt-3">Invalid Lot Size</h3>
+        <p>Check the broker symbol specification: minimum lot, maximum lot and volume step.</p>
+
+        <h3 class="mt-3">Market Closed</h3>
+        <p>Check the trading session for that symbol. MT5 can show the symbol but still reject orders outside session time.</p>
+
+        <h3 class="mt-3">Invalid Stops</h3>
+        <p>Check Stop Loss and Take Profit side, distance, freeze level, stop level and price precision.</p>
+
+        <h3 class="mt-3">Webhook JSON Is Invalid</h3>
+        <p>If AlgoWay rejects the alert before it reaches MT5, check JSON format and content type. Read: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <h2 class="mt-4">Why Use AlgoWay for MT5 Broker Automation?</h2>
+
+        <p>MetaTrader 5 gives you the terminal and EA environment. TradingView gives you charts, strategy logic and alerts. AlgoWay connects the two through webhook automation.</p>
+
+        <p>AlgoWay adds:</p>
+
+        <ul>
+            <li>TradingView webhook receiver;</li>
+            <li>structured JSON workflow;</li>
+            <li>AlgoWayWS-MT5 EA connection;</li>
+            <li>support for many MT5 broker accounts through the same EA route;</li>
+            <li>webhook logs and diagnostics;</li>
+            <li>trade modes such as Hedge, Reverse and Opposite;</li>
+            <li>support for other platforms beyond MT5 if the trader expands later.</li>
+        </ul>
+
+        <p>Central guide: <a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">How to automate TradingView alerts to any broker with AlgoWay</a>.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a></li>
+            <li><a href="/blog/algoway-mt5-ws-v10-overview.html">How to install AlgoWayWS-MT5 EA</a></li>
+            <li><a href="/blog/algoway-mt5-v206-overview.html">AlgoWayWS-MT5 EA 2.10 guide</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">MetaTrader 5 common errors in AlgoWay</a></li>
+            <li><a href="/blog/backtest-tradingview-algoway-guide-with-images.html">TradingView backtesting and AlgoWay Trade Metrics</a></li>
+        </ul>
+
+        <h2 id="faq" class="mt-4">FAQ</h2>
+
+        <h3 class="mt-3">Does AlgoWay support OANDA?</h3>
+        <p>AlgoWay can be used with OANDA MT5 when the user has access to the OANDA MetaTrader 5 terminal and EA trading is allowed.</p>
+
+        <h3 class="mt-3">Does AlgoWay work with every MT5 broker?</h3>
+        <p>AlgoWay works through the MT5 terminal and AlgoWayWS-MT5 EA. If the broker allows the required MT5 EA workflow, the route can be tested. Broker rules, symbols, region and account type still matter.</p>
+
+        <h3 class="mt-3">Do I need a separate integration for each MT5 broker?</h3>
+        <p>No. The AlgoWay route uses the MT5 terminal and AlgoWayWS-MT5 EA. You configure the EA in the MT5 terminal connected to the broker account.</p>
+
+        <h3 class="mt-3">Can I use OANDA's direct TradingView integration instead?</h3>
+        <p>Yes, if your goal is direct TradingView broker integration. AlgoWay is used when you want webhook-based automation and MT5 EA execution from TradingView alerts.</p>
+
+        <h3 class="mt-3">What should I test first?</h3>
+        <p>Test a small market order on demo or minimal live size, then check AlgoWay logs, MT5 Experts log and the broker's order result.</p>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>AlgoWay is compatible with OANDA MT5 and other MT5 brokers through the AlgoWayWS-MT5 EA route when the broker account supports Expert Advisor trading.</strong> The key is not only broker branding. The key is a working MT5 desktop terminal, EA permissions, correct webhook UUID, correct symbol mapping, valid lot size and broker execution rules.</p>
+
+        <p>If your MT5 broker supports the required EA workflow, AlgoWay can route TradingView webhook alerts into that broker account through MetaTrader 5.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "TradingView to OANDA MT5 and Other MetaTrader 5 Brokers with AlgoWay",
+                  "description": "Connect TradingView alerts to OANDA MT5 and other MetaTrader 5 brokers with AlgoWay. Use AlgoWayWS-MT5 EA, webhook automation, broker compatibility checks, symbols, EA permissions, logs and troubleshooting.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/exploring-algoways-compatibility-with-oanda-and-other-mt5-brokers.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "MetaTrader 5 Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Does AlgoWay support OANDA MT5?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AlgoWay can be used with OANDA MT5 when the user has access to OANDA MetaTrader 5 and the MT5 terminal allows Expert Advisors to trade."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does AlgoWay work with any MT5 broker?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AlgoWay works through the MetaTrader 5 terminal and AlgoWayWS-MT5 EA. If the broker account allows the required MT5 EA workflow, the setup can be tested. Broker rules, symbols, region and account type still matter."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I connect TradingView to an MT5 broker with AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Create a MetaTrader 5 webhook in AlgoWay, install AlgoWayWS-MT5 EA in the broker's MT5 terminal, enter the webhook UUID, enable EA trading permissions, and send valid TradingView JSON to the AlgoWay webhook URL."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does my OANDA MT5 trade not execute?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include disconnected EA, wrong webhook UUID, disabled Algo Trading, wrong symbol, invalid lot size, market closed, unsupported filling mode, invalid stops or broker-side rejection."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is OANDA direct TradingView integration the same as AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. OANDA direct TradingView integration connects TradingView to the broker interface where available. AlgoWay uses TradingView webhook alerts routed to MT5 through AlgoWayWS-MT5 EA."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "TradingView to OANDA MT5 with AlgoWay",
+                                      "item": "https://algoway.trade/blog/exploring-algoways-compatibility-with-oanda-and-other-mt5-brokers.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

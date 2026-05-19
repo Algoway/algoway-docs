@@ -1,0 +1,1152 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>MT5 EA Webhook JSON Reference for AlgoWay</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Legacy AlgoWay-MT5 EA v1.90 guide updated as a current MT5 webhook JSON reference for AlgoWayWS-MT5 EA 2.10 and TradingView alerts." />
+	<link rel="canonical" href="https://algoway.trade/blog/algoway-mt5-v19-overview.html" />
+
+	<meta property="og:title" content="MT5 EA Webhook JSON Reference for TradingView Automation | AlgoWay" />
+	<meta property="og:description" content="Current AlgoWay guide hub for MT5 webhook JSON fields, TradingView-to-MT5 automation, AlgoWayWS-MT5 EA 2.10 setup, SL/TP, trailing, risk mode, trade modes and troubleshooting." />
+	<meta property="og:url" content="https://algoway.trade/blog/algoway-mt5-v19-overview.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="MT5 EA Webhook JSON Reference | AlgoWay" />
+	<meta name="twitter:description" content="Legacy v1.90 page updated for current AlgoWayWS-MT5 EA 2.10: JSON fields, TradingView alerts, SL/TP, trailing, risk mode and MT5 troubleshooting." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/v190@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-3"><strong>MT5 EA Webhook JSON Reference for TradingView Automation with AlgoWay</strong></h1>
+
+        <img src="/static/img/blog-img/v190@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="MT5 EA webhook JSON reference for TradingView automation with AlgoWay"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>This page originally described AlgoWay-MT5 EA v1.90.</strong> That version documented MT5 Inputs, supported webhook JSON fields, SL/TP models, trailing logic, risk mode, sessions and modify actions. The current AlgoWay MT5 workflow has moved forward to <strong>AlgoWayWS-MT5 EA 2.10</strong>, so this URL should now work as a current reference hub, not as a frozen v1.90 manual.</p>
+
+        <p>The URL is still valuable because traders search for <strong>MT5 EA JSON fields</strong>, <strong>TradingView to MT5 webhook JSON</strong>, <strong>MetaTrader 5 Expert Advisor inputs</strong>, <strong>MT5 webhook automation</strong>, <strong>TradingView alert SL TP MT5</strong>, and <strong>MT5 EA trailing stop JSON</strong>. Instead of losing that indexed traffic, AlgoWay now uses this page to explain the webhook message structure and send users to the current AlgoWayWS-MT5 guides.</p>
+
+        <p>The current route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → AlgoWayWS-MT5 EA → MetaTrader 5 broker account</code></pre>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <h2 class="mt-4">Start Here: Current AlgoWayWS-MT5 EA Guides</h2>
+
+        <p>If you arrived from Google looking for the old v1.90 user guide, use these current pages first:</p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Need</th>
+                        <th>Current guide</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Install the current MT5 Expert Advisor</td>
+                        <td><a href="/blog/algoway-mt5-expert-advisor-installation-guide.html">How to install an MT5 Expert Advisor for AlgoWay automation</a></td>
+                    </tr>
+                    <tr>
+                        <td>Connect TradingView alerts to MetaTrader 5</td>
+                        <td><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a></td>
+                    </tr>
+                    <tr>
+                        <td>Understand current WebSocket EA architecture</td>
+                        <td><a href="/blog/algoway-mt5-ws-v10-overview.html">AlgoWayWS-MT5 WebSocket EA overview</a></td>
+                    </tr>
+                    <tr>
+                        <td>Build a correct AlgoWay webhook message</td>
+                        <td><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></td>
+                    </tr>
+                    <tr>
+                        <td>Understand SL/TP, trailing and risk controls</td>
+                        <td><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></td>
+                    </tr>
+                    <tr>
+                        <td>Choose Hedge, Reverse or Opposite execution mode</td>
+                        <td><a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a></td>
+                    </tr>
+                    <tr>
+                        <td>Fix MT5 execution errors</td>
+                        <td><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">MetaTrader 5 common errors in AlgoWay</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="mt-4">What This Legacy v1.90 Page Is Now</h2>
+
+        <p>The old v1.90 page was a detailed user guide for a specific EA version. It listed Inputs EA items, WebRequest requirements, trade modes, JSON fields, SL/TP models, risk percent mode, modify action, trade limits, sessions and auto-flat behavior.</p>
+
+        <p>The current page keeps that knowledge but changes the purpose:</p>
+
+        <ul>
+            <li>it explains the core webhook JSON concepts that still matter;</li>
+            <li>it separates legacy v1.90 behavior from current AlgoWayWS-MT5 EA setup;</li>
+            <li>it gives users a practical JSON field map;</li>
+            <li>it links old indexed traffic to current AlgoWay documentation;</li>
+            <li>it helps users debug TradingView-to-MT5 automation without relying on outdated version notes.</li>
+        </ul>
+
+        <h2 class="mt-4">How AlgoWay MT5 Webhook Automation Works</h2>
+
+        <p>AlgoWay does not replace your trading strategy. TradingView, Telegram, Pine Script, a manual test, or another signal source creates the instruction. AlgoWay receives that instruction and routes it to the destination platform. For MetaTrader 5, the current execution component is AlgoWayWS-MT5 EA.</p>
+
+        <p>The EA acts as the execution bridge inside MetaTrader 5:</p>
+
+        <ol>
+            <li>TradingView sends a webhook alert to AlgoWay.</li>
+            <li>AlgoWay validates and routes the JSON message.</li>
+            <li>AlgoWayWS-MT5 EA receives the command through the current connection flow.</li>
+            <li>The EA maps the symbol, size, action, SL/TP and optional fields.</li>
+            <li>MetaTrader 5 sends the final request to the broker server.</li>
+            <li>AlgoWay and MT5 logs help you confirm what happened.</li>
+        </ol>
+
+        <h2 class="mt-4">Core JSON Fields for MT5 Webhook Automation</h2>
+
+        <p>A basic AlgoWay MT5 webhook message usually includes four fields:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Example</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>platform_name</code></td>
+                    <td><code>metatrader5</code></td>
+                    <td>Tells AlgoWay to route the command to MetaTrader 5.</td>
+                </tr>
+                <tr>
+                    <td><code>ticker</code></td>
+                    <td><code>EURUSD</code></td>
+                    <td>Defines the instrument. It may need symbol mapping if the broker uses suffixes.</td>
+                </tr>
+                <tr>
+                    <td><code>order_contracts</code></td>
+                    <td><code>0.10</code></td>
+                    <td>Defines the size before final EA/broker conversion rules.</td>
+                </tr>
+                <tr>
+                    <td><code>order_action</code></td>
+                    <td><code>buy</code></td>
+                    <td>Defines the action: buy, sell, flat, modify or supported directional value.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Example:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy"
+}</code></pre>
+
+        <h2 class="mt-4">TradingView Strategy Alert JSON Example</h2>
+
+        <p>For TradingView strategy alerts, the JSON message can use TradingView placeholders. TradingView replaces them when the alert fires.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>This is the common bridge pattern used by TradingView-to-MT5 automation tools: TradingView creates the alert, the bridge validates the message, and the MT5 EA executes the command through MetaTrader.</p>
+
+        <h2 class="mt-4">Supported Actions: Buy, Sell, Flat and Modify</h2>
+
+        <p>The most important action field is <code>order_action</code>. It tells AlgoWay what the signal wants to do.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Meaning</th>
+                    <th>Typical use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>buy</code></td>
+                    <td>Open or manage a BUY-side command</td>
+                    <td>Long entry signal</td>
+                </tr>
+                <tr>
+                    <td><code>sell</code></td>
+                    <td>Open or manage a SELL-side command</td>
+                    <td>Short entry signal</td>
+                </tr>
+                <tr>
+                    <td><code>flat</code></td>
+                    <td>Close position logic</td>
+                    <td>Exit signal, close side, close symbol</td>
+                </tr>
+                <tr>
+                    <td><code>modify</code></td>
+                    <td>Modify an existing position</td>
+                    <td>Update SL/TP by comment or identifier</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Some strategy outputs use values such as long, short, flat or custom action names. Always confirm how your current AlgoWay route maps those values before live trading.</p>
+
+        <h2 class="mt-4">SL/TP Fields: Exact Price vs Distance</h2>
+
+        <p>The old v1.90 guide emphasized two SL/TP models. That concept still matters in current automation.</p>
+
+        <h3 class="mt-3">Exact Price Fields</h3>
+
+        <p>Use exact price fields when your signal already knows the precise Stop Loss or Take Profit level.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy",
+  "sl_price": 1.08400,
+  "tp_price": 1.09000
+}</code></pre>
+
+        <h3 class="mt-3">Distance Fields</h3>
+
+        <p>Use distance fields when your signal sends stop and target distances instead of absolute price levels.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "sell",
+  "stop_loss": 200,
+  "take_profit": 300
+}</code></pre>
+
+        <p>If both exact price fields and distance fields are present, exact price fields should be treated as the clearer instruction:</p>
+
+        <ul>
+            <li><code>sl_price</code> should win over <code>stop_loss</code>.</li>
+            <li><code>tp_price</code> should win over <code>take_profit</code>.</li>
+        </ul>
+
+        <p>More detail: <a href="/blog/algoway-mt5-v16-smarter-faster-and-more-precise-trading.html">How to automate MT5 Stop Loss and Take Profit from TradingView alerts</a>.</p>
+
+        <h2 class="mt-4">Trailing Stop Field</h2>
+
+        <p>Trailing stop automation can be defined globally in the EA or per trade through a JSON field, depending on current route behavior.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "GBPUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy",
+  "stop_loss": 120,
+  "trailing_pips": 80
+}</code></pre>
+
+        <p>Trailing stop logic depends on the current EA build, terminal connection and broker rules. If trailing is managed by the terminal or EA, MetaTrader 5 must remain connected for local trailing logic to continue.</p>
+
+        <h2 class="mt-4">Position Identifier: Comment and tv_order_id</h2>
+
+        <p>For modify operations, the system needs to know which position should be changed. The legacy v1.90 guide used <code>comment</code> as the primary identifier and <code>tv_order_id</code> as a fallback when the comment was empty.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "modify",
+  "ticker": "EURUSD",
+  "comment": "TV#12345",
+  "sl_price": 1.08300,
+  "tp_price": 1.09200
+}</code></pre>
+
+        <p>In current usage, always check the current JSON schema and EA behavior before relying on identifiers for live position modification.</p>
+
+        <h2 class="mt-4">close_side for Hedge Logic</h2>
+
+        <p>When hedging is supported, <code>close_side</code> can be used with a flat-style command to close only one side of the symbol.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "close_side": "long"
+}</code></pre>
+
+        <p>Typical meanings:</p>
+
+        <ul>
+            <li><code>long</code> — close BUY-side positions.</li>
+            <li><code>short</code> — close SELL-side positions.</li>
+        </ul>
+
+        <p>This behavior must match the selected AlgoWay mode and the broker account type. If the destination account is netting or one-way, hedge-side behavior may not apply the same way.</p>
+
+        <h2 class="mt-4">Execution Modes: Reverse, Hedge and Opposite</h2>
+
+        <p>The old v1.90 page documented execution modes. The current explanation should focus on what happens when an opposite signal arrives.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>Practical meaning</th>
+                    <th>When to use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Hedge</strong></td>
+                    <td>BUY and SELL can exist separately if the platform/account supports it.</td>
+                    <td>Strategies that intentionally allow both directions.</td>
+                </tr>
+                <tr>
+                    <td><strong>Reverse</strong></td>
+                    <td>Opposite signal closes the current position and waits for another entry.</td>
+                    <td>Opposite signal means exit, not instant flip.</td>
+                </tr>
+                <tr>
+                    <td><strong>Opposite</strong></td>
+                    <td>Opposite signal closes the current position and immediately opens the other side.</td>
+                    <td>Strategies that must flip direction immediately.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Full guide: <a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a>.</p>
+
+        <h2 class="mt-4">Risk Mode and order_contracts</h2>
+
+        <p>The legacy v1.90 guide included a risk-percent mode where <code>order_contracts</code> could be interpreted as percent risk of equity. This is a powerful concept, but it must be used only with the current EA documentation and current dashboard settings.</p>
+
+        <p>Risk-based sizing usually requires a valid Stop Loss, because the system needs a stop distance to calculate position size from risk. If risk mode is enabled and no usable Stop Loss exists, the route should block execution instead of guessing.</p>
+
+        <h2 class="mt-4">Sessions, Trade Limits and Auto-Flat</h2>
+
+        <p>Execution is not only about receiving a signal. The EA and AlgoWay configuration may also apply time and safety filters:</p>
+
+        <ul>
+            <li>maximum daily loss;</li>
+            <li>maximum drawdown per trade;</li>
+            <li>maximum open positions;</li>
+            <li>London, New York or Tokyo session filters;</li>
+            <li>daily trade window;</li>
+            <li>end-of-day or end-of-week auto-flat behavior.</li>
+        </ul>
+
+        <p>If a signal is rejected by a schedule or risk rule, that is not a TradingView failure. It means the automation layer followed the configured safety rules.</p>
+
+        <h2 class="mt-4">Symbol Mapping: TradingView Ticker vs MT5 Broker Symbol</h2>
+
+        <p>One of the most common MT5 automation problems is symbol mismatch. TradingView may send <code>XAUUSD</code>, while the broker requires <code>XAUUSDm</code>, <code>XAUUSD.r</code> or another exact symbol name.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>TradingView ticker</th>
+                    <th>MT5 broker symbol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>EURUSD</code></td>
+                    <td><code>EURUSD.a</code></td>
+                </tr>
+                <tr>
+                    <td><code>XAUUSD</code></td>
+                    <td><code>XAUUSDm</code></td>
+                </tr>
+                <tr>
+                    <td><code>BTCUSDTPERP</code></td>
+                    <td><code>BTCUSDT.r</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Always check the exact symbol in MetaTrader 5 Market Watch before testing live order execution.</p>
+
+        <h2 class="mt-4">Common JSON and MT5 Execution Problems</h2>
+
+        <h3 class="mt-3">Invalid JSON</h3>
+        <p>If TradingView sends plain text or broken JSON, AlgoWay may reject the webhook before MT5 receives anything. See: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <h3 class="mt-3">EA Does Not Receive Commands</h3>
+        <p>Check the AlgoWay webhook UUID, current EA connection status, MT5 Experts log and the current AlgoWayWS-MT5 installation guide.</p>
+
+        <h3 class="mt-3">Symbol Not Found</h3>
+        <p>Check Market Watch and symbol mapping. The broker symbol must match exactly.</p>
+
+        <h3 class="mt-3">Invalid Stops</h3>
+        <p>Check Stop Loss side, Take Profit side, stop level, freeze level, symbol digits and points/pips interpretation.</p>
+
+        <h3 class="mt-3">Unsupported Filling Mode</h3>
+        <p>Test the supported order filling policy for the broker and symbol. Unsupported filling mode often appears together with MT5 Error 4756.</p>
+
+        <h3 class="mt-3">Trading Disabled</h3>
+        <p>If MT5 returns Error 4752, enable Algo Trading and EA permissions. See: <a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">How to fix MT5 Error 4752</a>.</p>
+
+        <h2 class="mt-4">Safe Testing Procedure for JSON Changes</h2>
+
+        <p>When changing webhook JSON, test in layers:</p>
+
+        <ol>
+            <li>Send a simple market order without SL/TP.</li>
+            <li>Confirm that AlgoWay receives the message.</li>
+            <li>Confirm that AlgoWayWS-MT5 receives the command.</li>
+            <li>Confirm that MT5 sends the order without permission errors.</li>
+            <li>Add exact <code>sl_price</code> and <code>tp_price</code>.</li>
+            <li>Test distance fields only after exact price fields work.</li>
+            <li>Add trailing logic only after base execution is stable.</li>
+            <li>Check both AlgoWay logs and MT5 Experts/Journal logs after every test.</li>
+        </ol>
+
+        <h2 class="mt-4">Why This v1.90 Page Still Exists</h2>
+
+        <p>This page remains online because it is already indexed and still attracts users looking for MT5 EA inputs, webhook JSON fields and TradingView-to-MT5 automation. Removing it would lose traffic and send old links to a dead end.</p>
+
+        <p>Keeping it online lets AlgoWay turn old version-specific traffic into current documentation traffic:</p>
+
+        <ul>
+            <li>old v1.90 users understand that the page is legacy context;</li>
+            <li>new users find the current AlgoWayWS-MT5 EA workflow;</li>
+            <li>Google sees a useful MT5 webhook JSON reference instead of a thin outdated release page;</li>
+            <li>internal links move users to setup, JSON, risk and troubleshooting guides.</li>
+        </ul>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a></li>
+            <li><a href="/blog/algoway-mt5-expert-advisor-installation-guide.html">How to install an MT5 Expert Advisor for AlgoWay automation</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+            <li><a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">MetaTrader 5 common errors in AlgoWay</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">How to fix MT5 Error 4752</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">How to fix MT5 Error 4756</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>AlgoWay-MT5 EA v1.90 was a useful version-specific manual, but this URL now has a better role.</strong> It should act as a current MT5 EA webhook JSON reference and migration hub for AlgoWayWS-MT5 EA 2.10.</p>
+
+        <p>If you are building TradingView-to-MT5 automation today, start with the current AlgoWayWS-MT5 installation guide, send valid webhook JSON, test a simple order first, then add SL/TP, trailing, modify, hedge-side close and risk logic step by step.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "MT5 EA Webhook JSON Reference for TradingView Automation with AlgoWay",
+                  "description": "Legacy AlgoWay-MT5 EA v1.90 guide updated as a current MT5 EA webhook JSON reference and migration hub for AlgoWayWS-MT5 EA 2.10, TradingView alerts, SL/TP, trailing, risk mode and troubleshooting.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/algoway-mt5-v19-overview.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "MetaTrader 5 Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Is the AlgoWay-MT5 EA v1.90 guide still current?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The v1.90 guide is legacy context. This URL is now updated as a current MT5 EA webhook JSON reference and migration hub for the AlgoWayWS-MT5 EA workflow."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What JSON fields are needed for TradingView to MT5 automation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A basic AlgoWay MT5 webhook message usually includes platform_name, ticker, order_contracts and order_action. Optional fields can include price, sl_price, tp_price, stop_loss, take_profit, trailing_pips, comment, tv_order_id and close_side depending on the route."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can TradingView alerts send SL and TP to MT5 through AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. TradingView alerts can send structured JSON fields such as sl_price, tp_price, stop_loss and take_profit to AlgoWay, which routes the command to the connected AlgoWayWS-MT5 EA."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does my MT5 EA receive the alert but not open a trade?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include invalid symbol mapping, invalid lot size, invalid stops, unsupported filling mode, disabled Algo Trading, market closed, no fresh quotes, insufficient margin or a broker-side rejection shown in MT5 Experts or Journal logs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I use this page or the current AlgoWayWS-MT5 setup guide?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use this page as a JSON and concept reference. For installation and current connection steps, use the latest AlgoWayWS-MT5 setup guide linked from this page."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "MT5 EA Webhook JSON Reference for AlgoWay",
+                                      "item": "https://algoway.trade/blog/algoway-mt5-v19-overview.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

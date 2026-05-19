@@ -1,0 +1,1133 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>IronBot Trading Journal Demo with AlgoWay and TradeBench</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="IronBot trading journal howing how a TradingView strategy can be automated and with TradesViz and TradeBench journal pages." />
+	<link rel="canonical" href="https://algoway.trade/blog/ironbot-trading-journal-dashboard.html" />
+
+	<meta property="og:title" content="IronBot Trading Journal Demo | AlgoWay" />
+	<meta property="og:description" content="See how a private IronBot-style TradingView strategy can be connected to AlgoWay automation and tracked in a public trading journal dashboard." />
+	<meta property="og:url" content="https://algoway.trade/blog/ironbot-trading-journal-dashboard.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/blog-img/ironbot-trading-journal-dashboard.webp" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="IronBot Trading Journal Demo" />
+	<meta name="twitter:description" content="Private TradingView strategy automation demo with AlgoWay and a public trading journal dashboard." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/blog-img/ironbot-trading-journal-dashboard.webp" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/ironbot-trading-journal-dashboard.webp" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1><strong>IronBot Trading Journal Demo: Tracking a Private TradingView Strategy Automated Through AlgoWay</strong></h1>
+
+        <img src="/static/img/blog-img/ironbot-trading-journal-dashboard.webp"
+             width="800"
+             height="439"
+             fetchpriority="high"
+             alt="IronBot trading journal demo dashboard showing TradingView strategy automation results through AlgoWay"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>IronBot is a private demonstration strategy used to show how a TradingView strategy can be connected to AlgoWay, automated through webhook alerts, and documented in a trading journal dashboard.</strong> The purpose of this page is not to sell a trading system. The purpose is to show the workflow: strategy signal, webhook automation, execution layer, and journal tracking.</p>
+
+        <p>Many traders test indicators and strategies inside TradingView, but the hard part starts after the signal. A chart signal is only useful if it can be routed, executed, tracked, and reviewed. AlgoWay was built for this execution layer: it connects TradingView alerts, Telegram signals, and structured JSON webhooks to multiple brokers, exchanges, and trading platforms.</p>
+
+        <p>The demonstration route is:</p>
+
+        <pre><code>TradingView strategy → webhook alert → AlgoWay → broker/exchange execution → trading journal dashboard</code></pre>
+
+        <p class="text-muted">Last updated: 2026-05-14 • Author: AlgoWay</p>
+
+        <div class="alert alert-warning mt-4" role="alert">
+            <strong>Important:</strong> IronBot is not for sale, not available for public use, and its source code is not distributed. It is used only as a private demonstration workflow for AlgoWay automation. Please do not contact support requesting access to the IronBot code.
+        </div>
+
+        <div class="alert alert-info mt-4" role="alert">
+            <strong>SEO quick context:</strong> this article is about TradingView strategy automation, webhook trading, trading journal dashboards, AlgoWay trade execution, TradingView alerts to MT5, cTrader and crypto exchanges, and how automated strategy activity can be documented after execution.
+        </div>
+
+        <h2 class="mt-4">What This IronBot Demo Shows</h2>
+
+        <p>The IronBot demo shows a complete automation loop. A private TradingView strategy generates signals. Those signals are sent as webhook alerts. AlgoWay receives the alert, normalizes the order request, routes it to the selected destination, and allows the trader to review the resulting activity in an external trading journal.</p>
+
+        <p>The public dashboard screenshot above is useful because it does not only show one trade. It shows a journal-style view with cumulative PnL, winning trade percentage, profit factor, average PnL per trade, trade table data, and day-by-day tracking. This is the type of reporting that helps a trader review whether an automated strategy is behaving consistently after the signal leaves TradingView.</p>
+
+        <p>In this demonstration, the journal is not the execution engine. The execution layer is AlgoWay. The journal is the reporting layer. Keeping these two layers separate is important because a strategy can send alerts correctly and still need independent tracking after execution.</p>
+
+        <h2 class="mt-4">Why a Trading Journal Matters for Automated Strategies</h2>
+
+        <p>Automated trading is not only about opening and closing orders. A trader also needs to understand what the system did over time. Without a journal, the user may only see open positions, closed orders, and broker history. That is not always enough to understand behavior across multiple days, symbols, timeframes, and strategy conditions.</p>
+
+        <p>A trading journal helps answer questions such as:</p>
+
+        <ul>
+            <li>How many trades were closed?</li>
+            <li>What percentage of trades were winners?</li>
+            <li>What was the average PnL per trade?</li>
+            <li>Did the strategy have long flat periods or concentrated profit periods?</li>
+            <li>Did losing trades cluster around specific market conditions?</li>
+            <li>Which symbols, sessions, or tags performed better?</li>
+            <li>Did the automation behave the way the TradingView strategy expected?</li>
+        </ul>
+
+        <p>For manual traders, a journal is a review tool. For automated traders, it is also an audit layer. It helps compare what the strategy was supposed to do with what actually happened after the webhook alert reached the execution platform.</p>
+
+        <h2 class="mt-4">IronBot Demo Result View</h2>
+
+        <p>The dashboard view used in this article presents a demonstration trading journal with summary statistics, cumulative PnL, and a trades table. The visible journal metrics include a closed PnL total, winning trade percentage, profit factor, average PnL per trade, and individual trade rows.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Dashboard area</th>
+                    <th>What it shows</th>
+                    <th>Why it matters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cumulative PnL graph</td>
+                    <td>Progression of the journal result over time.</td>
+                    <td>Helps review whether profit came steadily or from a few isolated moves.</td>
+                </tr>
+                <tr>
+                    <td>Win rate and profit factor</td>
+                    <td>Basic performance quality metrics.</td>
+                    <td>Helps evaluate whether the system depends only on win rate or also on payoff structure.</td>
+                </tr>
+                <tr>
+                    <td>Average PnL per trade</td>
+                    <td>Mean closed result across journaled trades.</td>
+                    <td>Helps estimate whether the strategy has enough edge after costs and execution friction.</td>
+                </tr>
+                <tr>
+                    <td>Trades table</td>
+                    <td>Individual trades, symbols, timestamps, direction, notes and tags.</td>
+                    <td>Helps connect automated execution back to strategy logic and market context.</td>
+                </tr>
+                <tr>
+                    <td>Notes and tags</td>
+                    <td>Human-readable context around the trade or strategy group.</td>
+                    <td>Helps turn raw trade history into searchable review data.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The public demo dashboard can be opened here: <a href="https://www.tradesviz.com/viewstats/algoway" target="_blank" rel="noopener">IronBot-style trading journal dashboard</a>.</p>
+
+        <h2 class="mt-4">Where AlgoWay Fits in the Workflow</h2>
+
+        <p>AlgoWay is the automation layer between the signal source and the destination account. A TradingView alert by itself does not know how to manage different platforms, account modes, broker formats, JSON fields, symbol mappings, order types, or trade-routing logic. AlgoWay handles that middle layer.</p>
+
+        <p>For a TradingView strategy such as the private IronBot demo, the workflow can be summarized like this:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>Role</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TradingView</td>
+                    <td>Generates the strategy signal and sends a webhook alert.</td>
+                    <td>Buy, sell, close, limit, stop, stop loss, take profit.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay</td>
+                    <td>Receives, validates, normalizes and routes the order request.</td>
+                    <td>TradingView to MT5, cTrader, TradeLocker, DXtrade, Binance, OKX, MEXC, Bybit and others.</td>
+                </tr>
+                <tr>
+                    <td>Broker or exchange</td>
+                    <td>Executes the final order on the account.</td>
+                    <td>Market order, limit order, stop order, SL/TP update, close action.</td>
+                </tr>
+                <tr>
+                    <td>Trading journal</td>
+                    <td>Documents the result after execution.</td>
+                    <td>Cumulative PnL, win rate, profit factor, notes, tags and trade table.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Why This Is Better Than Only Watching TradingView Backtests</h2>
+
+        <p>A TradingView backtest is useful, but it is not the same as an execution journal. Backtests are controlled by strategy assumptions, historical bars, commission settings, slippage settings, and TradingView execution rules. A real or demo execution route adds another layer: broker rules, symbol mapping, order filling, account mode, latency, spread, session rules, and platform-specific behavior.</p>
+
+        <p>That is why a journal workflow matters. It allows a trader to compare the TradingView strategy idea with the actual automation result. The signal may be correct, but execution can still be affected by order type, lot size, broker limits, symbol naming, account mode, or platform-specific restrictions.</p>
+
+        <p>AlgoWay helps bridge this gap by keeping the signal format structured and the routing logic clear. The journal then helps document what happened after the order was sent.</p>
+
+        <h2 class="mt-4">Example TradingView Alert JSON</h2>
+
+        <p>A private strategy can send structured JSON to AlgoWay. A simple example for a market order may look like this:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>For more advanced workflows, AlgoWay can also work with fields for absolute stop loss and take profit prices, order type, trade mode, platform-specific settings and strategy identifiers.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": 0.10,
+  "order_type": "market",
+  "sl_price": 1.08000,
+  "tp_price": 1.09000,
+  "trade_type": "hedge"
+}</code></pre>
+
+        <p>This structure is useful when one trader wants different strategies, account modes or destinations to behave differently without manually rebuilding the execution process for every signal.</p>
+
+        <h2 class="mt-4">What Makes AlgoWay Useful for Strategy Automation</h2>
+
+        <p>AlgoWay is not limited to a single platform route. The same TradingView automation idea can be adapted to different destinations depending on the trader's setup. That matters because many traders do not stay inside one broker or one platform forever.</p>
+
+        <ul>
+            <li><strong>TradingView webhook automation:</strong> send structured alerts from indicators or strategies.</li>
+            <li><strong>Multi-platform execution:</strong> route signals to MT5, cTrader, TradeLocker, DXtrade, Match-Trader, crypto exchanges and other supported destinations.</li>
+            <li><strong>Order type support:</strong> use market, limit and stop order workflows where supported.</li>
+            <li><strong>Risk fields:</strong> pass stop loss and take profit values as part of the alert payload.</li>
+            <li><strong>Trade modes:</strong> control different execution behavior such as hedge, netting, opposite or inverse when required.</li>
+            <li><strong>Telegram signal automation:</strong> combine TradingView workflows with Telegram signal parsing in the same broader automation environment.</li>
+            <li><strong>Journal-ready workflow:</strong> review executed activity later in a trading journal instead of only relying on chart screenshots.</li>
+        </ul>
+
+        <h2 class="mt-4">IronBot Is Private, AlgoWay Is the Product</h2>
+
+        <p>This point is important. IronBot is not the product being offered here. IronBot is not published, not sold, not licensed, and not shared for free. It is a private demonstration strategy used to show a real automation pattern.</p>
+
+        <p>The product is AlgoWay: the routing and automation layer that can receive TradingView webhooks and send them to trading platforms. The same workflow can be used with a user's own TradingView strategy, Pine Script indicator, manual alert, or another structured signal source.</p>
+
+        <p>In other words, the value of this article is not “copy this strategy.” The value is “this is how a private TradingView strategy can become an automated, trackable workflow.”</p>
+
+        <h2 class="mt-4">Recommended Setup for a Similar Workflow</h2>
+
+        <ol>
+            <li>Create or prepare a TradingView strategy or indicator with clear entry and exit conditions.</li>
+            <li>Create an AlgoWay webhook route for the destination platform.</li>
+            <li>Build the TradingView alert message in valid JSON format.</li>
+            <li>Send small test alerts first and check AlgoWay logs.</li>
+            <li>Confirm order execution on the broker or exchange side.</li>
+            <li>Export or sync results into a trading journal for review.</li>
+            <li>Use notes and tags to document strategy versions, symbols, timeframes and execution conditions.</li>
+        </ol>
+
+        <p>This approach is especially useful for traders who want to compare a TradingView backtest with forward test behavior, demo account execution, or real account automation.</p>
+
+        <h2 class="mt-4">SEO Summary for Traders Searching This Topic</h2>
+
+        <p>If you searched for <strong>TradingView webhook automation</strong>, <strong>TradingView strategy to MT5</strong>, <strong>TradingView alerts to broker execution</strong>, <strong>automated trading journal</strong>, <strong>AlgoWay trading automation</strong>, <strong>Pine Script webhook execution</strong>, <strong>TradingView to cTrader</strong>, <strong>TradingView to crypto exchange automation</strong>, or <strong>how to track automated trading results</strong>, the core idea is simple: the signal, execution layer and journal should be treated as separate parts of the workflow.</p>
+
+        <p>AlgoWay handles the automation layer. The trading journal handles review. The private IronBot demo shows how these parts can work together without exposing or selling the strategy source code.</p>
+
+
+        <h2 class="mt-4">Public IronBot TradeBench Review Entries</h2>
+
+        <p>The TradeBench journal below is used as an additional public review layer for the IronBot-style automation demo. It presents imported closed trades from a mixed MT5 symbol set, including BTCUSDM and ETHUSDM crypto contracts together with other CFD-style symbols, so the result can be reviewed outside the original trading terminal.</p>
+
+        <p>In the imported TradeBench sample, the public table reports a net result of <strong>61</strong> journal units, or approximately <strong>0.29%</strong> on the displayed account basis. This is not presented as audited investment performance and it is not a public sale record for IronBot. It is a demonstration of how an automated TradingView strategy workflow can be documented with public trade reviews after AlgoWay routes the signal to an execution destination.</p>
+
+        <p>The purpose of these links is to make the workflow transparent: each public TradeBench page shows one closed entry, while this AlgoWay article explains the automation layer behind the signal route.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Symbol</th>
+                    <th>Direction</th>
+                    <th>Trade date</th>
+                    <th>P/L</th>
+                    <th>P/L %</th>
+                    <th>Public review</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>EURGBPM</td>
+                    <td>Long</td>
+                    <td>14 May 2026</td>
+                    <td>0.00</td>
+                    <td>-0.01%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/efe12ad555a0f48abbe9fbf249a30896" target="_blank" rel="noopener">EURGBPM long review 01</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>EURGBPM</td>
+                    <td>Long</td>
+                    <td>14 May 2026</td>
+                    <td>0.00</td>
+                    <td>-0.02%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/5e48e8b58ab23439807b48a84c755726" target="_blank" rel="noopener">EURGBPM long review 02</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>EURGBPM</td>
+                    <td>Long</td>
+                    <td>14 May 2026</td>
+                    <td>0.00</td>
+                    <td>-0.02%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/369f43b5640bbf580a4b086313ade01a" target="_blank" rel="noopener">EURGBPM long review 03</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>14 May 2026</td>
+                    <td>10.00</td>
+                    <td>1.28%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/7d3df398cb575b7a2416f8a33e44e496" target="_blank" rel="noopener">BTCUSDM long review 01</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>13 May 2026</td>
+                    <td>8.20</td>
+                    <td>1.02%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/0f68ee96475025f02769e5a540da8ee0" target="_blank" rel="noopener">BTCUSDM long review 02</a></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>12 May 2026</td>
+                    <td>-1.84</td>
+                    <td>-0.11%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/3fa2976e467b4c4cda036f0a442e3dbb" target="_blank" rel="noopener">BTCUSDM long review 03</a></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>XAUUSDM</td>
+                    <td>Long</td>
+                    <td>12 May 2026</td>
+                    <td>-1.40</td>
+                    <td>-0.98%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/b40b4f1137b29cd81d9beb307d906833" target="_blank" rel="noopener">XAUUSDM long review</a></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>EURGBPM</td>
+                    <td>Long</td>
+                    <td>12 May 2026</td>
+                    <td>0.00</td>
+                    <td>0.01%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/a1f33a807550664837222b4158557e45" target="_blank" rel="noopener">EURGBPM long review 04</a></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>09–12 May 2026</td>
+                    <td>19.00</td>
+                    <td>1.16%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/b2def1d54eae6434b465813e318b2837" target="_blank" rel="noopener">BTCUSDM long swing review</a></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>05 May 2026</td>
+                    <td>4.47</td>
+                    <td>0.28%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/7a2017aa0e6f6c1a58cbebd4f8b899d6" target="_blank" rel="noopener">BTCUSDM long review 04</a></td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>03–05 May 2026</td>
+                    <td>29.00</td>
+                    <td>0.61%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/b534dfee7e2b4262739ae3186d3d1a66" target="_blank" rel="noopener">BTCUSDM long review 05</a></td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>02 May 2026</td>
+                    <td>-0.27</td>
+                    <td>-0.03%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/836bdf3c92d764a3e01b6bbcc13b139f" target="_blank" rel="noopener">BTCUSDM long review 06</a></td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>02 May 2026</td>
+                    <td>-2.57</td>
+                    <td>-0.11%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/bfa3ea4bde940032601115b81fa94b85" target="_blank" rel="noopener">BTCUSDM long review 07</a></td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>02 May 2026</td>
+                    <td>-0.30</td>
+                    <td>-0.04%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/9a8ac160f314ecbe01b4c4599d9a3168" target="_blank" rel="noopener">BTCUSDM long review 08</a></td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>ETHUSDM</td>
+                    <td>Long</td>
+                    <td>26 Apr 2026</td>
+                    <td>-1.30</td>
+                    <td>-0.06%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/c126c01e4d014a3def71bcde273a17b8" target="_blank" rel="noopener">ETHUSDM long review 01</a></td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>ETHUSDM</td>
+                    <td>Long</td>
+                    <td>26 Apr 2026</td>
+                    <td>-2.02</td>
+                    <td>-0.09%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/911f47273697ffa140d82540879077c3" target="_blank" rel="noopener">ETHUSDM long review 02</a></td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>BTCUSDM</td>
+                    <td>Long</td>
+                    <td>25 Apr 2026</td>
+                    <td>-0.15</td>
+                    <td>-0.02%</td>
+                    <td><a href="https://app.tradebench.com/share_trade/c72c5e23af25f43209c0addd080bad93" target="_blank" rel="noopener">BTCUSDM long review 09</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>This TradeBench review set is useful for traders who want to understand the full automation path: TradingView signal generation, AlgoWay webhook routing, broker or exchange execution, and public journal review. It also shows why a trading journal should be part of every automated strategy workflow, especially when a system trades crypto symbols such as BTCUSDM and ETHUSDM through an MT5-style environment.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a TradingView webhook</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/how-to-turn-a-tradingview-indicator-into-a-trading-strategy.html">How to turn a TradingView indicator into a strategy</a></li>
+            <li><a href="/blog/tradingview-automation-adapter.html">TradingView automation adapter</a></li>
+            <li><a href="/blog/algoway-modes-article.html">AlgoWay trade modes guide</a></li>
+            <li><a href="/blog/tradingview-free-webhook-alerts.html">TradingView free webhook alerts guide</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+            <li><a href="/traderspost-alternative">TradersPost alternative</a></li>
+            <li><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>The IronBot trading journal demo shows how a private TradingView strategy can be automated through AlgoWay and reviewed in a trading journal dashboard.</strong> The strategy itself is private and not distributed. The important lesson is the workflow: TradingView signal, AlgoWay webhook routing, execution on the selected platform, and journal-based review.</p>
+
+        <p>If you already have a TradingView strategy and want to automate its alerts across multiple platforms, AlgoWay provides the execution layer that connects the signal to real trading destinations.</p>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://algoway.trade/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Blog",
+              "item": "https://algoway.trade/blog/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "IronBot Trading Journal Demo",
+              "item": "https://algoway.trade/blog/ironbot-trading-journal-dashboard.html"
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "IronBot Trading Journal Demo: Tracking a Private TradingView Strategy Automated Through AlgoWay",
+          "description": "A private IronBot-style TradingView strategy demo showing how AlgoWay can automate webhook alerts and document execution results in a trading journal dashboard.",
+          "author": {
+            "@type": "Organization",
+            "name": "AlgoWay",
+            "url": "https://algoway.trade/"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "AlgoWay",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://algoway.trade/static/img/social.jpg"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://algoway.trade/blog/ironbot-trading-journal-dashboard.html"
+          },
+          "image": "https://algoway.trade/static/img/blog-img/ironbot-trading-journal-dashboard.webp",
+          "dateModified": "2026-05-14T00:00:00+00:00",
+          "datePublished": "2026-05-14T00:00:00+00:00",
+          "articleSection": "TradingView Automation"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the IronBot trading journal demo?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "It is a private demonstration workflow showing how a TradingView strategy can send webhook alerts through AlgoWay and be reviewed in a trading journal dashboard."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is IronBot for sale?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. IronBot is not for sale, not available for public use, and its source code is not distributed."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What does AlgoWay do in this workflow?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AlgoWay receives TradingView webhook alerts, validates and normalizes the request, and routes the order to supported trading platforms, brokers or exchanges."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why use a trading journal with automated TradingView strategies?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A trading journal helps review executed trades, cumulative PnL, win rate, profit factor, notes, tags and strategy behavior after webhook execution."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay automate other TradingView strategies?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can automate user-created TradingView strategies, indicators and webhook alerts when they are sent in a supported structured format."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

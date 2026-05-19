@@ -1,0 +1,1075 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>TradingView to Gate.io Webhook Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TradingView alerts to Gate.io with AlgoWay. Create API v4 key, configure a Gate.io webhook, test futures automation and send JSON." />
+	<link rel="canonical" href="https://algoway.trade/blog/algoway-gateio-integration-guide.html" />
+
+	<meta property="og:title" content="How to Connect TradingView to Gate.io with Webhook Automation | AlgoWay" />
+	<meta property="og:description" content="Use AlgoWay as a TradingView to Gate.io webhook bridge. Create API v4 keys, configure futures permissions, test webhook alerts, and automate Gate.io trades from TradingView JSON." />
+	<meta property="og:url" content="https://algoway.trade/blog/algoway-gateio-integration-guide.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="How to Connect TradingView to Gate.io" />
+	<meta name="twitter:description" content="Connect TradingView alerts to Gate.io through AlgoWay webhook automation. API v4 setup, futures permissions, webhook testing, and JSON alert examples." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/manuals/gate1.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+  <div class="card-body pt-3">
+
+    <h1><strong>How to Connect TradingView Alerts to Gate.io with AlgoWay Webhook Automation</strong></h1>
+
+    <img src="/static/img/manuals/gate1.jpg"
+         width="760"
+         height="1040"
+         fetchpriority="high"
+         alt="How to connect TradingView alerts to Gate.io with AlgoWay webhook automation"
+         style="display:block; max-width:620px; width:100%; height:auto; margin:0 auto 1.5rem auto;" decoding="async" />
+
+    <p><strong>AlgoWay shows you how to connect TradingView alerts to Gate.io through webhook automation.</strong> You create a Gate.io API v4 key, add the credentials to an AlgoWay Gate.io webhook, paste the AlgoWay webhook URL into TradingView, and send a structured JSON alert message. When TradingView triggers the alert, AlgoWay receives the webhook and routes the command to Gate.io.</p>
+
+    <p>This guide is written for traders searching for <strong>how to connect TradingView to Gate.io</strong>, <strong>TradingView to Gate.io webhook</strong>, <strong>Gate.io automated trading</strong>, <strong>Gate.io trading bot webhook</strong>, and <strong>crypto trading automation with TradingView alerts</strong>.</p>
+
+    <p>The complete route is:</p>
+
+    <pre><code>TradingView alert → AlgoWay webhook → Gate.io API v4 → Gate.io futures or spot execution</code></pre>
+
+    <p>TradingView creates the signal. AlgoWay receives and validates the webhook JSON. Gate.io receives the execution request through the API credentials that you configure in AlgoWay.</p>
+
+    <h2 class="mt-4">What AlgoWay Does in a Gate.io Automation Setup</h2>
+
+    <p>Gate.io is the exchange. TradingView is the signal source. AlgoWay is the webhook automation layer between them.</p>
+
+    <p>With an AlgoWay Gate.io webhook, you can:</p>
+
+    <ul>
+      <li>receive TradingView webhook alerts;</li>
+      <li>route TradingView strategy signals to Gate.io;</li>
+      <li>send futures or perpetual orders according to your webhook configuration;</li>
+      <li>use API v4 credentials with Gate.io trading permissions;</li>
+      <li>test the webhook from the AlgoWay dashboard before using a real TradingView alert;</li>
+      <li>inspect received payloads and execution responses in webhook logs;</li>
+      <li>avoid building your own webhook server and Gate.io API connector.</li>
+    </ul>
+
+    <p>AlgoWay does not create a profitable trading strategy. It provides the execution bridge after your strategy, indicator, or manual TradingView alert sends the command.</p>
+
+    <h2 class="mt-4">TradingView to Gate.io: How the Webhook Flow Works</h2>
+
+    <p>A TradingView alert can send a webhook request to an external URL. AlgoWay gives you that URL for your Gate.io webhook. The alert message should be valid JSON with fields such as platform, ticker, order size, order action, and optional execution parameters.</p>
+
+    <ol>
+      <li><strong>TradingView</strong> triggers an alert from a strategy, indicator, or manual condition.</li>
+      <li><strong>TradingView webhook</strong> sends the message to the AlgoWay webhook URL.</li>
+      <li><strong>AlgoWay</strong> reads the JSON and maps the order to your Gate.io webhook.</li>
+      <li><strong>Gate.io</strong> receives the order request through API v4.</li>
+      <li><strong>AlgoWay logs</strong> show the received payload and the platform response.</li>
+    </ol>
+
+    <p>This makes AlgoWay a no-code <strong>TradingView to Gate.io connector</strong> for automated crypto trading.</p>
+
+    <h2 class="mt-4">Before You Start</h2>
+
+    <p>Prepare the following before creating the Gate.io webhook:</p>
+
+    <ul>
+      <li>an AlgoWay account;</li>
+      <li>a Gate.io account with API key access;</li>
+      <li>a Gate.io Fund Password;</li>
+      <li>Google Authenticator or the security method required by Gate.io;</li>
+      <li>the AlgoWay IP address shown in your dashboard, if IP binding is required;</li>
+      <li>a TradingView strategy, indicator, or manual alert;</li>
+      <li>a valid JSON alert message for AlgoWay.</li>
+    </ul>
+
+    <div class="card note" style="margin:1.5rem 0;">
+      <p><strong>Important:</strong> Gate.io may require a <strong>Fund Password</strong> before you can create an API key. This is not the same as your login password. If you have not created it yet, open Gate.io account security settings and set the Fund Password first.</p>
+      <p>During API key creation, Gate.io can ask for the Fund Password and Google Authenticator code before showing the API key and secret.</p>
+    </div>
+
+    <h2 class="mt-4">Step 1. Create a Gate.io API v4 Key</h2>
+
+    <p>Log in to Gate.io, open <strong>API Key Management</strong>, and create a dedicated API key for AlgoWay. Use a clear name such as <code>AlgoWay Key</code> so that you can identify this integration later.</p>
+
+    <ol>
+      <li>Open <strong>API Key Management</strong>.</li>
+      <li>Click <strong>Create API Key</strong>.</li>
+      <li>Select <strong>Trading Account</strong>.</li>
+      <li>Enter an API key remark, for example <code>AlgoWay Key</code>.</li>
+      <li>In <strong>IP Permissions</strong>, enter the IP address required by AlgoWay.</li>
+      <li>Select <strong>Bind IP</strong> if your setup requires IP restriction.</li>
+      <li>Select <strong>API v4 Key</strong>.</li>
+      <li>Enable the required trading permission, such as <strong>Perpetual Futures</strong>.</li>
+      <li>Select <strong>Read And Write</strong>.</li>
+      <li>Click <strong>Submit</strong>.</li>
+    </ol>
+
+    <p>Gate.io API v4 keys can be created with multiple permissions, so use only the permissions required for your trading route.</p>
+
+    <img src="/static/img/manuals/gate1.jpg"
+         alt="Create Gate.io API v4 key for AlgoWay webhook automation"
+         style="display:block; max-width:620px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 2. Confirm the Gate.io Risk Reminder</h2>
+
+    <p>Gate.io may show a <strong>Risk Reminder</strong> before creating the API key. Read the warning, check the required confirmation boxes, confirm the API Terms of Service, and click <strong>I Accept</strong>.</p>
+
+    <p>This step is normal when creating API credentials for automated trading. Do not skip the warning: the API key can send orders if trading permissions are enabled.</p>
+
+    <img src="/static/img/manuals/gate2.jpg"
+         alt="Gate.io API risk reminder before creating API key"
+         style="display:block; max-width:620px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 3. Complete Security Verification</h2>
+
+    <p>Enter your <strong>Fund Password</strong> and your <strong>Google Authenticator Code</strong>, then click <strong>Confirm</strong>.</p>
+
+    <p>If Gate.io rejects the verification, check that the Fund Password is correct and that your authenticator code is still valid.</p>
+
+    <img src="/static/img/manuals/gate3.jpg"
+         alt="Gate.io security verification with Fund Password and Google Authenticator"
+         style="display:block; max-width:460px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 4. Save the Gate.io API Key and Secret</h2>
+
+    <p>After successful verification, Gate.io creates the API key. Copy the <strong>Key</strong> and <strong>Secret</strong> before leaving the page.</p>
+
+    <p>The secret may not be visible again after the window is closed. If you lose it, create a new API key and update the AlgoWay webhook settings.</p>
+
+    <img src="/static/img/manuals/gate4.jpg"
+         alt="Gate.io API key and secret created for AlgoWay"
+         style="display:block; max-width:640px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 5. Create a Gate.io Webhook in AlgoWay</h2>
+
+    <p>After the API key is ready, log in to AlgoWay and create a Gate.io webhook. This webhook is the bridge between TradingView alerts and Gate.io execution.</p>
+
+    <ol>
+      <li>Log in to your AlgoWay account.</li>
+      <li>Click <strong>Add Trial Webhook</strong> or <strong>Add Main Webhook</strong>.</li>
+      <li>Select the webhook type:
+        <ul>
+          <li><strong>Start 14-Day Trial</strong></li>
+          <li><strong>Main Paid Webhook</strong></li>
+        </ul>
+      </li>
+      <li>Click <strong>Continue</strong>.</li>
+    </ol>
+
+    <img src="/static/img/manuals/gate5.jpg"
+         alt="Create Gate.io webhook in AlgoWay dashboard"
+         style="display:block; max-width:460px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 6. Add Gate.io Credentials to AlgoWay</h2>
+
+    <p>Fill in the Gate.io webhook form with your exchange settings and API credentials.</p>
+
+    <ul>
+      <li><strong>Source:</strong> TradingView</li>
+      <li><strong>Platform:</strong> GateIO</li>
+      <li><strong>Quantity Multiplier:</strong> Absolute or the mode used by your strategy</li>
+      <li><strong>Market Type:</strong> Futures/Perpetual, if that is the selected route</li>
+      <li><strong>Margin Mode:</strong> Cross or Isolated</li>
+      <li><strong>Trade Type:</strong> Hedge/Dual side or the mode you use</li>
+      <li><strong>Account Type:</strong> Live, or the available account mode in your setup</li>
+      <li><strong>API Key:</strong> paste your Gate.io API Key</li>
+      <li><strong>API Secret:</strong> paste your Gate.io API Secret</li>
+    </ul>
+
+    <p>Then click <strong>Add Trial Webhook</strong> or <strong>Add Main Webhook</strong>. After the webhook is created, AlgoWay will show it in the dashboard and logs section.</p>
+
+    <img src="/static/img/manuals/gate6.jpg"
+         alt="Configure Gate.io webhook credentials in AlgoWay"
+         style="display:block; max-width:520px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 7. Test the Gate.io Webhook Before Using TradingView</h2>
+
+    <p>Before connecting a real TradingView alert, test the Gate.io webhook from AlgoWay. This confirms that the API key, permissions, market type, symbol, and order size are accepted.</p>
+
+    <ol>
+      <li>Open <strong>Webhook Logs</strong> in AlgoWay.</li>
+      <li>Click <strong>Test Webhook</strong>.</li>
+      <li>Select your Gate.io webhook.</li>
+      <li>Enter a futures symbol such as <code>ARBUSDT</code>.</li>
+      <li>Set quantity and action.</li>
+      <li>Click <strong>Send</strong>.</li>
+    </ol>
+
+    <p><strong>Example Gate.io test JSON:</strong></p>
+
+    <pre><code>{
+  "platform_name": "gateio",
+  "ticker": "ARBUSDT",
+  "order_action": "buy",
+  "order_contracts": 0.01
+}</code></pre>
+
+    <p>If the test fails, check the API key permission, IP binding, market type, symbol format, quantity, and Gate.io response in the AlgoWay logs.</p>
+
+    <img src="/static/img/manuals/gate7.jpg"
+         alt="Send Gate.io test webhook from AlgoWay"
+         style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 8. Create a TradingView Strategy Alert for Gate.io</h2>
+
+    <p>If you use a <strong>TradingView Strategy</strong>, paste a structured JSON message into the TradingView alert message box. AlgoWay expects valid JSON, not plain text.</p>
+
+    <p><strong>Basic TradingView strategy alert JSON for Gate.io:</strong></p>
+
+    <pre><code>{
+  "platform_name": "gateio",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+    <p>TradingView replaces these placeholders with real values when the alert is triggered:</p>
+
+    <ul>
+      <li><code>{{ticker}}</code> — chart ticker;</li>
+      <li><code>{{strategy.order.contracts}}</code> — strategy order size;</li>
+      <li><code>{{strategy.market_position}}</code> — strategy position direction;</li>
+      <li><code>{{close}}</code> — current close price at alert time.</li>
+    </ul>
+
+    <img src="/static/img/manuals/gate8.jpg"
+         alt="TradingView Gate.io strategy alert JSON"
+         style="display:block; max-width:520px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Step 9. Add the AlgoWay Webhook URL in TradingView</h2>
+
+    <p>In the TradingView alert window, open the <strong>Notifications</strong> tab, enable <strong>Webhook URL</strong>, and paste your AlgoWay webhook link.</p>
+
+    <p>Your webhook URL will use the unique UUID from your AlgoWay webhook:</p>
+
+    <pre><code>https://algoway.co/your-webhook-uuid</code></pre>
+
+    <p>Click <strong>Apply</strong> or <strong>Create</strong> to save the alert. When the alert fires, TradingView sends the message to AlgoWay and AlgoWay routes it to Gate.io.</p>
+
+    <img src="/static/img/manuals/gate9.jpg"
+         alt="Paste AlgoWay webhook URL into TradingView for Gate.io"
+         style="display:block; max-width:520px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" width="1200" height="675" />
+
+    <h2 class="mt-4">Indicator Alerts and Manual TradingView Alerts</h2>
+
+    <p>Strategy alerts are only one option. AlgoWay can also work with indicator alerts and manual alerts if the final message is valid AlgoWay JSON.</p>
+
+    <p>For indicator-based alerts, use the tools available inside the AlgoWay dashboard:</p>
+
+    <ul>
+      <li><strong>Message Wizard:</strong> helps you build a valid AlgoWay webhook message manually.</li>
+      <li><strong>AlgoWay AI:</strong> helps convert a text signal into a structured AlgoWay JSON message.</li>
+    </ul>
+
+    <p>This is useful when a TradingView indicator outputs custom text and you need to turn it into a Gate.io trading command.</p>
+
+    <h2 class="mt-4">Required JSON Fields for Gate.io Webhook Automation</h2>
+
+    <p>A basic AlgoWay Gate.io webhook message usually includes these fields:</p>
+
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Example</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>platform_name</code></td>
+          <td><code>gateio</code></td>
+          <td>Tells AlgoWay to route the command to Gate.io.</td>
+        </tr>
+        <tr>
+          <td><code>ticker</code></td>
+          <td><code>ARBUSDT</code></td>
+          <td>Defines the Gate.io symbol.</td>
+        </tr>
+        <tr>
+          <td><code>order_contracts</code></td>
+          <td><code>0.01</code></td>
+          <td>Defines the order quantity.</td>
+        </tr>
+        <tr>
+          <td><code>order_action</code></td>
+          <td><code>buy</code></td>
+          <td>Defines the trade action.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Additional fields depend on the AlgoWay configuration and the selected Gate.io market type. Test every new field before using live trading size.</p>
+
+    <h2 class="mt-4">Gate.io Futures, Perpetuals, and Spot Automation</h2>
+
+    <p>Most Gate.io automation setups use futures or perpetual trading because webhook strategies often need long, short, flat, hedge, or dual-side logic.</p>
+
+    <h3 class="mt-3">Gate.io Futures and Perpetuals</h3>
+
+    <p>For futures or perpetual automation, confirm that the API key has the required trading permission, the webhook uses the correct market type, and the symbol exists in the selected Gate.io market.</p>
+
+    <h3 class="mt-3">Gate.io Spot</h3>
+
+    <p>Spot automation has different order and balance requirements. If you want to use Spot, confirm that the API permissions and AlgoWay webhook settings match Spot execution.</p>
+
+    <p>Do not assume that a symbol or quantity valid for one Gate.io market is automatically valid for another market.</p>
+
+    <h2 class="mt-4">Common Gate.io Webhook Problems</h2>
+
+    <h3 class="mt-3">Fund Password Is Missing</h3>
+    <p>If the Fund Password is not set, Gate.io may block API key creation. Create the Fund Password in account security settings first.</p>
+
+    <h3 class="mt-3">Wrong API Key Type</h3>
+    <p>Use API v4 credentials for this setup. Old or wrong API key types can break exchange integration.</p>
+
+    <h3 class="mt-3">IP Binding Is Incorrect</h3>
+    <p>If IP binding is enabled, the API key must allow the IP address required by AlgoWay. A wrong IP setting can cause authentication or permission errors.</p>
+
+    <h3 class="mt-3">Read And Write Permission Is Missing</h3>
+    <p>Read-only keys cannot place trades. Enable the trading permissions required by your selected Gate.io route.</p>
+
+    <h3 class="mt-3">Invalid TradingView JSON</h3>
+    <p>The TradingView alert message must be valid JSON. Use double quotes for strings and check commas, braces, and placeholders.</p>
+
+    <h3 class="mt-3">Wrong Symbol or Quantity</h3>
+    <p>Gate.io can reject unsupported symbols, wrong market symbols, or quantities that do not match the exchange rules.</p>
+
+    <h2 class="mt-4">Why Use AlgoWay Instead of Building a Gate.io Trading Bot?</h2>
+
+    <p>You can build your own TradingView to Gate.io trading bot. That requires a public webhook endpoint, server hosting, JSON validation, Gate.io API integration, order mapping, error handling, logs, and ongoing maintenance.</p>
+
+    <p>AlgoWay is designed for traders who want the automation route without managing that infrastructure. You create the webhook, add Gate.io credentials, paste the AlgoWay URL into TradingView, and monitor the result in AlgoWay logs.</p>
+
+    <p>This gives you:</p>
+
+    <ul>
+      <li>a no-code TradingView to Gate.io webhook bridge;</li>
+      <li>structured JSON automation;</li>
+      <li>support for crypto trading workflows through AlgoWay;</li>
+      <li>dashboard-based testing before TradingView goes live;</li>
+      <li>clear webhook logs;</li>
+      <li>one automation system for multiple trading destinations.</li>
+    </ul>
+
+    <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+    <p>These guides help complete the Gate.io automation workflow:</p>
+
+    <ul>
+      <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+      <li><a href="/blog/tradingview-free-webhook-alerts.html">TradingView webhook alerts and automation basics</a></li>
+      <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema for automated trading webhooks</a></li>
+      <li><a href="/blog/algoway-415.html">How to fix TradingView webhook Error 415</a></li>
+      <li><a href="/blog/algoway-binance-integration-guide.html">How to connect TradingView to Binance with AlgoWay</a></li>
+      <li><a href="/blog/algoway-bybit-integration-guide.html">How to connect TradingView to Bybit with AlgoWay</a></li>
+    </ul>
+
+    <h2 class="mt-4">Key Takeaway</h2>
+
+    <p>To automate Gate.io from TradingView, you need a Gate.io API v4 key, the correct trading permissions, an AlgoWay Gate.io webhook, and a valid TradingView JSON alert message. Once these parts are configured, TradingView alerts can be routed to Gate.io through AlgoWay.</p>
+
+    <p><strong>AlgoWay turns TradingView alerts into Gate.io webhook automation without forcing you to run your own crypto trading bot server.</strong></p>
+
+    <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "Article",
+                  "headline": "How to Connect TradingView Alerts to Gate.io with AlgoWay Webhook Automation",
+                  "description": "How to connect TradingView alerts to Gate.io using AlgoWay webhook automation. Create a Gate.io API v4 key, configure permissions, test a webhook, and send TradingView JSON alerts.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/algoway-gateio-integration-guide.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "datePublished": "2026-05-12T00:00:00+00:00",
+                  "dateModified": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I connect TradingView alerts to Gate.io with AlgoWay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. AlgoWay can receive TradingView webhook alerts and route structured JSON commands to Gate.io through a Gate.io webhook created in the AlgoWay dashboard."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a Gate.io API v4 key?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. This setup uses Gate.io API v4 credentials with the trading permissions required for the selected market route."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a Fund Password for Gate.io API setup?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Gate.io may require a Fund Password during API key creation. The Fund Password is different from the normal login password and must be configured in account security settings."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What JSON fields are required for Gate.io webhook automation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A basic AlgoWay Gate.io webhook message usually includes platform_name, ticker, order_contracts, and order_action. Additional fields depend on the webhook configuration and market type."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why did my TradingView to Gate.io webhook fail?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Common causes include invalid JSON, missing TradingView webhook URL, wrong API permissions, incorrect IP binding, wrong market type, unsupported symbol, or invalid order quantity."
+          }
+        }
+      ]
+    }
+    </script>
+
+  </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "TradingView to Gate.io Webhook Automation",
+                                      "item": "https://algoway.trade/blog/algoway-gateio-integration-guide.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

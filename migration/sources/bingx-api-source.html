@@ -1,0 +1,1098 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>TradingView to BingX Webhook Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TradingView alerts to BingX with AlgoWay. Create API keys, enable futures trading, restrict by IP, test JSON alerts and automate orders." />
+	<link rel="canonical" href="https://algoway.trade/blog/bingx-api.html" />
+
+	<meta property="og:title" content="How to Connect TradingView to BingX with Webhook Automation | AlgoWay" />
+	<meta property="og:description" content="Use AlgoWay as a TradingView to BingX webhook bridge. API key setup, Perpetual Futures permissions, IP whitelist, JSON alert examples, logs and troubleshooting." />
+	<meta property="og:url" content="https://algoway.trade/blog/bingx-api.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="How to Connect TradingView to BingX" />
+	<meta name="twitter:description" content="Automate BingX Perpetual Futures from TradingView alerts with AlgoWay webhooks, API keys, IP whitelist, JSON examples and logs." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/bingx-connect@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1><strong>How to Connect TradingView Alerts to BingX with AlgoWay Webhook Automation</strong></h1>
+
+        <img src="/static/img/blog-img/bingx-connect@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How to connect TradingView alerts to BingX with AlgoWay webhook automation"
+             style="display:block; margin:0 auto 1.5rem auto; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>AlgoWay lets you connect TradingView alerts to BingX Perpetual Futures through webhook automation.</strong> You create a BingX API key, enable the required trading permissions, restrict the API key to the AlgoWay IP address, create a BingX webhook in AlgoWay, paste the AlgoWay webhook URL into TradingView, and send a valid JSON alert message.</p>
+
+        <p>This guide is written for traders searching for <strong>how to connect TradingView to BingX</strong>, <strong>TradingView to BingX webhook</strong>, <strong>BingX automated trading</strong>, <strong>BingX trading bot webhook</strong>, <strong>BingX Perpetual Futures automation</strong>, and <strong>crypto futures trading automation with TradingView alerts</strong>.</p>
+
+        <p>The execution route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → BingX API → BingX Perpetual Futures order</code></pre>
+
+        <p>TradingView creates the signal. AlgoWay receives and validates the webhook JSON. BingX receives the final trading command through the API key and permissions configured in AlgoWay.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#why-bingx">Why automate BingX with TradingView alerts?</a></li>
+                <li><a href="#prerequisites">Prerequisites</a></li>
+                <li><a href="#api-key">Create BingX API key</a></li>
+                <li><a href="#algoway-webhook">Create BingX webhook in AlgoWay</a></li>
+                <li><a href="#tradingview-alert">Create TradingView alert</a></li>
+                <li><a href="#json">TradingView JSON message</a></li>
+                <li><a href="#logs">Testing and logs</a></li>
+                <li><a href="#problems">Common problems</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: TradingView to BingX with AlgoWay</h2>
+
+        <p>To automate BingX from TradingView, you need:</p>
+
+        <ol>
+            <li>a BingX account with Perpetual Futures enabled;</li>
+            <li>a BingX API key with Read and Perpetual Futures Trading permissions;</li>
+            <li>IP restriction set to the AlgoWay IP address shown in your dashboard;</li>
+            <li>an AlgoWay BingX webhook;</li>
+            <li>a TradingView alert with the AlgoWay webhook URL and valid JSON message.</li>
+        </ol>
+
+        <p>After setup, one TradingView alert can become an automated BingX Perpetual Futures order through AlgoWay.</p>
+
+        <h2 id="why-bingx" class="mt-4">Why Automate BingX with TradingView Alerts?</h2>
+
+        <p>TradingView is often used for strategy design, Pine Script, indicators, backtesting and alert logic. BingX is used for crypto spot and derivatives trading, especially Perpetual Futures. AlgoWay connects these two parts with a webhook pipeline.</p>
+
+        <p>This is useful when you want to:</p>
+
+        <ul>
+            <li>turn TradingView strategy alerts into BingX orders;</li>
+            <li>automate BTCUSDT, ETHUSDT or other BingX Perpetual Futures workflows;</li>
+            <li>use one AlgoWay dashboard for multiple exchanges and brokers;</li>
+            <li>avoid maintaining your own webhook server and BingX API client;</li>
+            <li>track received alerts, execution status and errors in logs;</li>
+            <li>run a no-code TradingView to BingX trading bot workflow.</li>
+        </ul>
+
+        <p>AlgoWay does not create a profitable strategy by itself. It automates the execution route after your TradingView strategy, indicator or manual alert sends the command.</p>
+
+        <h2 id="prerequisites" class="mt-4">Prerequisites</h2>
+
+        <p>Prepare these items before creating the BingX webhook:</p>
+
+        <ul>
+            <li>BingX account with Perpetual Futures enabled;</li>
+            <li>AlgoWay account with access to the Webhooks dashboard;</li>
+            <li>TradingView alert source: strategy, indicator or manual condition;</li>
+            <li>TradingView plan that supports webhook alerts;</li>
+            <li>AlgoWay IP address from your dashboard;</li>
+            <li>clear decision about demo/testing vs live trading size;</li>
+            <li>valid AlgoWay JSON message for the selected BingX route.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Security note:</strong> restrict the BingX API key to the AlgoWay IP address provided in your dashboard. Do not enable Withdraw permission for AlgoWay.
+        </div>
+
+        <h2 id="api-key" class="mt-4">Step 1. Create a BingX API Key</h2>
+
+        <p>Open <strong>API Management</strong> in BingX and create a dedicated API key for AlgoWay. Use a clear label such as <code>ALGOWAY</code> or <code>ALGOWAY-BINGX</code> so you can identify this integration later.</p>
+
+        <ol>
+            <li>Log in to BingX.</li>
+            <li>Open <strong>API Management</strong>.</li>
+            <li>Click <strong>Create API Key</strong>.</li>
+            <li>Set a label, for example <code>ALGOWAY</code>.</li>
+            <li>Enable the required permissions.</li>
+            <li>Add the AlgoWay IP address to the IP whitelist.</li>
+            <li>Complete BingX security verification.</li>
+            <li>Copy the API Key and Secret Key.</li>
+        </ol>
+
+        <figure>
+            <img src="/static/img/manuals/bingx-1.jpg"
+                 width="1182"
+                 height="908"
+                 alt="Create BingX API key with Read, Spot and Perpetual Futures permissions"
+                 style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+            <figcaption>Create API Key → enable <strong>Read</strong> and <strong>Perpetual Futures Trading</strong>. Spot Trading is optional if your route needs spot access.</figcaption>
+        </figure>
+
+        <h3 class="mt-3">Recommended API Permissions</h3>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Permission</th>
+                    <th>Use it?</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Read</td>
+                    <td>Yes</td>
+                    <td>Required for account, balance, symbol and order status checks.</td>
+                </tr>
+                <tr>
+                    <td>Perpetual Futures Trading</td>
+                    <td>Yes for futures automation</td>
+                    <td>Required to place or manage BingX Perpetual Futures orders.</td>
+                </tr>
+                <tr>
+                    <td>Spot Trading</td>
+                    <td>Only if needed</td>
+                    <td>Enable only if your AlgoWay route uses BingX Spot trading.</td>
+                </tr>
+                <tr>
+                    <td>Withdraw</td>
+                    <td>No</td>
+                    <td>Not required for AlgoWay webhook trading automation.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <figure>
+            <img src="/static/img/manuals/bingx-2.jpg"
+                 width="1182"
+                 height="908"
+                 alt="BingX API key details with trading permissions and IP restriction"
+                 style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+            <figcaption>After creating the key, confirm that trading permissions and IP restriction are configured correctly.</figcaption>
+        </figure>
+
+        <div class="alert alert-danger" role="alert">
+            <strong>Do not enable Withdraw permission.</strong> AlgoWay only needs the permissions required for trading automation and account/order checks.
+        </div>
+
+        <h2 id="algoway-webhook" class="mt-4">Step 2. Create a BingX Webhook in AlgoWay</h2>
+
+        <p>After the BingX API key is ready, create a BingX webhook in AlgoWay. This webhook will receive TradingView alerts and route them to BingX.</p>
+
+        <ol>
+            <li>Open the <strong>AlgoWay Dashboard</strong>.</li>
+            <li>Click <strong>Add Main Webhook</strong> or create a trial webhook.</li>
+            <li>Select <strong>TradingView</strong> as the source.</li>
+            <li>Select <strong>BingX</strong> as the platform.</li>
+            <li>Choose the required market type, usually <strong>Futures / Perpetual</strong>.</li>
+            <li>Choose the required trade type, such as <strong>Reverse</strong>, if that is the strategy behavior you want.</li>
+            <li>Paste the BingX API Key and API Secret.</li>
+            <li>Save the webhook.</li>
+        </ol>
+
+        <figure>
+            <img src="/static/img/manuals/bingx-3.jpg"
+                 width="1041"
+                 height="908"
+                 alt="AlgoWay BingX webhook form with API key and futures settings"
+                 style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+            <figcaption>Set <strong>Platform</strong> to BingX, choose the market type, trade type and quantity logic, then paste the API credentials.</figcaption>
+        </figure>
+
+        <p>After saving the webhook, AlgoWay gives you a unique webhook URL. This URL is what TradingView will call when the alert is triggered.</p>
+
+        <pre><code>https://algoway.co/your-webhook-uuid</code></pre>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Do not publish your webhook URL.</strong> Treat the UUID as a private execution endpoint.
+        </div>
+
+        <h2 id="tradingview-alert" class="mt-4">Step 3. Create a TradingView Alert for BingX</h2>
+
+        <p>Open the TradingView chart for the instrument you want to automate. For BingX Perpetual Futures, make sure the TradingView symbol and BingX symbol are compatible or correctly mapped.</p>
+
+        <ol>
+            <li>Open your TradingView chart.</li>
+            <li>Select the symbol and timeframe.</li>
+            <li>Open <strong>Create Alert</strong>.</li>
+            <li>Select your strategy, indicator or price condition.</li>
+            <li>Choose the alert frequency.</li>
+            <li>Paste the JSON message into the alert message box.</li>
+            <li>Open <strong>Notifications</strong>.</li>
+            <li>Enable <strong>Webhook URL</strong>.</li>
+            <li>Paste the AlgoWay webhook URL.</li>
+            <li>Save the alert.</li>
+        </ol>
+
+        <figure>
+            <img src="/static/img/manuals/bingx-4.jpg"
+                 width="1200"
+                 height="692"
+                 alt="TradingView create alert settings for BingX automation"
+                 style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+            <figcaption>Create the TradingView alert from the strategy, indicator or condition that should trigger BingX execution.</figcaption>
+        </figure>
+
+        <figure>
+            <img src="/static/img/manuals/bingx-7.jpg"
+                 width="1200"
+                 height="693"
+                 alt="TradingView Notifications tab with AlgoWay webhook URL for BingX"
+                 style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+            <figcaption>The TradingView <strong>Webhook URL</strong> field is mandatory. Without it, the alert will not reach AlgoWay.</figcaption>
+        </figure>
+
+        <h2 id="json" class="mt-4">Step 4. TradingView Webhook JSON for BingX</h2>
+
+        <p>TradingView must send valid JSON. AlgoWay expects structured fields, not plain text.</p>
+
+        <p><strong>Basic TradingView strategy alert JSON for BingX:</strong></p>
+
+        <pre><code>{
+  "platform_name": "bingx",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>TradingView replaces placeholders when the alert fires:</p>
+
+        <ul>
+            <li><code>{{ticker}}</code> — chart ticker;</li>
+            <li><code>{{strategy.order.contracts}}</code> — strategy order size;</li>
+            <li><code>{{strategy.market_position}}</code> — strategy position state;</li>
+            <li><code>{{close}}</code> — close price at alert time.</li>
+        </ul>
+
+        <figure>
+            <img src="/static/img/manuals/bingx-5.jpg"
+                 width="1041"
+                 height="908"
+                 alt="AlgoWay TradingView alert sample JSON for BingX"
+                 style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+            <figcaption>You can copy the JSON template from AlgoWay and paste it into the TradingView alert message.</figcaption>
+        </figure>
+
+        <h3 class="mt-3">Fixed Test JSON</h3>
+
+        <p>For a controlled test, use a fixed symbol and small valid size:</p>
+
+        <pre><code>{
+  "platform_name": "bingx",
+  "ticker": "BTCUSDT.P",
+  "order_contracts": 0.001,
+  "order_action": "buy"
+}</code></pre>
+
+        <p>Use the minimum valid quantity for the selected BingX market. If the order is rejected, check symbol format, quantity, margin, leverage and API permissions.</p>
+
+        <h2 class="mt-4">Ticker Mapping for BingX Perpetual Futures</h2>
+
+        <p>TradingView symbols and BingX symbols may not always match perfectly. For example, TradingView may use a perpetual futures symbol format such as <code>BTCUSDT.P</code>, while an exchange API may expect a different internal symbol format.</p>
+
+        <p>Before live trading, check:</p>
+
+        <ul>
+            <li>the exact symbol on the TradingView chart;</li>
+            <li>the exact symbol accepted by BingX;</li>
+            <li>the market type: Spot or Perpetual Futures;</li>
+            <li>whether the contract is active and tradable;</li>
+            <li>whether the AlgoWay route expects <code>ticker</code> from TradingView or a mapped value.</li>
+        </ul>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Rule:</strong> if the webhook is received but the order is not placed, symbol mismatch is one of the first things to check.
+        </div>
+
+        <h2 id="logs" class="mt-4">Step 5. Test the BingX Webhook and Check Logs</h2>
+
+        <p>Before using a live TradingView strategy, test the webhook with minimal size.</p>
+
+        <ol>
+            <li>Create a small test alert or use AlgoWay's test webhook function.</li>
+            <li>Open <strong>Webhook Logs</strong> in AlgoWay.</li>
+            <li>Confirm the incoming JSON payload.</li>
+            <li>Confirm the outgoing order status.</li>
+            <li>Open BingX <strong>Orders</strong> or <strong>Positions</strong>.</li>
+            <li>Confirm that the action, symbol and size match your intended trade.</li>
+        </ol>
+
+        <p>If the order does not appear, do not immediately change your strategy. First inspect the exact error in AlgoWay logs and BingX order response.</p>
+
+        <h2 class="mt-4">Trade Type: Reverse, Hedge and Opposite Logic</h2>
+
+        <p>Trade Type controls how AlgoWay handles direction and open position behavior. This is important for futures automation because the same incoming signal can be interpreted differently depending on your strategy design.</p>
+
+        <ul>
+            <li><strong>Reverse:</strong> commonly used when the strategy should manage one net direction according to the latest signal logic.</li>
+            <li><strong>Hedge:</strong> used when long and short positions can exist separately, if the platform and account support it.</li>
+            <li><strong>Opposite:</strong> used when an opposite signal should close the current position and open the other side.</li>
+        </ul>
+
+        <p>For a full explanation, read: <a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a>.</p>
+
+        <h2 id="problems" class="mt-4">Common BingX Webhook Problems</h2>
+
+        <h3 class="mt-3">API Permission Missing</h3>
+        <p>If <strong>Perpetual Futures Trading</strong> permission is not enabled, BingX can reject futures orders. Check API Management and update permissions if required.</p>
+
+        <h3 class="mt-3">IP Whitelist Is Wrong</h3>
+        <p>If the API key is restricted to the wrong IP address, AlgoWay cannot use the key. Make sure the BingX API whitelist contains the exact AlgoWay IP shown in your dashboard.</p>
+
+        <h3 class="mt-3">Withdraw Permission Enabled</h3>
+        <p>Withdraw permission is not required for AlgoWay. If it is enabled, create a safer API key with trading-only permissions.</p>
+
+        <h3 class="mt-3">Wrong Market Type</h3>
+        <p>A Spot symbol and a Perpetual Futures symbol are not the same market. Match the AlgoWay webhook market type with the BingX market you want to automate.</p>
+
+        <h3 class="mt-3">Invalid JSON</h3>
+        <p>TradingView must send valid JSON. Use double quotes, correct commas and supported field names. If the payload is plain text, the automation can fail before reaching BingX.</p>
+
+        <h3 class="mt-3">Wrong Symbol Format</h3>
+        <p>Check whether the TradingView ticker matches the BingX Perpetual Futures symbol expected by the route.</p>
+
+        <h3 class="mt-3">Invalid Quantity</h3>
+        <p>The order size must meet BingX minimum quantity and contract rules. Test with minimal valid size before using strategy size.</p>
+
+        <h3 class="mt-3">Alert Fires Too Often</h3>
+        <p>For bar-close strategies, use <strong>Once per bar close</strong> unless your logic intentionally needs intra-bar signals.</p>
+
+        <h2 class="mt-4">Why Use AlgoWay Instead of Building a TradingView to BingX Bot?</h2>
+
+        <p>You can build your own BingX automation system. That requires a public webhook server, JSON validation, API authentication, BingX order endpoint integration, position logic, error handling, logging, monitoring and ongoing maintenance.</p>
+
+        <p>AlgoWay gives traders a ready automation layer:</p>
+
+        <ul>
+            <li>TradingView webhook receiver;</li>
+            <li>structured JSON workflow;</li>
+            <li>BingX API credential routing;</li>
+            <li>dashboard-based webhook setup;</li>
+            <li>logs for payloads and execution responses;</li>
+            <li>support for multiple platforms beyond BingX;</li>
+            <li>trade modes and risk-aware execution logic.</li>
+        </ul>
+
+        <p>This makes AlgoWay a no-code <strong>TradingView to BingX webhook connector</strong> for traders who want crypto futures automation without maintaining their own trading bot server.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">How to automate TradingView alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/algoway-binance-integration-guide.html">How to connect TradingView to Binance with AlgoWay</a></li>
+            <li><a href="/blog/algoway-bybit-integration-guide.html">How to connect TradingView to Bybit with AlgoWay</a></li>
+            <li><a href="/blog/algoway-gateio-integration-guide.html">How to connect TradingView to Gate.io with AlgoWay</a></li>
+            <li><a href="/blog/algoway-tradecopier-for-diversification-trading.html">How to copy TradingView alerts to multiple accounts</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p>To automate BingX with TradingView, create a restricted BingX API key, enable the required futures trading permission, create a BingX webhook in AlgoWay, add the AlgoWay webhook URL to TradingView, and send a valid JSON alert message.</p>
+
+        <p><strong>AlgoWay turns TradingView alerts into BingX Perpetual Futures webhook automation without forcing you to build and maintain your own crypto trading bot infrastructure.</strong></p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Connect TradingView Alerts to BingX with AlgoWay Webhook Automation",
+                  "description": "Connect TradingView alerts to BingX with AlgoWay. Create BingX API keys, enable Perpetual Futures Trading, restrict API by IP, create a BingX webhook, test JSON alerts, and automate crypto futures trading.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/bingx-api.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "Crypto Trading Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can I connect TradingView alerts to BingX with AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can receive TradingView webhook alerts and route structured JSON commands to BingX through a BingX webhook created in the AlgoWay dashboard."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which BingX API permissions are needed for AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For BingX Perpetual Futures automation, use Read and Perpetual Futures Trading permissions. Spot Trading is only needed for spot routes. Withdraw permission is not required."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I restrict the BingX API key by IP?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Restrict the BingX API key to the AlgoWay IP address shown in your dashboard before using it for automation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What JSON fields are required for TradingView to BingX automation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A basic AlgoWay BingX webhook message usually includes platform_name, ticker, order_contracts, order_action and optionally price."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why did my BingX webhook order fail?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include missing API permission, wrong IP whitelist, wrong market type, invalid JSON, wrong symbol format, invalid quantity, insufficient margin or an alert frequency that triggers more often than expected."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "TradingView to BingX Webhook Automation",
+                                      "item": "https://algoway.trade/blog/bingx-api.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

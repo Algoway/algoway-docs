@@ -1,0 +1,1170 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Free TradingView Webhook Alternative</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Free TradingView webhook alternative for alert automation. Use TradingView email alerts with AlgoWay when direct Webhook URL is unavailable." />
+	<link rel="canonical" href="https://algoway.trade/blog/tradingview-free-webhook-alerts.html" />
+
+	<meta property="og:title" content="Free TradingView Webhook Alternative for Automated Trading" />
+	<meta property="og:description" content="Learn how to route TradingView alerts to AlgoWay through plain text email as a webhook alternative when direct Webhook URL is unavailable." />
+	<meta property="og:url" content="https://algoway.trade/blog/tradingview-free-webhook-alerts.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/tradingview-free-webhook-alerts.png" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Free TradingView Webhook Alternative" />
+	<meta name="twitter:description" content="Use TradingView plain text alert email with AlgoWay as a practical alert automation route when direct webhook delivery is not available." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/tradingview-free-webhook-alerts.png" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/wfree@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+  <div class="card-body pt-3">
+
+    <h1 class="mb-3"><strong>Free TradingView Webhook Alternative: Send Alerts to AlgoWay Without Direct Webhook URL</strong></h1>
+
+    <img src="/static/img/blog-img/wfree@2x.jpg"
+         loading="eager"
+         fetchpriority="high"
+         decoding="async"
+         width="1536"
+         height="1024"
+         alt="Free TradingView webhook alternative using AlgoWay plain text alert email workflow"
+         class="img-fluid guide-img" />
+
+    <p>
+      Many traders search for <strong>free TradingView webhook</strong> because they want to automate alerts from TradingView
+      without paying only to unlock the <strong>Webhook URL</strong> notification field. The direct webhook route is still the cleanest
+      method when it is available, but it is not the only way to move a structured alert from TradingView into an automated
+      trading system.
+    </p>
+
+    <p>
+      <strong>AlgoWay</strong> can receive TradingView alert messages by email. That means your alert can be sent as
+      <strong>plain text</strong> to a dedicated address such as <strong>WebhookUUID@algoway.co</strong>. AlgoWay then reads the message,
+      parses the JSON, and routes the instruction to the selected execution platform.
+    </p>
+
+    <div class="alert alert-warning" role="alert" style="margin-top:10px;">
+      <strong>Important 2026 note:</strong> TradingView plan rules and alert UI options can change. Use this page as an SEO and practical
+      workaround guide for accounts where <strong>Send plain text</strong> and alternative alert email are available. If your account does
+      not show those options, use the standard AlgoWay webhook route instead.
+    </div>
+
+    <div class="alert alert-success" role="alert" style="margin-top:10px;">
+      <strong>Quick answer:</strong> a truly free direct TradingView webhook is not the right promise. The practical solution is a
+      <strong>TradingView webhook alternative</strong>: send the alert message by plain text email to AlgoWay, keep the message in JSON,
+      and let AlgoWay execute it through your configured webhook route.
+    </div>
+
+    <h4 class="mt-4" id="toc"><strong>Contents</strong></h4>
+    <ul class="toc">
+      <li><a href="#meaning">1) What “free TradingView webhook” really means</a></li>
+      <li><a href="#webhook-vs-email">2) Direct Webhook URL vs plain text email route</a></li>
+      <li><a href="#workflow">3) How the AlgoWay email-to-webhook workflow works</a></li>
+      <li><a href="#create-webhook">4) Create the AlgoWay webhook first</a></li>
+      <li><a href="#add-email">5) Add the AlgoWay UUID email in TradingView</a></li>
+      <li><a href="#confirm-email">6) Confirm the TradingView verification email inside AlgoWay</a></li>
+      <li><a href="#create-alert">7) Create the TradingView alert</a></li>
+      <li><a href="#json-message">8) Use JSON in the alert message</a></li>
+      <li><a href="#examples">9) JSON examples for automation</a></li>
+      <li><a href="#limitations">10) Limitations of the free email route</a></li>
+      <li><a href="#troubleshooting">11) Troubleshooting</a></li>
+      <li><a href="#related">12) Related AlgoWay guides</a></li>
+      <li><a href="#faq">13) FAQ</a></li>
+    </ul>
+
+    <hr>
+
+    <h4 class="mt-4" id="meaning"><strong>1) What “free TradingView webhook” really means</strong></h4>
+    <p>
+      In most cases, the search phrase <strong>TradingView webhook free</strong> does not mean that the user needs a specific button.
+      The real need is <strong>TradingView alert automation</strong>: send a signal from a TradingView indicator or strategy to an
+      external service, then execute that signal on MT5, TradeLocker, Binance, OKX, Bybit, Capital.com, cTrader, DXtrade,
+      Match-Trader, or another supported platform.
+    </p>
+
+    <p>
+      A standard TradingView webhook sends an HTTP POST request to a URL. This is perfect for automation because the receiving
+      server can read the message immediately. But if direct Webhook URL delivery is not available in your plan or your current
+      alert settings, the email route can still deliver structured alert text to AlgoWay.
+    </p>
+
+    <p>
+      This page therefore targets the search intent behind <strong>free TradingView webhook alerts</strong>,
+      <strong>TradingView webhook alternative</strong>, <strong>TradingView alert email automation</strong>, and
+      <strong>automate TradingView alerts without webhook URL</strong>. It does not claim that TradingView provides unlimited free
+      direct webhooks. It explains a practical route for AlgoWay users.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="webhook-vs-email"><strong>2) Direct Webhook URL vs plain text email route</strong></h4>
+    <p>
+      Both routes can move a TradingView alert into AlgoWay, but they are not identical. The direct webhook route is faster and
+      cleaner. The email route is useful when the goal is to avoid relying on Webhook URL access.
+    </p>
+
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>Route</th>
+            <th>How TradingView sends the alert</th>
+            <th>Best use case</th>
+            <th>AlgoWay role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Direct Webhook URL</strong></td>
+            <td>TradingView sends an HTTP POST request to the AlgoWay webhook URL.</td>
+            <td>Best for live automated trading, fast execution, and normal webhook automation.</td>
+            <td>Receives the POST body, validates JSON, and routes the order to the selected platform.</td>
+          </tr>
+          <tr>
+            <td><strong>Plain text email</strong></td>
+            <td>TradingView sends the alert message to <code>WebhookUUID@algoway.co</code>.</td>
+            <td>Useful as a TradingView webhook alternative when direct webhook delivery is unavailable.</td>
+            <td>Receives the email, reads the plain text JSON, and processes it as an AlgoWay signal.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+      For serious live execution, use direct webhook delivery when your TradingView plan supports it. Use the email route as a
+      practical alternative, test carefully, and confirm that your alert arrives in AlgoWay before relying on it.
+    </div>
+
+    <hr>
+
+    <h4 class="mt-4" id="workflow"><strong>3) How the AlgoWay email-to-webhook workflow works</strong></h4>
+    <p>
+      The workflow is simple. You create a normal AlgoWay webhook, but instead of pasting the Webhook URL into TradingView,
+      you use the webhook UUID as an email destination.
+    </p>
+
+    <ol>
+      <li>Create an AlgoWay webhook for the platform you want to trade.</li>
+      <li>Copy the webhook UUID from the AlgoWay dashboard.</li>
+      <li>Build the email address: <strong>WebhookUUID@algoway.co</strong>.</li>
+      <li>Add that address as an alternative alert email in TradingView.</li>
+      <li>Confirm the verification code inside AlgoWay.</li>
+      <li>Create your TradingView alert.</li>
+      <li>Enable <strong>Send plain text</strong> if the option is available in your TradingView account.</li>
+      <li>Put the AlgoWay JSON payload into the alert <strong>Message</strong> field.</li>
+    </ol>
+
+    <p>
+      When the alert fires, TradingView sends an email. AlgoWay receives that message, extracts the JSON, and sends the instruction
+      to the platform configured behind that webhook.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="create-webhook"><strong>4) Create the AlgoWay webhook first</strong></h4>
+    <p>
+      Start from the AlgoWay dashboard. Create the webhook exactly as you would for a normal TradingView automation route.
+    </p>
+
+    <ul>
+      <li>Select <strong>TradingView</strong> as the source.</li>
+      <li>Select the destination platform: MetaTrader 5, TradeLocker, Binance, OKX, Bybit, cTrader, Match-Trader, DXtrade, or another supported route.</li>
+      <li>Fill in the platform credentials and routing settings.</li>
+      <li>Save the webhook and copy its UUID.</li>
+    </ul>
+
+    <p>
+      Example format:
+    </p>
+
+    <pre><code>e7a19089-f14d-4cc0-ac2c-5379b974e2c4@algoway.co</code></pre>
+
+    <p>
+      This address is not your personal mailbox. It is an AlgoWay processing address connected to a specific webhook route.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="add-email"><strong>5) Add the AlgoWay UUID email in TradingView</strong></h4>
+    <p>
+      In TradingView, open account settings and go to the alert delivery area. If your account has alternative email delivery,
+      add the AlgoWay UUID email there.
+    </p>
+
+    <p><strong>Format:</strong></p>
+    <pre><code>YourWebhookUUID@algoway.co</code></pre>
+
+    <div class="alert alert-warning" role="alert">
+      Do not enter your normal email address. For this automation route, the email address must point to the AlgoWay webhook UUID.
+    </div>
+
+    <p>
+      TradingView should send a confirmation message to that address. Since the address belongs to AlgoWay, the verification email
+      appears inside the AlgoWay dashboard.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="confirm-email"><strong>6) Confirm the TradingView verification email inside AlgoWay</strong></h4>
+    <p>
+      Open the mail area inside your AlgoWay dashboard. You should see the verification message sent by TradingView. Copy the code
+      and paste it back into TradingView to verify the email address.
+    </p>
+
+    <p>
+      The same area can later be used for debugging. If an alert fires and AlgoWay receives the email, you can confirm that the
+      delivery side worked. If the email arrived but no trade was executed, the next thing to check is the JSON message.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="create-alert"><strong>7) Create the TradingView alert</strong></h4>
+    <p>
+      Create the alert from your TradingView chart, indicator, or strategy. The alert source can be a normal price condition,
+      a Pine Script indicator, a strategy order event, or an <code>alert()</code> call.
+    </p>
+
+    <p>
+      The important part is the notification method and message body:
+    </p>
+
+    <ul>
+      <li>Use <strong>Send plain text</strong> for the email-based workflow.</li>
+      <li>Use a valid JSON message in the alert message field.</li>
+      <li>Keep the JSON compatible with the AlgoWay platform route you selected.</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      If your account shows Webhook URL and you want the fastest route, use the direct AlgoWay webhook. If your goal is the free
+      webhook alternative, use the plain text email method described here.
+    </div>
+
+    <hr>
+
+    <h4 class="mt-4" id="json-message"><strong>8) Use JSON in the alert message</strong></h4>
+    <p>
+      AlgoWay needs a structured instruction. That means the TradingView alert message should be JSON, not a casual sentence.
+      The JSON tells AlgoWay which platform route to use, which symbol to trade, what side to execute, how much size to use,
+      and whether stop loss or take profit should be attached.
+    </p>
+
+    <p>
+      Common fields include:
+    </p>
+
+    <ul>
+      <li><code>platform_name</code></li>
+      <li><code>ticker</code></li>
+      <li><code>order_action</code></li>
+      <li><code>order_contracts</code></li>
+      <li><code>price</code></li>
+      <li><code>stop_loss</code> / <code>take_profit</code></li>
+      <li><code>sl_price</code> / <code>tp_price</code></li>
+    </ul>
+
+    <p>
+      TradingView placeholders can be used inside the JSON. AlgoWay receives the final rendered message when the alert fires.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="examples"><strong>9) JSON examples for automation</strong></h4>
+
+    <h5 class="mt-3"><strong>Example 1 — MetaTrader 5 market order from TradingView</strong></h5>
+    <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "buy",
+  "order_contracts": 0.10,
+  "stop_loss": 25,
+  "take_profit": 50
+}</code></pre>
+
+    <h5 class="mt-3"><strong>Example 2 — TradeLocker order with absolute SL/TP prices</strong></h5>
+    <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "XAUUSD",
+  "order_action": "sell",
+  "order_contracts": 1.0,
+  "sl_price": 2368.50,
+  "tp_price": 2325.00
+}</code></pre>
+
+    <h5 class="mt-3"><strong>Example 3 — Binance alert using TradingView strategy placeholders</strong></h5>
+    <pre><code>{
+  "platform_name": "binance",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}</code></pre>
+
+    <h5 class="mt-3"><strong>Example 4 — Flat command to close the current route position</strong></h5>
+    <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "flat",
+  "order_contracts": 999999
+}</code></pre>
+
+    <p>
+      The same principle applies whether the alert is delivered by direct webhook or by plain text email. The delivery route changes,
+      but the JSON remains the instruction.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="limitations"><strong>10) Limitations of the free email route</strong></h4>
+    <p>
+      The email-based route is useful for SEO and for traders who need a practical workaround, but it must be presented honestly.
+    </p>
+
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>Limitation</th>
+            <th>What it means</th>
+            <th>Practical answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Availability can change</strong></td>
+            <td>TradingView may change plan rules, UI names, or which accounts can use plain text alert delivery.</td>
+            <td>Check your current alert dialog and account settings.</td>
+          </tr>
+          <tr>
+            <td><strong>Email is not the fastest route</strong></td>
+            <td>Email delivery can be slower than HTTP webhook delivery.</td>
+            <td>Use direct webhook for speed-sensitive live execution.</td>
+          </tr>
+          <tr>
+            <td><strong>One alternative email at a time</strong></td>
+            <td>The workflow is usually tied to one configured alternative alert email.</td>
+            <td>Use one AlgoWay route at a time or switch the UUID email when needed.</td>
+          </tr>
+          <tr>
+            <td><strong>JSON still matters</strong></td>
+            <td>Email delivery does not fix invalid alert syntax.</td>
+            <td>Validate the JSON and test with a small demo route before live trading.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <h4 class="mt-4" id="troubleshooting"><strong>11) Troubleshooting</strong></h4>
+
+    <h5 class="mt-3"><strong>The Send plain text option is not visible</strong></h5>
+    <p>
+      Check your current TradingView alert dialog and account settings. If the option is not available, use the standard AlgoWay
+      Webhook URL route instead.
+    </p>
+
+    <h5 class="mt-3"><strong>The verification email does not appear in AlgoWay</strong></h5>
+    <p>
+      Confirm that the email address is exactly the webhook UUID followed by <code>@algoway.co</code>. A typo in the UUID means the
+      message cannot be attached to the right route.
+    </p>
+
+    <h5 class="mt-3"><strong>The alert email arrives but no order is executed</strong></h5>
+    <p>
+      Check the JSON message. The most common reasons are invalid JSON, wrong <code>platform_name</code>, unsupported symbol format,
+      missing order size, or an order action that does not match the route.
+    </p>
+
+    <h5 class="mt-3"><strong>The wrong platform receives the signal</strong></h5>
+    <p>
+      The UUID email identifies the AlgoWay webhook route. If you copied the UUID from another webhook, the signal will go to that
+      route. Use the UUID from the exact webhook you want to trigger.
+    </p>
+
+    <hr>
+
+    <h4 class="mt-4" id="related"><strong>12) Related AlgoWay guides</strong></h4>
+    <ul>
+      <li><a href="https://algoway.trade/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView Algo Trading Without a Paid Subscription</a></li>
+      <li><a href="https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html">Guide to Creating a Webhook in TradingView</a></li>
+      <li><a href="https://algoway.trade/blog/json-schema-guide.html">AlgoWay JSON Schema Guide</a></li>
+      <li><a href="https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView Alerts to Any Broker with AlgoWay</a></li>
+      <li><a href="https://algoway.trade/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter for AlgoWay</a></li>
+    </ul>
+
+    <hr>
+
+    <h4 class="mt-4" id="faq"><strong>13) FAQ</strong></h4>
+
+    <h5 class="mt-3"><strong>Is TradingView webhook free?</strong></h5>
+    <p>
+      A direct TradingView Webhook URL depends on TradingView account features and plan rules. This guide explains a practical
+      free webhook alternative: send the TradingView alert by plain text email to AlgoWay when that option is available.
+    </p>
+
+    <h5 class="mt-3"><strong>Can I automate TradingView alerts without Webhook URL?</strong></h5>
+    <p>
+      Yes, if your TradingView account allows plain text alert email. Send the JSON alert message to your AlgoWay UUID email, and
+      AlgoWay can process it as an automation signal.
+    </p>
+
+    <h5 class="mt-3"><strong>Is the email route the same as a webhook?</strong></h5>
+    <p>
+      No. A webhook is direct HTTP POST delivery. The email route is an alternative delivery path that still lets AlgoWay receive
+      and process a structured alert message.
+    </p>
+
+    <h5 class="mt-3"><strong>Do I still need JSON?</strong></h5>
+    <p>
+      Yes. AlgoWay needs JSON to understand the symbol, action, size, platform, and risk parameters.
+    </p>
+
+    <h5 class="mt-3"><strong>Which route is better for live automated trading?</strong></h5>
+    <p>
+      Direct Webhook URL is better when it is available. The plain text email route is useful when you need a workaround or want
+      to test alert automation without relying on direct webhook access.
+    </p>
+
+    <h5 class="mt-3"><strong>Can I send TradingView alerts to MT5 with this method?</strong></h5>
+    <p>
+      Yes. Create an AlgoWay MetaTrader 5 webhook, use its UUID email as the TradingView alert email, and send a valid MT5-compatible
+      JSON message.
+    </p>
+
+  </div>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "AlgoWay Blog",
+      "item": "https://algoway.trade/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Free TradingView Webhook Alternative",
+      "item": "https://algoway.trade/blog/tradingview-free-webhook-alerts.html"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BlogPosting",
+                  "headline": "Free TradingView Webhook Alternative: Send Alerts to AlgoWay Without Direct Webhook URL",
+                  "description": "A practical guide to TradingView free webhook alternatives: use plain text alert email with AlgoWay when direct Webhook URL is unavailable in your plan.",
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/tradingview-free-webhook-alerts.html"
+                  },
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/logo.png"
+                            }
+                  },
+                  "image": "https://algoway.trade/static/img/tradingview-free-webhook-alerts.png",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to use AlgoWay as a TradingView webhook alternative",
+  "description": "Create an AlgoWay webhook, use its UUID as an alert email, and send TradingView plain text JSON alerts to AlgoWay when direct Webhook URL is unavailable.",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Create an AlgoWay webhook",
+      "text": "Create a webhook in AlgoWay for the platform you want to trade and copy its UUID."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Add the UUID email in TradingView",
+      "text": "Use the address WebhookUUID@algoway.co as the alternative alert email in TradingView."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Confirm the email",
+      "text": "Open the AlgoWay mail area, copy the TradingView verification code, and confirm it in TradingView."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Create a plain text alert",
+      "text": "Create a TradingView alert, enable Send plain text if available, and place valid AlgoWay JSON in the Message field."
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "TradingView account"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "AlgoWay account"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is TradingView webhook free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A direct TradingView Webhook URL depends on TradingView account features and plan rules. This guide explains a practical free webhook alternative: send the TradingView alert by plain text email to AlgoWay when that option is available."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I automate TradingView alerts without Webhook URL?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, if your TradingView account allows plain text alert email. Send the JSON alert message to your AlgoWay UUID email, and AlgoWay can process it as an automation signal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the email route the same as a webhook?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A webhook is direct HTTP POST delivery. The email route is an alternative delivery path that still lets AlgoWay receive and process a structured alert message."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I still need JSON?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. AlgoWay needs JSON to understand the symbol, action, size, platform, and risk parameters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which route is better for live automated trading?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Direct Webhook URL is better when it is available. The plain text email route is useful when you need a workaround or want to test alert automation without relying on direct webhook access."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I send TradingView alerts to MT5 with this method?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Create an AlgoWay MetaTrader 5 webhook, use its UUID email as the TradingView alert email, and send a valid MT5-compatible JSON message."
+      }
+    }
+  ]
+}
+</script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

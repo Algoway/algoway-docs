@@ -1,10 +1,49 @@
 ---
 title: "Trade Type"
-description: "AlgoWay documentation page for Trade Type."
+sidebar_label: "Trade Type"
+pagination_label: "Trade Type"
+description: "AlgoWay trade_type values for hedge, netting, opposite and inverse execution modes."
+hide_table_of_contents: true
 ---
+## trade_type: Per-Order Trade Mode Override
 
-# Trade Type
+`trade_type` lets one JSON message override the Trade Type configured in the webhook dashboard. Supported values are `hedge`, `netting`, `opposite` and `inverse`.
 
-This page is part of the AlgoWay documentation migration.
+| trade_type | Meaning | Typical use |
+| --- | --- | --- |
+| `hedge` | Allow separate long and short exposure where the destination supports it. | Strategy legs, multi-signal workflows, independent long/short handling. |
+| `netting` | Use net-position behavior for this order. | One net exposure per symbol, no separate long/short stacking. |
+| `opposite` | Send the opposite side of the incoming signal. | Inverse execution strategy, copy opposite behavior. |
+| `inverse` | Invert the incoming direction where the route supports inverse mode. | Contrarian mirroring, inverse copy-trading logic. |
 
-The full guide will be migrated from the existing AlgoWay blog and manuals.
+If `trade_type` is missing, AlgoWay uses the Trade Type selected in the webhook settings. In the webhook creation form this setting is required, so the route always has a default behavior. Use `trade_type` in JSON only when this exact alert must behave differently from the webhook default.
+
+### Example: One Order Forced to Hedge Mode
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_action": "buy",
+  "order_contracts": "0.05",
+  "trade_type": "hedge"
+}
+```
+
+### Example: Limit Order with trade_type Override
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "NAS100",
+  "order_action": "sell",
+  "order_contracts": "1",
+  "order_type": "limit",
+  "price": "18350.0",
+  "sl_price": "18430.0",
+  "tp_price": "18100.0",
+  "trade_type": "netting"
+}
+```
+
+For a full explanation of hedge, netting, opposite and inverse behavior, read [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html).

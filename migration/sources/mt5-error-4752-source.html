@@ -1,0 +1,1223 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Fix MT5 Error 4752 Algo Trading Disabled</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Fix MT5 Error 4752 when TradingView alerts reach AlgoWay but MT5 blocks execution. Enable Algo Trading, EA permissions, DLL imports and logs." />
+	<link rel="canonical" href="https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html" />
+
+	<meta property="og:title" content="How to Fix MT5 Error 4752: Algo Trading Disabled | AlgoWay" />
+	<meta property="og:description" content="MT5 Error 4752 means Expert Advisor trading is blocked. Learn how to fix AutoTrading disabled by client terminal when using TradingView alerts and AlgoWayWS-MT5 EA." />
+	<meta property="og:url" content="https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="How to Fix MT5 Error 4752" />
+	<meta name="twitter:description" content="Fix Error 4752 in MetaTrader 5: Algo Trading disabled, EA permissions blocked, live trading not allowed, or broker/server restriction." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/mt5-common-errors@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1><strong>How to Fix MT5 Error 4752: Algo Trading Disabled in MetaTrader 5</strong></h1>
+
+        <img src="/static/img/blog-img/mt5-common-errors@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How to fix MT5 Error 4752 Algo Trading disabled in MetaTrader 5 with AlgoWay"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>MT5 Error 4752 means MetaTrader 5 is blocking Expert Advisor trading.</strong> In an AlgoWay setup, the TradingView alert may be sent correctly, the AlgoWay webhook may receive the JSON correctly, and the AlgoWayWS-MT5 EA may receive the command correctly — but MetaTrader 5 refuses the final order because automated trading is disabled.</p>
+
+        <p>This is why Error 4752 often appears during <strong>TradingView to MT5 automation</strong>, <strong>MetaTrader 5 webhook execution</strong>, or <strong>AlgoWayWS-MT5 EA setup</strong>. The error is usually not caused by TradingView and not caused by the webhook itself. It is usually caused by one of the MT5 permission switches that controls whether Expert Advisors are allowed to trade.</p>
+
+        <p>The typical execution route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → AlgoWayWS-MT5 EA → MetaTrader 5 order request → Error 4752</code></pre>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <div class="alert alert-info mt-4" role="alert">
+            <strong>SEO quick context:</strong> this guide is for traders using TradingView to MT5 automation, MetaTrader 5 webhook trading, AlgoWayWS-MT5 EA execution, Pine Script alert JSON, and automated trading routes where the signal reaches AlgoWay but MT5 rejects the final Expert Advisor order with Error 4752.
+        </div>
+
+        <h2 class="mt-4">Why This Error Matters in TradingView to MT5 Automation</h2>
+
+        <p>Error 4752 is one of the most confusing problems in a TradingView to MetaTrader 5 automation setup because the signal chain can look successful until the very last step. The TradingView webhook alert can fire correctly. AlgoWay can receive a valid JSON payload. The webhook route can be active. AlgoWayWS-MT5 EA can be connected. Still, the MT5 terminal can reject the order because the terminal, chart, account, or broker does not allow automated trading.</p>
+
+        <p>That makes this problem different from a broken TradingView alert, wrong webhook URL, invalid JSON, or AlgoWay routing issue. If the AlgoWay webhook logs show the request and MT5 Experts logs show Error 4752, the next work is inside MetaTrader 5 permissions, not inside Pine Script. This distinction is important for SEO and for troubleshooting because many users search for phrases such as <strong>TradingView webhook not opening MT5 trade</strong>, <strong>MT5 EA not trading</strong>, <strong>AutoTrading disabled by client terminal</strong>, <strong>Algo Trading disabled MT5</strong>, and <strong>AlgoWay MT5 Error 4752</strong>.</p>
+
+        <p>In other words, Error 4752 is a permission-layer failure. The automation path is alive enough to reach the EA, but MetaTrader 5 refuses to let the Expert Advisor place the trade. The correct fix is to enable and verify all algorithmic trading permissions before changing the TradingView alert message, strategy placeholders, order size, symbol mapping, or webhook JSON.</p>
+
+        <h2 class="mt-4">Quick Answer</h2>
+
+        <p>Error 4752 is commonly shown as:</p>
+
+        <pre><code>OrderSend failed. Error code: 4752
+Trading by Expert Advisors prohibited
+AutoTrading disabled by client terminal
+ERR_TRADE_DISABLED</code></pre>
+
+        <p>To fix it, check these points first:</p>
+
+        <ol>
+            <li>Enable <strong>Algo Trading</strong> or <strong>AutoTrading</strong> on the MT5 toolbar.</li>
+            <li>Open <strong>Tools → Options → Expert Advisors</strong> and allow algorithmic trading.</li>
+            <li>Open the EA settings on the chart and allow the EA to trade.</li>
+            <li>Enable <strong>DLL imports</strong> if the current AlgoWayWS-MT5 setup requires it.</li>
+            <li>Check the MT5 <strong>Experts</strong> and <strong>Journal</strong> tabs for the exact rejection message.</li>
+            <li>If everything is enabled locally, check whether the broker or account type blocks automated trading.</li>
+        </ol>
+
+        <h2 class="mt-4">What MT5 Error 4752 Means</h2>
+
+        <p>Error <strong>4752</strong> is the MetaTrader/MQL5 error commonly known as <strong>ERR_TRADE_DISABLED</strong>. In practical terms, MT5 is saying: <strong>this Expert Advisor is not allowed to place trades right now.</strong></p>
+
+        <p>This does not necessarily mean that the EA is broken. It means that trade execution by an EA is prohibited at the terminal, chart, account, broker, or environment level.</p>
+
+        
+        <h2 class="mt-4">The Main Causes of MT5 Error 4752</h2>
+
+        <p>In real AlgoWay support cases, Error 4752 usually comes from one of several permission switches. The important point is that MetaTrader 5 has more than one place where automated trading can be blocked. One enabled switch does not guarantee the whole EA execution path is allowed.</p>
+
+        <ul>
+            <li><strong>Global Algo Trading is disabled</strong> in the MT5 toolbar, so every EA is blocked.</li>
+            <li><strong>Algorithmic trading is disabled</strong> in Tools → Options → Expert Advisors.</li>
+            <li><strong>The specific EA is not allowed to trade</strong> in the chart properties.</li>
+            <li><strong>DLL imports are blocked</strong> when the current EA setup requires external library access.</li>
+            <li><strong>The account is read-only</strong>, investor login is used, or the broker account cannot trade.</li>
+            <li><strong>The broker or server restricts Expert Advisor trading</strong> for the account type, symbol, or session.</li>
+            <li><strong>A VPS migration, profile switch, account switch, or terminal restart</strong> changed MT5 permissions after the EA was already working.</li>
+        </ul>
+
+        <p>This is why a proper Error 4752 fix should be methodical. Do not only click the toolbar button and assume the issue is solved. Check the global terminal switch, the Expert Advisors options page, the EA chart permissions, the account login type, and the broker/server logs. AlgoWay can deliver the command, but MT5 still controls whether the EA may trade.</p>
+
+        <h2 class="mt-4">Diagnostic Order: Webhook First, MT5 Permission Second</h2>
+
+        <p>When a user says “TradingView alert reached AlgoWay but no MT5 order opened,” check the layers in the correct order. First confirm whether the webhook side is working. Then confirm whether the EA side receives the command. Only after that check the MetaTrader 5 execution permission.</p>
+
+        <ol>
+            <li><strong>AlgoWay Webhook Logs:</strong> confirm that the TradingView alert payload arrived.</li>
+            <li><strong>Payload format:</strong> confirm that JSON is valid and the route is correct.</li>
+            <li><strong>EA connection:</strong> confirm that AlgoWayWS-MT5 is connected and reading tasks.</li>
+            <li><strong>MT5 Experts tab:</strong> confirm whether Error 4752 appears when the EA tries to execute.</li>
+            <li><strong>MT5 permissions:</strong> enable the toolbar, Options, EA properties, and required DLL access.</li>
+            <li><strong>Broker/account status:</strong> confirm manual trading and EA trading are allowed.</li>
+        </ol>
+
+        <p>This workflow prevents unnecessary changes. If AlgoWay never received the webhook, the issue is not Error 4752. If AlgoWay received the webhook and MT5 says automated trading is prohibited, the issue is not the TradingView strategy. It is the MT5 permission layer.</p>
+
+        <h2 class="mt-4">Why Error 4752 Appears with TradingView Alerts</h2>
+
+        <p>TradingView does not place the final MT5 order. TradingView sends an alert. AlgoWay receives and processes that alert. The MT5 Expert Advisor performs the actual execution inside MetaTrader 5.</p>
+
+        <p>That means a signal can pass the first parts of the chain and still fail at the final MT5 permission layer:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Layer</th>
+                    <th>Status</th>
+                    <th>What it means</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TradingView alert</td>
+                    <td>Sent</td>
+                    <td>The alert fired and tried to send a webhook.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay webhook</td>
+                    <td>Received</td>
+                    <td>AlgoWay received the JSON signal.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWayWS-MT5 EA</td>
+                    <td>Signal received</td>
+                    <td>The EA got the command from AlgoWay.</td>
+                </tr>
+                <tr>
+                    <td>MetaTrader 5 order execution</td>
+                    <td>Rejected</td>
+                    <td>MT5 blocks automated trading and returns Error 4752.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>This is why the user may see successful webhook logs but no trade in MT5.</p>
+
+        <h2 class="mt-4">Fix 1. Enable Algo Trading on the MT5 Toolbar</h2>
+
+        <p>The first check is the global MT5 automation switch.</p>
+
+        <ol>
+            <li>Look at the top toolbar in MetaTrader 5.</li>
+            <li>Find <strong>Algo Trading</strong> or <strong>AutoTrading</strong>.</li>
+            <li>Enable it.</li>
+            <li>Confirm that the button shows the enabled state.</li>
+        </ol>
+
+        <p>If this global switch is disabled, every Expert Advisor in the terminal is blocked from trading, including AlgoWayWS-MT5.</p>
+
+        <h2 class="mt-4">Fix 2. Allow Algorithmic Trading in MT5 Options</h2>
+
+        <p>The second check is the terminal-level Expert Advisor settings.</p>
+
+        <pre><code>MT5 → Tools → Options → Expert Advisors</code></pre>
+
+        <p>Check the following:</p>
+
+        <ul>
+            <li><strong>Allow algorithmic trading</strong> is enabled.</li>
+            <li>Settings that disable algo trading after account change, profile change, or chart symbol change are reviewed.</li>
+            <li>If the current AlgoWayWS-MT5 EA setup requires DLL access, <strong>Allow DLL imports</strong> is enabled.</li>
+        </ul>
+
+        <p>After changing these settings, restart the EA or reattach it to the chart and test again.</p>
+
+        <h2 class="mt-4">Fix 3. Allow Trading for the Specific AlgoWayWS-MT5 EA</h2>
+
+        <p>MT5 can allow algo trading globally while still blocking a specific EA on a specific chart. This is one of the most common causes of Error 4752.</p>
+
+        <ol>
+            <li>Open the chart where AlgoWayWS-MT5 EA is attached.</li>
+            <li>Press <strong>F7</strong> or open <strong>Expert Advisors → Properties</strong>.</li>
+            <li>Open the <strong>Common</strong> tab.</li>
+            <li>Enable EA trading permissions.</li>
+            <li>Enable DLL imports if required by the current AlgoWayWS-MT5 setup.</li>
+        </ol>
+
+        <p>If the EA is not allowed to trade from its own chart properties, MT5 can still return 4752 even when the toolbar button is enabled.</p>
+
+        <h2 class="mt-4">Fix 4. Check Whether the Broker or Account Blocks EA Trading</h2>
+
+        <p>If all local MT5 settings are enabled and Error 4752 still appears, check the broker/account side.</p>
+
+        <p>Possible broker-side causes:</p>
+
+        <ul>
+            <li>you are logged in with an investor/read-only password;</li>
+            <li>the account is not allowed to trade;</li>
+            <li>the broker disabled automated trading on this account type;</li>
+            <li>the symbol is not tradable on this account;</li>
+            <li>the account is connected to a VPS or migration state that changed EA permissions.</li>
+        </ul>
+
+        <p>To confirm, try placing a small manual trade on the same symbol. If manual trading also fails, the issue is not AlgoWay. If manual trading works but EA trading fails, return to MT5 EA permissions and broker rules for automated trading.</p>
+
+        <h2 class="mt-4">Fix 5. Check MT5 Experts and Journal Logs</h2>
+
+        <p>MetaTrader 5 logs show whether the block comes from the terminal, the EA, the account, or the trading server.</p>
+
+        <ol>
+            <li>Open the bottom terminal panel in MT5.</li>
+            <li>Check the <strong>Experts</strong> tab.</li>
+            <li>Check the <strong>Journal</strong> tab.</li>
+            <li>Search for <code>4752</code>, <code>trade disabled</code>, <code>prohibited</code>, or <code>AutoTrading disabled</code>.</li>
+        </ol>
+
+        <p>Common log messages include:</p>
+
+        <pre><code>Trading by Expert Advisors prohibited
+AutoTrading disabled by client terminal
+trade disabled
+ERR_TRADE_DISABLED
+OrderSend failed. Error code: 4752</code></pre>
+
+        
+        <h2 class="mt-4">How to Confirm That AlgoWay Is Not the Blocking Layer</h2>
+
+        <p>AlgoWay has two important roles in this chain: receiving the webhook and routing the command to the MT5 connector. If those two steps are visible in logs, the remaining rejection belongs to the execution environment. This is why AlgoWay logs and MT5 logs should be read together.</p>
+
+        <p>Use this interpretation:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Observation</th>
+                    <th>Meaning</th>
+                    <th>Next action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>No AlgoWay log entry</td>
+                    <td>TradingView did not reach AlgoWay.</td>
+                    <td>Check webhook URL, alert status, TradingView plan, and JSON delivery.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay received invalid payload</td>
+                    <td>The request arrived but cannot be parsed correctly.</td>
+                    <td>Fix JSON, content type, quotes, commas, and required fields.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay received valid payload and MT5 logs show 4752</td>
+                    <td>The webhook chain works, but MetaTrader 5 blocks EA execution.</td>
+                    <td>Fix MT5 algorithmic trading permissions.</td>
+                </tr>
+                <tr>
+                    <td>MT5 accepts EA trading but broker rejects order</td>
+                    <td>This is no longer Error 4752.</td>
+                    <td>Check broker error, symbol, lot size, stops, market session, filling mode.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>This separation is useful for users running automated trading from TradingView, Telegram signals, manual webhook alerts, or another AlgoWay source. Error 4752 is not source-specific. It can appear with any source when the final destination is MetaTrader 5 and the Expert Advisor is not allowed to trade.</p>
+
+        <h2 class="mt-4">What Not to Change First</h2>
+
+        <p>When Error 4752 appears, do not immediately rewrite the Pine Script strategy, change the webhook UUID, rebuild the AlgoWay route, or replace the JSON schema. Those changes can create new problems while the real issue remains unchanged. If the error message clearly says that trading by Expert Advisors is prohibited, the first fixes are MT5 permissions and account trading permissions.</p>
+
+        <p>Also do not confuse a successful TradingView alert with a successful MT5 trade. A TradingView alert only proves the source event fired. AlgoWay logs prove the webhook was received and processed. The MT5 Experts and Journal tabs prove whether the terminal accepted or rejected EA execution. For Error 4752, the key evidence is in MetaTrader 5.</p>
+
+        <h2 class="mt-4">AlgoWayWS-MT5 Specific Checklist</h2>
+
+        <p>Use this checklist when Error 4752 appears in the current AlgoWayWS-MT5 EA workflow:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Check</th>
+                    <th>Where</th>
+                    <th>Expected result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Algo Trading switch</td>
+                    <td>MT5 toolbar</td>
+                    <td>Enabled</td>
+                </tr>
+                <tr>
+                    <td>Algorithmic trading permission</td>
+                    <td>Tools → Options → Expert Advisors</td>
+                    <td>Allowed</td>
+                </tr>
+                <tr>
+                    <td>EA chart permissions</td>
+                    <td>Chart → F7 → Common</td>
+                    <td>EA trading allowed</td>
+                </tr>
+                <tr>
+                    <td>DLL imports</td>
+                    <td>MT5 options and EA settings if required</td>
+                    <td>Allowed for current AlgoWayWS-MT5 setup</td>
+                </tr>
+                <tr>
+                    <td>Webhook UUID</td>
+                    <td>AlgoWayWS-MT5 EA inputs</td>
+                    <td>Correct UUID from AlgoWay dashboard</td>
+                </tr>
+                <tr>
+                    <td>Connection status</td>
+                    <td>MT5 Experts log</td>
+                    <td>EA connected and receiving messages</td>
+                </tr>
+                <tr>
+                    <td>Webhook payload</td>
+                    <td>AlgoWay logs</td>
+                    <td>Valid JSON received</td>
+                </tr>
+                <tr>
+                    <td>Broker permission</td>
+                    <td>Broker account / MT5 server response</td>
+                    <td>Trading and EA trading allowed</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Error 4752 vs Webhook Error 415</h2>
+
+        <p>Do not confuse MT5 Error 4752 with AlgoWay webhook Error 415.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Error</th>
+                    <th>Where it happens</th>
+                    <th>Main cause</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>4752</strong></td>
+                    <td>MetaTrader 5</td>
+                    <td>EA trading is disabled or prohibited.</td>
+                </tr>
+                <tr>
+                    <td><strong>415</strong></td>
+                    <td>Webhook/API layer</td>
+                    <td>TradingView sent invalid JSON or wrong content type.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>If AlgoWay does not receive the alert correctly, fix the webhook JSON first. If AlgoWay receives the alert and MT5 rejects execution with 4752, fix MT5 algo trading permissions.</p>
+
+        <p>Webhook format guide: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <h2 class="mt-4">Error 4752 vs Error 4756</h2>
+
+        <p>Error 4752 and Error 4756 are also different.</p>
+
+        <ul>
+            <li><strong>4752</strong> means Expert Advisor trading is disabled or prohibited.</li>
+            <li><strong>4756</strong> means the order request reached the server, but the broker rejected the request parameters.</li>
+        </ul>
+
+        <p>So if the issue is 4752, first check permissions. If the issue is 4756, check symbol, lot size, filling type, market session, stops, and broker rules.</p>
+
+        <p>Common errors hub: <a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">MetaTrader 5 common errors in AlgoWay</a>.</p>
+
+        <h2 class="mt-4">TradingView JSON Example for Testing After Fixing 4752</h2>
+
+        <p>After fixing MT5 permissions, send a safe test message before using your full strategy alert.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.01,
+  "order_action": "buy"
+}</code></pre>
+
+        <p>For a TradingView strategy alert, you can use placeholders:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>Confirm the test in both places:</p>
+
+        <ul>
+            <li><strong>AlgoWay Webhook Logs</strong> — the alert was received and routed.</li>
+            <li><strong>MT5 Experts / Journal</strong> — the EA attempted execution and no longer returned 4752.</li>
+        </ul>
+
+        <h2 class="mt-4">Why AlgoWay Mentions TradingView on a MetaTrader Error Page</h2>
+
+        <p>Many traders see Error 4752 only after they connect TradingView alerts to MetaTrader 5. That makes it feel like a TradingView problem. In reality, TradingView only starts the automation chain. The actual 4752 rejection happens inside MetaTrader 5 when the EA attempts to trade.</p>
+
+        <p>This is why AlgoWay separates the layers:</p>
+
+        <ul>
+            <li>TradingView alert layer;</li>
+            <li>AlgoWay webhook and JSON layer;</li>
+            <li>AlgoWayWS-MT5 connection layer;</li>
+            <li>MetaTrader 5 EA permission layer;</li>
+            <li>broker execution layer.</li>
+        </ul>
+
+        <p>Error 4752 belongs to the MetaTrader 5 EA permission layer.</p>
+
+        
+        <h2 class="mt-4">Safe Retest Workflow After Fixing Error 4752</h2>
+
+        <p>After enabling Algo Trading and EA permissions, do not return immediately to full-size live automation. Retest the chain with the smallest practical order size and a simple payload. The goal is to prove that MetaTrader 5 now allows EA execution before you reconnect the full TradingView strategy.</p>
+
+        <ol>
+            <li>Enable the MT5 toolbar Algo Trading button.</li>
+            <li>Confirm Tools → Options → Expert Advisors permissions.</li>
+            <li>Open EA chart properties and confirm live trading is allowed.</li>
+            <li>Restart or reattach AlgoWayWS-MT5 EA if needed.</li>
+            <li>Send one small fixed test order through AlgoWay.</li>
+            <li>Check AlgoWay Webhook Logs for the received request.</li>
+            <li>Check MT5 Experts and Journal for the new execution result.</li>
+            <li>Confirm that Error 4752 no longer appears.</li>
+            <li>Only then restore the original TradingView alert or strategy automation.</li>
+        </ol>
+
+        <p>This procedure is useful for both demo and live accounts. It is also useful after a VPS restart, MT5 update, broker server change, account switch, profile change, or reinstall of the AlgoWayWS-MT5 EA. MetaTrader 5 can disable algorithmic trading after certain changes depending on terminal settings, so a route that worked yesterday can suddenly show Error 4752 today.</p>
+
+        <h2 class="mt-4">Cloud MT5, VPS and Error 4752</h2>
+
+        <p>Many AlgoWay users run MetaTrader 5 on a VPS or cloud desktop so the terminal stays online while TradingView alerts continue to fire. Error 4752 can still appear in that environment. A VPS does not automatically guarantee that algorithmic trading is enabled. After a Windows update, terminal restart, broker reconnect, RDP session change, or migration, the MT5 toolbar and EA permissions should be checked again.</p>
+
+        <p>For a VPS-based TradingView to MT5 webhook setup, the minimum healthy state is:</p>
+
+        <ul>
+            <li>MT5 terminal is open and logged into the correct trading account;</li>
+            <li>AlgoWayWS-MT5 EA is attached to the correct chart;</li>
+            <li>Algo Trading is enabled in the toolbar;</li>
+            <li>EA properties allow live trading;</li>
+            <li>required DLL permissions are enabled when used by the current setup;</li>
+            <li>the Experts tab confirms the EA is running and connected;</li>
+            <li>AlgoWay logs show incoming webhook alerts;</li>
+            <li>the broker account allows trading and is not read-only.</li>
+        </ul>
+
+        <p>If any of these checks fail, the webhook route may be correct but MT5 execution can still fail. That is why Error 4752 pages should be part of every MT5 automation troubleshooting cluster, together with JSON errors, broker rejection errors, symbol mapping guides and AlgoWayWS-MT5 installation manuals.</p>
+
+        <h2 class="mt-4">SEO Summary for Traders Searching This Error</h2>
+
+        <p>If you searched for <strong>MT5 Error 4752</strong>, <strong>AutoTrading disabled by client terminal</strong>, <strong>Trading by Expert Advisors prohibited</strong>, <strong>Algo Trading disabled MT5</strong>, <strong>TradingView to MT5 no trade opened</strong>, or <strong>AlgoWayWS-MT5 EA not placing orders</strong>, the core answer is the same: MetaTrader 5 is blocking automated trading. Fix the permission layer first, then test the webhook route again.</p>
+
+        <p>AlgoWay can help you identify where the chain fails because webhook logs show whether the signal arrived and MT5 logs show whether the EA was allowed to execute. The clean troubleshooting path is not guesswork. It is layer-by-layer verification from TradingView alert, to AlgoWay webhook, to AlgoWayWS-MT5 EA, to MetaTrader 5 execution permission, to broker server response.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a></li>
+            <li><a href="/blog/algoway-mt5-expert-advisor-installation-guide.html">How to install an MT5 Expert Advisor for AlgoWay automation</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">MetaTrader 5 common errors in AlgoWay</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">How to fix MetaTrader 5 Error 4756</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>MT5 Error 4752 means MetaTrader 5 is blocking Expert Advisor trading.</strong> In most AlgoWayWS-MT5 cases, the fix is to enable Algo Trading globally, allow algorithmic trading in MT5 options, allow the specific EA to trade on the chart, and confirm logs after the next test signal.</p>
+
+        <p>If the TradingView alert reaches AlgoWay but MT5 returns 4752, do not rewrite the TradingView strategy first. Fix the MT5 execution permission layer first.</p>
+
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://algoway.trade/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Blog",
+              "item": "https://algoway.trade/blog/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "How to Fix MT5 Error 4752",
+              "item": "https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html"
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Fix MT5 Error 4752 in an AlgoWay MT5 Automation Setup",
+          "description": "Fix MetaTrader 5 Error 4752 by enabling Algo Trading, allowing Expert Advisor trading, checking EA chart permissions, verifying DLL permissions when required, and retesting the AlgoWay webhook route.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Confirm the webhook reached AlgoWay",
+              "text": "Open AlgoWay Webhook Logs and confirm that the TradingView or webhook payload was received."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Enable Algo Trading in MT5",
+              "text": "Enable the Algo Trading or AutoTrading button on the MetaTrader 5 toolbar."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Allow algorithmic trading in MT5 options",
+              "text": "Open Tools, Options, Expert Advisors and allow algorithmic trading."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Allow the specific EA to trade",
+              "text": "Open AlgoWayWS-MT5 EA chart properties and allow live trading for the Expert Advisor."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Check Experts and Journal logs",
+              "text": "Check MT5 Experts and Journal logs for Error 4752, trade disabled, or Expert Advisors prohibited messages."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Retest with a small order",
+              "text": "Send a small test payload through AlgoWay and confirm that MetaTrader 5 no longer returns Error 4752."
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Fix MT5 Error 4752: Algo Trading Disabled in MetaTrader 5",
+                  "description": "Fix MetaTrader 5 Error 4752 when TradingView alerts reach AlgoWay but MT5 blocks Expert Advisor execution because Algo Trading or EA permissions are disabled.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "MetaTrader 5 Troubleshooting",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What does MT5 Error 4752 mean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "MT5 Error 4752 means trading by Expert Advisors is disabled or prohibited. MetaTrader 5 is blocking automated execution."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Error 4752 caused by TradingView?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Usually no. TradingView sends the alert, but Error 4752 happens inside MetaTrader 5 when the Expert Advisor attempts to place the order and MT5 blocks automated trading."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I fix Error 4752 in MetaTrader 5?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Enable Algo Trading on the MT5 toolbar, allow algorithmic trading in Tools → Options → Expert Advisors, allow trading in the EA chart properties, enable required DLL permissions, and check MT5 Experts and Journal logs."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay receive the webhook and still get MT5 Error 4752?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can receive and route the webhook correctly, while MetaTrader 5 still blocks the final EA order because automated trading permissions are disabled."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What should I check if Error 4752 remains after enabling Algo Trading?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Check EA chart permissions, DLL imports if required, account type, broker restrictions, investor/read-only login, symbol tradability, and the exact MT5 Experts and Journal log messages."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

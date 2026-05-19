@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>PineConnector Alternative with Live MT5 Demo | AlgoWay</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="description" content="Stop paying around $30/month for PineConnector. Test your current PineConnector-style TradingView alert on AlgoWay with a live MT5 demo before registering. AlgoWay starts from $6/month, with AI-assisted alert conversion and no credit card required.">
+  <link rel="canonical" href="https://algoway.trade/pineconnector-alternative">
+
+  <meta property="og:title" content="PineConnector Alternative with Live MT5 Demo | AlgoWay">
+  <meta property="og:description" content="Paste your PineConnector-style alert and test execution on an AlgoWay MT5 demo account before creating an account. From $6/month. No credit card required.">
+  <meta property="og:image" content="https://algoway.trade/static/img/social.jpg">
+  <meta property="og:url" content="https://algoway.trade/pineconnector-alternative">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AlgoWay">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PineConnector Alternative with Live MT5 Demo | AlgoWay">
+  <meta name="twitter:description" content="Test your PineConnector-style TradingView alert on a live AlgoWay MT5 demo before registering. From $6/month.">
+  <meta name="twitter:site" content="@ALGOWAY180660">
+
+  <link rel="shortcut icon" href="/static/img/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/static/img/favicon.png" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/font-awesome.castr.css">
+  <link rel="stylesheet" href="/static/css/bootstrap.castr.css">
+  <link rel="stylesheet" href="/static/css/style.castr.css">
+  <link rel="stylesheet" href="/static/css/custom-style.css?v=pc-master-v1">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-16675796461');
+  </script>
+
+  <style>
+    :root {
+      --aw-purple: #8d4dff;
+      --aw-purple-2: #a970ff;
+      --aw-purple-dark: #5d2fc9;
+      --aw-ink: #101121;
+      --aw-card: #17182d;
+      --aw-green: #18c37e;
+      --aw-red: #ff4d67;
+      --aw-surface: #f7f7fb;
+      --aw-line: rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: #ffffff;
+      color: #222222;
+    }
+
+    #header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 99999;
+    }
+
+    #header .header--navbar {
+      position: relative;
+      z-index: 99999;
+      background: rgba(255,255,255,0.98);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      backdrop-filter: blur(8px);
+    }
+
+    #hero-demo {
+      position: relative;
+      overflow: hidden;
+      padding: 135px 0 64px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.90) 46%, rgba(255,255,255,0.20) 100%),
+        url('/static/img/banner-img/bg.webp') center center / cover no-repeat;
+    }
+
+    #hero-demo:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 68% 18%, rgba(141,77,255,0.26), transparent 31%),
+        radial-gradient(circle at 82% 72%, rgba(141,77,255,0.16), transparent 24%);
+      pointer-events: none;
+    }
+
+    .aw-wrap {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(390px, 525px);
+      gap: 42px;
+      align-items: flex-start;
+    }
+
+    .aw-kicker {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(141,77,255,0.10);
+      color: var(--aw-purple-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .aw-title {
+      margin: 0 0 16px;
+      font-size: 57px;
+      line-height: 0.98;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #111111;
+      text-transform: uppercase;
+    }
+
+    .aw-title .light {
+      font-weight: 300;
+    }
+
+    .aw-title .accent {
+      color: var(--aw-purple);
+    }
+
+    .aw-sub {
+      max-width: 780px;
+      font-size: 22px;
+      line-height: 1.36;
+      color: #222222;
+      margin: 0 0 18px;
+      font-weight: 500;
+    }
+
+    .aw-sub strong {
+      color: #111111;
+      font-weight: 800;
+    }
+
+    .aw-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 22px;
+    }
+
+    .aw-pill {
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 10px 24px rgba(17,17,17,0.05);
+      font-size: 15px;
+      line-height: 1.2;
+      color: #333333;
+      font-weight: 800;
+    }
+
+    .aw-pill b {
+      color: var(--aw-purple-dark);
+    }
+
+    .aw-mini-proof {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 24px 0 24px;
+    }
+
+    .aw-proof-item {
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 16px;
+      padding: 15px 15px 16px;
+      box-shadow: 0 10px 24px rgba(17,17,17,0.05);
+    }
+
+    .aw-proof-item .n {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--aw-purple), var(--aw-purple-2));
+      color: #ffffff;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .aw-proof-item p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 700;
+      color: #222222;
+    }
+
+    .aw-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin: 26px 0 14px;
+    }
+
+    .aw-btn-primary,
+    .aw-btn-secondary,
+    .aw-btn-dark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      padding: 0 24px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none !important;
+      border: 0;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .aw-btn-primary {
+      color: #ffffff !important;
+      background: linear-gradient(90deg, var(--aw-purple), var(--aw-purple-2));
+    }
+
+    .aw-btn-primary:hover {
+      color: #ffffff !important;
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(141,77,255,0.28);
+    }
+
+    .aw-btn-secondary {
+      color: #111111 !important;
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.10);
+    }
+
+    .aw-btn-dark {
+      color: #ffffff !important;
+      background: #111111;
+    }
+
+    .aw-trust-line {
+      margin: 12px 0 0;
+      font-size: 15px;
+      line-height: 1.45;
+      color: #333333;
+      font-weight: 700;
+    }
+
+    .aw-demo-card {
+      background: linear-gradient(180deg, rgba(20,16,42,0.97), rgba(31,23,58,0.97));
+      color: #ffffff;
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: 0 28px 80px rgba(26,15,61,0.34);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .aw-demo-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .aw-demo-title {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .aw-demo-badge {
+      flex: none;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(24,195,126,0.14);
+      color: #7effbd;
+      border: 1px solid rgba(126,255,189,0.22);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .aw-demo-note {
+      margin: 0 0 16px;
+      color: rgba(255,255,255,0.82);
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .aw-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+    }
+
+    .aw-textarea,
+    .aw-input,
+    .aw-select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.08);
+      color: #ffffff;
+      outline: none;
+      font-weight: 700;
+    }
+
+    .aw-textarea {
+      min-height: 136px;
+      padding: 14px;
+      resize: vertical;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .aw-input,
+    .aw-select {
+      min-height: 48px;
+      padding: 0 13px;
+    }
+
+    .aw-select option {
+      color: #111111;
+    }
+
+    .aw-form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 12px 0 14px;
+    }
+
+    .aw-demo-small {
+      margin: 10px 0 0;
+      color: rgba(255,255,255,0.68);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+
+    .aw-result {
+      display: none;
+      margin-top: 16px;
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .aw-result.ok {
+      display: block;
+      border-color: rgba(24,195,126,0.35);
+      background: rgba(24,195,126,0.10);
+    }
+
+    .aw-result.bad {
+      display: block;
+      border-color: rgba(255,77,103,0.35);
+      background: rgba(255,77,103,0.10);
+    }
+
+    .aw-result-title {
+      margin: 0 0 8px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .aw-result pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: rgba(255,255,255,0.88);
+      font-size: 13px;
+      line-height: 1.45;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .aw-public-result {
+      display: grid;
+      gap: 8px;
+    }
+
+    .aw-public-result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .aw-public-result-row span:first-child {
+      color: rgba(255,255,255,0.68);
+      font-weight: 800;
+    }
+
+    .aw-public-result-row span:last-child {
+      color: #ffffff;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    .aw-section {
+      padding: 68px 0;
+    }
+
+    .aw-section.alt {
+      background: var(--aw-surface);
+    }
+
+    .aw-center {
+      text-align: center;
+    }
+
+    .aw-section h2 {
+      margin: 0 0 14px;
+      font-size: 40px;
+      line-height: 1.05;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #111111;
+    }
+
+    .aw-section-lead {
+      max-width: 840px;
+      margin: 0 auto 34px;
+      font-size: 19px;
+      line-height: 1.5;
+      color: #444444;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .aw-compare-wrap {
+      background: #ffffff;
+      border-radius: 22px;
+      border: 1px solid rgba(0,0,0,0.07);
+      overflow: hidden;
+      box-shadow: 0 18px 44px rgba(17,17,17,0.06);
+    }
+
+    .aw-table {
+      width: 100%;
+      margin: 0;
+      border-collapse: collapse;
+      font-size: 15px;
+    }
+
+    .aw-table th,
+    .aw-table td {
+      padding: 16px 18px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      vertical-align: top;
+    }
+
+    .aw-table th {
+      background: #111111;
+      color: #ffffff;
+      font-weight: 800;
+    }
+
+    .aw-table td {
+      color: #333333;
+      font-weight: 700;
+    }
+
+    .aw-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .aw-good {
+      color: var(--aw-green) !important;
+      font-weight: 800 !important;
+    }
+
+    .aw-muted {
+      color: #666666 !important;
+    }
+
+    .aw-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .aw-box {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.07);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 18px 44px rgba(17,17,17,0.06);
+    }
+
+    .aw-box h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #111111;
+    }
+
+    .aw-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #444444;
+      font-weight: 600;
+    }
+
+    .aw-cta {
+      padding: 42px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #111111, #2a185d);
+      color: #ffffff;
+      text-align: center;
+      box-shadow: 0 26px 70px rgba(26,15,61,0.25);
+    }
+
+    .aw-cta h2 {
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .aw-cta p {
+      max-width: 760px;
+      margin: 0 auto 24px;
+      color: rgba(255,255,255,0.82);
+      font-size: 18px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+
+    .aw-faq {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .aw-faq-item {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 18px;
+      padding: 20px 22px;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 24px rgba(17,17,17,0.04);
+    }
+
+    .aw-faq-item h3 {
+      margin: 0 0 8px;
+      font-size: 21px;
+      line-height: 1.18;
+      color: #111111;
+      font-weight: 800;
+    }
+
+    .aw-faq-item p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.55;
+      color: #444444;
+      font-weight: 600;
+    }
+
+    @media (max-width: 1199px) {
+      .aw-wrap,
+      .aw-mini-proof,
+      .aw-grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .aw-title {
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 991px) {
+      #hero-demo {
+        padding-top: 130px;
+      }
+
+      .aw-title {
+        font-size: 42px;
+      }
+
+      .aw-sub {
+        font-size: 20px;
+      }
+
+      .aw-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .aw-compare-wrap {
+        overflow-x: auto;
+      }
+
+      .aw-table {
+        min-width: 760px;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .aw-title {
+        font-size: 34px;
+      }
+
+      .aw-sub {
+        font-size: 18px;
+      }
+
+      .aw-btn-primary,
+      .aw-btn-secondary,
+      .aw-btn-dark {
+        width: 100%;
+      }
+
+      .aw-cta {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+  <div class="wrapper">
+    <div id="header">
+      <nav class="header--navbar">
+        <div class="container">
+          <div class="navbar">
+            <div class="navbar-header">
+              <div class="header--custom-btn hidden-lg hidden-md">
+                <a href="/login" class="btn--default" aria-label="Login">
+                  <i class="fa fa-user-plus" aria-hidden="true"></i>
+                </a>
+              </div>
+
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="logo navbar-brand" href="/">
+                <div class="logo--img">
+                  <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo">
+                </div>
+                <div class="logo--content">
+                  <p class="h1" style="margin:0; padding:0; display:inline-block;">ALGO<strong>WAY</strong></p>
+                  <p><strong>BE</strong> CONNECTED</p>
+                </div>
+              </a>
+            </div>
+
+            <div class="header--custom-btn hidden-sm hidden-xs">
+              <a href="/login" class="btn--default">LOGIN</a>
+            </div>
+
+            <div id="headerNav" class="header--nav navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="#banner">HOME</a></li>
+                                <li><a href="#platforms">PLATFORMS</a></li>
+								<li><a href="#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="#about">ABOUT</a></li>
+                                <li><a href="#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="#contact">CONTACT</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <section id="hero-demo">
+      <div class="container">
+        <div class="aw-wrap">
+          <div>
+            <span class="aw-kicker">PineConnector Alternative with Live MT5 Demo</span>
+
+			<h1 class="aw-title">
+			  <span class="light">Stop paying</span><br>
+			  <span>~$30/mo for PineConnector</span><br>
+			  <span class="accent">Test AlgoWay from $6/mo before you register</span>
+			</h1>
+
+			<p class="aw-sub">
+			  Paste your current <strong>PineConnector-style TradingView alert</strong> and send a live test to our MT5 demo account. Standard alerts are processed natively in milliseconds — no signup and no credit card required.
+			</p>
+
+			<div class="aw-pills">
+			  <div class="aw-pill">PineConnector: <b>~$30/mo</b></div>
+			  <div class="aw-pill">AlgoWay: <b>from $6/mo</b></div>
+			  <div class="aw-pill">Execution: <b>native milliseconds</b></div>
+			  <div class="aw-pill">AI helper: <b>optional only</b></div>
+			  <div class="aw-pill">Trial: <b>14 days</b></div>
+			  <div class="aw-pill">Credit card: <b>not required</b></div>
+			</div>
+
+			<div class="aw-mini-proof">
+			  <div class="aw-proof-item"><span class="n">1</span><p>Paste your current PineConnector-style TradingView alert.</p></div>
+			  <div class="aw-proof-item"><span class="n">2</span><p>Standard alerts are executed natively in milliseconds without AI overhead.</p></div>
+			  <div class="aw-proof-item"><span class="n">3</span><p>The demo route sends the order to a live MT5 demo account and returns the MT5 Ticket ID.</p></div>
+			</div>
+
+            <div class="aw-hero-actions">
+              <a href="#live-demo" class="aw-btn-primary">Send Live MT5 Demo Alert</a>
+              <a href="/register" class="aw-btn-secondary">Create Free Account</a>
+            </div>
+
+            <p class="aw-trust-line">
+              PineConnector-style syntax supported. No need to rebuild your TradingView workflow before testing AlgoWay.
+            </p>
+          </div>
+
+          <div class="aw-demo-card" id="live-demo">
+            <div class="aw-demo-head">
+              <h2 class="aw-demo-title">Live MT5 Demo Test</h2>
+              <span class="aw-demo-badge">No Signup</span>
+            </div>
+
+			<p class="aw-demo-note">
+			  Paste a PineConnector-style alert, AlgoWay JSON, or a plain-text instruction. Standard PineConnector alerts are executed natively in milliseconds without any AI overhead. AI is used only as an optional helper for messy or non-standard messages.
+			</p>
+
+            <label class="aw-label" for="pcAlertInput">Alert message</label>
+            <textarea id="pcAlertInput" class="aw-textarea" spellcheck="false">123456789,buy,BTCUSD,risk=0.01,comment=AlgoWayDemo</textarea>
+
+            <div class="aw-form-grid">
+              <div>
+                <label class="aw-label" for="pcSymbolInput">Symbol fallback</label>
+                <input id="pcSymbolInput" class="aw-input" value="BTCUSD" maxlength="24">
+              </div>
+              <div>
+                <label class="aw-label" for="pcActionInput">Action fallback</label>
+                <select id="pcActionInput" class="aw-select">
+                  <option value="buy">buy</option>
+                  <option value="sell">sell</option>
+                </select>
+              </div>
+              <div>
+                <label class="aw-label" for="pcQtyInput">Demo volume</label>
+                <input id="pcQtyInput" class="aw-input" value="0.01" readonly>
+              </div>
+            </div>
+
+            <button id="pcSendBtn" type="button" class="aw-btn-primary" style="width:100%;">Send Test Alert to AlgoWay Demo MT5</button>
+
+            <p class="aw-demo-small">
+              The public demo always forces a small test volume. After a successful test, connect your own MT5, cTrader, crypto, TradeLocker, MatchTrader or DXtrade route inside AlgoWay.
+            </p>
+
+            <div id="pcResult" class="aw-result">
+              <p class="aw-result-title" id="pcResultTitle"></p>
+              <pre id="pcResultBody"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+	<section class="aw-section">
+	  <div class="container">
+		<div class="aw-center">
+		  <h2>Direct answers before you switch from PineConnector</h2>
+		  <p class="aw-section-lead">
+			Speed, syntax and broker compatibility are the three things that matter before replacing your TradingView-to-MT5 route.
+		  </p>
+		</div>
+
+		<div class="aw-faq">
+		  <div class="aw-faq-item">
+			<h3>Will AI slow down my execution?</h3>
+			<p>
+			  No. Standard PineConnector-style alerts are executed natively in milliseconds without any AI overhead. AI is optional and used only for messy, plain-text, or non-standard messages.
+			</p>
+		  </div>
+
+		  <div class="aw-faq-item">
+			<h3>Do I need to rewrite my TradingView alerts?</h3>
+			<p>
+			  No. PineConnector-style syntax is supported. You can paste your current TradingView alert, test it on the live MT5 demo, and switch only after you see the result.
+			</p>
+		  </div>
+
+		  <div class="aw-faq-item">
+			<h3>Can I keep my current broker?</h3>
+			<p>
+			  Yes. If your broker runs on MT5, you can connect it through AlgoWay. AlgoWay also supports cTrader, TradeLocker, MatchTrader, DXtrade, and major crypto exchanges.
+			</p>
+		  </div>
+
+		  <div class="aw-faq-item">
+			<h3>What do I see after a successful demo test?</h3>
+			<p>
+			  You see the MT5 Ticket ID, execution status, symbol, action, volume and execution time returned from the AlgoWay demo route.
+			</p>
+		  </div>
+		</div>
+	  </div>
+	</section>
+
+
+
+
+
+
+
+    <section class="aw-section">
+      <div class="container">
+        <div class="aw-center">
+          <h2>AlgoWay as a PineConnector alternative for TradingView alerts</h2>
+          <p class="aw-section-lead">
+            AlgoWay is built for traders who already use TradingView alerts, Pine Script strategies, MT5 execution, broker routes, and automated trading workflows — but want more flexibility than a single TradingView-to-MT5 connector.
+          </p>
+        </div>
+
+        <div class="aw-faq">
+          <div class="aw-faq-item">
+            <h3>Use your existing TradingView alert logic</h3>
+            <p>
+              If your trading strategy already runs in TradingView, you do not need to rebuild the strategy itself. AlgoWay receives the TradingView alert message, reads the signal, and sends the order to the selected execution route. Your Pine Script strategy can continue to generate buy, sell, close, risk, symbol, and position sizing values while AlgoWay handles the execution side.
+            </p>
+          </div>
+
+          <div class="aw-faq-item">
+            <h3>Move beyond one MetaTrader route</h3>
+            <p>
+              A PineConnector-style workflow usually starts with TradingView alerts and MT5 execution. AlgoWay keeps that workflow available, but also extends it to cTrader, TradeLocker, MatchTrader, DXtrade, Tradovate, ProjectX, Binance, OKX, Bybit, MEXC and other supported platforms. This helps traders run the same signal logic across multiple platforms instead of keeping the automation locked to one terminal route.
+            </p>
+          </div>
+
+          <div class="aw-faq-item">
+            <h3>Keep MT5 automation without losing visibility</h3>
+            <p>
+              AlgoWay can work with an MT5 Expert Advisor route when the broker uses the MetaTrader platform. After a demo test or live route execution, the trader can see the returned status, symbol, action, volume, ticket information and execution timing. This is important for live trading because execution logs are often more useful than a simple “alert sent” message.
+            </p>
+          </div>
+
+          <div class="aw-faq-item">
+            <h3>Use cleaner risk and signal control</h3>
+            <p>
+              Trading automation is not only about sending an alert. A real workflow may need risk management, position sizing, symbol mapping, strategy comments, open position control, stop loss, take profit and platform-specific settings. AlgoWay is designed to receive structured trading signals and route them with the required execution parameters instead of treating every alert as plain text.
+            </p>
+          </div>
+
+          <div class="aw-faq-item">
+            <h3>Test before changing your setup</h3>
+            <p>
+              The live MT5 demo on this page exists so traders can test a PineConnector-style alert before creating an account. This makes the switch easier: paste the current alert, send the test, check the returned execution result, and only then decide whether to connect your own broker, MT5 terminal, cTrader account, crypto exchange or prop-firm route inside AlgoWay.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+	<section class="aw-section alt">
+	  <div class="container">
+		<div class="aw-center">
+		  <h2>Why traders switch their execution infrastructure to AlgoWay</h2>
+		  <p class="aw-section-lead">
+			AlgoWay is not just a cheaper webhook link. It is a faster, broader execution gateway for traders who want lower monthly cost, real logs, flexible message formats, and more than one platform route.
+		  </p>
+		</div>
+
+		<div class="aw-grid-3">
+		  <div class="aw-box">
+			<h3>Native PineConnector-style execution</h3>
+			<p>
+			  Standard PineConnector-style alerts are parsed and executed natively in milliseconds without AI overhead.
+			</p>
+		  </div>
+
+		  <div class="aw-box">
+			<h3>Optional AI for messy messages</h3>
+			<p>
+			  When the message is not clean JSON or standard syntax, AlgoWay AI can help convert it into a valid trading payload.
+			</p>
+		  </div>
+
+		  <div class="aw-box">
+			<h3>Works with real broker routes</h3>
+			<p>
+			  Works with any MT5 broker, cTrader, TradeLocker, MatchTrader, DXtrade, and major crypto exchanges.
+			</p>
+		  </div>
+		</div>
+	  </div>
+	</section>
+
+
+    <section class="aw-section">
+      <div class="container">
+        <div class="aw-cta">
+			<h2>Demo worked? Connect your own MT5 broker next.</h2>
+			<p>
+			  Create a free AlgoWay account, connect your own MT5 broker or another supported route, and run your TradingView automation for 14 days without a credit card.
+			</p>
+          <a href="/register" class="aw-btn-primary">Create Free Account</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/main.js"></script>
+
+  <script>
+    (function () {
+      const endpoint = '/api/public/pineconnector-demo-test';
+      const sendBtn = document.getElementById('pcSendBtn');
+      const resultBox = document.getElementById('pcResult');
+      const resultTitle = document.getElementById('pcResultTitle');
+      const resultBody = document.getElementById('pcResultBody');
+
+      function showResult(type, title, data) {
+        resultBox.className = 'aw-result ' + type;
+        resultTitle.textContent = title;
+
+        if (data && data.status === 'success' && data.mt5_result) {
+          const mt5 = data.mt5_result;
+
+          resultBody.innerHTML =
+            '<div class="aw-public-result">' +
+              '<div class="aw-public-result-row"><span>MT5 Ticket ID</span><span>' + escapeHtml(mt5.order_id || '-') + '</span></div>' +
+              '<div class="aw-public-result-row"><span>Status</span><span>' + escapeHtml(mt5.status || '-') + '</span></div>' +
+              '<div class="aw-public-result-row"><span>Symbol</span><span>' + escapeHtml(mt5.symbol || '-') + '</span></div>' +
+              '<div class="aw-public-result-row"><span>Action</span><span>' + escapeHtml(mt5.action || '-') + '</span></div>' +
+              '<div class="aw-public-result-row"><span>Volume</span><span>' + escapeHtml(mt5.quantity || '-') + '</span></div>' +
+              '<div class="aw-public-result-row"><span>Execution time</span><span>' + escapeHtml(String(data.elapsed_ms || '-')) + ' ms</span></div>' +
+            '</div>';
+
+          console.log('[PINE_DEMO][RESULT][PUBLIC]', title, data);
+          return;
+        }
+
+        resultBody.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+        console.log('[PINE_DEMO][RESULT]', title, data);
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      async function sendDemo() {
+        const rawAlert = (document.getElementById('pcAlertInput').value || '').trim();
+        const fallbackSymbol = (document.getElementById('pcSymbolInput').value || '').trim();
+        const fallbackAction = (document.getElementById('pcActionInput').value || '').trim();
+
+        console.log('[PINE_DEMO][SEND] start', { rawAlert, fallbackSymbol, fallbackAction });
+
+        if (!rawAlert) {
+          showResult('bad', 'Alert is empty', 'Paste your PineConnector-style alert first.');
+          return;
+        }
+
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Sending demo alert...';
+        showResult('ok', 'Sending...', 'Please wait while AlgoWay processes the demo alert.');
+
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              raw_alert: rawAlert,
+              fallback_symbol: fallbackSymbol,
+              fallback_action: fallbackAction
+            })
+          });
+
+          const data = await res.json().catch(function () {
+            return { status: 'error', message: 'Invalid JSON response from demo endpoint' };
+          });
+
+          if (res.ok && String(data.status || '').toLowerCase() === 'success') {
+            showResult('ok', 'Demo alert processed', data);
+            if (window.gtag) {
+              gtag('event', 'pineconnector_demo_success', {
+                event_category: 'lead_test',
+                event_label: 'pineconnector_alternative'
+              });
+            }
+          } else {
+            showResult('bad', 'Demo alert failed', data);
+          }
+        } catch (e) {
+          console.error('[PINE_DEMO][ERROR]', e);
+          showResult('bad', 'Request failed', String(e && e.message ? e.message : e));
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Send Test Alert to AlgoWay Demo MT5';
+        }
+      }
+
+      sendBtn.addEventListener('click', sendDemo);
+    })();
+  </script>
+</body>
+</html>

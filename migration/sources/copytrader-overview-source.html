@@ -1,0 +1,1083 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Copy TradingView Alerts to Multiple Accounts</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Use AlgoWay Trade Copier and Clone Mode to copy one TradingView alert to multiple accounts, brokers and exchanges with risk-aware routing." />
+	<link rel="canonical" href="https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html" />
+
+	<meta property="og:title" content="How to Copy TradingView Alerts to Multiple Accounts | AlgoWay Trade Copier" />
+	<meta property="og:description" content="AlgoWay Clone Mode lets one TradingView webhook alert execute across multiple platforms. Learn multi-account trade copying, execution diversification, platform cloning and safe testing." />
+	<meta property="og:url" content="https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="TradingView Trade Copier with AlgoWay Clone Mode" />
+	<meta name="twitter:description" content="Copy one TradingView alert to multiple accounts, brokers and exchanges with AlgoWay Trade Copier and Clone Mode." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/tradecopier-diver.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4" style="margin-top: 0;">
+            <strong>How to Copy TradingView Alerts to Multiple Accounts with AlgoWay Trade Copier</strong>
+        </h1>
+
+        <img src="/static/img/blog-img/tradecopier-diver.jpg"
+             fetchpriority="high"
+             width="1280"
+             height="731"
+             alt="How to copy TradingView alerts to multiple accounts with AlgoWay Trade Copier"
+             style="margin-bottom: 1.5rem; width: 100%; height: auto;" decoding="async" />
+
+        <p><strong>AlgoWay Trade Copier lets you copy one TradingView alert to multiple accounts, brokers, prop platforms and crypto exchanges through Clone Mode.</strong> Instead of creating separate alerts for every destination, you create one main webhook, enable Clone Mode for additional webhooks, and let AlgoWay distribute the same trading command across several execution venues.</p>
+
+        <p>This page is for traders searching for <strong>TradingView trade copier</strong>, <strong>copy TradingView alerts to multiple accounts</strong>, <strong>multi-account trade copier</strong>, <strong>TradingView to multiple brokers</strong>, <strong>webhook trade copier</strong>, <strong>prop firm trade copier</strong>, and <strong>multi-platform trading automation</strong>.</p>
+
+        <p>The practical flow is:</p>
+
+        <pre><code>TradingView alert → AlgoWay main webhook → AlgoWay Clone Mode → multiple trading platforms</code></pre>
+
+        <p>The goal is not to promise better profits. The goal is to reduce manual duplication, test execution across different venues, keep multiple accounts synchronized, and avoid depending on only one broker or exchange.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <h2 class="mt-4">Quick Answer: What AlgoWay Trade Copier Does</h2>
+
+        <p>AlgoWay Trade Copier uses Clone Mode to duplicate a received webhook alert to additional AlgoWay webhooks. You still send one TradingView alert, but AlgoWay can execute the same action on multiple destinations.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Meaning</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Main webhook</td>
+                    <td>The primary AlgoWay webhook that receives the TradingView alert.</td>
+                </tr>
+                <tr>
+                    <td>Clone webhook</td>
+                    <td>An additional webhook that receives the copied signal from the main webhook.</td>
+                </tr>
+                <tr>
+                    <td>Clone Mode</td>
+                    <td>The AlgoWay setting that copies the alert to additional webhooks.</td>
+                </tr>
+                <tr>
+                    <td>TradingView alert</td>
+                    <td>The original webhook signal generated by your strategy, indicator or manual alert.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Why Traders Search for a TradingView Trade Copier</h2>
+
+        <p>TradingView can generate alerts, but traders often need those alerts to reach more than one account. A single strategy may need to execute on:</p>
+
+        <ul>
+            <li>a prop firm account;</li>
+            <li>a personal broker account;</li>
+            <li>a MetaTrader 5 account;</li>
+            <li>a TradeLocker or MatchTrader account;</li>
+            <li>a crypto exchange such as Binance, Bybit, OKX or Gate.io;</li>
+            <li>a futures platform such as Tradovate;</li>
+            <li>multiple accounts with different risk sizes.</li>
+        </ul>
+
+        <p>Without a trade copier, the trader must create separate alerts, maintain separate JSON messages, and manually keep account logic in sync. AlgoWay Clone Mode is designed to solve this workflow from the webhook layer.</p>
+
+        <h2 class="mt-4">Execution Diversification: More Than Symbol Diversification</h2>
+
+        <p>Most traders think diversification means trading different symbols. That is only one dimension. Another dimension is <strong>execution diversification</strong>: running the same strategy signal across different execution venues.</p>
+
+        <p>Even when the TradingView signal is identical, real execution can differ because every venue has its own:</p>
+
+        <ul>
+            <li>bid/ask spread;</li>
+            <li>liquidity depth;</li>
+            <li>symbol specification;</li>
+            <li>margin rules;</li>
+            <li>order matching behavior;</li>
+            <li>API response time;</li>
+            <li>broker or exchange restrictions;</li>
+            <li>slippage during volatility.</li>
+        </ul>
+
+        <p>Cloning the same signal does not guarantee better results. It gives you a structured way to compare execution under the same signal conditions and reduce dependency on one venue.</p>
+
+        <h2 class="mt-4">How AlgoWay Clone Mode Works</h2>
+
+        <p>AlgoWay Clone Mode is based on multiple webhooks inside your AlgoWay account.</p>
+
+        <p>Typical structure:</p>
+
+        <ul>
+            <li><strong>1 main webhook</strong> — receives the TradingView alert directly.</li>
+            <li><strong>Up to 2 clone webhooks</strong> — receive a cloned copy of the same alert.</li>
+            <li><strong>Up to 3 total destinations</strong> — one main platform plus two clone platforms.</li>
+        </ul>
+
+        <p>When TradingView fires an alert, AlgoWay:</p>
+
+        <ol>
+            <li>receives the alert on the main webhook;</li>
+            <li>validates the webhook message;</li>
+            <li>executes the signal on the main platform;</li>
+            <li>duplicates the same signal to enabled Clone Mode webhooks;</li>
+            <li>executes the cloned command on additional platforms;</li>
+            <li>shows the results in webhook logs.</li>
+        </ol>
+
+        <p>From TradingView's side, it is still one alert and one webhook URL. AlgoWay handles the distribution.</p>
+
+        <h2 class="mt-4">Example: One TradingView Alert to TradeLocker, Bybit and MT5</h2>
+
+        <p>Assume a strategy sends one TradingView alert when a long signal appears.</p>
+
+        <p>AlgoWay setup:</p>
+
+        <ul>
+            <li>Main webhook → TradeLocker prop account;</li>
+            <li>Clone webhook 1 → Bybit personal crypto account;</li>
+            <li>Clone webhook 2 → MetaTrader 5 broker account through AlgoWayWS-MT5 EA.</li>
+        </ul>
+
+        <p>Result:</p>
+
+        <ul>
+            <li>TradingView sends one alert;</li>
+            <li>AlgoWay executes it on TradeLocker;</li>
+            <li>AlgoWay clones it to Bybit;</li>
+            <li>AlgoWay clones it to MetaTrader 5;</li>
+            <li>you can compare execution, fills, spreads, logs and account behavior.</li>
+        </ul>
+
+        <p>This is useful when you want one strategy to run across a prop account and a personal account at the same time, or when you want to compare broker/exchange execution without changing the TradingView strategy.</p>
+
+        <h2 class="mt-4">Example JSON for a Cloned TradingView Alert</h2>
+
+        <p>The cloned alert should use a valid AlgoWay JSON message. A basic TradingView strategy alert can look like this:</p>
+
+        <pre><code>{
+  "platform_name": "tradelocker",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>Important: the main webhook and clone webhooks can point to different platforms. The JSON must be compatible with the way you configured those webhooks. If a destination needs symbol mapping, size conversion, or platform-specific settings, configure that in the webhook/platform setup before using Clone Mode.</p>
+
+        <h2 class="mt-4">When Clone Mode Makes Sense</h2>
+
+        <p>AlgoWay Trade Copier is practical for several workflows.</p>
+
+        <h3 class="mt-3">Prop Firm plus Personal Account</h3>
+
+        <p>A trader can execute the same signal on a prop firm platform and a personal account. This helps compare challenge performance, broker conditions and personal execution under the same strategy logic.</p>
+
+        <h3 class="mt-3">Broker Comparison</h3>
+
+        <p>Run the same signal on two or three venues and compare spread, slippage, fill quality, rejections and latency.</p>
+
+        <h3 class="mt-3">Multi-Account Management</h3>
+
+        <p>Use one TradingView alert to manage several accounts instead of duplicating every alert manually.</p>
+
+        <h3 class="mt-3">Crypto plus CFD Execution</h3>
+
+        <p>A strategy may trade a related symbol on a broker and a crypto exchange. Clone Mode helps test whether both venues behave acceptably under the same alert logic.</p>
+
+        <h3 class="mt-3">Failover Research</h3>
+
+        <p>Clone Mode can help study what happens when one venue rejects an order while another accepts it. It is not automatic failover, but it gives useful execution data.</p>
+
+        <h2 class="mt-4">When Clone Mode Is Not the Right Tool</h2>
+
+        <p>Do not use trade copying blindly. Clone Mode is not a magic risk reducer.</p>
+
+        <ul>
+            <li>If every cloned account uses the same oversized risk, losses are cloned too.</li>
+            <li>If symbols are not mapped correctly, one destination may reject orders.</li>
+            <li>If one platform supports hedging and another uses netting, results may differ.</li>
+            <li>If the strategy depends on very precise execution, venue differences can matter.</li>
+            <li>If account rules differ between prop firms, the same signal may violate one account while remaining valid on another.</li>
+        </ul>
+
+        <p>Clone Mode should be used with clear sizing rules, platform-specific configuration, and careful testing.</p>
+
+        <h2 class="mt-4">How to Enable Clone Mode in AlgoWay</h2>
+
+        <p>Clone Mode is configured inside the AlgoWay dashboard.</p>
+
+        <ol>
+            <li>Create your main webhook.</li>
+            <li>Create additional webhooks for the platforms you want to clone into.</li>
+            <li>Open the main webhook settings.</li>
+            <li>Enable Clone Mode for the additional webhook destinations.</li>
+            <li>Save the configuration.</li>
+            <li>Send a test alert before using live trading size.</li>
+        </ol>
+
+        <p>Dashboard path:</p>
+
+        <pre><code>Dashboard → Your Webhooks → Clone Mode</code></pre>
+
+        <p>Only enable clones after each individual webhook works correctly on its own.</p>
+
+        <h2 class="mt-4">Supported Platform Categories</h2>
+
+        <p>AlgoWay supports more than one type of trading destination. Clone Mode can be useful across platform groups such as:</p>
+
+        <ul>
+            <li><strong>MetaTrader 5</strong> through AlgoWayWS-MT5 EA;</li>
+            <li><strong>prop and CFD platforms</strong> such as TradeLocker, MatchTrader, DxTrade and cTrader;</li>
+            <li><strong>crypto exchanges</strong> such as Binance, Bybit, OKX, BitMEX, KuCoin, Gate.io and Hyperliquid;</li>
+            <li><strong>futures platforms</strong> such as Tradovate;</li>
+            <li><strong>stock/API brokers</strong> such as Alpaca.</li>
+        </ul>
+
+        <p>The exact behavior depends on each platform's API, symbols, market rules and AlgoWay webhook configuration.</p>
+
+        <h2 class="mt-4">Risk and Size Control in Trade Copying</h2>
+
+        <p>Copying an alert does not mean every destination should use the same lot size. Each platform may need its own size logic.</p>
+
+        <p>Before cloning, check:</p>
+
+        <ul>
+            <li>account size;</li>
+            <li>maximum daily loss rule;</li>
+            <li>maximum drawdown rule;</li>
+            <li>symbol contract size;</li>
+            <li>minimum lot or quantity;</li>
+            <li>leverage and margin;</li>
+            <li>risk mode or quantity multiplier;</li>
+            <li>whether SL/TP values are valid for that destination.</li>
+        </ul>
+
+        <p>A safe Clone Mode setup usually tests each destination independently first, then enables cloning with small size, then increases size only after reviewing logs.</p>
+
+        <h2 class="mt-4">Latency, Slippage and Execution Differences</h2>
+
+        <p>Different platforms will not always fill the same alert at the same price. A cloned alert can reveal execution differences that are invisible during backtesting.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Difference</th>
+                    <th>Why it matters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Spread</td>
+                    <td>A wider spread changes the real entry and exit cost.</td>
+                </tr>
+                <tr>
+                    <td>Liquidity</td>
+                    <td>Thin liquidity can increase slippage.</td>
+                </tr>
+                <tr>
+                    <td>API latency</td>
+                    <td>Different platforms acknowledge and process requests at different speeds.</td>
+                </tr>
+                <tr>
+                    <td>Order rules</td>
+                    <td>Minimum size, filling modes, leverage and account rules can differ.</td>
+                </tr>
+                <tr>
+                    <td>Symbol format</td>
+                    <td>The same market can have different ticker names on each platform.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Common Trade Copier Mistakes</h2>
+
+        <h3 class="mt-3">Mistake 1: Cloning Before Testing Each Webhook</h3>
+        <p>Test each webhook alone first. If a destination cannot execute a single test alert correctly, cloning will only multiply the problem.</p>
+
+        <h3 class="mt-3">Mistake 2: Using the Same Size Everywhere</h3>
+        <p>A size that is safe on one account can be too large, too small, or invalid on another platform.</p>
+
+        <h3 class="mt-3">Mistake 3: Ignoring Symbol Mapping</h3>
+        <p>TradingView may send one ticker while a broker or exchange expects another. Fix symbol mapping before enabling Clone Mode.</p>
+
+        <h3 class="mt-3">Mistake 4: Assuming All Platforms Support the Same Order Logic</h3>
+        <p>One platform may support hedging, another may use one-way mode, and another may have different close or reduce-only behavior.</p>
+
+        <h3 class="mt-3">Mistake 5: Thinking Diversification Eliminates Risk</h3>
+        <p>Execution diversification does not remove strategy risk. If the strategy loses, copied accounts can lose together.</p>
+
+        <h2 class="mt-4">Safe Testing Procedure</h2>
+
+        <p>Use this sequence before running live Clone Mode:</p>
+
+        <ol>
+            <li>Test the main webhook alone.</li>
+            <li>Test every clone webhook alone.</li>
+            <li>Confirm symbols and size rules on every destination.</li>
+            <li>Send a small test alert through the main webhook with Clone Mode enabled.</li>
+            <li>Check AlgoWay logs for every destination.</li>
+            <li>Check platform logs, broker execution or exchange order history.</li>
+            <li>Test close/flat alerts, not only entries.</li>
+            <li>Test SL/TP and partial close logic if the strategy uses them.</li>
+            <li>Increase size only after execution is consistent.</li>
+        </ol>
+
+        <h2 class="mt-4">Trade Copier vs Classic Signal Service</h2>
+
+        <p>A signal service usually sends signals to users. A trade copier executes or routes trade commands across accounts. AlgoWay Clone Mode is closer to webhook-based trade copying because the received alert is duplicated to additional execution destinations.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Signal service</th>
+                    <th>AlgoWay Trade Copier / Clone Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Sends a signal for manual or external use</td>
+                    <td>Routes the alert to configured execution webhooks</td>
+                </tr>
+                <tr>
+                    <td>Often requires manual copying</td>
+                    <td>Copies automatically after webhook trigger</td>
+                </tr>
+                <tr>
+                    <td>May not manage platform-specific execution</td>
+                    <td>Uses AlgoWay platform integrations and webhook settings</td>
+                </tr>
+                <tr>
+                    <td>Usually focused on signal distribution</td>
+                    <td>Focused on execution distribution</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+            <li><a href="/blog/tradingview-free-webhook-alerts.html">TradingView webhook alerts and automation basics</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a></li>
+            <li><a href="/blog/algoway-mt5-v206-overview.html">AlgoWayWS-MT5 EA 2.10 guide</a></li>
+            <li><a href="/blog/algoway-binance-integration-guide.html">How to connect TradingView to Binance with AlgoWay</a></li>
+            <li><a href="/blog/algoway-bybit-integration-guide.html">How to connect TradingView to Bybit with AlgoWay</a></li>
+            <li><a href="/blog/algoway-alpaca-integration-guide.html">How to connect TradingView to Alpaca with AlgoWay</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>AlgoWay Trade Copier turns one TradingView alert into multi-account and multi-platform execution through Clone Mode.</strong> The main benefit is not hype. The benefit is operational: fewer duplicate alerts, cleaner webhook management, synchronized execution, platform comparison, and reduced dependence on one venue.</p>
+
+        <p>Use Clone Mode only after each destination webhook is tested. Configure size, symbols, platform rules and risk limits carefully. Then one TradingView alert can become a controlled multi-account automation workflow across AlgoWay-supported platforms.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Copy TradingView Alerts to Multiple Accounts with AlgoWay Trade Copier",
+                  "description": "Use AlgoWay Trade Copier and Clone Mode to copy one TradingView alert to multiple accounts, brokers and exchanges. Multi-account webhook automation, execution diversification and risk-aware trade cloning.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "Trading Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay copy one TradingView alert to multiple accounts?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay Clone Mode can copy a received TradingView webhook alert from the main webhook to additional enabled clone webhooks, allowing execution across multiple configured destinations."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is AlgoWay Clone Mode?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Clone Mode is the AlgoWay feature that duplicates a signal received by the main webhook to additional webhooks, so the same alert can be executed on more than one platform."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is trade copying the same as guaranteed diversification?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Trade copying can diversify execution venues and reduce dependency on one platform, but it does not remove strategy risk. If the strategy loses, cloned accounts can lose together."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use AlgoWay Trade Copier for prop firm accounts?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AlgoWay Clone Mode can be useful for prop firm and personal account workflows, but each account's rules, risk limits, drawdown limits, symbol settings and allowed execution behavior must be checked before live trading."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What should I test before enabling Clone Mode live?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Test each webhook separately, confirm symbols, order size, SL/TP, close logic and platform-specific rules, then enable Clone Mode with small size and check AlgoWay logs and destination platform logs."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "Copy TradingView Alerts to Multiple Accounts",
+                                      "item": "https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

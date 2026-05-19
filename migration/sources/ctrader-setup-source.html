@@ -1,0 +1,1215 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Copy cTrader Trades to MetaTrader 5</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Copy trades from cTrader to MT5 with AlgoWay. Set up cTrader to MT5 webhook, cBot, AlgoWayWS-MT5 EA, symbols, risk and logs." />
+	<link rel="canonical" href="https://algoway.trade/blog/ctrader-to-metatrader5-copier-manual.html" />
+
+	<meta property="og:title" content="How to Copy Trades from cTrader to MetaTrader 5 with AlgoWay" />
+	<meta property="og:description" content="Use AlgoWay as a cTrader to MT5 trade copier bridge. Install the cTrader cBot, connect the webhook URL, use AlgoWayWS-MT5 EA, test copying and troubleshoot logs." />
+	<meta property="og:url" content="https://algoway.trade/blog/ctrader-to-metatrader5-copier-manual.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="cTrader to MT5 Trade Copier with AlgoWay" />
+	<meta name="twitter:description" content="Copy trades from cTrader to MetaTrader 5 through AlgoWay using AlgoWay-cTrader cBot, webhooks and AlgoWayWS-MT5 EA." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/ctrader-to-metatrader5-copier-manual@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4" style="margin-top: 0;">
+            <strong>How to Copy Trades from cTrader to MetaTrader 5 with AlgoWay</strong>
+        </h1>
+
+        <img src="/static/img/blog-img/ctrader-to-metatrader5-copier-manual@2x.jpg"
+             fetchpriority="high"
+             width="1280"
+             height="731"
+             alt="How to copy trades from cTrader to MetaTrader 5 with AlgoWay"
+             style="margin-bottom: 1.5rem; width: 100%; height: auto;" decoding="async" />
+
+        <p><strong>AlgoWay cTrader to MetaTrader 5 Copier lets you use cTrader as the source account and MetaTrader 5 as the destination account.</strong> A trade action opened, closed or modified in cTrader is detected by the AlgoWay-cTrader cBot, sent to an AlgoWay webhook, and then routed to MetaTrader 5 through the standard AlgoWayWS-MT5 Expert Advisor.</p>
+
+        <p>This guide is written for traders searching for <strong>cTrader to MT5 copier</strong>, <strong>cTrader trade copier</strong>, <strong>copy trades from cTrader to MetaTrader 5</strong>, <strong>cross-platform trade copier</strong>, <strong>cTrader cBot to MT5 EA</strong>, <strong>cTrader to MetaTrader bridge</strong>, and <strong>AlgoWay trade copier</strong>.</p>
+
+        <p>The route is:</p>
+
+        <pre><code>cTrader account → AlgoWay-cTrader cBot → AlgoWay webhook → AlgoWayWS-MT5 EA → MetaTrader 5 account</code></pre>
+
+        <p>No special MT5 Expert Advisor is required only for cTrader copying. The MetaTrader 5 side uses the same <strong>AlgoWayWS-MT5 EA 2.10 workflow</strong> used by other AlgoWay sources.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#what-is">What is the cTrader to MT5 copier?</a></li>
+                <li><a href="#why">Why copy trades from cTrader to MT5?</a></li>
+                <li><a href="#requirements">Requirements</a></li>
+                <li><a href="#webhook">Create cTrader to MT5 webhook</a></li>
+                <li><a href="#mt5">Connect MetaTrader 5 side</a></li>
+                <li><a href="#cbot">Install AlgoWay-cTrader cBot</a></li>
+                <li><a href="#url">Insert webhook URL</a></li>
+                <li><a href="#test">Test copying</a></li>
+                <li><a href="#problems">Troubleshooting</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: cTrader to MT5 Trade Copying with AlgoWay</h2>
+
+        <p>To copy trades from cTrader to MetaTrader 5 with AlgoWay, you need:</p>
+
+        <ol>
+            <li>a cTrader Desktop installation;</li>
+            <li>the <code>AlgoWay-cTrader.algo</code> cBot installed in cTrader;</li>
+            <li>a MetaTrader 5 terminal with AlgoWayWS-MT5 EA installed and connected;</li>
+            <li>an AlgoWay webhook where <strong>Source</strong> is cTrader and <strong>Platform</strong> is MetaTrader 5;</li>
+            <li>the AlgoWay webhook URL pasted into the cTrader cBot settings;</li>
+            <li>a small demo trade test before live copy trading.</li>
+        </ol>
+
+        <p>After setup, the cTrader cBot monitors trading actions and sends them to AlgoWay. AlgoWay then routes the command to the connected MT5 terminal.</p>
+
+        <h2 id="what-is" class="mt-4">What Is the AlgoWay cTrader to MetaTrader 5 Copier?</h2>
+
+        <p>The AlgoWay cTrader to MT5 copier is a cross-platform trade copying workflow. It does not require you to rewrite a cTrader strategy into MQL5. Instead, cTrader remains the source environment and MetaTrader 5 becomes the execution destination.</p>
+
+        <p>In this setup:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>cTrader account</td>
+                    <td>Source of trading actions.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay-cTrader cBot</td>
+                    <td>Detects cTrader actions and sends them to AlgoWay.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay webhook</td>
+                    <td>Receives the cTrader action and routes it to the destination.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWayWS-MT5 EA</td>
+                    <td>Receives the command inside MetaTrader 5.</td>
+                </tr>
+                <tr>
+                    <td>MetaTrader 5 account</td>
+                    <td>Destination where the copied trade is executed.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>The final route is always:</p>
+
+        <pre><code>Source: cTrader
+Destination platform: MetaTrader 5</code></pre>
+
+        <h2 id="why" class="mt-4">Why Copy Trades from cTrader to MetaTrader 5?</h2>
+
+        <p>Traders use cross-platform trade copiers when their strategy, manual trading style or signal source exists on one platform, while the account they need to execute on exists on another platform.</p>
+
+        <p>Common reasons:</p>
+
+        <ul>
+            <li>the trader prefers cTrader for entries but needs MT5 execution;</li>
+            <li>a broker or prop account is only available on MT5;</li>
+            <li>a cTrader cBot or manual workflow should be mirrored to MT5;</li>
+            <li>the trader wants to test execution differences between cTrader and MT5;</li>
+            <li>a team uses cTrader as the source account and MT5 accounts as receivers;</li>
+            <li>the trader wants to avoid rewriting cTrader logic into an MT5 EA.</li>
+        </ul>
+
+        <p>AlgoWay provides the bridge layer: cTrader sends the action, AlgoWay routes it, and MT5 receives the execution command.</p>
+
+        <h2 class="mt-4">cTrader to MT5 Copier vs Normal TradingView Webhook</h2>
+
+        <p>This page is not a TradingView setup. In this workflow, the signal source is cTrader.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Workflow</th>
+                    <th>Signal source</th>
+                    <th>Destination</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TradingView to MT5</td>
+                    <td>TradingView alert</td>
+                    <td>MetaTrader 5 through AlgoWayWS-MT5 EA</td>
+                </tr>
+                <tr>
+                    <td>cTrader to MT5 Copier</td>
+                    <td>cTrader trade action through AlgoWay-cTrader cBot</td>
+                    <td>MetaTrader 5 through AlgoWayWS-MT5 EA</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Both routes can use the same MT5 execution component, but the source side is different.</p>
+
+        <h2 id="requirements" class="mt-4">What You Need Before Setup</h2>
+
+        <p>Before starting, prepare:</p>
+
+        <ul>
+            <li>an AlgoWay account;</li>
+            <li>cTrader Desktop installed;</li>
+            <li>MetaTrader 5 installed;</li>
+            <li>AlgoWayWS-MT5 Expert Advisor installed in MetaTrader 5;</li>
+            <li><code>AlgoWay-cTrader.algo</code> cBot file;</li>
+            <li>a webhook created with <strong>cTrader</strong> as the source and <strong>MetaTrader 5</strong> as the platform;</li>
+            <li>a demo account or small test size for verification.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> test on demo or with minimal size first. Trade copying can duplicate errors as quickly as it duplicates correct actions.
+        </div>
+
+        <h2 id="webhook" class="mt-4">Step 1. Create a cTrader to MetaTrader 5 Webhook</h2>
+
+        <p>Open the webhook creation page in AlgoWay.</p>
+
+        <p>Set:</p>
+
+        <pre><code>Source (from): cTrader
+Platform (to): MetaTrader 5</code></pre>
+
+        <p>This route tells AlgoWay that cTrader will send the trading action, and MetaTrader 5 will receive the execution command.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/ct_to1.jpg"
+                 loading="lazy"
+                 alt="Create cTrader to MetaTrader 5 webhook in AlgoWay"
+                 style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>After creating the webhook, AlgoWay creates a dedicated route:</p>
+
+        <pre><code>cTrader → AlgoWay webhook → MetaTrader 5</code></pre>
+
+        <h2 class="mt-4">Step 2. Check the Webhook in the AlgoWay Dashboard</h2>
+
+        <p>Open <strong>Dashboard → Your Webhooks</strong> and confirm that the new webhook exists.</p>
+
+        <p>The row should show:</p>
+
+        <ul>
+            <li><strong>Source:</strong> CTRADER</li>
+            <li><strong>Platform:</strong> metatrader5</li>
+            <li><strong>Webhook UUID</strong></li>
+            <li><strong>Activation Date</strong></li>
+            <li><strong>Expiration Date</strong></li>
+            <li><strong>Call Count</strong></li>
+            <li><strong>Last Called</strong></li>
+        </ul>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/ct_to2.jpg"
+                 loading="lazy"
+                 alt="AlgoWay dashboard showing cTrader to MetaTrader 5 webhook"
+                 style="width: 100%; max-width: 960px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>The webhook UUID from this row is also used on the MetaTrader 5 side when connecting the AlgoWayWS-MT5 EA.</p>
+
+        <h2 id="mt5" class="mt-4">Step 3. Connect the MetaTrader 5 Side</h2>
+
+        <p>Before starting the cTrader copier, the MetaTrader 5 side must already be connected to AlgoWay.</p>
+
+        <p>MetaTrader 5 uses the standard <strong>AlgoWayWS-MT5 EA</strong>. The current installation guide is here:</p>
+
+        <p>
+            <a href="/blog/algoway-mt5-ws-v10-overview.html">
+                How to install AlgoWayWS-MT5 EA for TradingView to MT5 webhook automation
+            </a>
+        </p>
+
+        <p>In MetaTrader 5:</p>
+
+        <ul>
+            <li>install the AlgoWayWS-MT5 Expert Advisor;</li>
+            <li>enable algorithmic trading;</li>
+            <li>allow DLL imports if required by the current EA setup;</li>
+            <li>attach the EA to a chart;</li>
+            <li>enter the webhook UUID in the EA inputs;</li>
+            <li>confirm that the EA is connected to AlgoWay.</li>
+        </ul>
+
+        <p>Use the same webhook route created for:</p>
+
+        <pre><code>cTrader → MetaTrader 5</code></pre>
+
+        <p>If the MT5 EA is not connected, AlgoWay may receive cTrader requests, but MetaTrader 5 will not execute the copied trade.</p>
+
+        <h2 id="cbot" class="mt-4">Step 4. Download the AlgoWay cTrader cBot</h2>
+
+        <p>Open the AlgoWay downloads page and download:</p>
+
+        <pre><code>AlgoWay-cTrader.algo</code></pre>
+
+        <p>This file is the cTrader cBot used to detect trade actions in cTrader and send them to AlgoWay.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/ct_to3.jpg"
+                 loading="lazy"
+                 alt="Download AlgoWay-cTrader.algo from AlgoWay downloads page"
+                 style="width: 100%; max-width: 960px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>The downloads page may also include MT5 files such as:</p>
+
+        <pre><code>AlgoWayWS-MT5-Setup.exe
+AlgoWayWS-MT5.ex5</code></pre>
+
+        <p>Those files are for the MetaTrader 5 destination side. For the cTrader source side, use:</p>
+
+        <pre><code>AlgoWay-cTrader.algo</code></pre>
+
+        <h2 class="mt-4">Step 5. Install AlgoWay-cTrader.algo in cTrader</h2>
+
+        <p>After downloading <strong>AlgoWay-cTrader.algo</strong>, open the file on your computer. Usually, double-clicking the file opens cTrader Desktop and installs the cBot automatically.</p>
+
+        <p>After installation, open cTrader and go to:</p>
+
+        <pre><code>Algo → cBots</code></pre>
+
+        <p>You should see:</p>
+
+        <pre><code>AlgoWay-cTrader</code></pre>
+
+        <p>If the cBot appears in the list, the installation was successful.</p>
+
+        <h2 class="mt-4">Step 6. Add a cBot Instance</h2>
+
+        <p>Open the <strong>AlgoWay-cTrader</strong> cBot in cTrader and add an instance for the source account.</p>
+
+        <p>Select:</p>
+
+        <ul>
+            <li>the cTrader account whose trades should be copied;</li>
+            <li>the symbol;</li>
+            <li>the timeframe.</li>
+        </ul>
+
+        <p>Example:</p>
+
+        <pre><code>Account: Demo
+Symbol: ETHUSD
+Timeframe: h1</code></pre>
+
+        <p>Then click <strong>Add instance</strong>.</p>
+
+        <p>The cBot must run on the cTrader account whose trading actions should be copied to MetaTrader 5.</p>
+
+        <h2 id="url" class="mt-4">Step 7. Insert the AlgoWay Webhook URL</h2>
+
+        <p>Open the cBot instance settings and find:</p>
+
+        <pre><code>Webhook URL</code></pre>
+
+        <p>Paste the AlgoWay webhook URL into this field.</p>
+
+        <pre><code>https://algoway.co/your-webhook-uuid</code></pre>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/ct_to4.jpg"
+                 loading="lazy"
+                 alt="Insert AlgoWay webhook URL into AlgoWay-cTrader cBot settings"
+                 style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>Save the settings. This URL is the main connection point between cTrader and AlgoWay.</p>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Do not use a random webhook URL.</strong> It must belong to the cTrader → MetaTrader 5 route created in AlgoWay.
+        </div>
+
+        <h2 class="mt-4">Step 8. Start the cTrader cBot</h2>
+
+        <p>Start the cBot by clicking the green start button in cTrader.</p>
+
+        <p>Once the cBot is running, it starts monitoring trading actions on the selected cTrader account.</p>
+
+        <p>The active route becomes:</p>
+
+        <pre><code>cTrader trade action → AlgoWay-cTrader cBot → AlgoWay webhook → MT5 EA → MetaTrader 5 account</code></pre>
+
+        <h2 id="test" class="mt-4">Step 9. Test the Copier</h2>
+
+        <p>Open a small test trade on a cTrader demo account first.</p>
+
+        <p>Then check:</p>
+
+        <ul>
+            <li>AlgoWay <strong>Last Called</strong> should update;</li>
+            <li>AlgoWay <strong>Call Count</strong> should increase;</li>
+            <li>the corresponding trade should appear in MetaTrader 5;</li>
+            <li>MT5 Experts log should show activity from AlgoWayWS-MT5 EA;</li>
+            <li>symbol and lot size should match your expected mapping and sizing logic.</li>
+        </ul>
+
+        <p>If <strong>Last Called</strong> updates in AlgoWay, the cTrader cBot successfully sent the request to AlgoWay. If the trade does not appear in MT5, inspect the MT5 side.</p>
+
+        <h2 class="mt-4">Symbol Mapping and Size Differences</h2>
+
+        <p>cTrader and MetaTrader 5 brokers may use different symbol names and contract rules. A symbol that exists in cTrader may have a different suffix, prefix, contract size, minimum lot or volume step in MT5.</p>
+
+        <p>Before live copying, check:</p>
+
+        <ul>
+            <li>cTrader source symbol;</li>
+            <li>MT5 broker symbol;</li>
+            <li>minimum lot in MT5;</li>
+            <li>volume step in MT5;</li>
+            <li>contract size differences;</li>
+            <li>spread and session differences;</li>
+            <li>Stop Loss and Take Profit distance rules.</li>
+        </ul>
+
+        <p>If cTrader sends <code>ETHUSD</code> but MT5 uses <code>ETHUSDm</code>, symbol mapping or route configuration must handle the difference before live copying.</p>
+
+        <h2 class="mt-4">Risk Control for cTrader to MT5 Copying</h2>
+
+        <p>Trade copying is powerful because it mirrors actions. It is also risky because it can mirror mistakes.</p>
+
+        <p>Check these risk controls before live use:</p>
+
+        <ul>
+            <li>source account size vs destination account size;</li>
+            <li>lot multiplier or quantity scaling;</li>
+            <li>maximum open positions;</li>
+            <li>maximum daily loss;</li>
+            <li>maximum drawdown;</li>
+            <li>Stop Loss and Take Profit copying behavior;</li>
+            <li>whether partial closes are copied as expected;</li>
+            <li>whether manual closes are copied as expected;</li>
+            <li>what happens if the MT5 account rejects an order.</li>
+        </ul>
+
+        <p>Do not assume that a trade size safe in cTrader is automatically safe in MetaTrader 5.</p>
+
+        <h2 id="problems" class="mt-4">Troubleshooting: cTrader to MT5 Copier Problems</h2>
+
+        <h3 class="mt-3">AlgoWay Last Called Does Not Update</h3>
+        <p>The cTrader cBot may not be running, the webhook URL may be missing, or the URL may be wrong. Check the cBot instance and webhook URL field first.</p>
+
+        <h3 class="mt-3">AlgoWay Receives the Request but MT5 Does Not Trade</h3>
+        <p>Check AlgoWayWS-MT5 EA connection, webhook UUID inside the EA, MT5 Algo Trading status, DLL imports permission and MT5 Experts log.</p>
+
+        <h3 class="mt-3">Trade Opens on the Wrong Symbol</h3>
+        <p>Check cTrader symbol, MT5 symbol and any symbol mapping logic. Brokers often use suffixes or different naming.</p>
+
+        <h3 class="mt-3">MT5 Rejects the Order</h3>
+        <p>Check MT5 lot size, symbol specification, market session, filling mode, Stop Loss/Take Profit distance and margin. See: <a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">How to fix MT5 Error 4756</a>.</p>
+
+        <h3 class="mt-3">MT5 Says Trading Is Disabled</h3>
+        <p>Error 4752 means MetaTrader 5 is blocking EA trading. See: <a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">How to fix MT5 Error 4752</a>.</p>
+
+        <h3 class="mt-3">The cBot Is Installed but Not Running</h3>
+        <p>Open cTrader <strong>Algo → cBots</strong>, add an instance, insert the webhook URL, save settings and start the cBot.</p>
+
+        <h3 class="mt-3">Copied Size Is Wrong</h3>
+        <p>Check cTrader volume, MT5 lot rules, account size difference and any multiplier or size conversion setting in the route.</p>
+
+        <h2 class="mt-4">Why Use AlgoWay Instead of a Local cTrader to MT5 Copier?</h2>
+
+        <p>A local copier can work when everything runs on the same computer or VPS. AlgoWay provides a webhook-based bridge that fits the broader AlgoWay automation environment.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Local copier</th>
+                    <th>AlgoWay cTrader to MT5 route</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Often tied to local files, local terminals or one machine</td>
+                    <td>Uses AlgoWay webhook routing and MT5 EA connection</td>
+                </tr>
+                <tr>
+                    <td>Usually focused only on one copier workflow</td>
+                    <td>Fits the same dashboard used for TradingView, Telegram and other sources</td>
+                </tr>
+                <tr>
+                    <td>Debugging depends on local logs only</td>
+                    <td>AlgoWay dashboard shows webhook activity and call history</td>
+                </tr>
+                <tr>
+                    <td>May require separate tools for other platforms</td>
+                    <td>Uses AlgoWay as a broader multi-platform automation layer</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/algoway-mt5-ws-v10-overview.html">How to install AlgoWayWS-MT5 EA</a></li>
+            <li><a href="/blog/algoway-mt5-v206-overview.html">AlgoWayWS-MT5 EA 2.10 guide</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">MetaTrader 5 common errors in AlgoWay</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">How to fix MT5 Error 4752</a></li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">How to fix MT5 Error 4756</a></li>
+            <li><a href="/blog/algoway-tradecopier-for-diversification-trading.html">How to copy TradingView alerts to multiple accounts</a></li>
+            <li><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader webhook automation with AlgoWay</a></li>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts to any broker with AlgoWay</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>AlgoWay cTrader to MetaTrader 5 Copier lets cTrader act as the source and MT5 act as the destination.</strong> The AlgoWay-cTrader cBot detects trade actions, sends them to the AlgoWay webhook, and AlgoWay routes the command to MetaTrader 5 through the standard AlgoWayWS-MT5 EA.</p>
+
+        <p>The most important settings are the correct <strong>cTrader → MetaTrader 5</strong> webhook route, the correct webhook URL in the cBot, and a connected AlgoWayWS-MT5 EA on the MT5 side.</p>
+
+        <p>Test on demo first, confirm AlgoWay <strong>Last Called</strong>, check MT5 Experts logs, verify symbol mapping and lot size, and only then move to live trade copying.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Copy Trades from cTrader to MetaTrader 5 with AlgoWay",
+                  "description": "Copy trades from cTrader to MetaTrader 5 with AlgoWay. Set up a cTrader to MT5 webhook, install AlgoWay-cTrader cBot, connect AlgoWayWS-MT5 EA, test trade copying, logs, symbols, risk and troubleshooting.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/ctrader-to-metatrader5-copier-manual.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "Trade Copier",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Copy Trades from cTrader to MetaTrader 5 with AlgoWay",
+          "description": "Set up cTrader as the source and MetaTrader 5 as the destination using AlgoWay-cTrader cBot, AlgoWay webhook and AlgoWayWS-MT5 EA.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Create cTrader to MetaTrader 5 webhook",
+              "text": "Create an AlgoWay webhook where Source is cTrader and Platform is MetaTrader 5."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Connect MT5",
+              "text": "Install AlgoWayWS-MT5 EA, enable algorithmic trading and enter the webhook UUID in the EA inputs."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Install cTrader cBot",
+              "text": "Download and install AlgoWay-cTrader.algo in cTrader Desktop."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Insert webhook URL",
+              "text": "Paste the AlgoWay webhook URL into the Webhook URL field of the cBot instance."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Test copier",
+              "text": "Open a small demo trade in cTrader and confirm Last Called in AlgoWay and execution in MetaTrader 5."
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay copy trades from cTrader to MetaTrader 5?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can copy trade actions from cTrader to MetaTrader 5 using the AlgoWay-cTrader cBot, an AlgoWay webhook route and the AlgoWayWS-MT5 Expert Advisor."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need a special MT5 EA for cTrader copying?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. The MetaTrader 5 side uses the standard AlgoWayWS-MT5 EA used by other AlgoWay sources."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What should the AlgoWay webhook source and platform be?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For this setup, Source must be cTrader and Platform must be MetaTrader 5."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the most important cTrader cBot setting?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Webhook URL is the main connection point. It must be the AlgoWay webhook URL for the cTrader to MetaTrader 5 route."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does AlgoWay receive the request but MT5 does not trade?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include disconnected AlgoWayWS-MT5 EA, wrong webhook UUID in the EA, disabled Algo Trading, missing DLL permission, symbol mismatch, invalid lot size or MT5 broker rejection."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "Copy cTrader Trades to MetaTrader 5",
+                                      "item": "https://algoway.trade/blog/ctrader-to-metatrader5-copier-manual.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

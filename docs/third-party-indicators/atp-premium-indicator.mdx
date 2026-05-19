@@ -1,10 +1,895 @@
 ---
-title: "ATP Premium Indicator Alerts"
-description: "Configure ATP Premium Indicator alerts."
+title: "ATP Premium Indicator Webhook Alerts for AlgoWay"
+sidebar_label: "ATP Premium Indicator Alerts"
+pagination_label: "ATP Premium Indicator Alerts"
+description: "Configure ATP Premium Indicator webhook alerts for AlgoWay MT5 automation. Use Long, Short, TP, trailing stop, order_id, SL and TP JSON fields."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "AlgoWay Blog",
+                  "item": "https://algoway.trade/blog/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "ATP Premium Indicator Webhook Alerts",
+                  "item": "https://docs.algoway.trade/docs/third-party-indicators/atp-premium-indicator/"
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "How to Configure ATP Premium Indicator Webhook Alerts for MT5 Automation with AlgoWay",
+                      "description": "Configure ATP Premium Indicator webhook alerts for AlgoWay and MetaTrader 5 automation. Use Long Entry 1, Long Entry 2, Short Entry 1, Short Entry 2, order_id, SL, TP, trailing stop, partial positions and JSON alert templates.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/third-party-indicators/atp-premium-indicator/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "TradingView Indicator Automation",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Configure ATP Premium Indicator Webhook Alerts with AlgoWay",
+              "description": "Set ATP Premium Indicator TradingView alerts to send JSON webhook messages to AlgoWay for MetaTrader 5 automation.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Create AlgoWay MT5 webhook",
+                  "text": "Create or open a MetaTrader 5 webhook in the AlgoWay dashboard and copy the webhook URL."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Connect MetaTrader 5",
+                  "text": "Install and connect AlgoWayWS-MT5 EA using the webhook UUID."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create ATP Premium alert",
+                  "text": "Create a TradingView alert from the required ATP Premium Indicator condition."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Paste one JSON template",
+                  "text": "Paste only one valid JSON block into the alert message and replace X, Y, SL, TP and TRAIL with valid values."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Enable webhook URL",
+                  "text": "Enable Webhook URL in TradingView and paste the AlgoWay webhook URL."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Test and verify logs",
+                  "text": "Trigger the alert with small size and confirm AlgoWay logs plus MT5 Experts and Journal logs."
+                }
+              ]
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Can ATP Premium Indicator alerts be automated with AlgoWay?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. ATP Premium Indicator alerts can send JSON webhook messages from TradingView to AlgoWay, and AlgoWay can route them to MetaTrader 5 through AlgoWayWS-MT5 EA."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do I need separate TradingView alerts for ATP Premium entries and exits?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Create separate alerts for Long Entry 1, Long Entry 2, Short Entry 1, Short Entry 2 and their exit or trailing conditions."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What does order_id do in ATP Premium webhook messages?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "order_id identifies a specific ATP position leg, such as Long Entry 1 or Short Entry 2, so entry and exit messages can be matched correctly."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I paste all ATP Premium JSON templates into one alert?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Each TradingView alert should contain only one valid JSON block. Multiple JSON blocks in one alert can make the payload invalid."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why did my ATP Premium webhook fail?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common causes include invalid JSON, unchanged placeholders such as X or SL, mismatched order_id, wrong ticker, disabled MT5 EA trading, invalid stops or unsupported trailing behavior."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I use ATP Premium alerts with platforms other than MT5?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "This page is written for MT5 automation, but the general AlgoWay model can support other destinations if the route accepts the required fields. Use the dedicated AlgoWay guide for each destination."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the safest first ATP Premium webhook test?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Start with a small fixed Long Entry 1 message, confirm AlgoWay receives the JSON, confirm MT5 receives the command, then test the matching flat alert before testing the second leg or trailing stop."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# ATP Premium Indicator Alerts
+# **How to Configure ATP Premium Indicator Webhook Alerts for MT5 Automation with AlgoWay**
 
-This page is part of the AlgoWay Docs migration.
+![How to configure ATP Premium Indicator webhook alerts for MT5 automation with AlgoWay](https://algoway.trade/static/img/blog-img/atp-premium@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**ATP Premium Indicator can send TradingView indicator alerts to AlgoWay, and AlgoWay can route those alerts to MetaTrader 5 through the AlgoWayWS-MT5 Expert Advisor.** The important part is the alert message: every ATP Premium alert must send one clean JSON command with the correct `order_id`, action, size, Stop Loss, Take Profit or trailing stop values.
+
+This guide is written for traders searching for **ATP Premium Indicator webhook**, **TradingView indicator alert JSON**, **indicator alert to MT5**, **TradingView to MT5 indicator automation**, **MT5 partial take profit webhook**, **TradingView trailing stop alert**, and **AlgoWay ATP Premium setup**.
+
+The automation route is:
+
+```
+ATP Premium Indicator alert → TradingView webhook URL → AlgoWay webhook → AlgoWayWS-MT5 EA → MetaTrader 5 broker account
+```
+
+This page is not a general TradingView Strategy Tester guide. ATP Premium uses indicator-style alert conditions, so the setup focuses on individual alert templates, position identifiers, partial entries, exits, SL/TP and trailing logic.
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Why ATP Premium Indicator Webhook Automation Needs a Dedicated Setup
+
+ATP Premium Indicator automation is different from a normal TradingView strategy webhook. A strategy can send order-fill events from one script, while an indicator usually produces separate alert conditions. For SEO and for real execution, this distinction matters. Traders searching for **ATP Premium Indicator webhook alerts**, **TradingView indicator to MT5**, **indicator alert automation**, or **MT5 webhook trading bot** usually need a practical mapping between each visual signal and each execution command.
+
+AlgoWay solves this by treating every ATP Premium signal as a structured automation message. Long Entry 1, Long Entry 2, Short Entry 1 and Short Entry 2 are not only labels on a chart. In an automated trading workflow, they become position legs. Each leg needs a stable `order_id`, a direction, a size, and risk parameters. Without that mapping, a partial take profit alert can close the wrong trade, a trailing stop alert can be interpreted as a new entry, or a second-position alert can overwrite the first-position logic.
+
+This is why the page focuses on exact JSON templates instead of generic trading advice. The goal is to turn ATP Premium Indicator alerts into clean AlgoWay webhook commands that can be checked in logs, routed to MetaTrader 5, and managed by the AlgoWayWS-MT5 EA.
+
+## Quick Answer: How to Configure ATP Premium Indicator Alerts
+
+To connect ATP Premium Indicator alerts to MetaTrader 5 through AlgoWay:
+
+1. Create or open your MetaTrader 5 webhook in AlgoWay.
+2. Install and connect the current AlgoWayWS-MT5 EA in MetaTrader 5.
+3. Copy the AlgoWay webhook URL.
+4. Open the ATP Premium Indicator alert condition in TradingView.
+5. Paste one JSON template into the alert message field.
+6. Replace `X`, `Y`, `SL`, `TP` and `TRAIL` with real values or supported ATP variables.
+7. Enable **Webhook URL** and paste the AlgoWay webhook URL.
+8. Create separate alerts for Long Entry 1, Long Entry 2, Short Entry 1, Short Entry 2 and exits.
+9. Test with small size and verify AlgoWay logs plus MT5 Experts/Journal logs.
+
+## ATP Premium Indicator Alerts vs TradingView Strategy Alerts
+
+Many AlgoWay guides use TradingView strategy placeholders such as `{{strategy.order.contracts}}` and `{{strategy.market_position}}`. ATP Premium Indicator alerts are different. Indicator alerts usually fire from specific alert conditions and often need a fixed or indicator-generated message for each condition.
+
+| Alert type | Typical message style | What matters most |
+| --- | --- | --- |
+| TradingView strategy alert | Uses `{{strategy.*}}` placeholders | Strategy order fills, market position, contracts |
+| ATP Premium indicator alert | Separate JSON per indicator condition | `order_id`, action, X/Y size, SL, TP, trailing |
+
+TradingView documents that indicator scripts can define alert conditions and that users must create alerts from those conditions in the Create Alert dialog. This is why ATP Premium needs separate alert messages for each event instead of one universal strategy message.
+
+## Why Indicator Alert Mapping Is the Core SEO and Execution Problem
+
+The phrase **TradingView indicator alert to MT5** sounds simple, but the execution layer needs more than a signal name. A TradingView alert can tell AlgoWay that a condition fired, but AlgoWay still needs to know whether that condition means open long, open short, close a position, manage the second leg, apply Stop Loss, apply Take Profit, or activate trailing stop.
+
+For ATP Premium, the cleanest structure is one alert condition mapped to one JSON command. That makes troubleshooting much easier. If Long Entry 1 fires, the AlgoWay Webhook Logs should show a Long Entry 1 payload. If Short Entry 2 closes, the payload should contain the same Short Entry 2 `order_id`. This structure gives the trader a readable audit trail from the TradingView alert window to the MetaTrader 5 Experts and Journal tabs.
+
+For search engines, this also gives the page a clear topic: it is not only about TradingView alerts, and not only about MT5. It is about **ATP Premium Indicator webhook JSON**, **partial position automation**, **TradingView to MetaTrader 5 execution**, and **AlgoWay webhook routing**.
+
+## Before You Start
+
+Prepare these items before configuring ATP Premium alerts:
+
+- TradingView chart with ATP Premium Indicator installed;
+- AlgoWay account and active MetaTrader 5 webhook;
+- AlgoWay webhook URL;
+- MetaTrader 5 terminal connected through AlgoWayWS-MT5 EA;
+- symbol mapping checked between TradingView and MT5 broker;
+- valid first-position size `X`;
+- valid second-position size `Y`;
+- Stop Loss value `SL`;
+- Take Profit value `TP`;
+- Trailing Stop value `TRAIL`, if using 2 TP mode.
+
+For MT5 setup, use the current guide: [How to install AlgoWayWS-MT5 EA](https://algoway.trade/blog/algoway-mt5-ws-v10-overview.html).
+
+## Required JSON Fields for ATP Premium Alerts
+
+Every ATP Premium webhook message should be valid JSON and include the fields AlgoWay needs to route and execute the command.
+
+| Field | Example | Purpose |
+| --- | --- | --- |
+| `platform_name` | `metatrader5` | Tells AlgoWay to route the command to MetaTrader 5. |
+| `ticker` | `{{ticker}}` | TradingView symbol sent to AlgoWay. It must match or map to the MT5 broker symbol. |
+| `order_id` | `Long Entry 1` | Identifies the specific ATP position leg so entry and exit can match. |
+| `order_action` | `buy`, `sell`, `flat` | Defines entry direction or close action. |
+| `order_contracts` | `X` or `Y` | Defines first or second position size. |
+| `stop_loss` | `SL` | Distance-style Stop Loss value where supported by the route. |
+| `take_profit` | `TP` | Distance-style Take Profit value where supported by the route. |
+| `trailing_pips` | `TRAIL` | Trailing Stop value for second leg / 2 TP mode where supported. |
+
+**Replace placeholder letters before live use.** `X`, `Y`, `SL`, `TP` and `TRAIL` are examples. Use real numbers or ATP-supported variables that produce valid JSON values.
+
+## How order_id Protects Partial Positions
+
+The `order_id` field is one of the most important fields in this ATP Premium setup. It allows AlgoWay to understand which logical position leg the alert belongs to. If the first long entry and the second long entry use the same generic identifier, the automation layer cannot clearly separate the first partial position from the second partial position. That becomes a problem when the strategy uses two take-profit levels, trailing on the second leg, or separate close alerts.
+
+A good ATP Premium webhook setup uses stable names such as `Long Entry 1`, `Long Entry 2`, `Short Entry 1` and `Short Entry 2`. The same value should appear in the matching close alert. This gives every alert a purpose: entry, close, trailing management, or position protection. It also makes logs readable when several signals arrive close together.
+
+## Distance SL/TP vs Exact Price SL/TP
+
+The templates on this page use `stop_loss` and `take_profit` as distance-style fields because they are easy to understand for ATP Premium examples. In some AlgoWay routes, traders may also use exact price fields such as `sl_price` and `tp_price` when the indicator or Pine Script output gives real market levels. Both approaches are useful, but they must not be confused.
+
+Distance-style values are useful when the alert says “use 100 points Stop Loss” or “use 200 points Take Profit.” Exact price values are useful when the signal gives a concrete level, such as a structure low, structure high, support level, resistance level, or calculated indicator stop. Before live use, confirm which field your route expects and how your MT5 broker interprets digits, points and pips.
+
+## Long 1st Position Templates
+
+Use this template when ATP Premium opens the first long position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Long Entry 1",
+  "order_action": "buy",
+  "order_contracts": "X",
+  "stop_loss": "SL",
+  "take_profit": "TP"
+}
+```
+
+Use this template when ATP Premium closes the first long position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Long Entry 1",
+  "order_action": "flat",
+  "order_contracts": "X"
+}
+```
+
+The `order_id` value must match between the entry and exit templates.
+
+## Long 2nd Position Templates
+
+Use this template when ATP Premium opens the second long position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Long Entry 2",
+  "order_action": "buy",
+  "order_contracts": "Y",
+  "stop_loss": "SL",
+  "take_profit": "TP"
+}
+```
+
+Use this template when ATP Premium applies trailing logic to the second long position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Long Entry 2",
+  "order_action": "buy",
+  "order_contracts": "Y",
+  "trailing_pips": "TRAIL"
+}
+```
+
+Use this template when ATP Premium closes the second long position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Long Entry 2",
+  "order_action": "flat",
+  "order_contracts": "Y"
+}
+```
+
+## Short 1st Position Templates
+
+Use this template when ATP Premium opens the first short position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Short Entry 1",
+  "order_action": "sell",
+  "order_contracts": "X",
+  "stop_loss": "SL",
+  "take_profit": "TP"
+}
+```
+
+Use this template when ATP Premium closes the first short position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Short Entry 1",
+  "order_action": "flat",
+  "order_contracts": "X"
+}
+```
+
+## Short 2nd Position Templates
+
+Use this template when ATP Premium opens the second short position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Short Entry 2",
+  "order_action": "sell",
+  "order_contracts": "Y",
+  "stop_loss": "SL",
+  "take_profit": "TP"
+}
+```
+
+Use this template when ATP Premium applies trailing logic to the second short position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Short Entry 2",
+  "order_action": "sell",
+  "order_contracts": "Y",
+  "trailing_pips": "TRAIL"
+}
+```
+
+Use this template when ATP Premium closes the second short position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Short Entry 2",
+  "order_action": "flat",
+  "order_contracts": "Y"
+}
+```
+
+## Trailing Stop and 2 TP Mode
+
+The original ATP Premium setup separates first and second position logic. This is useful for partial take profit and trailing-stop workflows:
+
+- `X` is the first part of the position;
+- `Y` is the second part of the position;
+- the first leg can use normal Stop Loss and Take Profit;
+- the second leg can use trailing logic in 2 TP mode;
+- exit alerts should use the same `order_id` as the entry leg.
+
+Trailing stop should be tested carefully because MT5 broker rules, points/pips interpretation, symbol digits, stop levels and EA behavior can affect execution.
+
+More detail: [How to automate MT5 Stop Loss and Take Profit from TradingView alerts](https://algoway.trade/blog/algoway-mt5-v16-smarter-faster-and-more-precise-trading.html).
+
+## Recommended 2 TP Automation Workflow
+
+A common ATP Premium automation structure is to split the trade into two logical positions. The first position can target the first take-profit level. The second position can stay open for a larger move and use trailing stop after the market moves in the expected direction. This is why the JSON examples separate `X` and `Y`.
+
+The recommended workflow is:
+
+1. Long Entry 1 or Short Entry 1 opens the first position with Stop Loss and Take Profit.
+2. Long Entry 2 or Short Entry 2 opens the second position with its own identifier.
+3. The first position closes at the first target or through its matching flat alert.
+4. The second position remains available for trailing stop or a later close alert.
+5. Every close alert uses the same `order_id` as the entry it is supposed to close.
+
+This structure gives more control than one large position because it separates the profit-taking leg from the runner leg. It also creates a better automation record in AlgoWay logs and MT5 logs.
+
+## How to Create the TradingView Alerts
+
+Create a separate TradingView alert for each ATP Premium condition you want to automate.
+
+1. Open the chart with ATP Premium Indicator.
+2. Click **Create Alert**.
+3. Select the ATP Premium condition, such as Long Entry 1 or Short Entry 2.
+4. Paste only one JSON template into the message field.
+5. Replace placeholder values with real values or supported ATP variables.
+6. Open **Notifications**.
+7. Enable **Webhook URL**.
+8. Paste your AlgoWay webhook URL.
+9. Save the alert.
+10. Repeat for each ATP Premium condition.
+
+TradingView webhook alerts send the alert message to the external URL configured in the alert. AlgoWay receives that message and routes it to the destination platform.
+
+General setup guide: [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html).
+
+## TradingView Alert Frequency and Webhook Delivery
+
+When creating ATP Premium alerts, choose an alert frequency that matches the indicator logic. If the condition can remain true for several bars, an aggressive alert frequency may send repeated webhook messages. If the indicator creates a one-time entry event, the alert should normally fire only when that event appears.
+
+The most important operational rule is simple: one ATP Premium event should produce one AlgoWay action. If Long Entry 1 appears once, AlgoWay should receive one Long Entry 1 JSON payload. If the same event is sent repeatedly, the MT5 side may receive repeated buy or sell instructions unless the route logic blocks duplicates. Use TradingView alert settings, ATP Premium condition settings and AlgoWay logs together to confirm that the alert fires exactly as expected.
+
+For webhook delivery, TradingView sends the alert message to the external URL configured in the alert. If the alert message is valid JSON, AlgoWay can parse it as a structured command. If the message contains several JSON objects, missing quotes, broken placeholders, or text around the JSON, the automation path can fail before the command ever reaches MT5.
+
+## Testing Procedure
+
+Test ATP Premium alerts in layers before live trading:
+
+1. Send a fixed test JSON from AlgoWay or TradingView.
+2. Confirm AlgoWay receives the payload.
+3. Confirm AlgoWayWS-MT5 EA receives the command.
+4. Open a very small Long Entry 1 test.
+5. Close Long Entry 1 with the matching flat alert.
+6. Repeat for Long Entry 2.
+7. Repeat for Short Entry 1 and Short Entry 2.
+8. Test trailing only after basic entry and exit work.
+9. Check AlgoWay Webhook Logs and MT5 Experts/Journal after every test.
+
+## Safe Example with Real Numbers
+
+This is a structural example. Replace the symbol, size and SL/TP values according to your broker rules.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_id": "Long Entry 1",
+  "order_action": "buy",
+  "order_contracts": "0.01",
+  "stop_loss": "100",
+  "take_profit": "200"
+}
+```
+
+If your route interprets `stop_loss` and `take_profit` as points, pips or another configured distance model, confirm that interpretation before live trading.
+
+## Launch Checklist for ATP Premium to MT5 Automation
+
+Before using normal position size, check the whole chain from TradingView to MT5.
+
+- The AlgoWay webhook route is active and points to MetaTrader 5.
+- The AlgoWayWS-MT5 EA is running and connected.
+- The TradingView alert has Webhook URL enabled.
+- The alert message contains exactly one valid JSON object.
+- `platform_name` is `metatrader5`.
+- `ticker` matches the broker symbol or symbol mapping is configured.
+- `order_id` matches between entry and close messages.
+- `order_contracts` is a valid MT5 lot size for the symbol.
+- Stop Loss and Take Profit are not too close to market price.
+- Trailing stop has been tested only after normal entry and close behavior works.
+
+## Common ATP Premium Webhook Problems
+
+### Several JSON Blocks in One Alert
+
+TradingView should send one JSON message per alert. If several blocks are pasted together, AlgoWay can reject the message as invalid JSON.
+
+### X, Y, SL, TP or TRAIL Were Not Replaced
+
+These are placeholders. Replace them with real values or valid ATP output variables before live use.
+
+### order_id Does Not Match Between Entry and Exit
+
+If entry uses `Long Entry 1` and exit uses a different identifier, the route may not close the intended leg.
+
+### Wrong Ticker
+
+TradingView `{{ticker}}` may not match the MT5 broker symbol. Check Market Watch and symbol mapping.
+
+### Invalid Stops
+
+Stop Loss or Take Profit can be too close, on the wrong side, or invalid for the broker symbol. See: [How to fix MT5 Error 4756](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html).
+
+### EA Trading Disabled
+
+If MT5 blocks Expert Advisor trading, orders will not execute. See: [How to fix MT5 Error 4752](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html).
+
+### Invalid JSON or Wrong Content
+
+If AlgoWay rejects the alert before MT5 receives it, check quotes, commas, braces and content type. See: [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html).
+
+### Trailing Opens a New Position Instead of Managing Existing One
+
+If a trailing alert uses `buy` or `sell`, confirm how your current route interprets that command. In some workflows, modification should use a dedicated modify action or route-specific logic. Test before live trading.
+
+## FAQ: ATP Premium Indicator Webhook Automation
+
+### Can ATP Premium alerts be sent to MT5 automatically?
+
+Yes. ATP Premium Indicator alerts can be sent from TradingView to AlgoWay through a webhook URL. AlgoWay then routes the JSON command to MetaTrader 5 through the AlgoWayWS-MT5 EA.
+
+### Should I use one alert or several alerts?
+
+Use separate TradingView alerts for separate ATP Premium conditions. Long Entry 1, Long Entry 2, Short Entry 1, Short Entry 2, close alerts and trailing alerts should be configured separately so each alert sends one clear JSON command.
+
+### Why is order_id important?
+
+`order_id` identifies the logical position leg. It helps the entry, close and trailing logic stay connected. Without consistent identifiers, partial take profit and second-position management become harder to debug.
+
+### Can I use ATP Premium alerts with platforms other than MT5?
+
+This page is written for MT5 automation, but the general AlgoWay model can support other destinations if the route accepts the required fields. For other platforms, use that platform's dedicated AlgoWay guide and adjust `platform_name` and supported risk fields.
+
+### What is the safest first test?
+
+The safest first test is a small fixed Long Entry 1 message with a valid lot size and simple SL/TP values. After that, test the matching flat alert, then repeat the same process for the second long leg and both short legs.
+
+## Related AlgoWay Guides
+
+- [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [TradingView to MetaTrader 5 with AlgoWay](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [Install AlgoWayWS-MT5 EA](https://algoway.trade/blog/algoway-mt5-ws-v10-overview.html)
+- [AlgoWayWS-MT5 EA 2.10 guide](https://algoway.trade/blog/algoway-mt5-v206-overview.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [MT5 SL/TP automation from TradingView alerts](https://algoway.trade/blog/algoway-mt5-v16-smarter-faster-and-more-precise-trading.html)
+- [Advanced risk management and trade automation](https://algoway.trade/blog/advanced-risk-management-and-trade-automation.html)
+- [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html)
+
+## Final Summary
+
+**ATP Premium Indicator automation depends on clean, separate TradingView alert messages.** Use one JSON block per ATP condition, keep `order_id` consistent between entry and exit, replace `X`, `Y`, `SL`, `TP` and `TRAIL` with valid values, and test each leg before live trading.
+
+Once the messages are correct, AlgoWay can route ATP Premium indicator alerts from TradingView to MetaTrader 5 through the current AlgoWayWS-MT5 EA workflow.

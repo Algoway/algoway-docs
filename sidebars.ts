@@ -9,7 +9,10 @@ const sidebars: SidebarsConfig = {
         'how-algoway-works/overview',
         'how-algoway-works/algorithmic-trading-basics',
         'how-algoway-works/pricing-routes',
-        'how-algoway-works/algoway-vs-pineconnector',
+        {type: 'link', label: 'AlgoWay vs PineConnector', href: 'https://algoway.trade/pineconnector-alternative'},
+      {type: 'link', label: 'AlgoWay vs TradersPost', href: 'https://algoway.trade/traderspost-alternative'},
+        'telegram-ai/notifications',
+        'billing/buy-me-a-coffee',
       ],
     },
     {
@@ -55,35 +58,62 @@ const sidebars: SidebarsConfig = {
           label: 'Risk Management',
           items: [
             'metatrader-5/risk-management',
-            'metatrader-5/sl-tp-from-tradingview',
           ],
         },
-        {
-          type: 'category',
-          label: 'MT5 Errors',
-          items: [
-            'metatrader-5/common-errors',
-            'troubleshooting/mt5-error-4752',
-            'troubleshooting/mt5-error-4756',
-            'troubleshooting/error',
-          ],
-        },
+        'metatrader-5/algoway-vps-services',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Errors',
+      items: [
+        'metatrader-5/common-errors',
+        'troubleshooting/mt5-error-4752',
+        'troubleshooting/mt5-error-4756',
+        'troubleshooting/error',
       ],
     },
     {
       type: 'category',
       label: 'Broker Platforms',
       items: [
-        'broker-platforms/tradelocker-setup',
-        'broker-platforms/tradelocker-risk-fields',
+        {
+          type: 'category',
+          label: 'TradeLocker',
+          collapsed: false,
+          items: [
+            'broker-platforms/tradelocker-setup',
+            'broker-platforms/tradelocker-risk-fields',
+          ],
+        },
         'broker-platforms/dxtrade-setup',
         'broker-platforms/match-trader-setup',
         'broker-platforms/ctrader-connector-logic',
-        'broker-platforms/ctrader-to-mt5-copier',
-        'broker-platforms/tradovate-setup',
-        'broker-platforms/projectx-setup',
-        'broker-platforms/alpaca-setup',
-        'broker-platforms/alpaca-instruments',
+        {
+          type: 'category',
+          label: 'Tradovate',
+          collapsed: false,
+          items: [
+            'broker-platforms/tradovate-setup',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'ProjectX',
+          collapsed: false,
+          items: [
+            'broker-platforms/projectx-setup',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Alpaca',
+          collapsed: false,
+          items: [
+            'broker-platforms/alpaca-setup',
+            'broker-platforms/alpaca-instruments',
+          ],
+        },
       ],
     },
     {
@@ -105,7 +135,6 @@ const sidebars: SidebarsConfig = {
       label: 'Telegram AI Signals',
       items: [
         'telegram-ai/overview',
-        'telegram-ai/notifications',
       ],
     },
     {
@@ -113,6 +142,7 @@ const sidebars: SidebarsConfig = {
       label: 'CopyTrader',
       items: [
         'copytrader/overview',
+        'broker-platforms/ctrader-to-mt5-copier',
       ],
     },
     {
@@ -132,17 +162,10 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'Billing and Activation',
-      items: [
-        'billing/pricing-routes',
-        'billing/buy-me-a-coffee',
-      ],
-    },
-    {
-      type: 'category',
       label: 'Editorial',
       items: [
         'editorial/avoid-fake-gurus',
+        'editorial/ironbot-trading-journal-dashboard',
       ],
     },
   ],

@@ -766,3 +766,88 @@ svg[aria-label="(opens in new tab)"] {
 }
 
 /* ALGOWAY UNIFIED DOC THEME END */
+
+/* ALGOWAY LEFT SIDEBAR REAL WIDTH START */
+
+@media (min-width: 997px) {
+  :root {
+    --doc-sidebar-width: 420px !important;
+  }
+
+  .docs-wrapper,
+  div[class*="docRoot"] {
+    --doc-sidebar-width: 420px !important;
+  }
+
+  .theme-doc-sidebar-container,
+  div[class*="docSidebarContainer"],
+  aside[class*="docSidebarContainer"] {
+    width: 420px !important;
+    min-width: 420px !important;
+    max-width: 420px !important;
+    flex: 0 0 420px !important;
+  }
+
+  .theme-doc-sidebar-container nav,
+  div[class*="docSidebarContainer"] nav,
+  aside[class*="docSidebarContainer"] nav {
+    width: 420px !important;
+  }
+
+  .theme-doc-sidebar-container .menu,
+  div[class*="docSidebarContainer"] .menu,
+  aside[class*="docSidebarContainer"] .menu {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+
+  .theme-doc-sidebar-item-category-level-1 > .menu__list-item-collapsible > .menu__link,
+  .theme-doc-sidebar-item-link-level-1 > .menu__link {
+    padding-left: 10px !important;
+    padding-right: 14px !important;
+    font-weight: 700 !important;
+  }
+
+  .theme-doc-sidebar-item-category-level-2 > .menu__list-item-collapsible > .menu__link,
+  .theme-doc-sidebar-item-link-level-2 > .menu__link {
+    padding-left: 48px !important;
+    padding-right: 14px !important;
+    font-weight: 600 !important;
+  }
+
+  .theme-doc-sidebar-item-category-level-3 > .menu__list-item-collapsible > .menu__link,
+  .theme-doc-sidebar-item-link-level-3 > .menu__link {
+    padding-left: 76px !important;
+    padding-right: 14px !important;
+    font-weight: 500 !important;
+  }
+
+  .theme-doc-sidebar-container .menu__list .menu__list,
+  div[class*="docSidebarContainer"] .menu__list .menu__list,
+  aside[class*="docSidebarContainer"] .menu__list .menu__list {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .theme-doc-sidebar-container .menu__link,
+  div[class*="docSidebarContainer"] .menu__link,
+  aside[class*="docSidebarContainer"] .menu__link {
+    line-height: 1.25 !important;
+  }
+}
+
+/* ALGOWAY LEFT SIDEBAR REAL WIDTH END */
+
+/* ALGOWAY HEADER LOGIN BUTTON START */
+
+.navbar a[href*="login"],
+.navbar__items--right a[href*="login"],
+header a[href*="login"] {
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  padding: 0.42rem 0.72rem !important;
+  line-height: 1.1 !important;
+  border-width: 2px !important;
+}
+
+/* ALGOWAY HEADER LOGIN BUTTON END */

@@ -1,10 +1,743 @@
 ---
-title: "Pricing, Routes, Clone Mode and VPS"
-description: "AlgoWay pricing, webhook routes, Clone mode and VPS overview."
+title: "AlgoWay Webhook Pricing Guide"
+sidebar_label: "Pricing, Routes, Clone Mode and VPS"
+pagination_label: "Pricing, Routes, Clone Mode and VPS"
+description: "AlgoWay webhook pricing guide for TradingView automation, MT5 execution, TradeLocker, cTrader, crypto exchanges, VPS hosting and Clone mode."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "AlgoWay",
+          "item": "https://algoway.trade/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://algoway.trade/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Webhook Pricing on AlgoWay",
+          "item": "https://docs.algoway.trade/docs/how-algoway-works/pricing-routes/"
+        }
+      ]
+    }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BlogPosting",
+                      "headline": "AlgoWay Webhook Pricing: TradingView Automation, MT5 Routes, VPS and Clone Mode",
+                      "description": "Route-based AlgoWay webhook pricing guide for TradingView automation, MT5, TradeLocker, cTrader, crypto exchange routes, MT5 Private VPS and Clone mode.",
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/how-algoway-works/pricing-routes/"
+                      },
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/logo.png"
+                                }
+                      },
+                      "image": "https://algoway.trade/static/img/blog-img/webhook-pricing-on-algoway-a-detailed-pricing-guide@2x.jpg",
+                      "datePublished": "2026-05-12T00:00:00+00:00",
+                      "dateModified": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "AlgoWay Webhook Automation",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "url": "https://algoway.trade/",
+      "description": "AlgoWay routes TradingView, MetaTrader, Telegram and other signal sources to trading platforms, brokers and crypto exchanges through webhook automation.",
+      "brand": {
+        "@type": "Brand",
+        "name": "AlgoWay"
+      },
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "MT5 Plan Monthly",
+          "price": "7",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://docs.algoway.trade/docs/how-algoway-works/pricing-routes/"
+        },
+        {
+          "@type": "Offer",
+          "name": "TW Plan Monthly",
+          "price": "9",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://docs.algoway.trade/docs/how-algoway-works/pricing-routes/"
+        },
+        {
+          "@type": "Offer",
+          "name": "MT5 Private VPS Basic Monthly",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "url": "https://docs.algoway.trade/docs/how-algoway-works/pricing-routes/"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "ratingCount": "1"
+      }
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I pay per TradingView alert on AlgoWay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. AlgoWay pricing is based on the active webhook route, not on how many TradingView alerts fire during the month."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need one webhook per symbol?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A webhook route can process different tickers when the JSON message includes the correct symbol and the destination supports it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does AlgoWay webhook automation cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AlgoWay MT5 plan starts at 7 USD per month or 72 USD yearly. The TW plan starts at 9 USD per month or 90 USD yearly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need MT5 Private VPS?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only if your route needs a running MetaTrader terminal. API-based exchange or platform routes may not need a VPS."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can one TradingView strategy send signals to several platforms?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, when the routes are configured correctly and Clone mode is used for supported setups."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does AlgoWay include the trading strategy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. AlgoWay is the automation and execution route. The strategy can come from TradingView, Telegram, MetaTrader or another supported signal source."
+          }
+        }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# Pricing, Routes, Clone Mode and VPS
+# **AlgoWay Webhook Pricing: TradingView Automation, MT5 Routes, VPS and Clone Mode**
 
-This page is part of the AlgoWay Docs migration.
+![AlgoWay webhook pricing for TradingView automation and multi-platform trading routes](https://algoway.trade/static/img/blog-img/webhook-pricing-on-algoway-a-detailed-pricing-guide@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+If you are comparing **TradingView webhook pricing**, **webhook trading bot costs**,
+or the monthly price of connecting TradingView alerts to MT5, TradeLocker, cTrader, Binance, OKX, Bybit,
+MEXC, BitMEX or another execution platform, the most important detail is how the service prices automation.
+
+AlgoWay uses a **route-based pricing model**. A route means one signal source connected to one trading
+destination: **Source (from)** → **Platform (to)**. For example, a TradingView alert can send a
+webhook message to AlgoWay, and AlgoWay can route that signal to MetaTrader 5, TradeLocker, Match-Trader,
+DxTrade, cTrader, Tradovate, ProjectX, Binance, OKX, Bybit, MEXC, BitMEX and other supported destinations.
+
+#### **Contents**
+
+- [1) What route-based webhook pricing means](#route-pricing)
+- [2) Current AlgoWay webhook pricing](#current-pricing)
+- [3) Which plan to choose](#choose-plan)
+- [4) What is included in a webhook route](#what-included)
+- [5) AlgoWay pricing vs common automation alternatives](#competitor-costs)
+- [6) Real pricing examples](#examples)
+- [7) TradingView alert JSON examples](#json)
+- [8) MT5 Private VPS pricing](#vps)
+- [9) Clone mode for copying one signal to multiple platforms](#clone-mode)
+- [10) Trial, payment status and activation](#trial-status)
+- [11) FAQ](#faq)
+
+#### **1) What route-based webhook pricing means**
+
+Many traders confuse four different things: a TradingView alert, a webhook URL, a trading bot and an execution route.
+In AlgoWay, the paid object is the **route**. The TradingView alert is only the message that enters that route.
+
+| Object | Meaning | How AlgoWay treats it |
+| --- | --- | --- |
+| **TradingView alert** | A rule inside TradingView that fires when your condition is met. | Not billed per alert. |
+| **Webhook message** | The JSON or supported signal text sent by TradingView. | Not billed per message. |
+| **Webhook URL** | The endpoint that receives the TradingView alert. | Belongs to a route. |
+| **Route** | The configured path from source to destination. | This is the subscription object. |
+
+This matters for SEO and for real trading costs. If you run ten TradingView alerts that all send instructions to the
+same destination account through the same configured route, you are not paying for ten separate alert messages.
+You pay for the active route.
+
+#### **2) Current AlgoWay webhook pricing**
+
+AlgoWay currently separates the main webhook plans by route type. The price activates the selected automation route
+and allows AlgoWay to process supported trading messages for that route.
+
+| Plan | Monthly | Yearly | Typical use | Payment methods |
+| --- | --- | --- | --- | --- |
+| **MT5 plan** | **7 USD** or **10 USDT** | **72 USD** or **80 USDT** | MetaTrader 5 routes, MT5-based automation and MT5 discount route cases. | PayPal / Crypto |
+| **TW plan** | **9 USD** or **10 USDT** | **90 USD** or **90 USDT** | TradingView webhook automation routes to supported platforms. | PayPal / Crypto / Credit Card when available |
+
+Monthly billing is useful when you are still testing a TradingView strategy, broker connection, crypto exchange route
+or signal format. Yearly billing is useful when the route is stable and you want a lower long-term cost.
+
+#### **3) Which plan to choose**
+
+In most cases, plan selection starts from the **Source (from)** side of the route. A TradingView-source route
+normally uses the TW plan. A MetaTrader-source route normally uses the MT5 plan. MT5-related routes may also have a
+lower MT5 plan option when the dashboard marks the route that way.
+
+| Route example | Typical plan | Why |
+| --- | --- | --- |
+| **TradingView → TradeLocker** | TW plan | The signal starts from TradingView and is routed to TradeLocker. |
+| **TradingView → cTrader** | TW plan | The TradingView webhook is the source of the automation. |
+| **TradingView → Binance / OKX / Bybit / MEXC / BitMEX** | TW plan | The route receives TradingView alert messages and forwards them to a crypto exchange. |
+| **TradingView → MetaTrader 5** | MT5 plan when offered by the route | MT5 execution uses a terminal-side route, so AlgoWay may price it through the MT5 plan. |
+| **MetaTrader → ProjectX / Tradovate / crypto exchange** | MT5 plan | The source side is MetaTrader. |
+| **Telegram → trading platform** | Shown by dashboard route | Telegram-source automation has its own route logic and should be checked inside the dashboard. |
+
+The practical rule is simple: create the webhook route first, verify the **Source** and **Platform**,
+then activate the matching plan shown for that route. Do not buy a generic “bot” subscription if all you need is
+one TradingView alert route to one execution destination.
+
+#### **4) What is included in a webhook route**
+
+A webhook route is not just a naked URL. It contains the settings that tell AlgoWay how to receive a signal, how to
+validate it, and where to send the final trading instruction.
+
+- **Webhook URL:** the endpoint used inside TradingView alert settings.
+- **Source:** TradingView, MetaTrader, Telegram or another supported signal source.
+- **Destination:** MT5, cTrader, TradeLocker, Match-Trader, DxTrade, futures platforms or crypto exchanges.
+- **Order fields:** buy, sell, flat, close, size, order type, price, stop loss and take profit.
+- **Route credentials:** platform-specific connection settings stored in the configured webhook route.
+- **Logs and result tracking:** useful for seeing whether the signal reached AlgoWay and how the destination responded.
+
+This is why AlgoWay can be cheaper than many all-in-one trading automation platforms. It does not force every user
+into a large monthly package when the user only needs a specific route from a signal source to an execution venue.
+
+#### **5) AlgoWay pricing vs common automation alternatives**
+
+Traders often compare AlgoWay with PineConnector, TradersPost, PickMyTrade and other webhook trading automation
+products. Those platforms may be useful for their own target users, but their pricing model is usually much heavier
+than a small route-based connector.
+
+| Service type | Typical public entry price | Best fit | AlgoWay angle |
+| --- | --- | --- | --- |
+| **PineConnector-style MT4/MT5 connector** | Often around $39/month for the entry plan | TradingView to MetaTrader only. | AlgoWay starts much lower and supports more destinations than MT5 only. |
+| **Large automation hub** | Often $40–$80+ per month for live auto-submit tiers | Users who need a broad account-management platform. | AlgoWay is route-based, so a simple webhook route does not need a large platform subscription. |
+| **Broker-specific TradingView bridge** | Often around $50/month | Specific futures, prop-firm or broker workflows. | AlgoWay focuses on many platform routes from one automation system. |
+| **AlgoWay route** | From 7 USD/month for MT5 plan and 9 USD/month for TW plan | Traders who need affordable TradingView webhook execution across multiple platforms. | Lower entry cost, multi-platform routing and optional Clone mode. |
+
+#### **6) Real pricing examples**
+
+##### **Example A — one TradingView strategy to MT5**
+
+You run a TradingView strategy and want the orders executed in MetaTrader 5. You create one TradingView-to-MT5 route,
+install or connect the MT5 side, and activate the matching MT5 route plan if the dashboard offers that route pricing.
+You do not pay per alert firing and you do not pay separately for every symbol sent through the same route.
+
+##### **Example B — TradingView to TradeLocker**
+
+You create one TradingView-to-TradeLocker webhook. TradingView sends JSON to AlgoWay. AlgoWay logs into the configured
+TradeLocker route and sends the order. This is a TW plan route because the source is TradingView and the destination
+is TradeLocker.
+
+##### **Example C — TradingView to Binance Futures**
+
+You send TradingView alerts to a Binance route. The JSON can include market, limit or stop order logic, size, symbol,
+side and risk fields supported by the route. The cost is the active route, not the number of alert messages that
+arrive during the month.
+
+##### **Example D — one signal copied to several platforms**
+
+You want the same TradingView signal to reach MT5, TradeLocker and a crypto exchange. Instead of creating unrelated
+automation stacks, you can configure multiple AlgoWay routes and use Clone mode when your setup allows it. This is
+the main cost advantage for multi-platform trading automation.
+
+#### **7) TradingView alert JSON examples**
+
+AlgoWay pricing is route-based, but the execution quality still depends on the message. A TradingView alert should
+send a clear JSON payload that identifies the platform, ticker, action and size.
+
+**Basic market order:**
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.order.action}}",
+  "order_contracts": "{{strategy.order.contracts}}"
+}
+```
+
+**TradeLocker route with SL/TP:**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "XAUUSD",
+  "order_action": "buy",
+  "order_contracts": 1,
+  "stop_loss": 50,
+  "take_profit": 120
+}
+```
+
+**Crypto exchange route:**
+
+```json
+{
+  "platform_name": "binance",
+  "ticker": "BTCUSDT",
+  "order_action": "buy",
+  "order_contracts": 0.01,
+  "order_type": "market"
+}
+```
+
+**Flat / close command:**
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "flat",
+  "order_contracts": 999999
+}
+```
+
+More advanced messages can include `order_type`, `price`, `sl_price`, `tp_price`,
+`tv_order_id`, margin mode, leverage, trailing stop values and destination-specific parameters.
+
+#### **8) MT5 Private VPS pricing**
+
+MT5 Private VPS is separate from webhook subscriptions. A VPS is useful only when your automation needs a running
+MetaTrader terminal. Crypto exchange routes and some broker-platform routes may not need a MetaTrader terminal at all.
+
+| Service | Monthly | Yearly | Includes |
+| --- | --- | --- | --- |
+| **MT5 Private VPS Basic** | 12 USD | 110 USD | Dedicated RDP environment, preinstalled MT5, one user account. |
+| **MT5 Private VPS Pro** | 20 USDT | 220 USDT | Higher-tier MT5 hosting setup for users who need more runtime capacity. |
+
+The practical question is simple: if the selected route needs MT5 running all the time, use a VPS. If the destination
+is API-based and does not require MetaTrader, a VPS may not be necessary.
+
+#### **9) Clone mode for copying one signal to multiple platforms**
+
+Clone mode is designed for traders who want to send the same signal into several configured webhooks. One route can
+act as the primary signal receiver, while other configured routes mirror the same instruction into different
+platforms, brokers or accounts.
+
+- **Use case:** run one TradingView strategy on several platforms.
+- **Primary route:** receives the original signal.
+- **Clone routes:** receive mirrored instructions.
+- **Cost advantage:** reduces the need to build and maintain several unrelated automation systems.
+- **Expiration logic:** when Clone mode is used across webhooks, the dashboard route status controls availability.
+
+Clone mode is one of the strongest reasons to use AlgoWay instead of a single-platform connector. A trader may start
+with one route, then later expand the same signal to MT5, TradeLocker, cTrader or a crypto exchange without changing
+the TradingView strategy itself.
+
+#### **10) Trial, payment status and activation**
+
+AlgoWay lets traders create and test webhook routes before committing to long-term automation. Route status in the
+dashboard shows whether the webhook is ready, pending, active or cancelled.
+
+- **Trial:** useful for testing a route before paying for long-term use.
+- **PENDING:** no active subscription is attached or payment is not completed yet.
+- **ACTIVE:** the webhook route is activated and can process supported signals.
+- **CANCELLED:** the subscription was cancelled and the route stops after the paid period ends.
+- **Manual activation:** when normal payment is not possible, include your AlgoWay email and webhook ID in the support/payment message.
+
+#### **Final pricing summary**
+
+AlgoWay is priced for practical webhook automation: create a route, send a signal, execute it on the selected
+destination, and expand only when your trading workflow needs more destinations. For a single TradingView webhook
+route, the cost is much lower than many trading automation platforms. For multi-platform trading, Clone mode and
+route-based pricing make the structure easier to scale.
+
+#### **11) FAQ**
+
+##### **Do I pay per TradingView alert?**
+
+No. AlgoWay pricing is based on the active route, not on how many TradingView alerts fire during the month.
+
+##### **Do I need one webhook per symbol?**
+
+No. A webhook route can process different tickers when the JSON message includes the correct symbol and the destination supports it.
+
+##### **Is AlgoWay cheaper than PineConnector?**
+
+For many TradingView-to-MT5 users, yes. AlgoWay’s MT5 route pricing starts lower than the public entry pricing of PineConnector-style MT5 connectors.
+
+##### **Is AlgoWay cheaper than TradersPost?**
+
+For a simple webhook route, yes. TradersPost is a larger automation platform, while AlgoWay lets users activate a smaller route-based setup.
+
+##### **Do I need MT5 Private VPS?**
+
+Only if your route needs a running MetaTrader terminal. API-based exchange or platform routes may not need a VPS.
+
+##### **Can one TradingView strategy send signals to several platforms?**
+
+Yes, when the routes are configured correctly and Clone mode is used for supported setups.
+
+##### **Can I test before paying yearly?**
+
+Yes. Use the trial or monthly plan while testing the route, then switch to yearly billing when the setup is stable.
+
+##### **Does AlgoWay include the trading strategy?**
+
+No. AlgoWay is the automation and execution route. The strategy can come from TradingView, Telegram, MetaTrader or another supported signal source.

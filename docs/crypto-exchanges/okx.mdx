@@ -1,10 +1,816 @@
 ---
-title: "OKX"
-description: "OKX integration guide."
+title: "TradingView to OKX Webhook Automation"
+sidebar_label: "OKX"
+pagination_label: "OKX"
+description: "Connect TradingView alerts to OKX with AlgoWay. Create API keys, enable Read and Trade, bind IP, set passphrase, configure futures and JSON."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "How to Connect TradingView Alerts to OKX with AlgoWay Webhook Automation",
+                      "description": "Connect TradingView alerts to OKX with AlgoWay. Create OKX API keys, enable Read and Trade permissions, bind the AlgoWay IP, set passphrase, configure Futures/Perpetual, SL/TP, trailing stop, and TradingView JSON.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+    							"url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+    							"url": "https://algoway.trade/",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/crypto-exchanges/okx/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "Crypto Trading Automation",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Connect TradingView to OKX with AlgoWay",
+              "description": "Create an OKX API key, add it to AlgoWay, copy the webhook URL, create a TradingView alert with OKX JSON and verify execution.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Create OKX API key",
+                  "text": "Create an OKX API key with Read and Trade permissions, IP allowlist and passphrase."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create AlgoWay OKX webhook",
+                  "text": "Create a webhook in AlgoWay with Source set to TradingView and Platform set to OKX."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Copy webhook URL",
+                  "text": "Copy the unique AlgoWay OKX webhook URL from the dashboard."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create TradingView alert",
+                  "text": "Paste OKX JSON into the TradingView alert message, enable Webhook URL and paste the AlgoWay URL."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Verify logs",
+                  "text": "Trigger a small alert and check AlgoWay logs plus OKX positions and orders."
+                }
+              ]
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Can I connect TradingView alerts to OKX with AlgoWay?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. AlgoWay can receive TradingView webhook alerts and route structured JSON commands to OKX through an OKX webhook created in the AlgoWay dashboard."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Which OKX API permissions are needed for AlgoWay?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use Read and Trade permissions for OKX automation. Withdrawal permission is not required for AlgoWay webhook trading."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does OKX API need a passphrase?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. OKX API authentication uses API Key, Secret Key and the passphrase created with the API key."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Should I bind the OKX API key to the AlgoWay IP?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Add the AlgoWay IP address shown in your dashboard to the OKX IP allowlist so the API key can only be used from the approved AlgoWay server."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why did my TradingView to OKX webhook fail?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common causes include wrong passphrase, missing Read or Trade permission, wrong IP allowlist, invalid JSON, wrong symbol format, invalid quantity, market type mismatch, margin mode mismatch or TradingView webhook URL not enabled."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                                {
+                                          "@type": "ListItem",
+                                          "position": 1,
+                                          "name": "Home",
+                                          "item": "https://algoway.trade/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 2,
+                                          "name": "Blog",
+                                          "item": "https://algoway.trade/blog/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 3,
+                                          "name": "TradingView to OKX Webhook Automation",
+                                          "item": "https://docs.algoway.trade/docs/crypto-exchanges/okx/"
+                                }
+                      ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# OKX
+# **How to Connect TradingView Alerts to OKX with AlgoWay Webhook Automation**
 
-This page is part of the AlgoWay Docs migration.
+![How to connect TradingView alerts to OKX with AlgoWay webhook automation](https://algoway.trade/static/img/blog-img/okx@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**AlgoWay lets you connect TradingView alerts to OKX through secure webhook automation.** You create an OKX API key, enable **Read** and **Trade** permissions, bind the API key to the AlgoWay IP address, create a passphrase, add the credentials to AlgoWay, and then send valid TradingView JSON to your AlgoWay webhook URL.
+
+This guide is written for traders searching for **how to connect TradingView to OKX**, **TradingView to OKX webhook**, **OKX automated trading**, **OKX trading bot webhook**, **OKX API trading**, **OKX Futures automation**, **TradingView crypto bot**, and **automated trading webhook for OKX**.
+
+The execution route is:
+
+```
+TradingView alert → AlgoWay webhook → OKX API → OKX Futures / Perpetual order
+```
+
+TradingView creates the signal. AlgoWay receives and validates the webhook JSON. OKX receives the final trading request through the API Key, Secret Key and Passphrase configured in AlgoWay.
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Quick Answer: TradingView to OKX with AlgoWay
+
+To automate OKX from TradingView through AlgoWay, you need:
+
+1. an OKX account with the required trading market enabled;
+2. an OKX API key created for API trading;
+3. **Read** and **Trade** permissions enabled;
+4. the AlgoWay IP address added to the OKX IP allowlist;
+5. API Key, Secret Key and Passphrase saved securely;
+6. an AlgoWay webhook where **Source** is TradingView and **Platform** is OKX;
+7. Futures/Perpetual market type and correct margin mode selected in AlgoWay;
+8. a TradingView alert with valid OKX JSON and the AlgoWay webhook URL.
+
+After setup, a TradingView strategy alert can be routed by AlgoWay to OKX as an automated futures or perpetual order.
+
+## Why Automate OKX with TradingView Alerts?
+
+TradingView is widely used for charts, Pine Script strategies, indicators and alert logic. OKX provides API access for crypto trading, including derivatives and perpetual markets. AlgoWay connects these systems with a webhook route and exchange API execution layer.
+
+This is useful when you want to:
+
+- turn TradingView strategy alerts into OKX orders;
+- automate BTCUSDT, ETHUSDT, ARBUSDT and other OKX markets;
+- use TradingView as the signal engine and OKX as the execution venue;
+- avoid maintaining your own OKX API server;
+- use webhook logs for debugging incoming JSON and exchange responses;
+- run OKX together with other AlgoWay-supported exchanges and brokers.
+
+AlgoWay does not create a profitable strategy. It automates the route after your TradingView strategy, indicator or manual alert sends the command.
+
+## Before You Start
+
+Prepare the following:
+
+- OKX account;
+- OKX trading market you want to automate, usually Futures / Perpetual;
+- AlgoWay account with access to the Webhooks dashboard;
+- TradingView strategy, indicator or manual alert;
+- TradingView plan that supports webhook alerts;
+- AlgoWay server IP address from your dashboard;
+- small test quantity;
+- valid AlgoWay JSON message.
+
+## Step 1. Create an OKX API Key
+
+Open OKX API settings and create a dedicated API key for AlgoWay.
+
+1. Log in to OKX.
+2. Open your profile and go to **API** or **API and connections**.
+3. Click **Create API key**.
+4. Set a clear API name, for example `ALGOWAY-OKX`.
+5. Set the purpose to **API trading**.
+6. Add the AlgoWay IP address to the IP allowlist.
+7. Enable **Read** and **Trade** permissions.
+8. Create and save your **Passphrase**.
+9. Complete OKX security verification.
+10. Copy the **API Key**, **Secret Key** and **Passphrase**.
+
+```
+103.241.67.174
+```
+
+![OKX create API key screen with IP allowlist, Read and Trade permissions](https://algoway.trade/static/img/manuals/okx_1.jpg)
+
+![OKX API key card showing API key details](https://algoway.trade/static/img/manuals/okx_2.jpg)
+
+### Recommended OKX API Permissions
+
+| Permission | Use it? | Purpose |
+| --- | --- | --- |
+| Read | Yes | Needed for account, balance, order and position checks. |
+| Trade | Yes | Needed to place and manage OKX trading orders. |
+| Withdraw | No | Not required for AlgoWay webhook trading automation. |
+
+## Step 2. Create an OKX Webhook in AlgoWay
+
+After the OKX API key is ready, create the OKX route in AlgoWay.
+
+1. Open the **AlgoWay Dashboard**.
+2. Click **Add Trial Webhook** or **Add Main Webhook**.
+3. Select **TradingView** as the source.
+4. Select **OKX** as the platform.
+5. Set **Quantity Multiplier**, usually **Absolute → 1** for direct quantity usage.
+6. Select **Futures / Perpetual** as the market type if you are automating perpetual swaps.
+7. Choose **Cross** or **Isolated** margin mode.
+8. Choose the trade type, for example **Hedge**, if your strategy and account require separate long and short exposure.
+9. Paste the OKX API Key, Secret Key and Passphrase.
+10. Save the webhook.
+
+![AlgoWay OKX webhook form with API key, secret key, passphrase and futures settings](https://algoway.trade/static/img/manuals/okx_3.jpg)
+
+### Main AlgoWay OKX Fields
+
+| AlgoWay field | Recommended value | Purpose |
+| --- | --- | --- |
+| Source | TradingView | The signal source. |
+| Platform | OKX | The exchange destination. |
+| Quantity Multiplier | Absolute → 1 or your route setting | Controls how incoming strategy quantity is interpreted. |
+| Market Type | Futures / Perpetual | Used for OKX perpetual swap automation. |
+| Margin Mode | Cross or Isolated | Defines margin behavior for the order route. |
+| Trade Type | Hedge / Reverse / selected mode | Defines how AlgoWay handles existing exposure and opposite signals. |
+| API Key | OKX API Key | Used for API authentication. |
+| Secret Key | OKX Secret Key | Used for request signing. |
+| Passphrase | Your OKX API passphrase | Required by OKX API authentication. |
+
+## Step 3. Copy the AlgoWay Webhook URL
+
+After saving the OKX webhook, open the webhook list in AlgoWay and copy the unique webhook URL.
+
+1. Open **Dashboard → Your Webhooks**.
+2. Find the row where **Platform** is OKX.
+3. Copy the webhook UUID or full webhook URL.
+
+![AlgoWay webhook list showing OKX webhook UUID](https://algoway.trade/static/img/manuals/okx_4.jpg)
+
+Webhook URL format:
+
+```
+https://algoway.co/your-webhook-uuid
+```
+
+## Step 4. TradingView Webhook JSON for OKX
+
+TradingView must send valid JSON. AlgoWay expects structured fields, not plain text.
+
+**Recommended TradingView strategy alert JSON:**
+
+```json
+{
+  "platform_name": "okx",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}
+```
+
+TradingView replaces these placeholders when the alert fires:
+
+- `{{ticker}}` — chart ticker;
+- `{{strategy.order.contracts}}` — strategy order size;
+- `{{strategy.market_position}}` — strategy position state;
+- `{{close}}` — close price at alert time.
+
+![TradingView alert settings for OKX automation](https://algoway.trade/static/img/manuals/okx_5.jpg)
+
+![TradingView alert JSON message for OKX AlgoWay webhook](https://algoway.trade/static/img/manuals/okx_6.jpg)
+
+### Fixed Test JSON
+
+For a controlled test, use a fixed OKX symbol and small valid quantity:
+
+```json
+{
+  "platform_name": "okx",
+  "ticker": "BTCUSDT.P",
+  "order_contracts": 0.01,
+  "order_action": "buy"
+}
+```
+
+Use the exact symbol format accepted by your OKX route. If the order is rejected, check symbol, quantity, market type, margin mode, position mode and account permissions.
+
+## Step 5. Create the TradingView Alert
+
+After the OKX JSON and AlgoWay webhook URL are ready, create or edit the TradingView alert.
+
+1. Open the OKX symbol on TradingView, for example `BTCUSDT.P`.
+2. Right-click the strategy or open the alert panel.
+3. Create an alert from your strategy, indicator or manual condition.
+4. Paste the OKX JSON message into the **Message** field.
+5. Open **Notifications**.
+6. Enable **Webhook URL**.
+7. Paste your AlgoWay OKX webhook URL.
+8. Click **Create** or **Apply**.
+
+![TradingView Webhook URL field for AlgoWay OKX automation](https://algoway.trade/static/img/manuals/okx_7.jpg)
+
+For many strategies, **Once per bar close** is safer than intra-bar alert execution unless your system is intentionally designed for intrabar signals.
+
+## Step 6. Add SL / TP / Trailing Stop for OKX
+
+AlgoWay's OKX route can use absolute SL/TP prices and distance-style fields. Test every risk field on small size before using live orders.
+
+### Absolute SL/TP Prices
+
+```json
+{
+  "platform_name": "okx",
+  "ticker": "ETHUSDT.P",
+  "order_action": "buy",
+  "order_contracts": 1,
+  "sl_price": 1800,
+  "tp_price": 1850
+}
+```
+
+### Offsets in Pips / Tick-Based Distance
+
+```json
+{
+  "platform_name": "okx",
+  "ticker": "BTCUSDT.P",
+  "order_action": "sell",
+  "order_contracts": 0.5,
+  "stop_loss": 50,
+  "take_profit": 100
+}
+```
+
+### Trailing Stop
+
+```json
+{
+  "platform_name": "okx",
+  "ticker": "ARBUSDT.P",
+  "order_action": "buy",
+  "order_contracts": 10,
+  "trailing_pips": 50
+}
+```
+
+When trailing stop is used, the route can still allow Take Profit depending on current OKX handler behavior. Stop Loss may be omitted because trailing stop handles dynamic exit protection.
+
+## Step 7. Close Positions with flat
+
+Use `"order_action": "flat"` when the signal should close an existing position instead of opening a new one.
+
+```json
+{
+  "platform_name": "okx",
+  "ticker": "BTCUSDT.P",
+  "order_action": "flat",
+  "order_contracts": 1
+}
+```
+
+In Hedge mode, long and short legs can be handled according to the route and size you send. If you need side-specific closing, check the current AlgoWay JSON schema and route behavior before using live size.
+
+Full mode guide: [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html).
+
+## Verification and Logs
+
+After the TradingView alert is created, test the route with small size.
+
+- Trigger a small test alert first.
+- Open **Webhook Logs** in AlgoWay.
+- Verify the incoming JSON payload.
+- Review the OKX response.
+- Open your OKX trading panel and check open positions, orders and attached TP/SL/trailing algos.
+
+![OKX trading panel after TradingView alert execution](https://algoway.trade/static/img/manuals/okx_8.jpg)
+
+![OKX positions panel after AlgoWay webhook automation](https://algoway.trade/static/img/manuals/okx_9.jpg)
+
+If AlgoWay receives the webhook but OKX does not open a trade, check API permissions, passphrase, IP allowlist, symbol, margin mode, quantity, market session, account mode and exchange response.
+
+## Common OKX Webhook Problems
+
+### Wrong Passphrase
+
+OKX API authentication requires the passphrase created with the API key. It is not your OKX account password.
+
+### Secret Key Was Lost
+
+OKX shows the Secret Key only once. If it is lost, create a new API key and update AlgoWay.
+
+### IP Allowlist Is Missing or Wrong
+
+If the API key is bound to the wrong IP, OKX can reject requests from AlgoWay. Add the AlgoWay IP address shown in your dashboard.
+
+### Read / Trade Permission Missing
+
+Enable Read and Trade permissions for this automation route. Withdrawal permission is not required.
+
+### Wrong Market Type
+
+Spot, margin, futures and perpetual routes are not the same. Match the AlgoWay market type with the OKX market you want to automate.
+
+### Wrong Margin Mode
+
+Cross and Isolated have different margin behavior. If the account state or symbol configuration does not match the requested route, OKX can reject the order.
+
+### Wrong Symbol Format
+
+TradingView symbols and OKX instrument identifiers may differ. Check the exact symbol format used by AlgoWay for your OKX route.
+
+### Invalid Quantity
+
+Order size must satisfy OKX minimum quantity, lot size and contract rules. Test with minimal valid size first.
+
+### Invalid JSON
+
+TradingView must send valid JSON. Broken commas, missing quotes or plain text can stop automation before OKX receives anything. See: [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html).
+
+### TradingView Webhook URL Is Missing
+
+JSON in the message field is not enough. Enable **Webhook URL** in the TradingView Notifications tab and paste the AlgoWay URL.
+
+## Why Use AlgoWay Instead of Building a TradingView to OKX Bot?
+
+You can build your own TradingView-to-OKX bot. That requires a public webhook server, JSON parser, OKX API signing, passphrase handling, symbol mapping, futures order routing, SL/TP logic, trailing logic, logs and ongoing monitoring.
+
+AlgoWay gives you a ready route:
+
+- TradingView webhook receiver;
+- structured JSON workflow;
+- OKX API credential routing;
+- dashboard-based webhook setup;
+- Futures / Perpetual route settings;
+- Cross and Isolated margin mode selection;
+- SL/TP and trailing examples;
+- webhook logs and exchange response tracking;
+- support for multiple exchanges and brokers from the same dashboard.
+
+This makes AlgoWay a no-code **TradingView to OKX webhook connector** for traders who want crypto automation without maintaining their own OKX API server.
+
+## Related AlgoWay Guides
+
+- [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [How to automate TradingView alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html)
+- [How to connect TradingView to MEXC with AlgoWay](https://algoway.trade/blog/mexc-api.html)
+- [How to connect TradingView to Binance with AlgoWay](https://algoway.trade/blog/algoway-binance-integration-guide.html)
+- [How to connect TradingView to Bybit with AlgoWay](https://algoway.trade/blog/algoway-bybit-integration-guide.html)
+- [How to connect TradingView to Bitget with AlgoWay](https://algoway.trade/blog/bitget-api.html)
+- [How to connect TradingView to BingX with AlgoWay](https://algoway.trade/blog/bingx-api.html)
+- [How to connect TradingView to Coinbase with AlgoWay](https://algoway.trade/blog/coinbase-api.html)
+- [How to copy TradingView alerts to multiple accounts](https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html)
+
+## Final Summary
+
+To automate OKX from TradingView, create an OKX API key with Read and Trade permissions, bind the AlgoWay IP address, save the API Key, Secret Key and Passphrase, create an OKX webhook in AlgoWay, copy the webhook URL, and send valid TradingView JSON.
+
+**AlgoWay turns TradingView alerts into OKX webhook automation without forcing you to build and maintain your own crypto trading bot infrastructure.**

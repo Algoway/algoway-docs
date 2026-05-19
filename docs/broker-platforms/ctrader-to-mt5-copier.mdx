@@ -1,10 +1,817 @@
 ---
-title: "cTrader to MT5 Copier"
-description: "cTrader to MetaTrader 5 copier guide."
+title: "Copy cTrader Trades to MetaTrader 5"
+sidebar_label: "cTrader Copier"
+pagination_label: "cTrader Copier"
+description: "Copy trades from cTrader to MT5 with AlgoWay. Set up cTrader to MT5 webhook, cBot, AlgoWayWS-MT5 EA, symbols, risk and logs."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "How to Copy Trades from cTrader to MetaTrader 5 with AlgoWay",
+                      "description": "Copy trades from cTrader to MetaTrader 5 with AlgoWay. Set up a cTrader to MT5 webhook, install AlgoWay-cTrader cBot, connect AlgoWayWS-MT5 EA, test trade copying, logs, symbols, risk and troubleshooting.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/broker-platforms/ctrader-to-mt5-copier/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "Trade Copier",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Copy Trades from cTrader to MetaTrader 5 with AlgoWay",
+              "description": "Set up cTrader as the source and MetaTrader 5 as the destination using AlgoWay-cTrader cBot, AlgoWay webhook and AlgoWayWS-MT5 EA.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Create cTrader to MetaTrader 5 webhook",
+                  "text": "Create an AlgoWay webhook where Source is cTrader and Platform is MetaTrader 5."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Connect MT5",
+                  "text": "Install AlgoWayWS-MT5 EA, enable algorithmic trading and enter the webhook UUID in the EA inputs."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Install cTrader cBot",
+                  "text": "Download and install AlgoWay-cTrader.algo in cTrader Desktop."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Insert webhook URL",
+                  "text": "Paste the AlgoWay webhook URL into the Webhook URL field of the cBot instance."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Test copier",
+                  "text": "Open a small demo trade in cTrader and confirm Last Called in AlgoWay and execution in MetaTrader 5."
+                }
+              ]
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Can AlgoWay copy trades from cTrader to MetaTrader 5?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. AlgoWay can copy trade actions from cTrader to MetaTrader 5 using the AlgoWay-cTrader cBot, an AlgoWay webhook route and the AlgoWayWS-MT5 Expert Advisor."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Do I need a special MT5 EA for cTrader copying?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. The MetaTrader 5 side uses the standard AlgoWayWS-MT5 EA used by other AlgoWay sources."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What should the AlgoWay webhook source and platform be?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For this setup, Source must be cTrader and Platform must be MetaTrader 5."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the most important cTrader cBot setting?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Webhook URL is the main connection point. It must be the AlgoWay webhook URL for the cTrader to MetaTrader 5 route."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why does AlgoWay receive the request but MT5 does not trade?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common causes include disconnected AlgoWayWS-MT5 EA, wrong webhook UUID in the EA, disabled Algo Trading, missing DLL permission, symbol mismatch, invalid lot size or MT5 broker rejection."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                                {
+                                          "@type": "ListItem",
+                                          "position": 1,
+                                          "name": "Home",
+                                          "item": "https://algoway.trade/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 2,
+                                          "name": "Blog",
+                                          "item": "https://algoway.trade/blog/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 3,
+                                          "name": "Copy cTrader Trades to MetaTrader 5",
+                                          "item": "https://docs.algoway.trade/docs/broker-platforms/ctrader-to-mt5-copier/"
+                                }
+                      ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# cTrader to MT5 Copier
+# **How to Copy Trades from cTrader to MetaTrader 5 with AlgoWay**
 
-This page is part of the AlgoWay Docs migration.
+![How to copy trades from cTrader to MetaTrader 5 with AlgoWay](https://algoway.trade/static/img/blog-img/ctrader-to-metatrader5-copier-manual@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**AlgoWay cTrader to MetaTrader 5 Copier lets you use cTrader as the source account and MetaTrader 5 as the destination account.** A trade action opened, closed or modified in cTrader is detected by the AlgoWay-cTrader cBot, sent to an AlgoWay webhook, and then routed to MetaTrader 5 through the standard AlgoWayWS-MT5 Expert Advisor.
+
+This guide is written for traders searching for **cTrader to MT5 copier**, **cTrader trade copier**, **copy trades from cTrader to MetaTrader 5**, **cross-platform trade copier**, **cTrader cBot to MT5 EA**, **cTrader to MetaTrader bridge**, and **AlgoWay trade copier**.
+
+The route is:
+
+```
+cTrader account → AlgoWay-cTrader cBot → AlgoWay webhook → AlgoWayWS-MT5 EA → MetaTrader 5 account
+```
+
+No special MT5 Expert Advisor is required only for cTrader copying. The MetaTrader 5 side uses the same **AlgoWayWS-MT5 EA 2.10 workflow** used by other AlgoWay sources.
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Quick Answer: cTrader to MT5 Trade Copying with AlgoWay
+
+To copy trades from cTrader to MetaTrader 5 with AlgoWay, you need:
+
+1. a cTrader Desktop installation;
+2. the `AlgoWay-cTrader.algo` cBot installed in cTrader;
+3. a MetaTrader 5 terminal with AlgoWayWS-MT5 EA installed and connected;
+4. an AlgoWay webhook where **Source** is cTrader and **Platform** is MetaTrader 5;
+5. the AlgoWay webhook URL pasted into the cTrader cBot settings;
+6. a small demo trade test before live copy trading.
+
+After setup, the cTrader cBot monitors trading actions and sends them to AlgoWay. AlgoWay then routes the command to the connected MT5 terminal.
+
+## What Is the AlgoWay cTrader to MetaTrader 5 Copier?
+
+The AlgoWay cTrader to MT5 copier is a cross-platform trade copying workflow. It does not require you to rewrite a cTrader strategy into MQL5. Instead, cTrader remains the source environment and MetaTrader 5 becomes the execution destination.
+
+In this setup:
+
+| Component | Role |
+| --- | --- |
+| cTrader account | Source of trading actions. |
+| AlgoWay-cTrader cBot | Detects cTrader actions and sends them to AlgoWay. |
+| AlgoWay webhook | Receives the cTrader action and routes it to the destination. |
+| AlgoWayWS-MT5 EA | Receives the command inside MetaTrader 5. |
+| MetaTrader 5 account | Destination where the copied trade is executed. |
+
+The final route is always:
+
+```
+Source: cTrader
+Destination platform: MetaTrader 5
+```
+
+## Why Copy Trades from cTrader to MetaTrader 5?
+
+Traders use cross-platform trade copiers when their strategy, manual trading style or signal source exists on one platform, while the account they need to execute on exists on another platform.
+
+Common reasons:
+
+- the trader prefers cTrader for entries but needs MT5 execution;
+- a broker or prop account is only available on MT5;
+- a cTrader cBot or manual workflow should be mirrored to MT5;
+- the trader wants to test execution differences between cTrader and MT5;
+- a team uses cTrader as the source account and MT5 accounts as receivers;
+- the trader wants to avoid rewriting cTrader logic into an MT5 EA.
+
+AlgoWay provides the bridge layer: cTrader sends the action, AlgoWay routes it, and MT5 receives the execution command.
+
+## cTrader to MT5 Copier vs Normal TradingView Webhook
+
+This page is not a TradingView setup. In this workflow, the signal source is cTrader.
+
+| Workflow | Signal source | Destination |
+| --- | --- | --- |
+| TradingView to MT5 | TradingView alert | MetaTrader 5 through AlgoWayWS-MT5 EA |
+| cTrader to MT5 Copier | cTrader trade action through AlgoWay-cTrader cBot | MetaTrader 5 through AlgoWayWS-MT5 EA |
+
+Both routes can use the same MT5 execution component, but the source side is different.
+
+## What You Need Before Setup
+
+Before starting, prepare:
+
+- an AlgoWay account;
+- cTrader Desktop installed;
+- MetaTrader 5 installed;
+- AlgoWayWS-MT5 Expert Advisor installed in MetaTrader 5;
+- `AlgoWay-cTrader.algo` cBot file;
+- a webhook created with **cTrader** as the source and **MetaTrader 5** as the platform;
+- a demo account or small test size for verification.
+
+## Step 1. Create a cTrader to MetaTrader 5 Webhook
+
+Open the webhook creation page in AlgoWay.
+
+Set:
+
+```
+Source (from): cTrader
+Platform (to): MetaTrader 5
+```
+
+This route tells AlgoWay that cTrader will send the trading action, and MetaTrader 5 will receive the execution command.
+
+![Create cTrader to MetaTrader 5 webhook in AlgoWay](https://algoway.trade/static/img/manuals/ct_to1.jpg)
+
+After creating the webhook, AlgoWay creates a dedicated route:
+
+```
+cTrader → AlgoWay webhook → MetaTrader 5
+```
+
+## Step 2. Check the Webhook in the AlgoWay Dashboard
+
+Open **Dashboard → Your Webhooks** and confirm that the new webhook exists.
+
+The row should show:
+
+- **Source:** CTRADER
+- **Platform:** metatrader5
+- **Webhook UUID**
+- **Activation Date**
+- **Expiration Date**
+- **Call Count**
+- **Last Called**
+
+![AlgoWay dashboard showing cTrader to MetaTrader 5 webhook](https://algoway.trade/static/img/manuals/ct_to2.jpg)
+
+The webhook UUID from this row is also used on the MetaTrader 5 side when connecting the AlgoWayWS-MT5 EA.
+
+## Step 3. Connect the MetaTrader 5 Side
+
+Before starting the cTrader copier, the MetaTrader 5 side must already be connected to AlgoWay.
+
+MetaTrader 5 uses the standard **AlgoWayWS-MT5 EA**. The current installation guide is here:
+
+[How to install AlgoWayWS-MT5 EA for TradingView to MT5 webhook automation](https://algoway.trade/blog/algoway-mt5-ws-v10-overview.html)
+
+In MetaTrader 5:
+
+- install the AlgoWayWS-MT5 Expert Advisor;
+- enable algorithmic trading;
+- allow DLL imports if required by the current EA setup;
+- attach the EA to a chart;
+- enter the webhook UUID in the EA inputs;
+- confirm that the EA is connected to AlgoWay.
+
+Use the same webhook route created for:
+
+```
+cTrader → MetaTrader 5
+```
+
+If the MT5 EA is not connected, AlgoWay may receive cTrader requests, but MetaTrader 5 will not execute the copied trade.
+
+## Step 4. Download the AlgoWay cTrader cBot
+
+Open the AlgoWay downloads page and download:
+
+```
+AlgoWay-cTrader.algo
+```
+
+This file is the cTrader cBot used to detect trade actions in cTrader and send them to AlgoWay.
+
+![Download AlgoWay-cTrader.algo from AlgoWay downloads page](https://algoway.trade/static/img/manuals/ct_to3.jpg)
+
+The downloads page may also include MT5 files such as:
+
+```
+AlgoWayWS-MT5-Setup.exe
+AlgoWayWS-MT5.ex5
+```
+
+Those files are for the MetaTrader 5 destination side. For the cTrader source side, use:
+
+```
+AlgoWay-cTrader.algo
+```
+
+## Step 5. Install AlgoWay-cTrader.algo in cTrader
+
+After downloading **AlgoWay-cTrader.algo**, open the file on your computer. Usually, double-clicking the file opens cTrader Desktop and installs the cBot automatically.
+
+After installation, open cTrader and go to:
+
+```
+Algo → cBots
+```
+
+You should see:
+
+```
+AlgoWay-cTrader
+```
+
+If the cBot appears in the list, the installation was successful.
+
+## Step 6. Add a cBot Instance
+
+Open the **AlgoWay-cTrader** cBot in cTrader and add an instance for the source account.
+
+Select:
+
+- the cTrader account whose trades should be copied;
+- the symbol;
+- the timeframe.
+
+Example:
+
+```
+Account: Demo
+Symbol: ETHUSD
+Timeframe: h1
+```
+
+Then click **Add instance**.
+
+The cBot must run on the cTrader account whose trading actions should be copied to MetaTrader 5.
+
+## Step 7. Insert the AlgoWay Webhook URL
+
+Open the cBot instance settings and find:
+
+```
+Webhook URL
+```
+
+Paste the AlgoWay webhook URL into this field.
+
+```
+https://algoway.co/your-webhook-uuid
+```
+
+![Insert AlgoWay webhook URL into AlgoWay-cTrader cBot settings](https://algoway.trade/static/img/manuals/ct_to4.jpg)
+
+Save the settings. This URL is the main connection point between cTrader and AlgoWay.
+
+## Step 8. Start the cTrader cBot
+
+Start the cBot by clicking the green start button in cTrader.
+
+Once the cBot is running, it starts monitoring trading actions on the selected cTrader account.
+
+The active route becomes:
+
+```
+cTrader trade action → AlgoWay-cTrader cBot → AlgoWay webhook → MT5 EA → MetaTrader 5 account
+```
+
+## Step 9. Test the Copier
+
+Open a small test trade on a cTrader demo account first.
+
+Then check:
+
+- AlgoWay **Last Called** should update;
+- AlgoWay **Call Count** should increase;
+- the corresponding trade should appear in MetaTrader 5;
+- MT5 Experts log should show activity from AlgoWayWS-MT5 EA;
+- symbol and lot size should match your expected mapping and sizing logic.
+
+If **Last Called** updates in AlgoWay, the cTrader cBot successfully sent the request to AlgoWay. If the trade does not appear in MT5, inspect the MT5 side.
+
+## Symbol Mapping and Size Differences
+
+cTrader and MetaTrader 5 brokers may use different symbol names and contract rules. A symbol that exists in cTrader may have a different suffix, prefix, contract size, minimum lot or volume step in MT5.
+
+Before live copying, check:
+
+- cTrader source symbol;
+- MT5 broker symbol;
+- minimum lot in MT5;
+- volume step in MT5;
+- contract size differences;
+- spread and session differences;
+- Stop Loss and Take Profit distance rules.
+
+If cTrader sends `ETHUSD` but MT5 uses `ETHUSDm`, symbol mapping or route configuration must handle the difference before live copying.
+
+## Risk Control for cTrader to MT5 Copying
+
+Trade copying is powerful because it mirrors actions. It is also risky because it can mirror mistakes.
+
+Check these risk controls before live use:
+
+- source account size vs destination account size;
+- lot multiplier or quantity scaling;
+- maximum open positions;
+- maximum daily loss;
+- maximum drawdown;
+- Stop Loss and Take Profit copying behavior;
+- whether partial closes are copied as expected;
+- whether manual closes are copied as expected;
+- what happens if the MT5 account rejects an order.
+
+Do not assume that a trade size safe in cTrader is automatically safe in MetaTrader 5.
+
+## Troubleshooting: cTrader to MT5 Copier Problems
+
+### AlgoWay Last Called Does Not Update
+
+The cTrader cBot may not be running, the webhook URL may be missing, or the URL may be wrong. Check the cBot instance and webhook URL field first.
+
+### AlgoWay Receives the Request but MT5 Does Not Trade
+
+Check AlgoWayWS-MT5 EA connection, webhook UUID inside the EA, MT5 Algo Trading status, DLL imports permission and MT5 Experts log.
+
+### Trade Opens on the Wrong Symbol
+
+Check cTrader symbol, MT5 symbol and any symbol mapping logic. Brokers often use suffixes or different naming.
+
+### MT5 Rejects the Order
+
+Check MT5 lot size, symbol specification, market session, filling mode, Stop Loss/Take Profit distance and margin. See: [How to fix MT5 Error 4756](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html).
+
+### MT5 Says Trading Is Disabled
+
+Error 4752 means MetaTrader 5 is blocking EA trading. See: [How to fix MT5 Error 4752](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html).
+
+### The cBot Is Installed but Not Running
+
+Open cTrader **Algo → cBots**, add an instance, insert the webhook URL, save settings and start the cBot.
+
+### Copied Size Is Wrong
+
+Check cTrader volume, MT5 lot rules, account size difference and any multiplier or size conversion setting in the route.
+
+## Why Use AlgoWay Instead of a Local cTrader to MT5 Copier?
+
+A local copier can work when everything runs on the same computer or VPS. AlgoWay provides a webhook-based bridge that fits the broader AlgoWay automation environment.
+
+| Local copier | AlgoWay cTrader to MT5 route |
+| --- | --- |
+| Often tied to local files, local terminals or one machine | Uses AlgoWay webhook routing and MT5 EA connection |
+| Usually focused only on one copier workflow | Fits the same dashboard used for TradingView, Telegram and other sources |
+| Debugging depends on local logs only | AlgoWay dashboard shows webhook activity and call history |
+| May require separate tools for other platforms | Uses AlgoWay as a broader multi-platform automation layer |
+
+## Related AlgoWay Guides
+
+- [How to install AlgoWayWS-MT5 EA](https://algoway.trade/blog/algoway-mt5-ws-v10-overview.html)
+- [AlgoWayWS-MT5 EA 2.10 guide](https://algoway.trade/blog/algoway-mt5-v206-overview.html)
+- [MetaTrader 5 common errors in AlgoWay](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html)
+- [How to fix MT5 Error 4752](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html)
+- [How to fix MT5 Error 4756](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html)
+- [How to copy TradingView alerts to multiple accounts](https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html)
+- [cTrader webhook automation with AlgoWay](https://algoway.trade/blog/how-the-ctrader-connector-logic-works.html)
+- [Automate TradingView alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+
+## Final Summary
+
+**AlgoWay cTrader to MetaTrader 5 Copier lets cTrader act as the source and MT5 act as the destination.** The AlgoWay-cTrader cBot detects trade actions, sends them to the AlgoWay webhook, and AlgoWay routes the command to MetaTrader 5 through the standard AlgoWayWS-MT5 EA.
+
+The most important settings are the correct **cTrader → MetaTrader 5** webhook route, the correct webhook URL in the cBot, and a connected AlgoWayWS-MT5 EA on the MT5 side.
+
+Test on demo first, confirm AlgoWay **Last Called**, check MT5 Experts logs, verify symbol mapping and lot size, and only then move to live trade copying.

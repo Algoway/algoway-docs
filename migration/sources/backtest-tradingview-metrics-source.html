@@ -1,0 +1,1101 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Backtest TradingView Strategies with AlgoWay</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Save TradingView backtest snapshots, forward-test webhook alerts and compare Strategy Tester results with AlgoWay Trade Metrics." />
+	<link rel="canonical" href="https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html" />
+
+	<meta property="og:title" content="How to Backtest TradingView Strategies with AlgoWay" />
+	<meta property="og:description" content="Use AlgoWay to preserve TradingView backtest snapshots, track forward results from webhook alerts, and measure real strategy performance after TradingView Strategy Tester." />
+	<meta property="og:url" content="https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="TradingView Backtesting with AlgoWay" />
+	<meta name="twitter:description" content="Save TradingView strategy results, track live webhook performance, and build a stronger backtest-to-forward-test workflow with AlgoWay." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/7.png" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>How to Backtest TradingView Strategies and Track Live Results with AlgoWay</strong></h1>
+
+        <img src="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/7.png"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How to backtest TradingView strategies and track live results with AlgoWay"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>TradingView Strategy Tester is useful for the first backtest, but it is not the end of strategy validation.</strong> A strategy can look strong on the currently loaded chart, then change when the sample window shifts, when more bars load, when Deep Backtesting uses a different range, or when real webhook execution introduces slippage, commission and order-routing differences.</p>
+
+        <p><strong>AlgoWay helps bridge the gap between TradingView backtesting and real automated trading.</strong> You can save a TradingView backtest snapshot, connect TradingView alerts through AlgoWay, and then track forward results from the moment automation starts. This lets you compare the historical Strategy Tester report with real signals, webhook payloads, broker execution and AlgoWay Trade Metrics.</p>
+
+        <p>This guide is written for traders searching for <strong>TradingView backtesting</strong>, <strong>TradingView Strategy Tester</strong>, <strong>TradingView forward testing</strong>, <strong>backtest TradingView strategy</strong>, <strong>TradingView webhook backtest</strong>, <strong>TradingView alerts performance tracking</strong>, and <strong>AlgoWay Trade Metrics</strong>.</p>
+
+        <p>The workflow is:</p>
+
+        <pre><code>TradingView Strategy Tester → AlgoWay backtest snapshot → TradingView webhook alerts → AlgoWay Trade Metrics → broker/exchange execution review</code></pre>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <h2 class="mt-4">Quick Answer: What AlgoWay Adds to TradingView Backtesting</h2>
+
+        <p>AlgoWay does not replace TradingView Strategy Tester. It extends the workflow after TradingView gives you the first historical report.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>TradingView gives you</th>
+                    <th>AlgoWay adds</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Strategy Tester report on available chart or Deep Backtesting range</td>
+                    <td>Saved baseline snapshot for later comparison</td>
+                </tr>
+                <tr>
+                    <td>Historical trades generated by the Pine Script strategy</td>
+                    <td>Forward tracking from real webhook alerts</td>
+                </tr>
+                <tr>
+                    <td>Backtest assumptions inside TradingView</td>
+                    <td>Real alert logs, execution status and Trade Metrics</td>
+                </tr>
+                <tr>
+                    <td>Performance on a selected historical sample</td>
+                    <td>Ongoing performance after automation starts</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Why TradingView Backtesting Alone Is Not Enough</h2>
+
+        <p>TradingView strategies simulate trades on historical and realtime bars. That is the correct first step for testing a Pine Script strategy, but there are limits every automated trader must understand.</p>
+
+        <p>The first limit is historical intraday data. TradingView explains that the amount of historical intraday data loaded on the chart depends on the plan and is measured in bars, not in a fixed number of calendar days. For example, the chart may load thousands or tens of thousands of intraday bars depending on the subscription and symbol. When the loaded sample changes, Strategy Tester results can change too.</p>
+
+        <p>The second limit is execution realism. A backtest is not the same as webhook execution. The Strategy Tester can simulate fills, but live automation adds real-world details: webhook timing, broker rules, order size restrictions, spreads, commissions, slippage, market session, rejected orders and platform-specific execution behavior.</p>
+
+        <p>The third limit is continuity. Traders often take a screenshot of a good Strategy Tester report and then lose the ability to compare it with what actually happened after automation started. AlgoWay fixes that by turning a backtest snapshot into a baseline and then tracking new webhook-driven results from that point forward.</p>
+
+        <h2 class="mt-4">Chart Backtesting vs Deep Backtesting vs AlgoWay Tracking</h2>
+
+        <p>There are three different concepts. Do not mix them.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Purpose</th>
+                    <th>Limitation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>TradingView chart Strategy Tester</strong></td>
+                    <td>Tests the strategy on bars loaded on the chart</td>
+                    <td>Intraday history depends on loaded bar limits and plan</td>
+                </tr>
+                <tr>
+                    <td><strong>TradingView Deep Backtesting</strong></td>
+                    <td>Tests selected historical ranges using more stored data</td>
+                    <td>TradingView documents a maximum calculation limit of up to 2 million bars</td>
+                </tr>
+                <tr>
+                    <td><strong>AlgoWay Trade Metrics</strong></td>
+                    <td>Tracks results after alerts begin flowing through AlgoWay</td>
+                    <td>Requires correct webhook setup and consistent tracking rules</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>TradingView is best for strategy design and historical simulation. AlgoWay is best for preserving the baseline and measuring what happens after TradingView alerts become automated trading signals.</p>
+
+        <h2 class="mt-4">What the Old Version of This Page Got Right</h2>
+
+        <p>The original page had the correct idea: save the current TradingView result, then track future trades from that point onward. It also correctly warned that AlgoWay results may differ from TradingView because of rounding, commission and slippage differences.</p>
+
+        <p>The old page was too short and used an oversimplified statement about a fixed 11-day 1-minute window. The current version is more accurate: TradingView intraday history is controlled by bar limits and plan level, and Deep Backtesting is a separate TradingView feature with its own limits.</p>
+
+        <h2 class="mt-4">The AlgoWay Backtest-to-Forward-Test Workflow</h2>
+
+        <p>A serious automated trading workflow should move through these stages:</p>
+
+        <ol>
+            <li><strong>Backtest in TradingView.</strong> Use the Strategy Tester to test the Pine Script logic.</li>
+            <li><strong>Save the baseline in AlgoWay.</strong> Record the current result, equity, commission, slippage and relevant performance values.</li>
+            <li><strong>Create the webhook alert.</strong> Send structured JSON from TradingView to AlgoWay.</li>
+            <li><strong>Track forward results.</strong> AlgoWay records new signals and metrics from the moment automation starts.</li>
+            <li><strong>Compare historical expectation with real execution.</strong> Review the gap between Strategy Tester and real routed alerts.</li>
+            <li><strong>Adjust only after enough data.</strong> Do not over-optimize based on one day or a few trades.</li>
+        </ol>
+
+        <h2 class="mt-4">Step 1. Prepare Your TradingView Strategy Backtest</h2>
+
+        <p>Start in TradingView and make sure the strategy report is meaningful before exporting or saving anything.</p>
+
+        <p>Check:</p>
+
+        <ul>
+            <li>symbol and timeframe;</li>
+            <li>strategy settings;</li>
+            <li>commission setting;</li>
+            <li>slippage setting;</li>
+            <li>position sizing;</li>
+            <li>initial capital;</li>
+            <li>date range if Deep Backtesting is used;</li>
+            <li>whether the strategy repaints or uses future-looking logic;</li>
+            <li>whether the same symbol name will be used in AlgoWay.</li>
+        </ul>
+
+        <p>Do not save a baseline from a strategy that is still using placeholder costs or unrealistic sizing.</p>
+
+        <h2 class="mt-4">Step 2. Save the TradingView Result as an AlgoWay Baseline</h2>
+
+        <p>AlgoWay backtesting is useful because it lets you preserve the current TradingView result and then continue tracking performance after that point.</p>
+
+        <p>Typical baseline values include:</p>
+
+        <ul>
+            <li>initial equity;</li>
+            <li>net profit;</li>
+            <li>number of trades;</li>
+            <li>win rate;</li>
+            <li>profit factor;</li>
+            <li>maximum drawdown;</li>
+            <li>commission model;</li>
+            <li>slippage assumptions;</li>
+            <li>symbol;</li>
+            <li>timeframe;</li>
+            <li>strategy version.</li>
+        </ul>
+
+        <p>The baseline is your historical starting point. After webhook automation begins, AlgoWay can compare new alert-driven results against that baseline.</p>
+
+        <img src="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/bk1.png"
+             loading="lazy"
+             decoding="async"
+             alt="AlgoWay backtest baseline setup for TradingView strategy"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" width="1200" height="675" />
+
+        <h2 class="mt-4">Step 3. Use the Correct TradingView Webhook JSON</h2>
+
+        <p>To track and automate results correctly, TradingView must send a structured JSON message to AlgoWay. Plain text alerts are not enough for reliable metrics and execution routing.</p>
+
+        <p>Recommended TradingView strategy alert JSON:</p>
+
+        <div class="backtest-code-wrap">
+<pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+        </div>
+
+        <p>Important fields:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Why it matters for metrics</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>platform_name</code></td>
+                    <td>Routes the signal to the correct AlgoWay destination.</td>
+                </tr>
+                <tr>
+                    <td><code>ticker</code></td>
+                    <td>Must match the symbol used in the AlgoWay backtest or mapped destination.</td>
+                </tr>
+                <tr>
+                    <td><code>order_contracts</code></td>
+                    <td>Defines strategy size and helps metrics follow position changes.</td>
+                </tr>
+                <tr>
+                    <td><code>order_action</code></td>
+                    <td>Defines the strategy direction or state.</td>
+                </tr>
+                <tr>
+                    <td><code>price</code></td>
+                    <td>Provides the TradingView alert price for later comparison.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Use <code>{{strategy.market_position}}</code> when you want the alert to reflect the current strategy state. Use <code>{{strategy.order.action}}</code> only if your workflow specifically expects order action values from TradingView.</p>
+
+        <h2 class="mt-4">Step 4. Match the Ticker Exactly</h2>
+
+        <p>The ticker must be consistent. If TradingView sends <code>EURUSD</code> but your AlgoWay backtest or destination uses <code>EURUSD.a</code>, metrics can fail, symbol mapping can fail, or execution can go to the wrong instrument.</p>
+
+        <p>Before live tracking, confirm:</p>
+
+        <ul>
+            <li>TradingView chart symbol;</li>
+            <li>AlgoWay backtest symbol;</li>
+            <li>broker or exchange symbol;</li>
+            <li>symbol mapping rules;</li>
+            <li>case sensitivity and suffixes.</li>
+        </ul>
+
+        <img src="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/bk2.png"
+             loading="lazy"
+             decoding="async"
+             alt="TradingView ticker and AlgoWay backtest symbol matching"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" width="1200" height="675" />
+
+        <h2 class="mt-4">Step 5. Start Forward Tracking from the Snapshot</h2>
+
+        <p>After the baseline is saved and TradingView alerts are connected, AlgoWay starts tracking new incoming signals from the webhook flow.</p>
+
+        <p>This turns the workflow into forward testing:</p>
+
+        <pre><code>Historical TradingView report = baseline
+New webhook alerts = forward data
+AlgoWay Trade Metrics = combined performance tracking</code></pre>
+
+        <p>This is especially important for short-term strategies, scalping systems and 1-minute strategies where the loaded chart sample can shift quickly.</p>
+
+        <h2 class="mt-4">Step 6. Compare TradingView and AlgoWay Results Correctly</h2>
+
+        <p>AlgoWay results may differ from TradingView. That is normal. The goal is not to force a perfect match. The goal is to understand why the difference exists.</p>
+
+        <p>Common reasons for a difference:</p>
+
+        <ul>
+            <li>TradingView broker emulator assumptions;</li>
+            <li>commission calculation differences;</li>
+            <li>slippage assumptions;</li>
+            <li>rounding;</li>
+            <li>symbol mapping;</li>
+            <li>market spread;</li>
+            <li>order rejection;</li>
+            <li>latency between alert and execution;</li>
+            <li>broker minimum lot or quantity rules;</li>
+            <li>SL/TP precision and stop-level restrictions.</li>
+        </ul>
+
+        <p>A small difference can be normal. A large difference means the strategy, JSON, broker settings or execution route must be inspected.</p>
+
+        <img src="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/bk3.png"
+             loading="lazy"
+             decoding="async"
+             alt="AlgoWay Trade Metrics comparison for TradingView strategy"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" width="1200" height="675" />
+
+        <h2 class="mt-4">TradingView Backtesting Limits You Should Understand</h2>
+
+        <p>TradingView has several useful testing tools, but each one has limits.</p>
+
+        <h3 class="mt-3">Loaded Chart Bars</h3>
+
+        <p>On intraday timeframes, the amount of historical data available on the chart depends on bar limits and plan level. This means a normal chart-based backtest may not represent the entire historical market sample.</p>
+
+        <h3 class="mt-3">Deep Backtesting</h3>
+
+        <p>Deep Backtesting can use more historical data for a selected range, but it is not unlimited. TradingView documents a maximum historical calculation length of up to 2 million bars.</p>
+
+        <h3 class="mt-3">Bar Magnifier</h3>
+
+        <p>Bar Magnifier can make backtest fills more realistic by using lower timeframe information inside a higher timeframe bar, but this is still a simulation feature and not a real broker execution log.</p>
+
+        <h3 class="mt-3">Forward Testing</h3>
+
+        <p>Forward testing starts when your alerts begin running in real time. This is where AlgoWay Trade Metrics becomes important because it tracks actual webhook-driven behavior after the historical test.</p>
+
+        <h2 class="mt-4">Common Backtesting Mistakes</h2>
+
+        <h3 class="mt-3">Mistake 1: Treating One Strategy Tester Result as Final Truth</h3>
+        <p>A single historical report is not enough. Save it as a baseline, then compare it with forward data.</p>
+
+        <h3 class="mt-3">Mistake 2: Ignoring Commission and Slippage</h3>
+        <p>A strategy that looks profitable without costs can fail when commission, spread and slippage are included.</p>
+
+        <h3 class="mt-3">Mistake 3: Changing Strategy Settings After Saving the Baseline</h3>
+        <p>If you change Pine Script logic, timeframe, costs or sizing after saving the baseline, create a new baseline. Do not mix versions.</p>
+
+        <h3 class="mt-3">Mistake 4: Not Matching Tickers</h3>
+        <p>Backtest symbols, alert tickers and broker symbols must be aligned.</p>
+
+        <h3 class="mt-3">Mistake 5: Confusing Backtesting with Live Automation</h3>
+        <p>A backtest is a simulation. Webhook automation is execution. AlgoWay helps connect the two, but it does not make the simulation identical to live trading.</p>
+
+        <h2 class="mt-4">Safe Launch Checklist</h2>
+
+        <p>Before treating a TradingView strategy as automated and trackable, confirm:</p>
+
+        <ul>
+            <li>the strategy is stable and does not repaint;</li>
+            <li>commission and slippage are set in TradingView;</li>
+            <li>the baseline is saved in AlgoWay;</li>
+            <li>the TradingView alert uses valid JSON;</li>
+            <li><code>price</code> is included in the alert message;</li>
+            <li><code>ticker</code> matches the AlgoWay backtest and destination symbol;</li>
+            <li>the webhook URL is enabled in TradingView;</li>
+            <li>AlgoWay receives alerts in logs;</li>
+            <li>the destination platform accepts test orders;</li>
+            <li>Trade Metrics are checked after the first real signals.</li>
+        </ul>
+
+        <img src="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/bk4.png"
+             loading="lazy"
+             decoding="async"
+             alt="AlgoWay Trade Metrics setup checklist for TradingView backtesting"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" width="1200" height="675" />
+
+        <h2 class="mt-4">How AlgoWay Helps With Real Strategy Validation</h2>
+
+        <p>AlgoWay gives the trader a way to move from “this strategy looked good in TradingView” to “this strategy is being tracked after real alerts.”</p>
+
+        <p>That matters because many strategies fail not during coding, but during the transition from simulation to execution:</p>
+
+        <ul>
+            <li>alert JSON is wrong;</li>
+            <li>ticker does not match;</li>
+            <li>order size is invalid;</li>
+            <li>the broker rejects stops;</li>
+            <li>execution differs by platform;</li>
+            <li>the forward sample performs worse than the historical sample.</li>
+        </ul>
+
+        <p>AlgoWay does not hide these problems. It gives you logs and metrics so you can see them.</p>
+
+        <img src="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/bk5.png"
+             loading="lazy"
+             decoding="async"
+             alt="AlgoWay live strategy metrics after TradingView webhook alerts"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" width="1200" height="675" />
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">How to automate TradingView alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a></li>
+            <li><a href="/blog/algoway-mt5-v206-overview.html">AlgoWayWS-MT5 EA 2.10 guide</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>TradingView backtesting is the first stage. AlgoWay Trade Metrics is the next stage.</strong> Use TradingView Strategy Tester to build and evaluate the strategy, save the baseline in AlgoWay, then track real webhook-driven results after automation begins.</p>
+
+        <p>This gives you a clearer answer than a single backtest screenshot: how the strategy looked historically, how it behaves after alerts start, and where the difference between simulation and execution appears.</p>
+
+        <img src="/static/img/blog-img/backtest-tradingview-algoway-guide_with_images/bk6.png"
+             loading="lazy"
+             decoding="async"
+             alt="Final AlgoWay TradingView backtesting and forward testing metrics"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" width="1200" height="675" />
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Backtest TradingView Strategies and Track Live Results with AlgoWay",
+                  "description": "Learn how to save TradingView backtest snapshots, extend strategy tracking beyond loaded chart bars, forward-test webhook alerts, and compare TradingView Strategy Tester results with AlgoWay Trade Metrics.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "TradingView Backtesting",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay replace TradingView Strategy Tester?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. AlgoWay does not replace TradingView Strategy Tester. It extends the workflow by saving a backtest baseline and tracking forward results from real TradingView webhook alerts."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why do TradingView backtest results change?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Backtest results can change when the loaded chart sample changes, strategy settings are modified, more bars are loaded, Deep Backtesting uses a different range, or cost assumptions such as commission and slippage are changed."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What JSON fields are important for AlgoWay backtest tracking?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The important fields are platform_name, ticker, order_contracts, order_action and price. The ticker must match the AlgoWay backtest or configured symbol mapping."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why can AlgoWay metrics differ from TradingView Strategy Tester?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AlgoWay metrics can differ because TradingView uses simulation assumptions, while AlgoWay tracks webhook alerts and routed execution. Differences can come from rounding, commission, slippage, broker rules, symbol mapping, rejected orders and execution latency."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I use chart backtesting or Deep Backtesting?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use chart backtesting for quick development and Deep Backtesting when you need a longer selected historical range where available. Use AlgoWay after that to preserve the baseline and forward-test real webhook alerts."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "Backtest TradingView Strategies with AlgoWay",
+                                      "item": "https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

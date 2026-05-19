@@ -1,10 +1,686 @@
 ---
-title: "Buy Webhook via Buy Me a Coffee"
-description: "Payment and activation through Buy Me a Coffee."
+title: "Buy AlgoWay Webhook Access via Buy Me a Coffee"
+sidebar_label: "Buy Webhook via Buy Me a Coffee"
+pagination_label: "Buy Webhook via Buy Me a Coffee"
+description: "Buy AlgoWay webhook access via Buy Me a Coffee. Choose monthly or yearly access, generate an order code, complete payment and activate webhook."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "How to Buy AlgoWay Webhook Access via Buy Me a Coffee",
+                      "description": "Buy AlgoWay webhook access via Buy Me a Coffee. Log in, choose monthly or yearly webhook access, generate an AlgoWay order code, complete payment, include the code, and activate your webhook.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/billing/buy-me-a-coffee/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "AlgoWay Payments",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Buy AlgoWay Webhook Access via Buy Me a Coffee",
+              "description": "Generate an AlgoWay order code, complete Buy Me a Coffee checkout and activate or extend webhook access.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Log in to AlgoWay",
+                  "text": "Open AlgoWay and log in to the account that should receive webhook access."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Open webhook pricing",
+                  "text": "Open the webhook pricing page and choose monthly or yearly access."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Generate AlgoWay code",
+                  "text": "Click Generate AlgoWay Code and copy the code exactly as shown."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Open Buy Me a Coffee payment",
+                  "text": "Click Open BMC Payment and proceed to the external checkout page."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Complete payment with code",
+                  "text": "Complete checkout and include the generated AlgoWay code so the payment can be matched."
+                }
+              ]
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What am I buying through Buy Me a Coffee?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You are buying digital AlgoWay webhook access according to the selected monthly or yearly plan."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why do I need to generate an AlgoWay code?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The generated AlgoWay code connects the external Buy Me a Coffee payment to the correct AlgoWay account, webhook target and selected plan."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I pay first and generate the code later?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Generate the AlgoWay code before payment and include it during checkout so activation can be matched correctly."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What happens if I forget to include the code?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Activation may be delayed and may require manual review. Contact support with the Buy Me a Coffee payment details and your AlgoWay account email."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does webhook access include TradingView or broker fees?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. AlgoWay webhook access does not include TradingView subscription costs, broker fees, exchange fees, commissions or account funding."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                                {
+                                          "@type": "ListItem",
+                                          "position": 1,
+                                          "name": "Home",
+                                          "item": "https://algoway.trade/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 2,
+                                          "name": "Blog",
+                                          "item": "https://algoway.trade/blog/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 3,
+                                          "name": "Buy AlgoWay Webhook Access via Buy Me a Coffee",
+                                          "item": "https://docs.algoway.trade/docs/billing/buy-me-a-coffee/"
+                                }
+                      ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# Buy Webhook via Buy Me a Coffee
+# **How to Buy AlgoWay Webhook Access via Buy Me a Coffee**
 
-This page is part of the AlgoWay Docs migration.
+![How to buy AlgoWay webhook access via Buy Me a Coffee](https://algoway.trade/static/img/blog-img/bmc0@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**This guide explains how to buy AlgoWay webhook access using Buy Me a Coffee as the payment method.** The purchase flow is simple: log in to AlgoWay, open the webhook pricing page, generate a unique AlgoWay order code, complete payment on Buy Me a Coffee, include the generated code during checkout, and wait for AlgoWay to match the payment to your account.
+
+This page is written for users searching for **buy AlgoWay webhook**, **AlgoWay payment guide**, **Buy Me a Coffee AlgoWay**, **AlgoWay webhook subscription**, **webhook access payment**, and **how to activate AlgoWay webhook after payment**.
+
+The payment route is:
+
+```
+AlgoWay login → Webhook pricing page → Generate AlgoWay code → Buy Me a Coffee checkout → Payment matching → Webhook activation
+```
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Quick Answer: How to Buy AlgoWay Webhook Access
+
+To buy AlgoWay webhook access through Buy Me a Coffee:
+
+1. Open AlgoWay and log in to your account.
+2. Open the webhook pricing page in your dashboard.
+3. Select the monthly or yearly webhook plan.
+4. Click **Generate AlgoWay Code**.
+5. Copy the generated code.
+6. Click **Open BMC Payment**.
+7. Complete Buy Me a Coffee checkout.
+8. Include the generated AlgoWay code during checkout.
+9. Wait for AlgoWay to match the payment and activate or extend webhook access.
+
+The most important step is the code. Without the generated AlgoWay code, payment matching may be delayed because AlgoWay must identify which account and webhook the payment belongs to.
+
+## What You Are Buying
+
+You are buying **digital access to AlgoWay webhook automation**. Depending on the selected plan, the purchase can activate or extend monthly or yearly webhook access.
+
+AlgoWay webhook access can include:
+
+- access to webhook creation and management inside AlgoWay;
+- dashboard access for selected webhook routes;
+- webhook logs and received payload tracking;
+- platform routing for supported brokers, exchanges or trading platforms;
+- access duration according to the selected monthly or yearly plan;
+- continued use of AlgoWay automation infrastructure during the active period.
+
+Buy Me a Coffee is used as the external checkout/payment page for this purchase flow. It is not just a random donation button. In this guide, it is part of the AlgoWay digital access payment process.
+
+## Why AlgoWay Uses Buy Me a Coffee
+
+Buy Me a Coffee gives users an external payment option when they want to buy or support digital access. AlgoWay uses a generated code to connect the external payment with the correct AlgoWay account and webhook plan.
+
+The generated code is needed because payment happens outside the AlgoWay dashboard. The code acts as the bridge between:
+
+- your AlgoWay user account;
+- the selected webhook or subscription target;
+- the selected monthly or yearly plan;
+- the external Buy Me a Coffee payment.
+
+## Before You Start
+
+Prepare the following before payment:
+
+- an AlgoWay account;
+- access to the AlgoWay dashboard;
+- the webhook plan you want to buy or extend;
+- access to the Buy Me a Coffee payment page;
+- a way to copy and paste the generated AlgoWay code;
+- a payment method accepted by Buy Me a Coffee.
+
+## Step 1 — Open AlgoWay and Log In
+
+Start from the public AlgoWay website and log in to your account:
+
+[AlgoWay Login](https://algoway.trade/login)
+
+The Buy Me a Coffee payment option is part of the authenticated AlgoWay user flow. This means the system expects you to be logged in before generating the order code.
+
+## Step 2 — Open the Webhook Pricing Page
+
+Inside the AlgoWay dashboard, open the webhook area and then the pricing section for the webhook access you want to buy or extend.
+
+On the pricing page, AlgoWay can show options such as:
+
+- monthly webhook plan;
+- yearly webhook plan;
+- available payment methods;
+- the dedicated **Buy Me a Coffee** payment section.
+
+![AlgoWay pricing page with Buy Me a Coffee payment section](https://algoway.trade/static/img/blog-img/bmc1.jpg)
+
+## Step 3 — Generate the AlgoWay Order Code
+
+In the Buy Me a Coffee section, select the intended plan and click:
+
+```
+Generate AlgoWay Code
+```
+
+AlgoWay generates a unique code for that specific payment attempt. Copy this code before going to Buy Me a Coffee checkout.
+
+![Generate AlgoWay order code for Buy Me a Coffee payment](https://algoway.trade/static/img/blog-img/bmc2.jpg)
+
+The generated code helps AlgoWay identify:
+
+- which AlgoWay account requested payment;
+- which webhook access should be activated or extended;
+- whether the user selected monthly or yearly access;
+- which Buy Me a Coffee payment belongs to the order.
+
+## Step 4 — Open the Buy Me a Coffee Payment Page
+
+After generating the code, click:
+
+```
+Open BMC Payment
+```
+
+You will be redirected to the AlgoWay Buy Me a Coffee payment page.
+
+Public payment page example:
+
+[AlgoWay Buy Me a Coffee payment page](https://buymeacoffee.com/ustasam/e/512640)
+
+![Buy Me a Coffee payment page for AlgoWay webhook access](https://algoway.trade/static/img/blog-img/bmc3.jpg)
+
+This is the external checkout page where you complete the payment.
+
+## Step 5 — Complete Payment and Include the AlgoWay Code
+
+During checkout, include the generated **AlgoWay code** in the message, note, instruction or available checkout field used for payment matching.
+
+This step is required because AlgoWay must match the external payment to the correct internal account and webhook plan.
+
+Correct flow:
+
+```
+Generated AlgoWay code → included in Buy Me a Coffee checkout → matched to AlgoWay account → webhook access activated
+```
+
+If you complete payment without the code, activation may require manual review.
+
+## What Happens After Payment
+
+After payment, AlgoWay uses the submitted code to match the payment to your account and selected webhook plan.
+
+After matching succeeds, AlgoWay can:
+
+- activate new webhook access;
+- extend existing webhook access;
+- apply the correct monthly or yearly access period;
+- update dashboard status;
+- make the webhook available for automation according to the selected plan.
+
+After activation, return to the AlgoWay dashboard and check your webhook status, expiration date and available routes.
+
+## What This Payment Does Not Include
+
+To avoid confusion, the Buy Me a Coffee payment for AlgoWay webhook access does not mean:
+
+- a guaranteed profitable trading strategy;
+- broker account funding;
+- exchange fees or broker commissions;
+- TradingView subscription fees;
+- guaranteed order execution by brokers or exchanges;
+- financial advice or managed account service.
+
+You are paying for digital webhook access to the AlgoWay platform and its automation infrastructure according to the selected plan.
+
+## Common Payment and Activation Problems
+
+### Payment Was Completed Without AlgoWay Code
+
+Activation may be delayed. Contact support with the Buy Me a Coffee payment details and your AlgoWay account email.
+
+### Wrong Code Was Entered
+
+Payment matching may fail or go to manual review. Copy the code exactly from the AlgoWay pricing page.
+
+### User Was Not Logged In Before Code Generation
+
+The payment code must be generated from the correct authenticated AlgoWay account. Log in first, then generate the code.
+
+### Wrong Plan Was Selected
+
+If monthly or yearly access was selected incorrectly, contact support before using the webhook heavily.
+
+### Webhook Still Looks Inactive After Payment
+
+Check whether the payment was completed, whether the code was included, and whether the dashboard status has updated. If needed, contact support with the payment reference and AlgoWay account email.
+
+### Buy Me a Coffee Checkout Did Not Complete
+
+If the payment failed or was cancelled, return to AlgoWay, generate a fresh code if needed, and repeat the checkout process.
+
+## Security and Account Notes
+
+- Use your own AlgoWay account when generating the code.
+- Do not share your webhook URL publicly.
+- Do not share your dashboard login.
+- Keep payment screenshots or receipts until access is active.
+- Use the exact code generated by AlgoWay for that payment attempt.
+
+## After Activation: What to Do Next
+
+After webhook access is active, continue with the setup guide for your platform:
+
+- [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [How to automate TradingView alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [TradingView to MetaTrader 5 with AlgoWay](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [Install AlgoWayWS-MT5 EA](https://algoway.trade/blog/algoway-mt5-ws-v10-overview.html)
+- [TradingView to Binance with AlgoWay](https://algoway.trade/blog/algoway-binance-integration-guide.html)
+- [TradingView to Bybit with AlgoWay](https://algoway.trade/blog/algoway-bybit-integration-guide.html)
+- [TradingView to Coinbase with AlgoWay](https://algoway.trade/blog/coinbase-api.html)
+- [TradingView to BingX with AlgoWay](https://algoway.trade/blog/bingx-api.html)
+- [TradingView to Bitget with AlgoWay](https://algoway.trade/blog/bitget-api.html)
+- [TradingView to Tradovate with AlgoWay](https://algoway.trade/blog/algoway-tradovate-integration-guide.html)
+
+## Final Summary
+
+**Buy Me a Coffee is an external payment option for AlgoWay digital webhook access.** The correct flow is to log in to AlgoWay, select the plan, generate the AlgoWay order code, complete Buy Me a Coffee checkout, include the code, and let AlgoWay match the payment to the correct account and webhook access.
+
+The generated code is the key part of the process. It connects the external payment to the internal AlgoWay account and plan.
+
+Start here: [AlgoWay Login](https://algoway.trade/login)

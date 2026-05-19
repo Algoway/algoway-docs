@@ -1,0 +1,1285 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>TradingView to Match-Trader Webhook Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TradingView alerts to Match-Trader with AlgoWay. Configure broker URL, login, Account ID, Hedge or Reverse mode, JSON and logs." />
+	<link rel="canonical" href="https://algoway.trade/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html" />
+
+	<meta property="og:title" content="How to Connect TradingView to Match-Trader with Webhook Automation | AlgoWay" />
+	<meta property="og:description" content="Step-by-step TradingView to Match-Trader webhook setup with AlgoWay: broker URL, credentials, Auto detect Broker ID, JSON alerts, manual alerts, Hedge/Reverse mode, logs and troubleshooting." />
+	<meta property="og:url" content="https://algoway.trade/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="TradingView to Match-Trader Webhook Automation" />
+	<meta name="twitter:description" content="Automate Match-Trader from TradingView alerts with AlgoWay webhooks, Auto detect Broker ID, JSON examples, Hedge/Reverse modes and logs." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/Match-Trader-platform-logo.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>How to Connect TradingView Alerts to Match-Trader with AlgoWay Webhook Automation</strong></h1>
+
+        <p><strong>AlgoWay lets you connect TradingView alerts to Match-Trader through webhook automation.</strong> You create a Match-Trader webhook in AlgoWay, enter the broker platform URL, email and password, optionally enter Account ID, use <strong>Auto detect</strong> to fill Broker ID, and then paste the AlgoWay webhook URL and JSON message into TradingView.</p>
+
+        <p>This guide is written for traders searching for <strong>TradingView to Match-Trader</strong>, <strong>TradingView to MatchTrader webhook</strong>, <strong>Match-Trader automated trading</strong>, <strong>MatchTrader trading bot</strong>, <strong>Match-Trader API trading</strong>, <strong>Match-Trader prop firm automation</strong>, and <strong>TradingView alerts to Match-Trader broker</strong>.</p>
+
+        <p>The execution route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → Match-Trader platform connection → Match-Trader order execution</code></pre>
+
+        <p>TradingView creates the signal. AlgoWay receives and validates the webhook JSON. Match-Trader receives the final trading command through the platform URL, account credentials, Account ID if required, and Broker ID configured in AlgoWay.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <div class="video-wrap mt-4 mb-4">
+            <h5><strong>Video Tutorial: How to Connect TradingView to Match-Trader</strong></h5>
+            <iframe
+                class="hero-video"
+                src="https://www.youtube.com/embed/umsrv6rKhoc"
+                title="TradingView to Match-Trader | How to connect TradingView to Match-Trader with Webhooks and AlgoWay"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#why-matchtrader">Why automate Match-Trader with TradingView alerts?</a></li>
+                <li><a href="#before">Before you start</a></li>
+                <li><a href="#algoway">Create Match-Trader webhook in AlgoWay</a></li>
+                <li><a href="#broker-id">Auto detect Broker ID</a></li>
+                <li><a href="#manual-broker-id">Manual Broker ID fallback</a></li>
+                <li><a href="#url">Copy AlgoWay webhook URL</a></li>
+                <li><a href="#json">TradingView strategy JSON</a></li>
+                <li><a href="#manual-alerts">Manual price alert JSON</a></li>
+                <li><a href="#alert">Create TradingView alert</a></li>
+                <li><a href="#modes">Hedge, Reverse and flat logic</a></li>
+                <li><a href="#sltp">SL/TP and risk fields</a></li>
+                <li><a href="#verify">Testing and logs</a></li>
+                <li><a href="#problems">Common problems</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: TradingView to Match-Trader with AlgoWay</h2>
+
+        <p>To automate Match-Trader from TradingView, you need:</p>
+
+        <ol>
+            <li>your Match-Trader broker platform URL;</li>
+            <li>your Match-Trader account email;</li>
+            <li>your Match-Trader account password;</li>
+            <li>optional Account ID if you know it or if your broker requires it;</li>
+            <li>Broker ID filled by the <strong>Auto detect</strong> button or entered manually;</li>
+            <li>an AlgoWay webhook where <strong>Source</strong> is TradingView and <strong>Platform</strong> is MatchTrader;</li>
+            <li>Hedge / Dual side or Reverse trade mode selected according to your strategy;</li>
+            <li>a TradingView alert with valid Match-Trader JSON;</li>
+            <li>the AlgoWay webhook URL enabled in TradingView Notifications.</li>
+        </ol>
+
+        <p>After setup, a TradingView alert can become a Match-Trader order through AlgoWay.</p>
+
+        <h2 id="why-matchtrader" class="mt-4">Why Automate Match-Trader with TradingView Alerts?</h2>
+
+        <p>Match-Trader is widely used by brokers and prop trading firms. Traders often use TradingView for strategy logic, indicators and alerts, while the execution account is hosted on Match-Trader. AlgoWay connects the two through a webhook route.</p>
+
+        <p>This is useful when you want to:</p>
+
+        <ul>
+            <li>turn TradingView strategy alerts into Match-Trader orders;</li>
+            <li>automate Forex, CFD or prop-firm Match-Trader accounts;</li>
+            <li>use TradingView as the signal engine and Match-Trader as the execution destination;</li>
+            <li>avoid building your own Match-Trader connector;</li>
+            <li>track received webhook payloads and execution responses in AlgoWay logs;</li>
+            <li>use one AlgoWay dashboard for Match-Trader and other supported platforms.</li>
+        </ul>
+
+        <p>AlgoWay does not create a profitable strategy. It automates the execution route after your TradingView strategy, indicator or manual alert sends the command.</p>
+
+        <h2 id="before" class="mt-4">Before You Start</h2>
+
+        <p>Prepare the following:</p>
+
+        <ul>
+            <li>AlgoWay account;</li>
+            <li>Match-Trader broker login URL;</li>
+            <li>Match-Trader email and password;</li>
+            <li>Account ID if your broker provides it;</li>
+            <li>Broker ID or ability to use <strong>Auto detect</strong> in AlgoWay;</li>
+            <li>TradingView strategy, indicator or manual alert;</li>
+            <li>TradingView plan with webhook alert support;</li>
+            <li>small test size;</li>
+            <li>valid AlgoWay JSON message.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> use the exact Match-Trader broker URL without a trailing slash. Example: <code>https://mtr-platform.fundingpips.com</code>, not <code>https://mtr-platform.fundingpips.com/</code>.
+        </div>
+
+        <h2 id="algoway" class="mt-4">Step 1. Create a Match-Trader Webhook in AlgoWay</h2>
+
+        <p>Open the AlgoWay dashboard and create a Match-Trader webhook route.</p>
+
+        <ol>
+            <li>Open <strong>AlgoWay Dashboard</strong>.</li>
+            <li>Click <strong>Add Trial Webhook</strong> or <strong>Add Main Webhook</strong>.</li>
+            <li>Set <strong>Source (from)</strong> to <strong>TradingView</strong>.</li>
+            <li>Set <strong>Platform (to)</strong> to <strong>MatchTrader</strong>.</li>
+            <li>Enter a promo code if you have one.</li>
+            <li>Set <strong>Quantity Multiplier</strong>. For direct values, use <strong>Absolute</strong> and <code>1</code>.</li>
+            <li>Select <strong>Trade Type</strong>, for example <strong>Hedge / Dual side</strong> or Reverse mode.</li>
+            <li>Enter the broker platform URL without a trailing slash.</li>
+            <li>Enter your Match-Trader email.</li>
+            <li>Enter your Match-Trader password.</li>
+            <li>Enter <strong>Account ID</strong> if you know it. If you do not know it, leave the field empty.</li>
+            <li>Use <strong>Auto detect</strong> near the Broker ID field to fill Broker ID automatically.</li>
+            <li>Click <strong>Add Trial Webhook</strong> or save the main webhook.</li>
+        </ol>
+
+        <img src="/static/img/manuals/tv-match-3@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="AlgoWay Add Trial Webhook form for TradingView to Match-Trader automation" decoding="async" width="1200" height="675" />
+
+        <h3 class="mt-3">Main AlgoWay Match-Trader Fields</h3>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Recommended value</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Source (from)</td>
+                    <td>TradingView</td>
+                    <td>The alert source.</td>
+                </tr>
+                <tr>
+                    <td>Platform (to)</td>
+                    <td>MatchTrader</td>
+                    <td>The execution destination.</td>
+                </tr>
+                <tr>
+                    <td>Promo Code</td>
+                    <td>Optional</td>
+                    <td>Can extend trial access if valid.</td>
+                </tr>
+                <tr>
+                    <td>Quantity Multiplier</td>
+                    <td>Absolute → 1</td>
+                    <td>Uses incoming JSON quantity directly.</td>
+                </tr>
+                <tr>
+                    <td>Trade Type</td>
+                    <td>Hedge / Dual side or Reverse</td>
+                    <td>Controls how opposite signals and open exposure are handled.</td>
+                </tr>
+                <tr>
+                    <td>URL</td>
+                    <td>Broker platform URL without trailing slash</td>
+                    <td>Defines which Match-Trader broker environment AlgoWay connects to.</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>Your Match-Trader login email</td>
+                    <td>Used for platform authentication.</td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>Your Match-Trader password</td>
+                    <td>Used for platform authentication.</td>
+                </tr>
+                <tr>
+                    <td>Account ID</td>
+                    <td>Optional if you know it</td>
+                    <td>Can help select the exact account when several accounts exist.</td>
+                </tr>
+                <tr>
+                    <td>Broker ID</td>
+                    <td>Auto detect or manual value</td>
+                    <td>Identifies the broker environment.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="broker-id" class="mt-4">Step 2. Auto Detect Broker ID</h2>
+
+        <p>The current AlgoWay Match-Trader webhook form includes an <strong>Auto detect</strong> button next to the <strong>Broker ID</strong> field. This is now the recommended way to fill Broker ID.</p>
+
+        <ol>
+            <li>Enter the broker platform URL in the <strong>URL</strong> field.</li>
+            <li>Make sure the URL has no trailing slash.</li>
+            <li>Enter your Match-Trader email and password.</li>
+            <li>Enter Account ID only if you know it or if your broker requires it.</li>
+            <li>Click <strong>Auto detect</strong> next to the Broker ID field.</li>
+            <li>Check that Broker ID is filled.</li>
+            <li>Continue webhook creation.</li>
+        </ol>
+
+        <p>Example broker URL:</p>
+
+        <pre><code>https://mtr-platform.fundingpips.com</code></pre>
+
+        <p>If the Auto detect button cannot determine Broker ID, use the manual fallback below.</p>
+
+        <h2 id="manual-broker-id" class="mt-4">Manual Broker ID Fallback</h2>
+
+        <p>Manual Broker ID retrieval is only needed when Auto detect does not work for your broker environment.</p>
+
+        <ol>
+            <li>Open your broker's Match-Trader login page.</li>
+            <li>Right-click the page and choose <strong>View Page Source</strong> or use browser developer tools.</li>
+            <li>Search for <code>brokerId</code> or <code>BrokerID</code>.</li>
+            <li>Copy the numeric value.</li>
+            <li>Paste it into the <strong>Broker ID</strong> field in AlgoWay.</li>
+        </ol>
+
+        <p>Example value in source code:</p>
+
+        <pre><code>brokerId: '1'</code></pre>
+
+        <p>In this example, Broker ID is:</p>
+
+        <pre><code>1</code></pre>
+
+        <img src="/static/img/manuals/tv-match-1@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="Match-Trader login page used to find Broker ID manually" decoding="async" width="1200" height="675" />
+
+        <img src="/static/img/manuals/tv-match-2@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="Browser source code showing Match-Trader Broker ID" decoding="async" width="1200" height="675" />
+
+        <h2 id="url" class="mt-4">Step 3. Copy the AlgoWay Webhook URL</h2>
+
+        <p>After saving the Match-Trader webhook, open the webhook list and copy the unique AlgoWay webhook URL.</p>
+
+        <ol>
+            <li>Open <strong>Dashboard → Your Webhooks</strong>.</li>
+            <li>Find the row where <strong>Platform</strong> is MatchTrader.</li>
+            <li>Copy the webhook UUID or full webhook URL.</li>
+        </ol>
+
+        <p>Webhook URL format:</p>
+
+        <pre><code>https://algoway.co/your-webhook-uuid</code></pre>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Do not publish your webhook URL.</strong> Treat the UUID as a private execution endpoint.
+        </div>
+
+        <img src="/static/img/manuals/tv-match-4@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="AlgoWay dashboard showing Match-Trader webhook URL" decoding="async" width="1200" height="675" />
+
+        <h2 id="json" class="mt-4">Step 4. TradingView Strategy JSON for Match-Trader</h2>
+
+        <p>For TradingView strategy alerts, use this JSON in the alert message field:</p>
+
+        <pre><code>{
+  "platform_name": "matchtrader",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>TradingView replaces the placeholders when the alert fires:</p>
+
+        <ul>
+            <li><code>{{ticker}}</code> — current chart ticker;</li>
+            <li><code>{{strategy.order.contracts}}</code> — strategy order size;</li>
+            <li><code>{{strategy.market_position}}</code> — current strategy state;</li>
+            <li><code>{{close}}</code> — close price at alert time.</li>
+        </ul>
+
+        <img src="/static/img/manuals/tv-match-5@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="TradingView alert message field with Match-Trader JSON for AlgoWay" decoding="async" width="1200" height="675" />
+
+        <h2 id="manual-alerts" class="mt-4">Manual Price Alert JSON for Match-Trader</h2>
+
+        <p>If you use a manual TradingView condition such as price crossing a level, use fixed values instead of strategy placeholders.</p>
+
+        <h3 class="mt-3">Manual BUY Alert</h3>
+
+        <pre><code>{
+  "platform_name": "matchtrader",
+  "ticker": "{{ticker}}",
+  "order_contracts": "1",
+  "order_action": "buy",
+  "price": "{{close}}"
+}</code></pre>
+
+        <h3 class="mt-3">Manual SELL Alert</h3>
+
+        <pre><code>{
+  "platform_name": "matchtrader",
+  "ticker": "{{ticker}}",
+  "order_contracts": "1",
+  "order_action": "sell",
+  "price": "{{close}}"
+}</code></pre>
+
+        <h3 class="mt-3">Manual FLAT / Close Alert</h3>
+
+        <pre><code>{
+  "platform_name": "matchtrader",
+  "ticker": "{{ticker}}",
+  "order_action": "flat",
+  "order_contracts": "1"
+}</code></pre>
+
+        <p>Supported common values for <code>order_action</code>:</p>
+
+        <ul>
+            <li><code>buy</code></li>
+            <li><code>sell</code></li>
+            <li><code>long</code></li>
+            <li><code>short</code></li>
+            <li><code>flat</code></li>
+        </ul>
+
+        <h2 id="alert" class="mt-4">Step 5. Create the TradingView Alert</h2>
+
+        <p>Now create the alert in TradingView.</p>
+
+        <ol>
+            <li>Open the TradingView chart with your strategy or condition.</li>
+            <li>Click <strong>Add Alert</strong>.</li>
+            <li>For strategy automation, select the strategy as the alert condition.</li>
+            <li>Paste the Match-Trader JSON into the <strong>Message</strong> field.</li>
+            <li>Open <strong>Notifications</strong>.</li>
+            <li>Enable <strong>Webhook URL</strong>.</li>
+            <li>Paste your AlgoWay Match-Trader webhook URL.</li>
+            <li>Click <strong>Create</strong>.</li>
+        </ol>
+
+        <img src="/static/img/manuals/tv-match-6@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="TradingView alert configuration for Match-Trader webhook automation" decoding="async" width="1200" height="675" />
+
+        <img src="/static/img/manuals/tv-match-7@2x.png"
+             class="article-img"
+             loading="lazy"
+             alt="TradingView webhook URL field for AlgoWay Match-Trader automation" decoding="async" width="1200" height="675" />
+
+        <h2 id="modes" class="mt-4">Hedge, Reverse and flat Logic</h2>
+
+        <p>The <strong>Trade Type</strong> setting controls how AlgoWay handles existing positions when a new signal arrives.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>Behavior</th>
+                    <th>Use case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hedge / Dual side</td>
+                    <td>Allows separate long-side and short-side behavior when supported by the account.</td>
+                    <td>Strategies that intentionally use both sides.</td>
+                </tr>
+                <tr>
+                    <td>Reverse</td>
+                    <td>Opposite signal can close or replace the current direction depending on route behavior.</td>
+                    <td>One-direction strategies.</td>
+                </tr>
+                <tr>
+                    <td>flat</td>
+                    <td>Close or flatten matching exposure for the symbol.</td>
+                    <td>Exit signals and manual close alerts.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Full explanation: <a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a>.</p>
+
+        <h2 id="sltp" class="mt-4">SL/TP and Risk Fields</h2>
+
+        <p>If your Match-Trader route supports risk fields, you can send Stop Loss and Take Profit in the JSON. Test these fields with small size before live automation.</p>
+
+        <h3 class="mt-3">Distance-Style SL/TP</h3>
+
+        <pre><code>{
+  "platform_name": "matchtrader",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}",
+  "stop_loss": "100",
+  "take_profit": "200"
+}</code></pre>
+
+        <h3 class="mt-3">Trailing Stop</h3>
+
+        <pre><code>{
+  "platform_name": "matchtrader",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "trailing_pips": "50"
+}</code></pre>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Risk-field rule:</strong> confirm how your route interprets <code>stop_loss</code>, <code>take_profit</code> and <code>trailing_pips</code>. Units can depend on platform and route settings.
+        </div>
+
+        <h2 id="verify" class="mt-4">Testing and Logs</h2>
+
+        <p>Before using live size, test the route in layers.</p>
+
+        <ol>
+            <li>Create the Match-Trader webhook in AlgoWay.</li>
+            <li>Use <strong>Auto detect</strong> to fill Broker ID.</li>
+            <li>Save the webhook.</li>
+            <li>Create a small TradingView alert or manual test alert.</li>
+            <li>Trigger the alert.</li>
+            <li>Open <strong>AlgoWay Webhook Logs</strong>.</li>
+            <li>Confirm the payload was received.</li>
+            <li>Check the Match-Trader platform for order or position result.</li>
+        </ol>
+
+        <p>If AlgoWay receives the webhook but Match-Trader does not trade, check platform URL, credentials, Account ID, Broker ID, symbol, size, trade mode and platform response.</p>
+
+        <h2 id="problems" class="mt-4">Common Match-Trader Webhook Problems</h2>
+
+        <h3 class="mt-3">Broker ID Was Not Detected</h3>
+        <p>Check that the broker platform URL is correct and has no trailing slash. If Auto detect still fails, use manual Broker ID fallback from the login page source code.</p>
+
+        <h3 class="mt-3">Broker URL Has a Trailing Slash</h3>
+        <p>Use <code>https://mtr-platform.fundingpips.com</code>, not <code>https://mtr-platform.fundingpips.com/</code>.</p>
+
+        <h3 class="mt-3">Wrong Email or Password</h3>
+        <p>AlgoWay must authenticate to the correct Match-Trader account. Verify credentials directly on the broker platform before saving the webhook.</p>
+
+        <h3 class="mt-3">Account ID Is Missing or Wrong</h3>
+        <p>Account ID is optional if you do not know it, but some broker environments or multi-account profiles may require the exact account. Enter it if your broker provides it.</p>
+
+        <h3 class="mt-3">Invalid JSON</h3>
+        <p>TradingView must send valid JSON. Broken commas, missing quotes or plain text can stop the route before Match-Trader receives anything. See: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <h3 class="mt-3">Wrong platform_name</h3>
+        <p>For this route, <code>platform_name</code> must be <code>matchtrader</code>.</p>
+
+        <h3 class="mt-3">Wrong Symbol</h3>
+        <p>TradingView ticker may not match the Match-Trader broker symbol. Check the exact instrument name in the broker platform.</p>
+
+        <h3 class="mt-3">Invalid Size</h3>
+        <p>Check minimum size, step size, leverage, margin and broker instrument rules.</p>
+
+        <h3 class="mt-3">Webhook URL Is Not Enabled in TradingView</h3>
+        <p>JSON in the message field is not enough. Enable <strong>Webhook URL</strong> in TradingView Notifications and paste the AlgoWay URL.</p>
+
+        <h2 class="mt-4">Why Use AlgoWay Instead of Building a TradingView to Match-Trader Bot?</h2>
+
+        <p>You can build your own TradingView-to-Match-Trader connector, but it requires webhook receiving, JSON parsing, broker environment detection, authentication, symbol mapping, trade mode handling, error logging and ongoing maintenance.</p>
+
+        <p>AlgoWay gives you a ready route:</p>
+
+        <ul>
+            <li>TradingView webhook receiver;</li>
+            <li>Match-Trader platform route;</li>
+            <li>Broker ID Auto detect;</li>
+            <li>dashboard-based setup;</li>
+            <li>Hedge / Dual side and Reverse modes;</li>
+            <li>JSON examples for strategy and manual alerts;</li>
+            <li>webhook logs and platform response tracking;</li>
+            <li>support for other brokers, exchanges and trading platforms.</li>
+        </ul>
+
+        <p>This makes AlgoWay a no-code <strong>TradingView to Match-Trader webhook connector</strong> for traders who want automation without maintaining their own connector infrastructure.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a TradingView webhook alert</a></li>
+            <li><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual TradingView webhook alerts</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/tradeLocker-setup-guide.html">TradingView to TradeLocker webhook automation</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">TradingView to DxTrade webhook automation</a></li>
+            <li><a href="/blog/how-the-ctrader-connector-logic-works.html">TradingView to cTrader webhook automation</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">TradingView to MetaTrader 5 with AlgoWay</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p>To connect TradingView to Match-Trader with AlgoWay, create a Match-Trader webhook, enter the broker URL, email and password, use <strong>Auto detect</strong> to fill Broker ID, optionally enter Account ID, copy the AlgoWay webhook URL, and create a TradingView alert with valid Match-Trader JSON.</p>
+
+        <p><strong>AlgoWay turns TradingView alerts into Match-Trader webhook automation without forcing you to build and maintain your own connector.</strong></p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Connect TradingView Alerts to Match-Trader with AlgoWay Webhook Automation",
+                  "description": "Connect TradingView alerts to Match-Trader with AlgoWay. Configure broker URL, email, password, optional Account ID, auto-detect Broker ID, choose Hedge or Reverse mode, use TradingView JSON, test webhooks and check logs.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "Match-Trader Webhook Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Connect TradingView to Match-Trader with AlgoWay",
+          "description": "Create a Match-Trader webhook in AlgoWay, auto-detect Broker ID, copy the webhook URL and create a TradingView alert with JSON.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Create Match-Trader webhook",
+              "text": "Create a webhook in AlgoWay with Source set to TradingView and Platform set to MatchTrader."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Enter Match-Trader details",
+              "text": "Enter broker URL without trailing slash, email, password and optional Account ID."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Auto detect Broker ID",
+              "text": "Click Auto detect next to the Broker ID field to fill the broker environment automatically."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Copy webhook URL",
+              "text": "Copy the AlgoWay Match-Trader webhook URL from the dashboard."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Create TradingView alert",
+              "text": "Paste Match-Trader JSON into the alert message, enable Webhook URL, paste the AlgoWay URL and save the alert."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Verify logs",
+              "text": "Trigger a small test alert and check AlgoWay Webhook Logs plus Match-Trader order result."
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "VideoObject",
+          "name": "How to Connect TradingView Alert to MatchTrader on the AlgoWay Platform",
+          "description": "Step-by-step tutorial on configuring TradingView webhook alerts to connect with Match-Trader using AlgoWay.",
+          "thumbnailUrl": "https://img.youtube.com/vi/umsrv6rKhoc/maxresdefault.jpg",
+          "uploadDate": "2025-09-15T00:00:00Z",
+          "duration": "PT145S",
+          "contentUrl": "https://algoway.trade/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html",
+          "embedUrl": "https://www.youtube.com/embed/umsrv6rKhoc",
+          "publisher": {
+            "@type": "Organization",
+            "name": "AlgoWay"
+          }
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can I connect TradingView alerts to Match-Trader with AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can receive TradingView webhook alerts and route structured JSON commands to Match-Trader through a Match-Trader webhook created in the AlgoWay dashboard."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I get Broker ID for Match-Trader?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use the Auto detect button next to the Broker ID field in the AlgoWay Match-Trader webhook form. If Auto detect fails, retrieve Broker ID manually from the broker login page source code."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Account ID required for Match-Trader webhook setup?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Account ID is optional if you do not know it. Some broker environments or multi-account profiles may require it, so enter it when your broker provides the exact account ID."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What JSON fields are required for Match-Trader automation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A basic AlgoWay Match-Trader message usually includes platform_name, ticker, order_contracts, order_action and optionally price."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why did my TradingView to Match-Trader webhook fail?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include wrong broker URL, trailing slash in URL, wrong email or password, missing or wrong Broker ID, wrong Account ID, invalid JSON, wrong platform_name, symbol mismatch, invalid size or TradingView webhook URL not enabled."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "TradingView to Match-Trader Webhook Automation",
+                                      "item": "https://algoway.trade/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

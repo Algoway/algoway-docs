@@ -1,0 +1,1001 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>AlgoWay Webhook Error 415 JSON Fix</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Fix AlgoWay webhook Error 415 Unsupported Media Type. Learn why TradingView alerts send text/plain and how to send valid JSON." />
+	<link rel="canonical" href="https://algoway.trade/blog/algoway-415.html" />
+
+	<meta property="og:title" content="AlgoWay Webhook Error 415: Fix JSON Alert Format" />
+	<meta property="og:description" content="Error 415 means the webhook payload format is not supported. Learn how to fix TradingView and AlgoWay webhook JSON messages for automated trading." />
+	<meta property="og:url" content="https://algoway.trade/blog/algoway-415.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AlgoWay Webhook Error 415" />
+	<meta name="twitter:description" content="Fix 415 Unsupported Media Type in AlgoWay webhooks by sending valid JSON alerts with the correct trading fields." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/415@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+        <h1 class="mb-4" style="margin-top: 0;">
+            <strong>AlgoWay Webhook Error 415: Fix Unsupported Media Type in JSON Trading Alerts</strong>
+        </h1>
+
+        <img src="/static/img/blog-img/415@2x.jpg" width="1536" height="1024" fetchpriority="high" alt="AlgoWay webhook Error 415 Unsupported Media Type JSON alert fix" style="width:100%; height:auto; margin-bottom:1.5rem;" decoding="async" />
+
+        <p><strong>AlgoWay webhook Error 415</strong> means that AlgoWay received the webhook request, but the payload format was not supported. In automated trading, this usually happens when a TradingView alert, manual webhook, Pine Script alert, or external signal tool sends plain text, broken JSON, an empty message, or a body that does not match the expected AlgoWay JSON structure.</p>
+
+        <p>This is not a trading strategy error. It is not an MT5 Expert Advisor error. It is not a broker rejection. A <strong>415 Unsupported Media Type</strong> response happens before trade execution, at the webhook parsing layer. AlgoWay protects the account by refusing to process a trading command when the incoming message cannot be read safely.</p>
+
+        <p>The short version is simple: <strong>send valid JSON to your AlgoWay webhook URL</strong>. Once the webhook message is a clean JSON payload with the required fields, AlgoWay can route the command to MetaTrader 5, TradeLocker, Match-Trader, DxTrade, cTrader, Binance, Bybit, OKX, MEXC, Tradovate, Alpaca, or another supported execution destination.</p>
+
+        <p class="text-muted"><strong>Last updated:</strong> May 12, 2026</p>
+
+        <h2 class="mt-4">What Error 415 Means for AlgoWay Webhooks</h2>
+        <p>HTTP status code <strong>415 Unsupported Media Type</strong> means that the server refused to process the request because the request body was sent in a format the endpoint does not support. For AlgoWay, the supported format for trading automation is structured JSON. The webhook endpoint must receive a readable trading instruction, not a free-form sentence.</p>
+
+        <p>In a normal automated trading webhook flow, the chain looks like this:</p>
+
+        <pre><code>Signal source → AlgoWay webhook URL → JSON validation → selected trading platform → trade execution</code></pre>
+
+        <p>Error 415 appears near the beginning of this chain. The signal source reached AlgoWay, but AlgoWay could not continue because the body was not usable as a supported trading payload.</p>
+
+        <p>This matters because a webhook is not a normal website form. It is a machine-to-machine request. The receiving server must be able to identify the body format, parse the content, validate the fields, and decide whether the instruction is safe enough to continue. If the incoming body is not JSON, or if it is sent in a format that does not match the endpoint behavior, the safest result is rejection before the order reaches any trading platform.</p>
+
+        <h2 class="mt-4">Why TradingView Alerts Often Cause Webhook Error 415</h2>
+        <p>TradingView webhook alerts are one of the most common sources of Error 415 because the alert message controls how the payload is sent. When the alert message is valid JSON, TradingView sends it as <code>application/json</code>. When the alert message is not valid JSON, TradingView sends it as <code>text/plain</code>.</p>
+
+        <p>That difference is critical. AlgoWay automated trading webhooks are designed to receive structured trading commands. A plain text alert may be understandable to a human, but it is not a safe execution command for a trading platform.</p>
+
+        <h3 class="mt-4">Bad TradingView webhook message</h3>
+        <p>This kind of message can trigger a 415 error because it is plain text, not JSON:</p>
+
+        <pre><code>Buy EURUSD now, lot 0.10, SL 1.0745, TP 1.0820</code></pre>
+
+        <h3 class="mt-4">Correct TradingView webhook JSON message</h3>
+        <p>This message is structured JSON and can be processed by AlgoWay:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy",
+  "sl_price": 1.0745,
+  "tp_price": 1.0820,
+  "comment": "TradingView alert via AlgoWay"
+}</code></pre>
+
+        <h2 class="mt-4">Required AlgoWay JSON Fields</h2>
+        <p>For a basic AlgoWay automated trading webhook, the message should include the core fields that tell AlgoWay where to send the order, what instrument to trade, what size to use, and what action to execute.</p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Purpose</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>platform_name</code></td>
+                        <td>Execution destination inside AlgoWay</td>
+                        <td><code>metatrader5</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>ticker</code></td>
+                        <td>Trading symbol or instrument</td>
+                        <td><code>EURUSD</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>order_contracts</code></td>
+                        <td>Order size, lot size, quantity, or contract amount depending on the platform</td>
+                        <td><code>0.10</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>order_action</code></td>
+                        <td>Trade direction or close command</td>
+                        <td><code>buy</code>, <code>sell</code>, <code>flat</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Optional fields can extend the webhook command with Stop Loss, Take Profit, trailing stop, comments, and platform-specific execution details. The exact set of optional fields depends on the selected trading platform and AlgoWay connector.</p>
+
+        <h2 class="mt-4">Fast Fix Checklist for AlgoWay Error 415</h2>
+        <p>Use this checklist before changing the strategy, EA, broker connection, or AlgoWay account settings. In most cases, Error 415 is fixed inside the webhook message itself.</p>
+
+        <ol>
+            <li><strong>Make sure the alert message is valid JSON.</strong> Curly braces, double quotes, commas, and field names must be correct.</li>
+            <li><strong>Do not send plain text.</strong> A sentence like <code>buy EURUSD now</code> is not a safe AlgoWay trading command.</li>
+            <li><strong>Use exact AlgoWay field names.</strong> For example, use <code>order_action</code>, not <code>action</code> or <code>side</code>, unless the selected connector documentation says otherwise.</li>
+            <li><strong>Check commas.</strong> Do not leave a trailing comma after the last JSON field.</li>
+            <li><strong>Use normal double quotes.</strong> Replace smart quotes like <code>“buy”</code> with standard JSON quotes like <code>"buy"</code>.</li>
+            <li><strong>Check empty values.</strong> Empty alert bodies and empty placeholders can break the payload.</li>
+            <li><strong>Test the message before live execution.</strong> Use a small order size or a test webhook before sending real volume.</li>
+        </ol>
+
+        <h2 class="mt-4">Correct AlgoWay Webhook JSON Examples</h2>
+        <p>The following examples show clean webhook payloads for common AlgoWay automation flows.</p>
+
+        <h3 class="mt-4">Basic Buy Order</h3>
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy"
+}</code></pre>
+
+        <h3 class="mt-4">Basic Sell Order</h3>
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "GBPUSD",
+  "order_contracts": 0.10,
+  "order_action": "sell"
+}</code></pre>
+
+        <h3 class="mt-4">Order with Stop Loss and Take Profit</h3>
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "XAUUSD",
+  "order_contracts": 0.05,
+  "order_action": "buy",
+  "sl_price": 2340.00,
+  "tp_price": 2370.00,
+  "comment": "AlgoWay webhook with SL TP"
+}</code></pre>
+
+        <h3 class="mt-4">Order with Pips-Based Risk Parameters</h3>
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy",
+  "stop_loss": 25,
+  "take_profit": 50,
+  "comment": "AlgoWay pips based SL TP"
+}</code></pre>
+
+        <h3 class="mt-4">Order with Trailing Stop</h3>
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy",
+  "sl_price": 1.0745,
+  "tp_price": 1.0820,
+  "trailing_pips": 15,
+  "comment": "AlgoWay trailing stop example"
+}</code></pre>
+
+        <h3 class="mt-4">Close Position</h3>
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0,
+  "order_action": "flat",
+  "comment": "Close EURUSD from AlgoWay webhook"
+}</code></pre>
+
+        <h2 class="mt-4">TradingView Placeholder Example for AlgoWay</h2>
+        <p>TradingView placeholders can be used inside a JSON alert message. The safest format is to keep placeholders inside quotes unless you are fully sure the final substituted value will always be valid JSON.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "comment": "TradingView strategy alert to AlgoWay"
+}</code></pre>
+
+        <p>If TradingView replaces a placeholder with an empty value, invalid symbol, or non-JSON text, the final message may fail. Always check the final alert message generated by the strategy before connecting it to a live AlgoWay webhook.</p>
+
+        <h2 class="mt-4">How to Test the JSON Before Using a Live Alert</h2>
+        <p>Before connecting a live TradingView alert to an AlgoWay webhook, test the exact message body that will be sent. The goal is not only to check that the JSON looks correct, but also to confirm that the final substituted values are still valid after TradingView replaces placeholders such as <code>{{ticker}}</code>, <code>{{strategy.order.contracts}}</code>, or <code>{{strategy.market_position}}</code>.</p>
+
+        <p>A useful manual test is to copy the final JSON message into a JSON validator before using it in an alert. If the validator reports a syntax error, AlgoWay will not be able to process the same body as a clean trading instruction. Fix the JSON first, then test the webhook again.</p>
+
+        <p>When testing manually with an external tool, make sure the request body is sent as raw JSON, not as form data and not as plain text. The body should start with <code>{</code>, end with <code>}</code>, and contain normal JSON key-value pairs. If the tool has a content type option, choose <code>application/json</code>.</p>
+
+        <h2 class="mt-4">Common Causes of 415 Unsupported Media Type in Automated Trading Webhooks</h2>
+        <h3 class="mt-4">1. The alert is plain text instead of JSON</h3>
+        <p>This is the most common case. Human-readable text is not enough for automated execution. AlgoWay needs structured fields.</p>
+
+        <h3 class="mt-4">2. The JSON is broken</h3>
+        <p>One missing quote, one extra comma, or one unclosed brace can turn a correct-looking alert into invalid JSON.</p>
+
+        <h3 class="mt-4">3. The message uses wrong field names</h3>
+        <p>AlgoWay should not guess which custom word means trade direction, symbol, or order size. Use the documented AlgoWay field names for the selected connector.</p>
+
+        <h3 class="mt-4">4. The alert body is empty</h3>
+        <p>An empty webhook request cannot become a trading command. If the TradingView alert message is empty, or if a script produces an empty alert, AlgoWay has nothing safe to execute.</p>
+
+        <h3 class="mt-4">5. The source sends an unsupported body format</h3>
+        <p>Some external automation tools can send form data, XML, raw text, or custom content types. AlgoWay trading webhooks should receive JSON when the payload is a trading command.</p>
+
+        <h3 class="mt-4">6. The final placeholder output is different from the template</h3>
+        <p>A JSON template can look correct before the alert fires, but the final alert body can still break after placeholder replacement. For example, an empty contract value, unexpected symbol format, or unquoted text value can make the final body invalid. This is why the final alert output matters more than the template shown in the editor.</p>
+
+        <h2 class="mt-4">Why AlgoWay Rejects Bad Webhook Payloads</h2>
+        <p>AlgoWay is an automated trading infrastructure. A webhook can open, close, or manage real positions on a connected trading platform. Because of that, AlgoWay should not interpret unclear messages as orders.</p>
+
+        <p>If a message says <code>BUY GOLD maybe</code>, a human may understand the intention. A trading server should not guess. AlgoWay requires a clean command because automated trading needs predictable fields, predictable values, and predictable routing.</p>
+
+        <p>This strict behavior protects traders from accidental execution caused by broken alerts, copied text, Telegram-style messages, HTML content, emojis, or incomplete strategy output.</p>
+
+        <h2 class="mt-4">How Error 415 Differs from MT5 and Broker Errors</h2>
+        <p>Error 415 is a webhook format problem. It happens before the order reaches the MT5 Expert Advisor or broker. If the JSON is valid and AlgoWay accepts the command, later errors may still happen at another layer, such as symbol mismatch, insufficient margin, disabled algorithmic trading, invalid stops, or broker-side rejection.</p>
+
+        <p>The difference is important:</p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Error type</th>
+                        <th>Where it happens</th>
+                        <th>What to check</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Webhook Error 415</td>
+                        <td>AlgoWay webhook parser</td>
+                        <td>JSON format, body type, required fields</td>
+                    </tr>
+                    <tr>
+                        <td>AlgoWay validation error</td>
+                        <td>AlgoWay routing layer</td>
+                        <td>Platform name, symbol, size, action, connector settings</td>
+                    </tr>
+                    <tr>
+                        <td>MT5 EA error</td>
+                        <td>MetaTrader 5 terminal or Expert Advisor</td>
+                        <td>EA connection, WebSocket, algo trading permission, DLL permission</td>
+                    </tr>
+                    <tr>
+                        <td>Broker execution error</td>
+                        <td>Broker server</td>
+                        <td>Stops, margin, volume, market status, symbol availability</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="mt-4">What to Check After Error 415 Is Fixed</h2>
+        <p>After the webhook stops returning Error 415, the request has passed the media type and payload parsing stage. At that point, any remaining issue will usually be connected to validation, connector configuration, platform availability, or broker execution rules.</p>
+
+        <p>For example, a valid JSON body can still fail if the platform name is wrong, the symbol does not exist on the selected broker, the order size is below the broker minimum, or the market is closed. These are different problems. Error 415 only tells you that the incoming body could not be accepted as a supported webhook payload.</p>
+
+        <p>This separation makes troubleshooting faster. First fix the body format. Then check the AlgoWay response, platform logs, MT5 Expert Advisor status, or broker execution message depending on where the next error appears.</p>
+
+        <h2 class="mt-4">Best Internal Guides to Use After Fixing Error 415</h2>
+        <p>After the webhook message is valid JSON, continue with the correct AlgoWay guide for your signal source or execution platform:</p>
+
+        <ul>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON Schema Guide</a> — field names and payload structure.</li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">Create a TradingView Webhook for AlgoWay</a> — TradingView alert setup.</li>
+            <li><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual Alerts for AlgoWay Webhooks</a> — non-strategy alerts and custom commands.</li>
+            <li><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Pine Script Strategy Integration</a> — strategy alert payload examples.</li>
+            <li><a href="/blog/algoway-mt5-ws-v10-overview.html">AlgoWayWS-MT5 Expert Advisor Setup</a> — MetaTrader 5 execution setup.</li>
+            <li><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 Errors</a> — errors after the webhook has already passed validation.</li>
+        </ul>
+
+        <h2 class="mt-4">FAQ: AlgoWay Webhook Error 415</h2>
+
+        <h3 class="mt-4">What does AlgoWay Error 415 mean?</h3>
+        <p>AlgoWay Error 415 means the webhook request arrived, but the message format was not supported. In most trading automation cases, the alert was not valid JSON or was sent as plain text.</p>
+
+        <h3 class="mt-4">Is Error 415 a MetaTrader 5 error?</h3>
+        <p>No. Error 415 happens before MT5 execution. It is a webhook payload format issue, not an MT5 terminal, Expert Advisor, or broker error.</p>
+
+        <h3 class="mt-4">Why does my TradingView webhook trigger Error 415?</h3>
+        <p>TradingView may send the alert as plain text when the alert message is not valid JSON. AlgoWay expects a structured JSON trading command, so plain text can be rejected.</p>
+
+        <h3 class="mt-4">Can AlgoWay read normal text like “buy EURUSD”?</h3>
+        <p>For standard webhooks, use JSON. AlgoWay should not guess trade size, platform, symbol, or execution action from plain text. If you need human-language signal parsing, use the AlgoWay AI Telegram Signals flow instead of a standard JSON webhook.</p>
+
+        <h3 class="mt-4">What is the safest fix for Error 415?</h3>
+        <p>Replace the alert message with valid JSON, use exact AlgoWay field names, remove smart quotes and trailing commas, and test the webhook with a small size before live execution.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "Article",
+                  "headline": "AlgoWay Webhook Error 415: Fix Unsupported Media Type in JSON Trading Alerts",
+                  "description": "Fix AlgoWay webhook Error 415 Unsupported Media Type by sending valid JSON alerts with the correct AlgoWay trading fields.",
+                  "image": [
+                            "https://algoway.trade/static/img/blog-img/415@2x.jpg"
+                  ],
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/logo-64.webp"
+                            }
+                  },
+                  "mainEntityOfPage": "https://algoway.trade/blog/algoway-415.html",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What does AlgoWay Error 415 mean?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "AlgoWay Error 415 means the webhook request arrived, but the message format was not supported. In most trading automation cases, the alert was not valid JSON or was sent as plain text."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is Error 415 a MetaTrader 5 error?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Error 415 happens before MT5 execution. It is a webhook payload format issue, not an MT5 terminal, Expert Advisor, or broker error."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does my TradingView webhook trigger Error 415?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "TradingView may send the alert as plain text when the alert message is not valid JSON. AlgoWay expects a structured JSON trading command, so plain text can be rejected."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay read normal text like buy EURUSD?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For standard webhooks, use JSON. AlgoWay should not guess trade size, platform, symbol, or execution action from plain text. If you need human-language signal parsing, use the AlgoWay AI Telegram Signals flow instead of a standard JSON webhook."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the safest fix for Error 415?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Replace the alert message with valid JSON, use exact AlgoWay field names, remove smart quotes and trailing commas, and test the webhook with a small size before live execution."
+              }
+            }
+          ]
+        }
+        </script>
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "AlgoWay Webhook Error 415 JSON Fix",
+                                      "item": "https://algoway.trade/blog/algoway-415.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

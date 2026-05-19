@@ -1,0 +1,1318 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Connect TrendSpider Alerts to AlgoWay</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TrendSpider alerts and Strategy Bots to AlgoWay with webhook JSON. Route signals to MT5, TradeLocker, cTrader, ProjectX and exchanges." />
+	<link rel="canonical" href="https://algoway.trade/blog/how-to-use-algoway-with-trendspider.html" />
+
+	<meta property="og:title" content="How to Connect TrendSpider Alerts to AlgoWay with Webhook Automation" />
+	<meta property="og:description" content="Use AlgoWay as a TrendSpider webhook automation bridge. Standard alerts, Strategy Bots, Entry/Exit webhook bodies, JSON templates, platform routing, testing and troubleshooting." />
+	<meta property="og:url" content="https://algoway.trade/blog/how-to-use-algoway-with-trendspider.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/blog-img/trendspider@2x.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="TrendSpider Webhook Automation with AlgoWay" />
+	<meta name="twitter:description" content="Connect TrendSpider alerts and trading bots to AlgoWay using webhook JSON templates for MT5, TradeLocker, Match-Trader, cTrader, ProjectX and more." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/trendspider@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>How to Connect TrendSpider Alerts to AlgoWay with Webhook Automation</strong></h1>
+
+        <img src="/static/img/blog-img/trendspider@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How to connect TrendSpider alerts and Strategy Bots to AlgoWay with webhook automation"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>AlgoWay can receive TrendSpider webhook alerts and route them to supported execution platforms such as MetaTrader 5, TradeLocker, Match-Trader, DxTrade, cTrader, ProjectX, Tradovate, Alpaca, Binance, Bybit, Bitget, BingX, Coinbase and other destinations.</strong> TrendSpider sends the alert or Strategy Bot payload, AlgoWay parses the JSON, and the selected platform receives the trading command.</p>
+
+        <p>This guide is written for traders searching for <strong>TrendSpider webhook automation</strong>, <strong>TrendSpider to broker</strong>, <strong>TrendSpider trading bot webhook</strong>, <strong>TrendSpider alerts to MT5</strong>, <strong>TrendSpider alerts to TradeLocker</strong>, <strong>TrendSpider Strategy Bot webhook</strong>, <strong>automate TrendSpider alerts</strong>, and <strong>AlgoWay TrendSpider integration</strong>.</p>
+
+        <p>The practical route is:</p>
+
+        <pre><code>TrendSpider alert or Strategy Bot → AlgoWay webhook URL → AlgoWay JSON routing → broker, exchange or trading platform</code></pre>
+
+        <p>TrendSpider creates the signal. AlgoWay receives the webhook. The destination platform executes or rejects the command according to account, symbol, quantity, session and platform rules.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#standard-vs-bots">Standard Alerts vs Strategy Bots</a></li>
+                <li><a href="#before">Before you start</a></li>
+                <li><a href="#what-sends">What TrendSpider sends</a></li>
+                <li><a href="#placeholders">TrendSpider placeholders</a></li>
+                <li><a href="#schema">AlgoWay JSON schema</a></li>
+                <li><a href="#standard-alerts">Standard Alert templates</a></li>
+                <li><a href="#bots">Strategy Bot templates</a></li>
+                <li><a href="#advanced">SL/TP and trailing fields</a></li>
+                <li><a href="#setup">Setup steps</a></li>
+                <li><a href="#test">Testing and logs</a></li>
+                <li><a href="#problems">Common problems</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: TrendSpider to AlgoWay Webhook Automation</h2>
+
+        <p>To connect TrendSpider to AlgoWay:</p>
+
+        <ol>
+            <li>Create a webhook route in AlgoWay for your destination platform.</li>
+            <li>Copy the AlgoWay webhook URL.</li>
+            <li>Open TrendSpider Standard Alert or Strategy Bot settings.</li>
+            <li>Paste the AlgoWay webhook URL into the webhook URL field.</li>
+            <li>Paste one valid AlgoWay JSON body into the alert note, description or bot webhook body.</li>
+            <li>Use TrendSpider placeholders such as <code>%alert_symbol%</code>, <code>%bot_symbol%</code> and <code>%last_price%</code> where needed.</li>
+            <li>Use separate BUY and SELL alert bodies when TrendSpider does not provide trade direction automatically.</li>
+            <li>Trigger a small test alert.</li>
+            <li>Check AlgoWay Webhook Logs and the destination platform response.</li>
+        </ol>
+
+        <p>Basic BUY payload for a TrendSpider Standard Alert:</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "%last_price%",
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <h2 id="standard-vs-bots" class="mt-4">TrendSpider Standard Alerts vs Strategy Bots</h2>
+
+        <p>TrendSpider has two important webhook workflows. They should not be treated as the same setup.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>TrendSpider workflow</th>
+                    <th>Webhook behavior</th>
+                    <th>AlgoWay setup note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Standard Alerts</strong></td>
+                    <td>Send the alert message/note body to the configured webhook URL.</td>
+                    <td>Use separate alert messages for BUY, SELL and FLAT because standard alerts do not automatically know trading direction.</td>
+                </tr>
+                <tr>
+                    <td><strong>Strategy Bots</strong></td>
+                    <td>Can have separate Entry Webhook URL/Body and Exit Webhook URL/Body.</td>
+                    <td>Use entry body for <code>buy</code> or <code>sell</code>, and exit body for <code>flat</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>This is the core difference. Standard Alerts are excellent for dynamic alerts, multi-factor alerts and technical events. Strategy Bots are better when the TrendSpider workflow explicitly separates entry and exit events.</p>
+
+        <h2 id="before" class="mt-4">Before You Start</h2>
+
+        <p>Prepare the following:</p>
+
+        <ul>
+            <li>AlgoWay account;</li>
+            <li>active AlgoWay webhook route;</li>
+            <li>destination platform configured in AlgoWay;</li>
+            <li>TrendSpider account with alerts or Strategy Bots available;</li>
+            <li>TrendSpider alert condition or bot logic;</li>
+            <li>AlgoWay webhook URL;</li>
+            <li>one valid JSON body per alert or bot event;</li>
+            <li>small test size for first execution.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> do not test with large live size. Confirm JSON delivery, symbol mapping, platform credentials and order acceptance first.
+        </div>
+
+        <h2 id="what-sends" class="mt-4">What TrendSpider Sends</h2>
+
+        <p>TrendSpider webhooks use HTTP POST requests. For Standard Alerts, the webhook body is based on the text you put into the alert description, note or message field. If that body is valid JSON, the receiving side can parse it as JSON.</p>
+
+        <p>For Strategy Bots, TrendSpider provides a separate webhook setup for entry and exit behavior. That means you can set different payloads for entry and exit instead of forcing one generic alert message to do everything.</p>
+
+        <p>For AlgoWay, this means:</p>
+
+        <ul>
+            <li>one TrendSpider webhook body should contain one JSON object;</li>
+            <li>the JSON must include <code>platform_name</code> and <code>order_action</code>;</li>
+            <li>BUY and SELL standard alerts should be separate if the alert itself does not supply direction;</li>
+            <li>Strategy Bot Entry body should send the entry action;</li>
+            <li>Strategy Bot Exit body should usually send <code>flat</code>.</li>
+        </ul>
+
+        <h2 id="placeholders" class="mt-4">TrendSpider Placeholders</h2>
+
+        <p>TrendSpider placeholders are replaced when the alert or bot fires. Use them to keep the JSON dynamic.</p>
+
+        <h3 class="mt-3">Standard Alert Placeholders</h3>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Placeholder</th>
+                    <th>Meaning</th>
+                    <th>AlgoWay use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>%alert_name%</code></td>
+                    <td>Alert name.</td>
+                    <td>Useful in <code>comment</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>%alert_symbol%</code></td>
+                    <td>Alert symbol.</td>
+                    <td>Useful in <code>ticker</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>%alert_note%</code></td>
+                    <td>Alert note.</td>
+                    <td>Useful only if your workflow intentionally reuses notes.</td>
+                </tr>
+                <tr>
+                    <td><code>%price_action_event%</code></td>
+                    <td>Price action event description.</td>
+                    <td>Useful for logs, not usually for order action.</td>
+                </tr>
+                <tr>
+                    <td><code>%last_price%</code></td>
+                    <td>Last price when the alert fired.</td>
+                    <td>Useful in <code>price</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="mt-3">Strategy Bot Placeholders</h3>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Placeholder</th>
+                    <th>Meaning</th>
+                    <th>AlgoWay use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>%bot_name%</code></td>
+                    <td>Strategy Bot name.</td>
+                    <td>Useful in <code>comment</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>%bot_symbol%</code></td>
+                    <td>Bot symbol.</td>
+                    <td>Useful in <code>ticker</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>%bot_timeframe%</code></td>
+                    <td>Bot timeframe.</td>
+                    <td>Useful in comments and logs.</td>
+                </tr>
+                <tr>
+                    <td><code>%bot_status%</code></td>
+                    <td>Bot status.</td>
+                    <td>Useful in comments and diagnostics.</td>
+                </tr>
+                <tr>
+                    <td><code>%last_price%</code></td>
+                    <td>Last price when the bot fired.</td>
+                    <td>Useful in <code>price</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Direction warning:</strong> Standard TrendSpider Alerts do not automatically give AlgoWay a universal <code>buy</code> or <code>sell</code> placeholder. Use separate alerts or separate JSON bodies for BUY and SELL.
+        </div>
+
+        <h2 id="schema" class="mt-4">AlgoWay JSON Schema for TrendSpider</h2>
+
+        <p>AlgoWay expects a structured JSON object. The common fields are:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Required</th>
+                    <th>Example</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>platform_name</code></td>
+                    <td>Yes</td>
+                    <td><code>metatrader5</code></td>
+                    <td>Target execution platform route.</td>
+                </tr>
+                <tr>
+                    <td><code>ticker</code></td>
+                    <td>Yes</td>
+                    <td><code>%alert_symbol%</code></td>
+                    <td>Symbol or instrument name.</td>
+                </tr>
+                <tr>
+                    <td><code>order_action</code></td>
+                    <td>Yes</td>
+                    <td><code>buy</code>, <code>sell</code>, <code>flat</code></td>
+                    <td>Entry, direction or close action.</td>
+                </tr>
+                <tr>
+                    <td><code>order_contracts</code></td>
+                    <td>Yes for entries</td>
+                    <td><code>1</code></td>
+                    <td>Position size, lot size, contracts or quantity depending on destination.</td>
+                </tr>
+                <tr>
+                    <td><code>price</code></td>
+                    <td>No</td>
+                    <td><code>%last_price%</code></td>
+                    <td>Tracking price for logs and comparison.</td>
+                </tr>
+                <tr>
+                    <td><code>comment</code></td>
+                    <td>No</td>
+                    <td><code>TS:%alert_name%</code></td>
+                    <td>Log label for debugging.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Common platform_name Values</h2>
+
+        <p>Use the <code>platform_name</code> that matches your AlgoWay route.</p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Platform</th>
+                        <th><code>platform_name</code></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>MetaTrader 5</td><td><code>metatrader5</code></td></tr>
+                    <tr><td>TradeLocker</td><td><code>tradelocker</code></td></tr>
+                    <tr><td>Match-Trader</td><td><code>matchtrader</code></td></tr>
+                    <tr><td>DxTrade</td><td><code>dxtrade</code></td></tr>
+                    <tr><td>cTrader</td><td><code>ctrader</code></td></tr>
+                    <tr><td>Capital.com</td><td><code>capitalcom</code></td></tr>
+                    <tr><td>Alpaca</td><td><code>alpaca</code></td></tr>
+                    <tr><td>Tradovate</td><td><code>tradovate</code></td></tr>
+                    <tr><td>ProjectX</td><td><code>projectx</code></td></tr>
+                    <tr><td>Binance</td><td><code>binance</code></td></tr>
+                    <tr><td>Bybit</td><td><code>bybit</code></td></tr>
+                    <tr><td>OKX</td><td><code>okx</code></td></tr>
+                    <tr><td>Bitget</td><td><code>bitget</code></td></tr>
+                    <tr><td>BingX</td><td><code>bingx</code></td></tr>
+                    <tr><td>Coinbase</td><td><code>coinbase</code></td></tr>
+                    <tr><td>Kraken</td><td><code>kraken</code></td></tr>
+                    <tr><td>KuCoin</td><td><code>kucoin</code></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p>Full field reference: <a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a>.</p>
+
+        <h2 id="standard-alerts" class="mt-4">TrendSpider Standard Alerts → AlgoWay JSON Templates</h2>
+
+        <p>Use Standard Alerts when you want TrendSpider dynamic alerts, multi-factor alerts, trendline events, indicator events or price action alerts to send a fixed action.</p>
+
+        <h3 class="mt-3">BUY Alert JSON</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "%last_price%",
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <h3 class="mt-3">SELL Alert JSON</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_contracts": 1,
+  "order_action": "sell",
+  "price": "%last_price%",
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <h3 class="mt-3">FLAT / Close Alert JSON</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_action": "flat",
+  "comment": "TS_EXIT:%alert_name%"
+}</code></pre>
+
+        <div class="alert alert-info" role="alert">
+            <strong>Replace <code>metatrader5</code></strong> with your real AlgoWay destination if you use TradeLocker, Match-Trader, DxTrade, ProjectX, Tradovate, Alpaca or a crypto exchange.
+        </div>
+
+        <h2 id="bots" class="mt-4">TrendSpider Strategy Bots → AlgoWay Entry / Exit Webhook Bodies</h2>
+
+        <p>Strategy Bots are stronger for entry/exit automation because the bot webhook settings can separate Entry and Exit webhook bodies.</p>
+
+        <h3 class="mt-3">Long Bot Entry Webhook Body</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%bot_symbol%",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "%last_price%",
+  "comment": "TSBOT_ENTRY:%bot_name%"
+}</code></pre>
+
+        <h3 class="mt-3">Long Bot Exit Webhook Body</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%bot_symbol%",
+  "order_action": "flat",
+  "comment": "TSBOT_EXIT:%bot_name%"
+}</code></pre>
+
+        <h3 class="mt-3">Short Bot Entry Webhook Body</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%bot_symbol%",
+  "order_contracts": 1,
+  "order_action": "sell",
+  "price": "%last_price%",
+  "comment": "TSBOT_SHORT_ENTRY:%bot_name%"
+}</code></pre>
+
+        <h3 class="mt-3">Short Bot Exit Webhook Body</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%bot_symbol%",
+  "order_action": "flat",
+  "comment": "TSBOT_SHORT_EXIT:%bot_name%"
+}</code></pre>
+
+        <h3 class="mt-3">Fallback with Fixed Ticker</h3>
+
+        <p>Use a fixed ticker only when your bot setup does not pass a usable symbol variable or when you want a controlled test.</p>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "AAPL",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "%last_price%",
+  "comment": "TSBOT:%bot_name%"
+}</code></pre>
+
+        <h2 id="advanced" class="mt-4">Optional SL/TP and Trailing Fields</h2>
+
+        <p>Some AlgoWay routes support additional risk fields. Test these fields on small size before using them live.</p>
+
+        <h3 class="mt-3">Entry with Absolute SL/TP Prices</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "%last_price%",
+  "sl_price": 192.50,
+  "tp_price": 198.00,
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <h3 class="mt-3">Entry with Distance-Style SL/TP</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "%last_price%",
+  "stop_loss": "100",
+  "take_profit": "200",
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <h3 class="mt-3">Entry with Trailing Stop</h3>
+
+        <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "%alert_symbol%",
+  "order_contracts": 1,
+  "order_action": "buy",
+  "price": "%last_price%",
+  "trailing_pips": 20,
+  "comment": "TS:%alert_name%"
+}</code></pre>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Do not assume SL/TP units.</strong> Confirm whether your route interprets fields as absolute prices, points, pips or route-specific distance values.
+        </div>
+
+        <h2 id="setup" class="mt-4">Setup Steps: TrendSpider to AlgoWay</h2>
+
+        <ol>
+            <li>Open AlgoWay and create a webhook for your destination platform.</li>
+            <li>Copy the AlgoWay webhook URL.</li>
+            <li>Open TrendSpider Standard Alert or Strategy Bot settings.</li>
+            <li>Paste the AlgoWay webhook URL into the webhook URL field.</li>
+            <li>Paste one JSON template into the alert note, description or Strategy Bot webhook body.</li>
+            <li>Use BUY and SELL as separate standard alerts if direction is not provided by TrendSpider.</li>
+            <li>Use Entry and Exit webhook bodies for Strategy Bots.</li>
+            <li>Start with <code>order_contracts: 1</code> or the smallest valid platform size.</li>
+            <li>Trigger the alert or bot event.</li>
+            <li>Check AlgoWay Webhook Logs and destination platform logs.</li>
+        </ol>
+
+        <p>General webhook guide: <a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How webhook automation works with AlgoWay</a>.</p>
+
+        <h2 id="test" class="mt-4">Testing and Logs</h2>
+
+        <p>Always test in layers:</p>
+
+        <ol>
+            <li>Validate JSON syntax.</li>
+            <li>Send a small TrendSpider alert to AlgoWay.</li>
+            <li>Confirm AlgoWay receives the payload.</li>
+            <li>Confirm <code>platform_name</code>, <code>ticker</code>, <code>order_action</code> and <code>order_contracts</code>.</li>
+            <li>Check destination platform response.</li>
+            <li>Confirm the broker, exchange or platform accepted the order.</li>
+            <li>Test the exit body separately.</li>
+        </ol>
+
+        <p>Use the <code>comment</code> field to make logs readable:</p>
+
+        <pre><code>"comment": "TSBOT_ENTRY:%bot_name%"</code></pre>
+
+        <p>If AlgoWay receives the webhook but the platform rejects the order, inspect symbol mapping, quantity, account permissions, market session, margin and platform-specific logs.</p>
+
+        <h2 id="problems" class="mt-4">Common TrendSpider Webhook Problems</h2>
+
+        <h3 class="mt-3">Invalid JSON</h3>
+        <p>Use one JSON object, double quotes and no trailing commas. Invalid JSON can be rejected before execution. Read: <a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a>.</p>
+
+        <h3 class="mt-3">Wrong platform_name</h3>
+        <p>The <code>platform_name</code> value must match the AlgoWay route. Do not use <code>metatrader5</code> if the webhook route is ProjectX or Coinbase.</p>
+
+        <h3 class="mt-3">Standard Alert Has No Direction</h3>
+        <p>Use separate TrendSpider Standard Alerts for BUY and SELL, each with its own fixed <code>order_action</code>.</p>
+
+        <h3 class="mt-3">Strategy Bot Entry Works but Exit Does Not</h3>
+        <p>Check the Exit Webhook URL and Exit Webhook Body. Entry and Exit bodies are separate in Strategy Bot workflows.</p>
+
+        <h3 class="mt-3">Bot Symbol Is Empty or Wrong</h3>
+        <p>If <code>%bot_symbol%</code> is not passed as expected, test with a fixed ticker first.</p>
+
+        <h3 class="mt-3">TrendSpider Sends the Alert but No Trade Opens</h3>
+        <p>Check AlgoWay logs first. If payload was received, check destination platform credentials, EA connection, symbol, quantity, session and order rejection response.</p>
+
+        <h3 class="mt-3">Wrong Size</h3>
+        <p>For MetaTrader 5, size may be lots. For futures platforms, size may be contracts. For crypto exchanges, quantity rules and step size matter.</p>
+
+        <h3 class="mt-3">Exit Sends flat but Position Remains Open</h3>
+        <p>Check whether the ticker matches the open position, whether <code>flat</code> is supported by the route, and whether the position belongs to the same AlgoWay route/account.</p>
+
+        <h2 class="mt-4">TrendSpider to Broker Automation vs TradingView Automation</h2>
+
+        <p>TrendSpider and TradingView are different signal sources. AlgoWay can work with both when the incoming webhook message is valid JSON and the route is configured correctly.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th>Typical placeholders</th>
+                    <th>AlgoWay note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TrendSpider Standard Alert</td>
+                    <td><code>%alert_symbol%</code>, <code>%alert_name%</code>, <code>%last_price%</code></td>
+                    <td>Use fixed BUY/SELL JSON templates.</td>
+                </tr>
+                <tr>
+                    <td>TrendSpider Strategy Bot</td>
+                    <td><code>%bot_symbol%</code>, <code>%bot_name%</code>, <code>%bot_status%</code>, <code>%last_price%</code></td>
+                    <td>Use Entry and Exit webhook bodies.</td>
+                </tr>
+                <tr>
+                    <td>TradingView Strategy Alert</td>
+                    <td><code>{{ticker}}</code>, <code>{{strategy.order.contracts}}</code>, <code>{{strategy.market_position}}</code></td>
+                    <td>Use TradingView JSON templates.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate webhook alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create webhook alerts for AlgoWay</a></li>
+            <li><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual webhook alerts with AlgoWay</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">Webhook automation to MetaTrader 5</a></li>
+            <li><a href="/blog/how-to-connect-projectx.html">Webhook automation to ProjectX</a></li>
+            <li><a href="/blog/algoway-tradovate-integration-guide.html">Webhook automation to Tradovate</a></li>
+            <li><a href="/blog/coinbase-api.html">Webhook automation to Coinbase</a></li>
+            <li><a href="/blog/algoway-tradecopier-for-diversification-trading.html">Copy webhook alerts to multiple accounts</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>TrendSpider can send Standard Alerts and Strategy Bot webhooks to AlgoWay when the body is valid AlgoWay JSON.</strong> Standard Alerts are best for fixed BUY, SELL or FLAT actions from dynamic alert conditions. Strategy Bots are better for separated Entry and Exit webhook bodies.</p>
+
+        <p>Start with a small test, keep <code>comment</code> values readable, check AlgoWay Webhook Logs, and only move to live size after entry, exit, symbol and quantity behavior are confirmed.</p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Connect TrendSpider Alerts to AlgoWay with Webhook Automation",
+                  "description": "Connect TrendSpider alerts and Strategy Bots to AlgoWay with webhook JSON. Automate TrendSpider signals to MT5, TradeLocker, Match-Trader, DxTrade, cTrader, ProjectX, Tradovate, Alpaca and crypto exchanges.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/how-to-use-algoway-with-trendspider.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "TrendSpider Webhook Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Connect TrendSpider Alerts to AlgoWay",
+          "description": "Create an AlgoWay webhook, configure TrendSpider Standard Alerts or Strategy Bot webhooks, send valid JSON and verify the route in AlgoWay logs.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Create AlgoWay webhook",
+              "text": "Create a webhook route in AlgoWay for your destination platform and copy the webhook URL."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Open TrendSpider alert or bot",
+              "text": "Open a TrendSpider Standard Alert or Strategy Bot that should send the signal."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Paste webhook URL",
+              "text": "Paste the AlgoWay webhook URL into TrendSpider's webhook URL field."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Paste JSON body",
+              "text": "Paste one valid AlgoWay JSON object into the alert note, description or Strategy Bot webhook body."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Test and check logs",
+              "text": "Trigger a small test alert and confirm the payload and platform response in AlgoWay Webhook Logs."
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can TrendSpider alerts automate trades through AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. TrendSpider can send webhook JSON to AlgoWay, and AlgoWay can route the signal to supported brokers, exchanges and trading platforms."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What is the difference between TrendSpider Standard Alerts and Strategy Bots?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Standard Alerts send an alert body to the configured webhook URL. Strategy Bots can have separate Entry and Exit webhook URLs and bodies."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which TrendSpider placeholders are useful for AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "For Standard Alerts, %alert_symbol%, %alert_name% and %last_price% are useful. For Strategy Bots, %bot_symbol%, %bot_name%, %bot_timeframe%, %bot_status% and %last_price% are useful."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does TrendSpider provide a universal buy or sell placeholder?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Standard TrendSpider Alerts do not provide a universal buy or sell direction placeholder. Use separate BUY and SELL alerts with separate JSON messages."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why did my TrendSpider webhook fail in AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include invalid JSON, wrong platform_name, missing order_contracts on entry, wrong ticker, wrong webhook URL, unsupported size, platform credential errors or destination order rejection."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "Connect TrendSpider Alerts to AlgoWay",
+                                      "item": "https://algoway.trade/blog/how-to-use-algoway-with-trendspider.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

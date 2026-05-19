@@ -1,0 +1,1110 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>TradingView to Tradovate Webhook Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TradingView alerts to Tradovate with AlgoWay. Create a webhook, authorize Tradovate, set Account ID, test futures and send valid JSON." />
+	<link rel="canonical" href="https://algoway.trade/blog/algoway-tradovate-integration-guide.html" />
+
+	<meta property="og:title" content="How to Connect TradingView to Tradovate with Webhook Automation | AlgoWay" />
+	<meta property="og:description" content="Use AlgoWay as a TradingView to Tradovate webhook bridge. Set up Tradovate authorization, Account ID, futures symbols, test webhooks, and TradingView strategy alert JSON." />
+	<meta property="og:url" content="https://algoway.trade/blog/algoway-tradovate-integration-guide.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="How to Connect TradingView to Tradovate" />
+	<meta name="twitter:description" content="Connect TradingView alerts to Tradovate through AlgoWay webhook automation: Tradovate login, Account ID, test webhook, futures symbols, JSON examples and troubleshooting." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="https://algoway.trade/static/img/social.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1><strong>How to Connect TradingView Alerts to Tradovate with AlgoWay Webhook Automation</strong></h1>
+
+        <p><strong>AlgoWay lets you connect TradingView alerts to Tradovate through webhook automation.</strong> You create a Tradovate webhook in AlgoWay, authorize your Tradovate session, select the correct account, test execution from the AlgoWay dashboard, and then paste the AlgoWay webhook URL into TradingView.</p>
+
+        <p>This guide is written for traders searching for <strong>how to connect TradingView to Tradovate</strong>, <strong>TradingView to Tradovate webhook</strong>, <strong>Tradovate automated trading</strong>, <strong>Tradovate trading bot webhook</strong>, <strong>TradingView futures automation</strong>, and <strong>automated futures trading with TradingView alerts</strong>.</p>
+
+        <p>The practical route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → Tradovate authorization session → Tradovate futures account</code></pre>
+
+        <p>TradingView creates the signal. AlgoWay receives and validates the webhook JSON. Tradovate receives the futures execution request through the authorized session and account settings configured in AlgoWay.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <div style="max-width:360px; margin:0 auto 1.5rem auto; border-radius:12px; overflow:hidden; aspect-ratio:9/16; background:#000;">
+            <iframe src="https://www.youtube.com/embed/pJctA02M-dw"
+                    title="How to connect TradingView alerts to Tradovate with AlgoWay"
+                    style="width:100%; height:100%; border:0; display:block;"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+        </div>
+
+        <h2 class="mt-4">Quick Answer: TradingView to Tradovate with AlgoWay</h2>
+
+        <p>To automate Tradovate from TradingView, you need four things:</p>
+
+        <ol>
+            <li>a Tradovate account with valid login access;</li>
+            <li>an AlgoWay Tradovate webhook;</li>
+            <li>a successful Tradovate authorization session inside AlgoWay;</li>
+            <li>a valid TradingView alert JSON message sent to the AlgoWay webhook URL.</li>
+        </ol>
+
+        <p>After authorization succeeds, one TradingView alert can send a futures trading command to AlgoWay, and AlgoWay can route it to Tradovate.</p>
+
+        <h2 class="mt-4">Why Traders Use Webhooks for TradingView to Tradovate Automation</h2>
+
+        <p>TradingView is often used for charting, Pine Script strategies, alerts and market logic. Tradovate is widely used for futures trading. The missing layer is automated execution: how does a TradingView alert become a Tradovate order without a custom server?</p>
+
+        <p>AlgoWay provides this bridge. Instead of building and hosting your own TradingView-to-Tradovate bot, you create a webhook route in the AlgoWay dashboard and use structured JSON in the TradingView alert message.</p>
+
+        <p>This is useful for:</p>
+
+        <ul>
+            <li>automating TradingView futures strategy alerts;</li>
+            <li>routing alerts to Tradovate demo or live accounts;</li>
+            <li>testing MNQ, MES, NQ, ES and other futures workflows;</li>
+            <li>avoiding a custom webhook server;</li>
+            <li>using AlgoWay logs to debug the exact payload and response;</li>
+            <li>keeping TradingView as the signal source and Tradovate as the execution destination.</li>
+        </ul>
+
+        <h2 class="mt-4">Before You Start</h2>
+
+        <p>Prepare the following before creating the Tradovate webhook:</p>
+
+        <ul>
+            <li>an active AlgoWay account;</li>
+            <li>a Tradovate demo or live account;</li>
+            <li>your Tradovate username or email;</li>
+            <li>your Tradovate password;</li>
+            <li>your Tradovate Account ID if you want to target a specific account;</li>
+            <li>a TradingView strategy, indicator or manual alert;</li>
+            <li>a valid JSON alert message for AlgoWay.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> futures symbols and account rules matter. Test Tradovate automation on demo or with very small size before using live trading. Check the exact contract symbol, session, quantity and account permissions.
+        </div>
+
+        <h2 class="mt-4">Step 1. Create a Tradovate Webhook in AlgoWay</h2>
+
+        <p>Log in to your AlgoWay dashboard and create a new webhook for Tradovate.</p>
+
+        <ol>
+            <li>Open your <strong>AlgoWay Dashboard</strong>.</li>
+            <li>Click <strong>Create Webhook</strong> or <strong>Add Webhook</strong>.</li>
+            <li>Select one of the available webhook types:
+                <ul>
+                    <li><strong>Start 14-Day Trial</strong></li>
+                    <li><strong>Main Paid Webhook</strong></li>
+                </ul>
+            </li>
+            <li>Click <strong>Continue</strong>.</li>
+        </ol>
+
+        <img src="/static/img/manuals/trad1.jpg"
+             width="427"
+             height="364"
+             alt="Create Tradovate webhook in AlgoWay dashboard"
+             style="display:block; max-width:520px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+
+        <h2 class="mt-4">Step 2. Enter Tradovate Login and Account Settings</h2>
+
+        <p>In the webhook form, select Tradovate as the destination platform and enter your Tradovate login details.</p>
+
+        <p>Main fields:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Recommended value</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Source</td>
+                    <td>TradingView</td>
+                    <td>The alert source that sends the signal.</td>
+                </tr>
+                <tr>
+                    <td>Platform</td>
+                    <td>Tradovate</td>
+                    <td>The execution destination.</td>
+                </tr>
+                <tr>
+                    <td>Quantity Multiplier</td>
+                    <td>Absolute</td>
+                    <td>Controls how incoming quantity is interpreted.</td>
+                </tr>
+                <tr>
+                    <td>Trade Type</td>
+                    <td>Reverse / Netting</td>
+                    <td>Defines position behavior for futures-style execution.</td>
+                </tr>
+                <tr>
+                    <td>Account Type</td>
+                    <td>Demo or Live</td>
+                    <td>Must match the Tradovate environment you want to trade.</td>
+                </tr>
+                <tr>
+                    <td>Email or UserName</td>
+                    <td>Your Tradovate login</td>
+                    <td>Used for session authorization.</td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>Your Tradovate password</td>
+                    <td>Used for session authorization.</td>
+                </tr>
+                <tr>
+                    <td>Account ID</td>
+                    <td>Your Tradovate account number</td>
+                    <td>Routes orders to a specific account if you have more than one.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>You can find your Tradovate Account ID inside the Tradovate platform, usually in the account selector or account list. Demo account numbers often start with <code>DEMO</code>.</p>
+
+        <p>If <strong>Account ID</strong> is empty, AlgoWay can request available accounts and use the first account returned by Tradovate. If you have more than one account, enter the exact Account ID manually.</p>
+
+        <img src="/static/img/manuals/trad2.jpg"
+             width="421"
+             height="786"
+             alt="Configure Tradovate webhook login and account settings in AlgoWay"
+             style="display:block; max-width:460px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+
+        <h2 class="mt-4">Step 3. Wait for Tradovate Authorization</h2>
+
+        <p>After clicking <strong>Add Trial Webhook</strong> or creating your paid webhook, wait until AlgoWay completes Tradovate authorization. This may take around 20–30 seconds.</p>
+
+        <p>AlgoWay connects to Tradovate, authorizes the session and prepares the webhook for futures execution. If authorization succeeds, you should see dashboard messages such as:</p>
+
+        <pre><code>Tradovate authorization successful — session is ready.</code></pre>
+
+        <pre><code>Webhook added successfully</code></pre>
+
+        <p>Only after these messages appear is the Tradovate webhook ready for test execution.</p>
+
+        <img src="/static/img/manuals/trad3.jpg"
+             width="1521"
+             height="706"
+             alt="Tradovate authorization successful in AlgoWay dashboard"
+             style="display:block; max-width:100%; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+
+        <h2 class="mt-4">Step 4. Send a Test Webhook from AlgoWay</h2>
+
+        <p>Before using TradingView, send a test webhook directly from AlgoWay. This confirms that the Tradovate session, account, symbol and order parameters are usable.</p>
+
+        <ol>
+            <li>Open <strong>Webhook Logs</strong> in AlgoWay.</li>
+            <li>Click <strong>Test Webhook</strong>.</li>
+            <li>Select your Tradovate webhook.</li>
+            <li>Enter a Tradovate futures symbol.</li>
+            <li>Set quantity and action.</li>
+            <li>Click <strong>Send</strong>.</li>
+        </ol>
+
+        <p>Example test JSON:</p>
+
+        <pre><code>{
+  "platform_name": "tradovate",
+  "ticker": "MNQ6",
+  "order_action": "buy",
+  "order_contracts": 1
+}</code></pre>
+
+        <p>If the test fails, check Account Type, Account ID, session authorization, futures symbol, order quantity, account permissions and AlgoWay logs before moving to TradingView.</p>
+
+        <h2 class="mt-4">Step 5. Create a TradingView Strategy Alert for Tradovate</h2>
+
+        <p>If you use a <strong>TradingView Strategy</strong>, paste structured JSON into the TradingView alert message. TradingView placeholders will be replaced with real values when the alert fires.</p>
+
+        <pre><code>{
+  "platform_name": "tradovate",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>Common TradingView placeholders:</p>
+
+        <ul>
+            <li><code>{{ticker}}</code> — the chart ticker;</li>
+            <li><code>{{strategy.order.contracts}}</code> — strategy order size;</li>
+            <li><code>{{strategy.market_position}}</code> — current strategy position;</li>
+            <li><code>{{close}}</code> — close price at alert time.</li>
+        </ul>
+
+        <img src="/static/img/manuals/trad4.jpg"
+             width="496"
+             height="590"
+             alt="TradingView strategy alert JSON for Tradovate automation"
+             style="display:block; max-width:520px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+
+        <h2 class="mt-4">Step 6. Indicator Alerts and Manual Alerts</h2>
+
+        <p>TradingView Strategy alerts are not the only option. AlgoWay can also work with indicator alerts and manual alerts if the final message is valid AlgoWay JSON.</p>
+
+        <p>For indicator-based alerts, use tools inside the AlgoWay dashboard:</p>
+
+        <ul>
+            <li><strong>Message Wizard</strong> — helps build a valid AlgoWay webhook message manually.</li>
+            <li><strong>AlgoWay AI</strong> — helps convert a text signal into structured AlgoWay JSON.</li>
+        </ul>
+
+        <p>This is useful when your indicator sends custom text instead of strategy placeholders such as <code>{{strategy.order.contracts}}</code>.</p>
+
+        <h2 class="mt-4">Step 7. Add the AlgoWay Webhook URL in TradingView</h2>
+
+        <p>In the TradingView alert settings, open the <strong>Notifications</strong> tab, enable <strong>Webhook URL</strong>, and paste your AlgoWay webhook URL.</p>
+
+        <p>Your webhook URL uses the unique UUID from your AlgoWay webhook:</p>
+
+        <pre><code>https://algoway.co/your-webhook-uuid</code></pre>
+
+        <p>Then click <strong>Apply</strong> or <strong>Create</strong> to save the alert.</p>
+
+        <img src="/static/img/manuals/trad5.jpg"
+             width="489"
+             height="658"
+             alt="TradingView webhook URL for AlgoWay Tradovate automation"
+             style="display:block; max-width:520px; width:100%; height:auto; margin:0 auto 1.5rem auto;" loading="lazy" decoding="async" />
+
+        <h2 class="mt-4">Required JSON Fields for Tradovate Webhook Automation</h2>
+
+        <p>A basic Tradovate webhook message usually needs these fields:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Example</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>platform_name</code></td>
+                    <td><code>tradovate</code></td>
+                    <td>Tells AlgoWay to route the command to Tradovate.</td>
+                </tr>
+                <tr>
+                    <td><code>ticker</code></td>
+                    <td><code>MNQ6</code></td>
+                    <td>Defines the futures symbol.</td>
+                </tr>
+                <tr>
+                    <td><code>order_action</code></td>
+                    <td><code>buy</code></td>
+                    <td>Defines the trading action.</td>
+                </tr>
+                <tr>
+                    <td><code>order_contracts</code></td>
+                    <td><code>1</code></td>
+                    <td>Defines the number of contracts or configured quantity value.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Use <code>ticker</code> consistently. If your older test message used <code>symbol</code>, standardize the message according to the current AlgoWay JSON guide before live trading.</p>
+
+        <h2 class="mt-4">Tradovate Futures Symbol Notes</h2>
+
+        <p>Futures symbols are not the same as stock or crypto tickers. Tradovate symbols may include contract-specific naming and may differ from what you see in TradingView.</p>
+
+        <p>Before using live automation:</p>
+
+        <ul>
+            <li>confirm the exact Tradovate futures symbol;</li>
+            <li>check whether the contract is active;</li>
+            <li>check whether the account has permission to trade the product;</li>
+            <li>confirm session hours;</li>
+            <li>test one small order before using strategy size.</li>
+        </ul>
+
+        <p>If a TradingView ticker does not match Tradovate's expected symbol, use the AlgoWay configuration and message design to avoid symbol mismatch.</p>
+
+        <h2 class="mt-4">Common Tradovate Webhook Problems</h2>
+
+        <h3 class="mt-3">Tradovate Authorization Failed</h3>
+        <p>Check username, password, account type, network availability and whether Tradovate requires additional authorization steps. Recreate or reauthorize the webhook if needed.</p>
+
+        <h3 class="mt-3">Wrong Account ID</h3>
+        <p>If you have multiple Tradovate accounts, enter the exact Account ID. Otherwise the first returned account may not be the one you intended to trade.</p>
+
+        <h3 class="mt-3">Demo vs Live Mismatch</h3>
+        <p>Make sure Account Type matches the Tradovate credentials and account you want to use. A demo account and a live account are not interchangeable.</p>
+
+        <h3 class="mt-3">Invalid Futures Symbol</h3>
+        <p>Check that the symbol exists, is active and is tradable in the selected account.</p>
+
+        <h3 class="mt-3">Invalid Quantity</h3>
+        <p>Futures contracts are usually traded in whole contract quantities. Test with a valid quantity accepted by Tradovate.</p>
+
+        <h3 class="mt-3">TradingView JSON Is Invalid</h3>
+        <p>TradingView must send valid JSON. Broken commas, missing quotes, plain text alerts or unsupported fields can stop the webhook before Tradovate execution.</p>
+
+        <h3 class="mt-3">Webhook URL Missing in TradingView</h3>
+        <p>The TradingView alert must have the AlgoWay webhook URL enabled in the Notifications tab. The JSON message alone is not enough.</p>
+
+        <h2 class="mt-4">Why Use AlgoWay Instead of Building a TradingView to Tradovate Bot?</h2>
+
+        <p>You can build your own TradingView-to-Tradovate automation stack. That requires a public webhook endpoint, server hosting, JSON parser, Tradovate authorization handling, account routing, order mapping, logging, error handling and ongoing maintenance.</p>
+
+        <p>AlgoWay is built for traders who want the automation route without maintaining that infrastructure. The dashboard creates the webhook, stores the integration settings, handles authorization, receives TradingView alerts and routes the command to Tradovate.</p>
+
+        <p>This gives you:</p>
+
+        <ul>
+            <li>a no-code TradingView to Tradovate webhook bridge;</li>
+            <li>dashboard-based authorization and test workflow;</li>
+            <li>structured JSON alert handling;</li>
+            <li>logs for received payloads and platform responses;</li>
+            <li>support for indicator, strategy and manual alert workflows;</li>
+            <li>one AlgoWay environment for multiple platforms.</li>
+        </ul>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+            <li><a href="/blog/tradingview-free-webhook-alerts.html">TradingView webhook alerts and automation basics</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/algoway-tradecopier-for-diversification-trading.html">How to copy TradingView alerts to multiple accounts</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay EA</a></li>
+            <li><a href="/blog/algoway-binance-integration-guide.html">How to connect TradingView to Binance with AlgoWay</a></li>
+            <li><a href="/blog/algoway-bybit-integration-guide.html">How to connect TradingView to Bybit with AlgoWay</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p>To automate Tradovate from TradingView, create a Tradovate webhook in AlgoWay, enter the correct Tradovate login and account settings, wait for successful authorization, test the webhook, and then connect TradingView using the AlgoWay webhook URL and a valid JSON alert message.</p>
+
+        <p><strong>AlgoWay turns TradingView alerts into Tradovate webhook automation without forcing you to build your own futures trading bot infrastructure.</strong></p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Connect TradingView Alerts to Tradovate with AlgoWay Webhook Automation",
+                  "description": "Connect TradingView alerts to Tradovate with AlgoWay. Create a Tradovate webhook, authorize Tradovate, set Account ID, test futures automation, and send valid TradingView JSON.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/algoway-tradovate-integration-guide.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "Futures Trading Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+		<script type="application/ld+json">
+		{
+		  "@context": "https://schema.org",
+		  "@type": "VideoObject",
+		  "name": "AlgoWay Tradovate integration video guide",
+		  "description": "Video guide showing how to connect TradingView alerts to Tradovate through AlgoWay webhook automation.",
+		  "uploadDate": "2026-05-10T00:00:00+00:00",
+		  "thumbnailUrl": "https://i.ytimg.com/vi/pJctA02M-dw/hqdefault.jpg",
+		  "embedUrl": "https://www.youtube.com/embed/pJctA02M-dw",
+		  "contentUrl": "https://youtu.be/pJctA02M-dw",
+		  "publisher": {
+			"@type": "Organization",
+			"name": "AlgoWay"
+		  }
+		}
+		</script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can I connect TradingView alerts to Tradovate with AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can receive TradingView webhook alerts and route structured JSON commands to Tradovate through a Tradovate webhook created in the AlgoWay dashboard."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need a Tradovate Account ID?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "If you have more than one Tradovate account, it is better to enter the exact Account ID manually so orders are routed to the intended account."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I test the Tradovate webhook before TradingView?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Send a test webhook from AlgoWay first to confirm Tradovate authorization, account selection, futures symbol, quantity and action before using a live TradingView alert."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What JSON fields are required for Tradovate automation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A basic Tradovate webhook message usually includes platform_name, ticker, order_action and order_contracts. TradingView strategy placeholders can be used for ticker, size, action and price."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why did my TradingView to Tradovate webhook fail?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include failed Tradovate authorization, wrong Account ID, demo/live mismatch, invalid futures symbol, invalid quantity, broken JSON or missing webhook URL in TradingView."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "TradingView to Tradovate Webhook Automation",
+                                      "item": "https://algoway.trade/blog/algoway-tradovate-integration-guide.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

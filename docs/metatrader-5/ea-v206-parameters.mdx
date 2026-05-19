@@ -1,10 +1,912 @@
 ---
-title: "EA v2.06 Parameter Reference"
-description: "Full AlgoWay MT5 EA v2.06 parameter reference."
+title: "AlgoWayWS-MT5 EA 2.10 Automation Guide"
+sidebar_label: "MT5 EA v2.10 Parameters"
+pagination_label: "MT5 EA v2.10 Parameters"
+description: "Complete AlgoWayWS-MT5 EA 2.10 guide for TradingView to MT5 automation: setup, JSON fields, trade modes, SL/TP, trailing and troubleshooting."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "How to Use AlgoWayWS-MT5 EA 2.10 for TradingView to MT5 Webhook Automation",
+                      "description": "Complete AlgoWayWS-MT5 EA 2.10 guide for TradingView to MT5 webhook automation: WebSocket EA setup, JSON fields, trade modes, SL/TP, trailing stop, breakeven, profit lock, position sizing, symbol mapping and troubleshooting.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/metatrader-5/ea-v206-parameters/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "MetaTrader 5 Automation",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What is AlgoWayWS-MT5 EA?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "AlgoWayWS-MT5 EA is the MetaTrader 5 Expert Advisor used by AlgoWay to execute routed trading commands from TradingView alerts, Telegram signals, manual webhook tests or other supported signal sources."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can AlgoWayWS-MT5 EA automate TradingView alerts in MetaTrader 5?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. TradingView sends a webhook alert to AlgoWay, AlgoWay validates and routes the JSON command, and AlgoWayWS-MT5 EA executes the command inside MetaTrader 5."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What JSON fields are required for MT5 automation?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A basic AlgoWay MT5 webhook message usually includes platform_name, ticker, order_contracts and order_action. Optional fields can include price, sl_price, tp_price, stop_loss, take_profit, trailing_pips, trail_points, close_side, comment and tv_order_id."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the difference between trailing_pips and trail_points?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "trailing_pips defines the trailing step for the trade. trail_points delays trailing activation until the trade moves a specified number of pips into profit."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why does the URL say v206 if the guide mentions EA 2.10?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The URL is kept for index and link stability. The content is updated to reflect the current AlgoWayWS-MT5 EA 2.10 workflow and current AlgoWay platform direction."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                                {
+                                          "@type": "ListItem",
+                                          "position": 1,
+                                          "name": "Home",
+                                          "item": "https://algoway.trade/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 2,
+                                          "name": "Blog",
+                                          "item": "https://algoway.trade/blog/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 3,
+                                          "name": "AlgoWayWS-MT5 EA 2.10 Automation Guide",
+                                          "item": "https://docs.algoway.trade/docs/metatrader-5/ea-v206-parameters/"
+                                }
+                      ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# EA v2.06 Parameter Reference
+# **How to Use AlgoWayWS-MT5 EA 2.10 for TradingView to MT5 Webhook Automation**
 
-This page is part of the AlgoWay Docs migration.
+![AlgoWayWS-MT5 EA 2.10 guide for TradingView to MT5 webhook automation](https://algoway.trade/static/img/blog-img/ea2.10@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**AlgoWayWS-MT5 EA is the MetaTrader 5 execution bridge for AlgoWay.** It connects the AlgoWay platform to your MT5 terminal and lets structured signals from TradingView alerts, Telegram signals, manual webhook tests, or other supported sources become real MT5 trading actions.
+
+This page is the current user-facing guide for the **AlgoWayWS-MT5 EA 2.10 workflow**. The file name still contains `v206` because this URL is already indexed and used in internal links, but the content has been updated for the current platform direction: **TradingView to MT5 webhook automation through AlgoWay and the AlgoWayWS-MT5 Expert Advisor**.
+
+The complete execution route is:
+
+```
+TradingView alert → AlgoWay webhook → AlgoWayWS-MT5 EA → MetaTrader 5 broker account
+```
+
+This guide explains what the EA does, how webhook JSON fields are interpreted, how trade modes work, how SL/TP and trailing rules are applied, and how to troubleshoot the most common MT5 execution problems.
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Start Here: Current Setup and Support Guides
+
+This page explains the EA behavior and JSON logic. For installation and platform setup, use the dedicated guides below.
+
+| Need | Current guide |
+| --- | --- |
+| Install the current MT5 Expert Advisor | [How to install an MT5 Expert Advisor for AlgoWay automation](https://algoway.trade/blog/algoway-mt5-expert-advisor-installation-guide.html) |
+| Connect TradingView alerts to MT5 | [How to connect TradingView to MetaTrader 5 with AlgoWay EA](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html) |
+| Build a valid AlgoWay webhook message | [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html) |
+| Understand SL/TP, trailing and risk logic | [Advanced risk management and trade automation](https://algoway.trade/blog/advanced-risk-management-and-trade-automation.html) |
+| Choose Hedge, Reverse, Opposite or Inverse behavior | [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html) |
+| Fix MetaTrader 5 EA errors | [MetaTrader 5 common errors in AlgoWay](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html) |
+
+## Why AlgoWayWS-MT5 EA Exists
+
+TradingView is powerful for charting, Pine Script strategies and alerts, but TradingView does not directly execute trades inside your MetaTrader 5 broker terminal. MetaTrader 5 can execute trades through Expert Advisors, but it needs a reliable way to receive the signal from outside.
+
+AlgoWayWS-MT5 EA closes this gap:
+
+- TradingView creates the signal;
+- AlgoWay receives the webhook alert and validates the message;
+- AlgoWayWS-MT5 EA keeps the MT5 terminal connected to AlgoWay;
+- MetaTrader 5 executes the order through your broker account.
+
+Competitors describe the same market need as a TradingView-to-MT5 bridge, webhook-to-EA connector, or alert automation layer. AlgoWay focuses this workflow around a dashboard, structured JSON, WebSocket EA delivery, logs, and multi-source signal routing.
+
+## What the EA Does and What It Does Not Do
+
+The AlgoWayWS-MT5 EA is an executor. It receives commands routed by AlgoWay and performs trade actions in MetaTrader 5.
+
+The EA can help with:
+
+- opening BUY or SELL positions;
+- closing positions with `flat` commands;
+- modifying SL/TP where supported by the message and current route;
+- handling trade modes such as Reverse, Hedge, Opposite and Inverse;
+- applying SL/TP, trailing, breakeven and profit lock rules;
+- mapping TradingView tickers to exact MT5 broker symbols;
+- respecting configured position size mode, session filters and limits;
+- writing useful logs in MetaTrader 5.
+
+The EA does not create the strategy. It does not guarantee profit. It does not fix a bad TradingView strategy, invalid signal logic, broker spread, slippage, closed market, insufficient margin or unsupported broker settings.
+
+## Runtime Conditions in MetaTrader 5
+
+Before expecting the EA to execute orders, confirm these MT5 conditions:
+
+- AlgoWayWS-MT5 EA is attached to a chart.
+- MT5 **Algo Trading** is enabled.
+- The EA is allowed to trade in its chart properties.
+- DLL imports are enabled if required by the current WebSocket EA setup.
+- The correct AlgoWay webhook UUID is entered in the EA inputs.
+- The EA shows connected status in the MT5 Experts log or chart status.
+- The broker symbol is visible in Market Watch and receiving quotes.
+
+If MT5 returns Error 4752, the EA is probably blocked by algorithmic trading permissions. Read: [How to fix MT5 Error 4752](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html).
+
+## Connecting the EA to AlgoWay
+
+The key connection value is the AlgoWay webhook UUID. It identifies which AlgoWay webhook route belongs to this MT5 terminal.
+
+| EA input | Meaning | Example |
+| --- | --- | --- |
+| `InputWebhook` | AlgoWay webhook UUID from the dashboard | `b7534616-6c8c-4582-8af4-7c143d323231` |
+| `MAGIC_NUMBER` | Magic number used by the EA to identify its positions | `1973` |
+
+Use the UUID, not the full URL. If the EA is connected to the wrong webhook, valid TradingView alerts can reach AlgoWay but never reach the intended MT5 terminal.
+
+## Core TradingView to MT5 JSON Fields
+
+A basic AlgoWay message for MetaTrader 5 contains four main fields:
+
+| Field | Example | Purpose |
+| --- | --- | --- |
+| `platform_name` | `metatrader5` | Tells AlgoWay to route the command to MetaTrader 5. |
+| `ticker` | `EURUSD` | Defines the trading symbol. It may need mapping to the broker symbol. |
+| `order_contracts` | `0.10` | Defines the size value before final sizing mode and coefficient logic. |
+| `order_action` | `buy` | Defines the action: buy, sell, flat, modify or mode-specific action. |
+
+Basic market order:
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_contracts": 0.10,
+  "order_action": "buy"
+}
+```
+
+## TradingView Strategy Alert Example
+
+For a TradingView strategy alert, use TradingView placeholders. TradingView replaces them when the alert fires.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}
+```
+
+If this message reaches AlgoWay but MT5 does not trade, check the EA connection, symbol mapping, lot size, trade mode, broker session, margin and MT5 logs.
+
+## Supported Trade Actions
+
+| Action | Meaning | Typical use |
+| --- | --- | --- |
+| `buy` | Open or process BUY-side command | Long entry |
+| `sell` | Open or process SELL-side command | Short entry |
+| `long` | Directional value treated as BUY where supported | TradingView strategy state mapping |
+| `short` | Directional value treated as SELL where supported | TradingView strategy state mapping |
+| `flat` | Close position logic | Exit signal or partial close workflow |
+| `modify` | Modify an existing position | Update SL/TP by identifier |
+
+## Trade Modes: Reverse, Hedge, Opposite and Inverse
+
+The trade mode defines how the EA behaves when a new signal arrives while a position already exists on the same symbol.
+
+| Mode | Behavior | Best use case |
+| --- | --- | --- |
+| **Reverse** | One-side model. The EA closes the opposite side and opens or keeps the new side according to signal logic. | Simple TradingView strategy automation where one side should be active. |
+| **Hedge** | BUY and SELL can exist at the same time if the account supports it. | Hedging systems and independent long/short logic. |
+| **Opposite** | The latest signal controls direction. The current position can be closed and the opposite side opened. | Strategies that flip immediately from long to short or short to long. |
+| **Inverse** | Incoming direction is inverted before execution logic. BUY becomes SELL, SELL becomes BUY. | Counter-signal workflows or inverse strategy execution. |
+
+Detailed mode guide: [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html).
+
+## Position Size Mode: Lots, Risk Percent and Balance Percent
+
+The same `order_contracts` value can mean different things depending on the selected position size mode.
+
+### SIZE_LOTS
+
+`order_contracts` is treated as lots before coefficient and broker validation.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10"
+}
+```
+
+### SIZE_RISK_PERCENT
+
+`order_contracts` is treated as percent risk of equity. This mode requires a usable Stop Loss because the EA needs stop distance to calculate position size.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "1.0",
+  "stop_loss": "100"
+}
+```
+
+### SIZE_BALANCE_PERCENT
+
+`order_contracts` is treated as percent of balance. This is not the same as risk-by-stop-loss mode.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "5.0",
+  "stop_loss": "100"
+}
+```
+
+## Order Size Coefficient
+
+`OrderSizeCoefficient` multiplies the final size derived from `order_contracts`.
+
+- `1` — keep the computed or provided size.
+- `0.5` — use half the size.
+- `2` — double the size.
+
+Always test final lot size in a demo or small-volume environment before live trading. Wrong coefficient values can create invalid volume errors or oversized positions.
+
+## Symbol Mapping: TradingView Ticker vs MT5 Broker Symbol
+
+TradingView and MT5 brokers often use different symbol names. Symbol mapping exists so AlgoWay can receive one ticker from TradingView and execute another exact broker symbol in MT5.
+
+| TradingView ticker | MT5 broker symbol |
+| --- | --- |
+| `DE40` | `GER40` |
+| `XAUUSD` | `GOLD` |
+| `US30` | `DJ30` |
+| `EURUSD` | `EURUSD.a` |
+
+If the symbol is not found, the trade will not open. Always confirm the exact broker symbol in MT5 Market Watch.
+
+## SL/TP Model A: Levels from JSON
+
+Model A means the alert message itself sends Stop Loss, Take Profit or trailing fields.
+
+### Exact SL/TP Prices
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "sell",
+  "ticker": "XAUUSD",
+  "order_contracts": "0.05",
+  "sl_price": "2055.50",
+  "tp_price": "2038.00"
+}
+```
+
+### Distance-Based SL/TP
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "BTCUSDT.P",
+  "order_contracts": "0.10",
+  "stop_loss": "150",
+  "take_profit": "300"
+}
+```
+
+Priority rule: if `sl_price` or `tp_price` are set and non-zero, price levels should take priority. Otherwise distance fields such as `stop_loss` and `take_profit` are used.
+
+## SL/TP Model B: Levels from EA Inputs
+
+Model B means the EA applies internal SL/TP values from Inputs.
+
+- `UseInternalSLTP`
+- `InternalSLPips`
+- `InternalTPPips`
+
+Hard rule: if internal SL/TP is enabled, the EA applies internal SL/TP values on entry and does not use SL/TP values from JSON for that entry.
+
+## PIP Calculation Mode
+
+`PipCalcMode` controls how distance values are interpreted.
+
+- **PIP_AUTO** — follows broker digits and point logic.
+- **PIP_TRADINGVIEW** — Forex often uses 1 pip = 10 × Point; other symbols may use 1 pip = Point.
+- **PIP_PERCENT** — `stop_loss` and `take_profit` are treated as percent of entry price.
+
+Wrong pip interpretation is a common cause of invalid stops and MT5 Error 4756.
+
+## Trailing Stop from JSON and EA Inputs
+
+Trailing can be enabled per trade with `trailing_pips`.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "GBPUSD",
+  "order_contracts": "0.10",
+  "stop_loss": "120",
+  "trailing_pips": "80"
+}
+```
+
+If `trailing_pips` is present, trailing is enabled for that trade. If it is absent, the EA can use global trailing settings if enabled.
+
+## Delayed Trailing Activation with trail_points
+
+`trail_points` allows trailing stop to start only after the trade moves a specified number of pips into profit.
+
+- `trail_points = 0` — trailing starts immediately after the position opens.
+- `trail_points = 50` — trailing starts only after 50 pips of profit.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "SP500",
+  "order_action": "buy",
+  "order_contracts": "4",
+  "trailing_pips": "20",
+  "trail_points": "50"
+}
+```
+
+In this example, the trailing step is 20 pips, but trailing starts only after the trade moves 50 pips in profit.
+
+## Breakeven
+
+Breakeven logic moves Stop Loss to the entry area after the trade reaches a configured profit distance.
+
+- `EnableBreakeven` — enables breakeven logic.
+- `BreakevenAfterPips` — defines when breakeven activates.
+
+Breakeven is useful when a strategy should remove open risk after the market moves in the intended direction.
+
+## Profit Lock
+
+Profit Lock is more advanced than basic breakeven. It can move Stop Loss so that a defined amount of profit is protected after the trade reaches a trigger.
+
+- `EnableProfitLock` — enables profit lock logic.
+- `ProfitLockDeltaTrigger` — profit threshold that activates the feature.
+- `ProfitLockPips` — profit distance the EA tries to protect after activation.
+
+In simple terms: first the trade reaches the trigger, then the EA moves SL to protect the configured profit.
+
+## Partial Close with Close Size Mode
+
+The EA can close positions by lots or by percentage of the initial position volume.
+
+- **CLOSE_LOTS** — `order_contracts` in a `flat` signal is treated as lots.
+- **CLOSE_INITIAL_PERCENT** — `order_contracts` in a `flat` signal is treated as percent of the initial position.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "SP500",
+  "order_action": "flat",
+  "order_contracts": "25"
+}
+```
+
+If the initial position was 4.00 lots and Close size mode is `CLOSE_INITIAL_PERCENT`, this command closes 25% of the initial position, which is 1.00 lot.
+
+## close_side for Hedge Workflows
+
+`close_side` is used with `flat` to close only one side where supported.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "flat",
+  "ticker": "EURUSD",
+  "close_side": "long"
+}
+```
+
+- `long` or `buy` — close BUY-side positions.
+- `short` or `sell` — close SELL-side positions.
+
+If `close_side` is used with `buy`, `sell` or `modify`, treat it as invalid. It belongs to close/flat logic.
+
+## Modify Existing Positions
+
+`modify` is used to update an existing position instead of opening a new one. The position must be identified by `comment` or `tv_order_id` depending on your route.
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "modify",
+  "ticker": "ETHUSDT",
+  "comment": "TV#12345",
+  "stop_loss": "140",
+  "take_profit": "280"
+}
+```
+
+If no matching position is found, the modification cannot be applied.
+
+## Martingale
+
+Martingale can increase lot size after a losing trade according to a multiplier. This is a high-risk feature and should be tested carefully before live use.
+
+- `EnableMartingale`
+- `MartingaleMultiplier`
+
+Do not enable martingale just because it exists. Use it only if the trading system was designed and tested for this risk model.
+
+## Trade Limits, Sessions and Auto-Flat
+
+The EA can block or close trades according to configured safety rules:
+
+- `DailyLossLimitPercent` — maximum daily loss in percent.
+- `MaxDrawdownPerTradePercent` — maximum drawdown per trade in percent.
+- `MaxOpenPositions` — maximum number of open positions.
+- `Trade_London`, `Trade_NewYork`, `Trade_Tokyo` — session filters.
+- `DailyTimeWindowUTC` — daily allowed trading window.
+- `AutoClose` — no auto-close, close before end of day, or close before end of week.
+
+If a signal is rejected by schedule or risk limits, the webhook is not necessarily broken. The EA followed the configured rules.
+
+## Telegram Notifications from the EA
+
+Where configured, the EA can send Telegram notifications about disconnect or reconnect events.
+
+- `EnableTelegramNotifications`
+- `TelegramChatId`
+- `TelegramBotToken`
+
+This is not the same as AI Telegram signal copying. This is EA-side notification logic. For Telegram as a signal source, use: [AI Telegram signal copier in AlgoWay](https://algoway.trade/blog/ai-telegram-signals-manual.html).
+
+## Wrapped Values
+
+Some alerts may send wrapped values such as:
+
+```json
+{
+  "platform_name": "metatrader5",
+  "order_action": "buy",
+  "ticker": "EURUSD",
+  "order_contracts": "0.10",
+  "stop_loss": "stop_loss=100",
+  "take_profit": "take_profit=200",
+  "trailing_pips": "trailing_pips=80"
+}
+```
+
+Wrapped values should be used only when the current route explicitly supports them. Clean numeric JSON values are easier to debug.
+
+## Common Problems and Where to Fix Them
+
+| Problem | Likely layer | Guide |
+| --- | --- | --- |
+| AlgoWay does not receive the alert | TradingView webhook / JSON | [Webhook Error 415 guide](https://algoway.trade/blog/algoway-415.html) |
+| EA does not receive commands | Webhook UUID / EA connection | [MT5 setup guide](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html) |
+| MT5 says trading disabled | Algo Trading permission | [Error 4752 guide](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html) |
+| Order is rejected | Broker execution / request parameters | [Error 4756 guide](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html) |
+| Wrong symbol | Symbol mapping | [Common MT5 errors guide](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html) |
+| SL/TP rejected | Stop level, freeze level, points/pips | [Risk management guide](https://algoway.trade/blog/advanced-risk-management-and-trade-automation.html) |
+
+## Safe Testing Procedure
+
+When setting up a new MT5 automation route, test in layers:
+
+1. Confirm that the EA is connected in MT5.
+2. Send a simple market order with a very small valid lot.
+3. Check AlgoWay Webhook Logs.
+4. Check MT5 Experts and Journal logs.
+5. Add exact SL/TP prices.
+6. Add distance-based SL/TP.
+7. Add trailing stop.
+8. Add breakeven or profit lock.
+9. Test close/flat logic.
+10. Test partial close only after full close works correctly.
+
+## Why This v206 URL Still Exists
+
+The URL contains `v206` because it was created during an older documentation cycle. It is already indexed and may have internal or external links. Renaming it would waste that history. Instead, AlgoWay keeps the same URL and updates the content to match the current AlgoWayWS-MT5 EA 2.10 direction.
+
+This allows the page to rank for broader search intent:
+
+- TradingView to MT5 EA;
+- MT5 webhook EA;
+- TradingView alerts to MetaTrader 5;
+- MT5 Expert Advisor JSON fields;
+- MT5 EA trailing stop automation;
+- MetaTrader 5 WebSocket EA;
+- AlgoWayWS-MT5 EA guide.
+
+## Related AlgoWay Guides
+
+- [How to connect TradingView to MetaTrader 5 with AlgoWay EA](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [How to install an MT5 Expert Advisor for AlgoWay automation](https://algoway.trade/blog/algoway-mt5-expert-advisor-installation-guide.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [Advanced risk management and trade automation](https://algoway.trade/blog/advanced-risk-management-and-trade-automation.html)
+- [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html)
+- [MetaTrader 5 common errors in AlgoWay](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html)
+- [How to fix MT5 Error 4752](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html)
+- [How to fix MT5 Error 4756](https://algoway.trade/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html)
+- [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html)
+- [AI Telegram signal copier in AlgoWay](https://algoway.trade/blog/ai-telegram-signals-manual.html)
+
+## Final Summary
+
+**AlgoWayWS-MT5 EA 2.10 is the current MT5 execution component for AlgoWay automation.** It receives commands from AlgoWay, executes them in MetaTrader 5, and supports structured behavior around trade modes, sizing, SL/TP, trailing, breakeven, profit lock, partial close, symbol mapping and error diagnostics.
+
+If you want to automate TradingView alerts to MetaTrader 5, start with a clean AlgoWay webhook, install the current EA, confirm the WebSocket connection, send valid JSON, test a small market order, and only then enable advanced risk and management features.

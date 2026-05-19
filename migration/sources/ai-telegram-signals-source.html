@@ -1,0 +1,1066 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>AI Telegram Signal Copier for Trading Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Use AlgoWay AI Telegram Signals to copy free-format Telegram trading signals to MT5, cTrader, TradeLocker, Tradovate, Binance and more." />
+	<link rel="canonical" href="https://algoway.trade/blog/ai-telegram-signals-manual.html" />
+
+	<meta property="og:title" content="AI Telegram Signal Copier for Automated Trading | AlgoWay" />
+	<meta property="og:description" content="AlgoWay AI Telegram Signals reads Telegram trading signals, detects trade commands with AI, and sends them to MT5, cTrader, TradeLocker, Tradovate, Binance and other supported destinations." />
+	<meta property="og:url" content="https://algoway.trade/blog/ai-telegram-signals-manual.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AI Telegram Signal Copier | AlgoWay" />
+	<meta name="twitter:description" content="Copy Telegram trading signals automatically with AlgoWay AI. Connect a Telegram channel, choose the destination platform, and let AlgoWay parse the signal and route execution." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/ai-telegram-signals-manual@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4" style="margin-top: 0;">
+            <strong>AI Telegram Signal Copier for Automated Trading with AlgoWay</strong>
+        </h1>
+
+        <img src="/static/img/blog-img/ai-telegram-signals-manual@2x.jpg" fetchpriority="high" width="1280" height="731" alt="AlgoWay AI Telegram signal copier for MT5, cTrader, TradeLocker, Tradovate and crypto trading automation" style="margin-bottom: 1.5rem; width: 100%; height: auto;" decoding="async" />
+
+        <p><strong>AlgoWay AI Telegram Signals</strong> is an AI Telegram signal copier that reads trading signals from Telegram channels or groups and routes them to a connected trading platform. Instead of forcing every channel to use one strict message format, AlgoWay uses AI to understand human trading messages, extract the trade parameters, and pass the result into the standard AlgoWay execution flow.</p>
+
+        <p>This page explains how to set up Telegram signal automation in AlgoWay, how the AI Telegram copier works, and how Telegram signals can be sent to MetaTrader 5, cTrader, TradeLocker, Tradovate, Binance, Bybit, OKX, and other supported destinations.</p>
+
+        <p>The basic workflow is simple:</p>
+
+        <pre><code>Telegram signal channel → AlgoWay AI parser → AlgoWay routing layer → connected trading platform</code></pre>
+
+        <p>Telegram is the signal source. AlgoWay is the automation and routing layer. The selected trading platform is the execution destination.</p>
+
+        <h2 class="mt-4">What Is an AI Telegram Signal Copier?</h2>
+        <p>An <strong>AI Telegram signal copier</strong> is a trading automation tool that monitors selected Telegram channels or groups, detects real trading signals, reads the signal content, and sends the extracted command to a trading platform.</p>
+
+        <p>A normal Telegram trade copier often depends on fixed templates. If the provider changes the order of the text, adds comments, uses emojis, writes multiple take-profit levels differently, or sends a message in a loose style, a strict parser can fail.</p>
+
+        <p>AlgoWay takes a different approach. The Telegram message is first processed by an AI layer. The AI checks whether the message is a trading signal and then extracts the important fields:</p>
+
+        <ul>
+            <li>symbol, such as XAUUSD, EURUSD, BTCUSDT, or NAS100;</li>
+            <li>trade direction, such as buy or sell;</li>
+            <li>entry price or market execution intent;</li>
+            <li>Stop Loss level;</li>
+            <li>Take Profit levels;</li>
+            <li>trade size, lot size, or default size mode;</li>
+            <li>optional instructions, such as partial close or position management when supported by the destination platform.</li>
+        </ul>
+
+        <p>After the message is understood, AlgoWay converts it into a normalized trading command and sends it to the selected destination.</p>
+
+        <h2 class="mt-4">Telegram Signals to MT5, cTrader, TradeLocker and More</h2>
+        <p>Many traders search for a <strong>Telegram to MT5 copier</strong> because their signal provider posts trades in Telegram while their broker account runs in MetaTrader 5. AlgoWay supports this workflow through the standard AlgoWayWS-MT5 Expert Advisor.</p>
+
+        <p>At the same time, AlgoWay is not limited to MetaTrader 5. The same Telegram signal copier workflow can be used with other supported platforms, depending on the destination selected when the webhook is created.</p>
+
+        <p>Common destinations include:</p>
+
+        <ul>
+            <li><strong>MetaTrader 5</strong> — for Telegram signals to MT5 automated execution through AlgoWayWS-MT5 EA.</li>
+            <li><strong>cTrader</strong> — for traders who want Telegram signal automation with cTrader accounts.</li>
+            <li><strong>TradeLocker</strong> — for brokers and prop firms using the TradeLocker platform.</li>
+            <li><strong>Tradovate</strong> — for futures traders who need Telegram signals routed to Tradovate.</li>
+            <li><strong>Binance, Bybit, OKX and other crypto exchanges</strong> — for crypto signal automation where the exchange connector is already configured.</li>
+        </ul>
+
+        <p>This makes AlgoWay a flexible Telegram trade copier for traders who do not want a separate tool for each execution platform.</p>
+
+        <h2 class="mt-4">Why AlgoWay Uses AI Before Execution</h2>
+        <p>Telegram signal channels rarely follow one universal format. One provider may write:</p>
+
+        <pre><code>BUY XAUUSD
+Entry: 2350
+SL: 2340
+TP: 2370</code></pre>
+
+        <p>Another provider may write:</p>
+
+        <pre><code>Gold buy now
+Stop 2340
+Targets 2360 / 2370 / 2385</code></pre>
+
+        <p>Another may send updates later:</p>
+
+        <pre><code>Move SL to BE
+Close 50%
+TP1 reached</code></pre>
+
+        <p>The task of AlgoWay AI Telegram Signals is to separate real trading commands from noise and convert usable instructions into a structured command. Profit reports, screenshots, promotions, market commentary, or unrelated messages should not become trades.</p>
+
+        <p>Examples of messages that should not open a trade:</p>
+
+        <pre><code>Net Profit: +10%
+Win rate: 75%
+Trade closed in profit
+Market looks risky today
+Join our VIP group</code></pre>
+
+        <p>The goal is simple: copy Telegram trading signals automatically, but only when the message contains a real trading instruction.</p>
+
+        <h2 class="mt-4">Before You Start</h2>
+        <p>Before setting up AlgoWay AI Telegram Signals, prepare the following:</p>
+
+        <ul>
+            <li>an active AlgoWay account;</li>
+            <li>access to the AlgoWay dashboard;</li>
+            <li>a Telegram account that is already a member of the required signal channel or group;</li>
+            <li>a selected destination platform, such as MT5, cTrader, TradeLocker, Tradovate, Binance, Bybit, or OKX;</li>
+            <li>a configured execution connector for the selected platform, when required.</li>
+        </ul>
+
+        <p>AlgoWay can only load Telegram channels and groups that are visible to the Telegram account you connect. If the account is not a member of the signal channel, that channel will not appear in the list.</p>
+
+        <h2 class="mt-4">Step 1. Create a Telegram Signal Copier Webhook</h2>
+        <p>First, create a webhook in AlgoWay with Telegram as the signal source. In this page, the word webhook describes the internal AlgoWay routing object. The SEO focus of this guide is Telegram signal automation, but the platform still uses the AlgoWay webhook system behind the scenes.</p>
+
+        <p>Open the webhook creation page.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel0.jpg" loading="lazy" alt="Create an AlgoWay Telegram signal copier webhook with Telegram as source and MetaTrader 5 as destination" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>In the <strong>Source (from)</strong> field, select:</p>
+
+        <p><strong>Telegram</strong></p>
+
+        <p>This means that the source of trading signals will be a Telegram channel or Telegram group.</p>
+
+        <p>Next, in the <strong>Platform (to)</strong> field, select the trading platform where AlgoWay should send the processed signal.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel1.jpg" loading="lazy" alt="Create an AlgoWay Telegram trade copier route from Telegram to cTrader O-API" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>For example:</p>
+
+        <ul>
+            <li><strong>MetaTrader 5</strong> — if Telegram signals should be copied to MT5.</li>
+            <li><strong>cTrader</strong> — if Telegram signals should be sent to cTrader.</li>
+            <li><strong>TradeLocker</strong> — if you use TradeLocker for execution.</li>
+            <li><strong>Tradovate</strong> — if the signal should be executed through Tradovate.</li>
+            <li><strong>Binance</strong> — if the signal is related to crypto trading.</li>
+        </ul>
+
+        <p>After selecting the source and destination, click the webhook creation button.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel5.jpg" loading="lazy" alt="AlgoWay dashboard showing a newly created Telegram signal copier route" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>At this stage, AlgoWay has created the route. It does not read a Telegram channel yet. The Telegram account connection and the specific signal channel are configured separately in Settings.</p>
+
+        <h2 class="mt-4">Step 2. Connect Your Telegram Account</h2>
+        <p>After creating the Telegram route, connect the Telegram account that AlgoWay will use to read signals.</p>
+
+        <p>Open the <strong>Settings</strong> page and find the <strong>Telegram Copier</strong> block.</p>
+
+        <p>In the <strong>Telegram Source Webhook</strong> field, select the Telegram route created in the previous step.</p>
+
+        <p>Enter the phone number of your Telegram account in international format, for example:</p>
+
+        <pre><code>+374XXXXXXXX
++33XXXXXXXXX
++1XXXXXXXXXX</code></pre>
+
+        <p>Then click:</p>
+
+        <p><strong>Send Code</strong></p>
+
+        <p>Telegram will send a confirmation code to your Telegram account.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel6.jpg" loading="lazy" alt="AlgoWay Telegram Copier verification code screen for connecting a Telegram account" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>Enter the received code into the <strong>Verification Code</strong> field and click:</p>
+
+        <p><strong>Connect Telegram</strong></p>
+
+        <p>If your Telegram account has an additional password enabled, AlgoWay will ask for the Telegram 2FA password. Enter it and repeat the connection process.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel2.jpg" loading="lazy" alt="AlgoWay Telegram Copier connected successfully to a Telegram account" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>Important: connecting the Telegram account does not enable trade copying yet. At this stage, AlgoWay only gets access to the list of available Telegram chats.</p>
+
+        <h2 class="mt-4">Step 3. Select the Telegram Signal Channel</h2>
+        <p>After connecting the Telegram account, select the channel or group from which AlgoWay should read trading signals.</p>
+
+        <p>In the <strong>Telegram Copier</strong> block, click:</p>
+
+        <p><strong>Load My Chats</strong></p>
+
+        <p>AlgoWay will load the list of Telegram channels and groups available to the connected Telegram account.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel7.jpg" loading="lazy" alt="AlgoWay Telegram Copier loaded Telegram channels and groups for signal selection" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>Select the exact channel or group where trading signals are posted.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel3.jpg" loading="lazy" alt="AlgoWay Telegram signal copier with selected source chat and automatic trade size mode" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>After selecting the channel, click:</p>
+
+        <p><strong>Save Copier</strong></p>
+
+        <p>At this stage, AlgoWay saves the connection:</p>
+
+        <pre><code>this Telegram route → this Telegram channel → this trading platform</code></pre>
+
+        <p>If the required channel does not appear in the list, first add the connected Telegram account to that channel, then click <strong>Load My Chats</strong> again.</p>
+
+        <h2 class="mt-4">Step 4. Configure Trade Size</h2>
+        <p>After selecting the Telegram channel, define how AlgoWay should determine trade size.</p>
+
+        <p>In the <strong>Telegram Copier</strong> block, select the position size mode.</p>
+
+        <h3 class="mt-4">Auto Size Mode</h3>
+        <p>In Auto mode, AlgoWay tries to take the trade size from the Telegram signal itself.</p>
+
+        <p>For example:</p>
+
+        <pre><code>Lot: 0.10</code></pre>
+
+        <p>or:</p>
+
+        <pre><code>Size: 1</code></pre>
+
+        <p>If the AI detects a valid size and the destination platform supports that size format, AlgoWay uses it when sending the trade.</p>
+
+        <h3 class="mt-4">Manual Size Mode</h3>
+        <p>In Manual mode, the user sets a default trade size manually.</p>
+
+        <p>This option is useful when the Telegram channel publishes entries, Stop Loss, and Take Profit levels, but does not include position size.</p>
+
+        <p>Example:</p>
+
+        <pre><code>BUY EURUSD
+SL 1.0800
+TP 1.0900</code></pre>
+
+        <p>This signal contains direction, symbol, Stop Loss, and Take Profit, but it does not contain lot size. In this case, AlgoWay uses the default size configured by the user.</p>
+
+        <p class="mt-4 mb-4">
+            <img src="/static/img/manuals/tel8.jpg" loading="lazy" alt="AlgoWay Telegram Copier saved with manual default trade size for Telegram signal execution" style="width: 100%; max-width: 760px; height: auto; border-radius: 8px; border: 1px solid #e5e7eb; display: block; margin: 0 auto;" decoding="async" width="1200" height="675" />
+        </p>
+
+        <p>After selecting the size mode, click:</p>
+
+        <p><strong>Save Copier</strong></p>
+
+        <p>Important: if the Telegram signal does not contain trade size and no default size is configured, AlgoWay may not send the trade because the destination platform must know what volume to open.</p>
+
+        <h2 class="mt-4">Step 5. Enable Telegram Copier</h2>
+        <p>After selecting the channel and configuring trade size, enable the copier.</p>
+
+        <p>In the <strong>Telegram Copier</strong> block, enable:</p>
+
+        <p><strong>Enable Telegram Copier</strong></p>
+
+        <p>Then click:</p>
+
+        <p><strong>Save Copier</strong></p>
+
+        <p>After saving, AlgoWay starts monitoring the selected Telegram channel.</p>
+
+        <p>The active workflow becomes:</p>
+
+        <pre><code>New Telegram message → AI signal detection → structured trade command → selected trading platform</code></pre>
+
+        <p>If a real trading signal appears in the selected Telegram channel, AlgoWay AI analyzes the message, extracts the trading parameters, and passes the command to the selected platform route.</p>
+
+        <h2 class="mt-4">Platform Setup for Telegram to MT5 and Other Destinations</h2>
+        <p>AI Telegram Signals is responsible for receiving and understanding Telegram messages. Trade execution is handled by the selected AlgoWay platform connector.</p>
+
+        <p>If <strong>MetaTrader 5</strong> is selected as the destination, install and connect the standard <strong>AlgoWayWS-MT5 Expert Advisor</strong>. In MT5, enable algorithmic trading, allow the required EA settings, and enter the webhook UUID in the EA inputs according to the AlgoWay MT5 setup guide.</p>
+
+        <p>A separate Telegram EA is not required for MT5. Telegram is the signal source. AlgoWay AI processes the message. AlgoWayWS-MT5 handles execution in MetaTrader 5.</p>
+
+        <p>If another destination is selected, use the corresponding AlgoWay manual:</p>
+
+        <ul>
+            <li><a href="/blog/algoway-mt5-expert-advisor-installation-guide.html">AlgoWay MT5 Expert Advisor installation guide</a></li>
+            <li><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader connector logic</a></li>
+            <li><a href="/blog/tradeLocker-setup-guide.html">TradeLocker setup guide</a></li>
+            <li><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate integration guide</a></li>
+            <li><a href="/blog/algoway-binance-integration-guide.html">Binance integration guide</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+        </ul>
+
+        <p>The principle remains the same: select Telegram as the source, select the execution platform as the destination, connect the required account or terminal, and let AlgoWay route recognized trading commands.</p>
+
+        <h2 class="mt-4">Why AlgoWay Is Different from a Basic Telegram Trade Copier</h2>
+        <p>A basic Telegram copier is usually built for one source and one destination. AlgoWay is broader: Telegram is only one signal source inside a multi-platform automation system.</p>
+
+        <p>With AlgoWay, the same account can work with:</p>
+
+        <ul>
+            <li>Telegram signal channels;</li>
+            <li>TradingView alerts;</li>
+            <li>manual webhook alerts;</li>
+            <li>supported brokers and exchange APIs;</li>
+            <li>MT5, cTrader, TradeLocker, Tradovate, Binance, Bybit, OKX and other destinations.</li>
+        </ul>
+
+        <p>This matters when a trader follows several signal sources or uses different platforms for forex, futures, crypto, or prop firm accounts. AlgoWay keeps Telegram signal automation inside the same routing system instead of creating a separate isolated tool.</p>
+
+        <h2 class="mt-4">Best Practices for Copying Telegram Trading Signals</h2>
+        <p>To improve reliability, use clear settings and controlled trade size rules.</p>
+
+        <ul>
+            <li>Start with a small default trade size when testing a new Telegram signal provider.</li>
+            <li>Use a demo or low-risk account before routing signals to a live account.</li>
+            <li>Check how the provider writes Stop Loss, Take Profit, partial close, and break-even updates.</li>
+            <li>Do not enable copying for channels that mix trading signals with too much unrelated content.</li>
+            <li>Review execution logs after the first signals to confirm that symbol names, size, SL, and TP are interpreted correctly.</li>
+        </ul>
+
+        <p>AI improves flexibility, but no automated trading system should be used blindly. The trader remains responsible for signal provider quality, account risk, and platform settings.</p>
+
+        <h2 class="mt-4">FAQ: AlgoWay AI Telegram Signal Copier</h2>
+
+        <h3 class="mt-4">Can AlgoWay copy Telegram signals to MT5?</h3>
+        <p>Yes. AlgoWay can process Telegram trading signals and send them to MetaTrader 5 through the standard AlgoWayWS-MT5 Expert Advisor when MT5 is selected as the destination.</p>
+
+        <h3 class="mt-4">Do I need a separate Telegram EA for MetaTrader 5?</h3>
+        <p>No. Telegram is only the signal source. MT5 execution is handled by the standard AlgoWayWS-MT5 EA.</p>
+
+        <h3 class="mt-4">Can AlgoWay read free-format Telegram signals?</h3>
+        <p>Yes. The purpose of the AI layer is to understand Telegram messages written in normal human language and extract trading instructions when the message contains a valid signal.</p>
+
+        <h3 class="mt-4">Can AlgoWay ignore non-trading messages?</h3>
+        <p>That is the intended behavior. Messages such as profit reports, advertisements, market comments, screenshots, and general chat messages should not be treated as trade commands.</p>
+
+        <h3 class="mt-4">Can I copy Telegram signals to platforms other than MT5?</h3>
+        <p>Yes. Depending on the selected destination and account setup, AlgoWay can route processed Telegram signals to cTrader, TradeLocker, Tradovate, Binance, Bybit, OKX, and other supported platforms.</p>
+
+        <h3 class="mt-4">Does AlgoWay support Telegram signals without lot size?</h3>
+        <p>Yes, if Manual size mode is configured. If the signal has no size and no default size is set, the trade may not be sent because the destination platform needs a volume value.</p>
+
+        <h3 class="mt-4">Is this only for forex Telegram signals?</h3>
+        <p>No. The workflow can be used for forex, metals, indices, futures, and crypto signals, depending on the connected destination platform and supported symbols.</p>
+
+        <h2 class="mt-4">Summary</h2>
+        <p><strong>AlgoWay AI Telegram Signals</strong> turns Telegram channels into an automated trading signal source. The user connects a Telegram account, selects a channel, configures trade size, chooses the destination platform, and enables the copier.</p>
+
+        <p>The final workflow is:</p>
+
+        <pre><code>Telegram channel → AlgoWay AI → AlgoWay routing → MT5, cTrader, TradeLocker, Tradovate, Binance or another destination</code></pre>
+
+        <p>For traders searching for a Telegram signal copier, Telegram to MT5 copier, or AI Telegram trade copier, AlgoWay provides a flexible way to connect human Telegram messages with structured trading automation across multiple platforms.</p>
+
+
+        <script type="application/ld+json" nonce="{{ g.nonce }}">
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "AI Telegram Signal Copier for Automated Trading with AlgoWay",
+          "description": "Use AlgoWay AI Telegram Signals to copy trading signals from Telegram channels to MT5, cTrader, TradeLocker, Tradovate, Binance and more. AI reads free-format messages and routes trades to your connected platform.",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://algoway.trade/blog/ai-telegram-signals-manual.html"
+          },
+          "url": "https://algoway.trade/blog/ai-telegram-signals-manual.html",
+          "image": "https://algoway.trade/static/img/blog-img/ai-telegram-signals-manual@2x.jpg",
+          "datePublished": "2026-05-12T00:00:00+00:00",
+          "dateModified": "2026-05-12T00:00:00+00:00",
+          "author": {
+            "@type": "Organization",
+            "name": "AlgoWay",
+            "url": "https://algoway.trade/"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "AlgoWay",
+            "url": "https://algoway.trade/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://algoway.trade/static/img/logo.png"
+            }
+          },
+          "articleSection": "Telegram Signal Automation",
+          "keywords": [
+            "AI Telegram signal copier",
+            "Telegram to MT5 copier",
+            "Telegram trading signals automation",
+            "Telegram signal copier",
+            "automated trading signals",
+            "AlgoWay AI Telegram Signals"
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json" nonce="{{ g.nonce }}">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay copy Telegram signals to MT5?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can process Telegram trading signals and send them to MetaTrader 5 through the standard AlgoWayWS-MT5 Expert Advisor when MT5 is selected as the destination."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need a separate Telegram EA for MetaTrader 5?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Telegram is only the signal source. MT5 execution is handled by the standard AlgoWayWS-MT5 EA."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can AlgoWay read free-format Telegram signals?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. The AI layer is designed to understand Telegram messages written in normal human language and extract trading instructions when the message contains a valid signal."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I copy Telegram signals to platforms other than MT5?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Depending on the selected destination and account setup, AlgoWay can route processed Telegram signals to cTrader, TradeLocker, Tradovate, Binance, Bybit, OKX, and other supported platforms."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "AI Telegram Signal Copier for Trading Automation",
+                                      "item": "https://algoway.trade/blog/ai-telegram-signals-manual.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

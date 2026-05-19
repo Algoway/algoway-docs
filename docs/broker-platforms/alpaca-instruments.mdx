@@ -1,10 +1,636 @@
 ---
-title: "Alpaca Instruments and Shortability"
-description: "Alpaca instruments and shortability guide."
+title: "Alpaca Assets for AlgoWay Webhook Automation"
+sidebar_label: "Alpaca Instruments and Shortability"
+pagination_label: "Alpaca Instruments and Shortability"
+description: "Use Alpaca tradable, shortable, marginable and fractionable flags before sending AlgoWay webhook orders. Filter assets and avoid rejected orders."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "TechArticle",
+              "headline": "Alpaca Tradable Assets and Shortable Stocks for AlgoWay Webhook Automation",
+              "description": "Use Alpaca tradable, shortable, marginable and fractionable asset flags before sending TradingView webhook orders through AlgoWay.",
+              "author": {
+                "@type": "Organization",
+                "name": "AlgoWay",
+                "url": "https://algoway.trade/"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "AlgoWay",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://algoway.trade/static/img/social.jpg"
+                }
+              },
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://docs.algoway.trade/docs/broker-platforms/alpaca-instruments/"
+              },
+              "image": "https://algoway.trade/static/img/social.jpg",
+              "datePublished": "2025-09-01T00:00:00+00:00",
+              "dateModified": "2026-05-12T00:00:00+00:00",
+              "articleSection": "Alpaca Automation"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "What are Alpaca tradable assets?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Alpaca tradable assets are symbols that Alpaca marks as available for order submission through its trading infrastructure. A symbol can be active but still not tradable."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Does shortable mean I can always short the stock right now?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. The shortable flag indicates eligibility, but live borrow availability, account permissions and trading conditions can still change."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why should I check fractionable before sending an Alpaca order?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "If the asset is not fractionable, a fractional share order can be rejected. Check fractionable before sending fractional quantities from TradingView or AlgoWay."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Can I use this instruments file for live trading?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use it as a reference and filtering starting point. Before live orders, refresh current asset flags from Alpaca because tradable, shortable, marginable and fractionable values can change."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How does this help AlgoWay webhook automation?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The instruments data helps block invalid symbols, short signals on non-shortable assets, fractional orders on non-fractionable assets, and other cases that may become rejected Alpaca orders."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                                {
+                                          "@type": "ListItem",
+                                          "position": 1,
+                                          "name": "Home",
+                                          "item": "https://algoway.trade/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 2,
+                                          "name": "Blog",
+                                          "item": "https://algoway.trade/blog/"
+                                },
+                                {
+                                          "@type": "ListItem",
+                                          "position": 3,
+                                          "name": "Alpaca Assets for AlgoWay Webhook Automation",
+                                          "item": "https://docs.algoway.trade/docs/broker-platforms/alpaca-instruments/"
+                                }
+                      ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# Alpaca Instruments and Shortability
+![Alpaca tradable assets and shortable stocks for AlgoWay webhook automation](https://algoway.trade/static/img/blog-img/alpaca@2x.jpg)
 
-This page is part of the AlgoWay Docs migration.
+# **Alpaca Tradable Assets and Shortable Stocks for AlgoWay Webhook Automation**
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+**Before you route a TradingView alert to Alpaca through AlgoWay, you should know whether the symbol is actually tradable, shortable, marginable or fractionable on Alpaca.** A ticker can exist in a market data universe but still be blocked for trading, short selling, margin use or fractional sizing.
+
+This page explains how to use an Alpaca instruments reference together with AlgoWay webhook automation. It is designed for traders searching for **Alpaca tradable assets**, **Alpaca shortable stocks**, **Alpaca assets API**, **Alpaca fractionable stocks**, **TradingView to Alpaca webhook symbols**, and **AlgoWay Alpaca automation**.
+
+The practical workflow is:
+
+```
+TradingView alert → AlgoWay webhook → Alpaca symbol check → Alpaca order routing
+```
+
+Dataset snapshot: 2025-09-01 • Source noted in original page: Alpaca Paper API active assets • Author: AlgoWay
+
+## Open the Full Alpaca Instruments Reference
+
+The full reference table is here:
+
+[**Open the Alpaca instruments table**](https://algoway.trade/blog/alpaca_instruments_all.html)
+
+The table was generated as a searchable reference for Alpaca symbols and key automation flags. Use it as a fast starting point when building AlgoWay filters, but refresh the data before relying on it for production trading.
+
+## Why Alpaca Asset Flags Matter for Webhook Trading
+
+In automated trading, a symbol must pass more than one check. A TradingView alert can be valid, the AlgoWay webhook JSON can be valid, and your Alpaca API credentials can be correct — but the final order can still fail if the asset is not allowed for the action you send.
+
+Examples:
+
+- a symbol may be active but not tradable;
+- a stock may be tradable for buying but not shortable;
+- a symbol may not allow fractional shares;
+- margin rules can differ by asset and account type;
+- paper and live environments can behave differently;
+- borrowing availability for shorts can change.
+
+That is why Alpaca asset flags should be part of the pre-trade validation layer for TradingView-to-Alpaca automation.
+
+## Key Fields in the Alpaca Instruments File
+
+The linked file contains one row per instrument with key fields that are useful for AlgoWay automation:
+
+| Field | Meaning for automation |
+| --- | --- |
+| `Symbol` | The Alpaca symbol, for example `AAPL`. |
+| `Exchange` | The exchange or venue tag, such as NASDAQ, NYSE or OTC. |
+| `Name` | The security name returned by the asset source. |
+| `Status` | Lifecycle status, often `active`. |
+| `Tradable` | Whether orders can be submitted for the symbol through Alpaca. |
+| `Shortable` | Whether the asset is eligible for short selling. |
+| `Marginable` | Whether margin trading is allowed for the asset/account conditions. |
+| `Fractionable` | Whether fractional share orders are supported. |
+| `Min Size` | The minimum order size value available in the dataset. |
+
+## Tradable Does Not Mean Shortable
+
+A common automation mistake is assuming that if a stock is tradable, it can also be shorted. That is not safe. A long-only strategy may only need `tradable = true`. A short-selling strategy must check `shortable = true` before sending a sell/short-style command.
+
+For AlgoWay automation, a practical rule is:
+
+```
+BUY signal  → require tradable = true
+SHORT signal → require tradable = true and shortable = true
+```
+
+Even then, `shortable = true` should be treated as eligibility, not a real-time borrow guarantee. Live conditions can still change.
+
+## Fractionable Assets and Micro-Sizing
+
+Fractional shares are important when using small accounts, testing small signals, or routing many low-size alerts from TradingView. If a symbol is not fractionable, a fractional order can be rejected even if the symbol is otherwise tradable.
+
+For AlgoWay webhook automation, check `fractionable = true` before sending fractional share quantity or notional-style sizing. If the asset is not fractionable, use whole-share sizing or block the alert before it reaches Alpaca.
+
+## Marginable Assets and Risk Filters
+
+The `marginable` flag helps decide whether a symbol should be allowed in margin-based strategies. This does not mean a strategy should use margin automatically. It only tells you whether the asset may be eligible under Alpaca and account conditions.
+
+Before routing margin-based signals, check:
+
+- account equity;
+- buying power;
+- margin eligibility;
+- asset marginable flag;
+- day trading restrictions;
+- risk limits inside AlgoWay or your own backend.
+
+## How to Use Alpaca Asset Flags with AlgoWay
+
+Use the instruments reference as a pre-trade filter for AlgoWay alerts. The exact implementation depends on your workflow, but the logic is straightforward.
+
+### 1. Build a Tradable Symbol Whitelist
+
+Only allow TradingView alerts for symbols where `tradable = true`.
+
+```
+if symbol.tradable != true:
+    block alert before order routing
+```
+
+### 2. Build a Shortable Symbol Filter
+
+If the strategy can send short signals, check `shortable` before routing the order.
+
+```
+if order_action in ["sell", "short"] and symbol.shortable != true:
+    block short order
+```
+
+### 3. Use Fractionable for Small Accounts
+
+If your strategy sends fractional order sizes, verify that `fractionable = true`.
+
+```
+if order_contracts is fractional and symbol.fractionable != true:
+    block or round quantity
+```
+
+### 4. Use Exchange and Symbol Groups for Risk Rules
+
+You can group symbols by exchange or asset type. For example, you may set different risk limits for NASDAQ, NYSE, OTC and ETF symbols.
+
+## Example TradingView to Alpaca JSON
+
+After symbol validation, a basic TradingView strategy alert for Alpaca can look like this:
+
+```json
+{
+  "platform_name": "alpaca",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}
+```
+
+For fixed testing, use a direct ticker first:
+
+```json
+{
+  "platform_name": "alpaca",
+  "ticker": "AAPL",
+  "order_contracts": 1,
+  "order_action": "buy"
+}
+```
+
+Full setup guide: [How to connect TradingView alerts to Alpaca with AlgoWay](https://algoway.trade/blog/algoway-alpaca-integration-guide.html).
+
+## Why a Symbol Can Fail Even If It Appears in a List
+
+Do not treat any static symbol list as a permission guarantee. A symbol can fail for several reasons:
+
+- the asset flag changed since the snapshot was generated;
+- the asset is active but not tradable;
+- the asset is tradable but not shortable;
+- the order uses fractional size on a non-fractionable asset;
+- the account is not eligible for margin or short selling;
+- the market is closed;
+- the symbol is halted or restricted;
+- paper and live behavior differ;
+- your TradingView ticker does not match the Alpaca symbol.
+
+## Common Mistakes in Alpaca Symbol Automation
+
+### Mistake 1: Using TradingView Ticker Without Checking Alpaca Symbol
+
+TradingView tickers and broker/API symbols are not always identical. Always test the exact value that will be sent in `ticker`.
+
+### Mistake 2: Shorting Without Checking Shortable Flag
+
+Do not let a strategy send short commands just because the asset is visible. Check `shortable` first.
+
+### Mistake 3: Sending Fractional Size to Non-Fractionable Assets
+
+If `fractionable` is false, use whole-share size or block the alert.
+
+### Mistake 4: Using an Old Snapshot for Live Routing
+
+The dataset is useful for research and filtering, but live order routing should refresh current Alpaca asset flags.
+
+### Mistake 5: Ignoring Paper vs Live Differences
+
+Paper trading is useful for testing, but production logic should be verified against live permissions before live orders.
+
+## Recommended Refresh Workflow
+
+To keep the instruments reference useful:
+
+1. Refresh Alpaca assets periodically from the Alpaca Assets API.
+2. Store `symbol`, `tradable`, `shortable`, `marginable`, `fractionable` and `status`.
+3. Use the latest table as a whitelist before routing AlgoWay webhook orders.
+4. Log every rejected Alpaca order.
+5. Update your filters when Alpaca rejects a symbol due to status or permission changes.
+
+## Related AlgoWay Guides
+
+- [How to connect TradingView alerts to Alpaca with AlgoWay](https://algoway.trade/blog/algoway-alpaca-integration-guide.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [How to create a webhook in TradingView](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html)
+- [Advanced risk management and trade automation](https://algoway.trade/blog/advanced-risk-management-and-trade-automation.html)
+- [How to copy TradingView alerts to multiple accounts](https://algoway.trade/blog/algoway-tradecopier-for-diversification-trading.html)
+
+## Final Summary
+
+**Alpaca instruments data is a practical safety layer for TradingView-to-Alpaca automation.** Before routing webhook orders through AlgoWay, check whether the symbol is tradable, shortable, marginable and fractionable. Use the linked instruments table as a reference, but refresh the live flags before production trading.
+
+Good automation is not only about sending alerts. It is about blocking the wrong alerts before they become rejected orders.

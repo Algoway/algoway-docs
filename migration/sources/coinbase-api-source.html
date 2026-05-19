@@ -1,0 +1,1182 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>TradingView to Coinbase Webhook Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Connect TradingView alerts to Coinbase with AlgoWay. Create API keys, enable View and Trade, disable Transfer, whitelist IP, test JSON alerts." />
+	<link rel="canonical" href="https://algoway.trade/blog/coinbase-api.html" />
+
+	<meta property="og:title" content="How to Connect TradingView to Coinbase with Webhook Automation | AlgoWay" />
+	<meta property="og:description" content="Use AlgoWay as a TradingView to Coinbase webhook bridge. API key setup, portfolio selection, View and Trade permissions, IP whitelist, JSON alerts, logs and troubleshooting." />
+	<meta property="og:url" content="https://algoway.trade/blog/coinbase-api.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="How to Connect TradingView to Coinbase" />
+	<meta name="twitter:description" content="Automate Coinbase trading from TradingView alerts with AlgoWay webhooks, API keys, IP whitelist, JSON examples and logs." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/coinbase@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4" style="margin-top: 0;">
+            <strong>How to Connect TradingView Alerts to Coinbase with AlgoWay Webhook Automation</strong>
+        </h1>
+
+        <img src="/static/img/blog-img/coinbase@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How to connect TradingView alerts to Coinbase with AlgoWay webhook automation"
+             style="display:block; margin:0 auto 1.5rem auto; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>AlgoWay lets you connect TradingView alerts to Coinbase through webhook automation.</strong> You create a Coinbase API key, enable View and Trade permissions, keep Transfer disabled, whitelist the AlgoWay IP address, create a Coinbase webhook in AlgoWay, paste the AlgoWay webhook URL into TradingView, and send a valid JSON alert message.</p>
+
+        <p>This guide is written for traders searching for <strong>how to connect TradingView to Coinbase</strong>, <strong>TradingView to Coinbase webhook</strong>, <strong>Coinbase automated trading</strong>, <strong>Coinbase trading bot</strong>, <strong>Coinbase API automation</strong>, <strong>TradingView crypto automation</strong>, and <strong>automated trading webhook for Coinbase</strong>.</p>
+
+        <p>The execution route is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → Coinbase API key authentication → Coinbase order execution</code></pre>
+
+        <p>TradingView creates the signal. AlgoWay receives and validates the webhook JSON. Coinbase receives the final trading request through the API credentials configured in AlgoWay.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#why-coinbase">Why automate Coinbase with TradingView alerts?</a></li>
+                <li><a href="#prerequisites">Prerequisites</a></li>
+                <li><a href="#api-key">Create Coinbase API key</a></li>
+                <li><a href="#algoway">Create Coinbase webhook in AlgoWay</a></li>
+                <li><a href="#test">Test Coinbase webhook</a></li>
+                <li><a href="#url">Copy webhook URL</a></li>
+                <li><a href="#json">TradingView JSON message</a></li>
+                <li><a href="#alert">Create TradingView alert</a></li>
+                <li><a href="#problems">Common problems</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: TradingView to Coinbase with AlgoWay</h2>
+
+        <p>To automate Coinbase from TradingView, you need:</p>
+
+        <ol>
+            <li>a Coinbase account with the required trading access;</li>
+            <li>a Coinbase API key created for the correct portfolio;</li>
+            <li><strong>View</strong> and <strong>Trade</strong> permissions enabled;</li>
+            <li><strong>Transfer</strong> permission disabled;</li>
+            <li>the AlgoWay IP address added to the Coinbase IP whitelist;</li>
+            <li>an AlgoWay Coinbase webhook;</li>
+            <li>a TradingView alert with the AlgoWay webhook URL and valid JSON message.</li>
+        </ol>
+
+        <p>After setup, a TradingView alert can be routed by AlgoWay to Coinbase as an automated trading command.</p>
+
+        <h2 id="why-coinbase" class="mt-4">Why Automate Coinbase with TradingView Alerts?</h2>
+
+        <p>TradingView is widely used for Pine Script strategies, indicators, alerts and backtesting. Coinbase provides crypto trading infrastructure and API access. AlgoWay connects these two parts with a webhook route.</p>
+
+        <p>This is useful when you want to:</p>
+
+        <ul>
+            <li>turn TradingView strategy alerts into Coinbase orders;</li>
+            <li>automate crypto trading without running your own webhook server;</li>
+            <li>use structured JSON instead of manual order entry;</li>
+            <li>track received alerts and execution responses in AlgoWay logs;</li>
+            <li>connect Coinbase with the same automation workflow used for other AlgoWay destinations;</li>
+            <li>build a no-code TradingView to Coinbase trading bot workflow.</li>
+        </ul>
+
+        <p>AlgoWay does not create a profitable strategy. It automates the execution route after your TradingView strategy, indicator or manual alert sends the command.</p>
+
+        <h2 id="prerequisites" class="mt-4">Prerequisites</h2>
+
+        <p>Prepare the following before creating the Coinbase webhook:</p>
+
+        <ul>
+            <li>Coinbase account with the required trading access enabled;</li>
+            <li>AlgoWay account with access to the Webhooks dashboard;</li>
+            <li>TradingView strategy, indicator or manual alert;</li>
+            <li>TradingView plan with webhook alert support;</li>
+            <li>Coinbase portfolio you want to trade, such as <strong>Primary</strong>;</li>
+            <li>AlgoWay IP address shown in your dashboard;</li>
+            <li>valid AlgoWay JSON message for your selected Coinbase route.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Security note:</strong> keep Coinbase <strong>Transfer</strong> permission disabled. For AlgoWay trading automation, use only the permissions required to view account data and execute trades.
+        </div>
+
+        <h2 id="api-key" class="mt-4">Step 1. Create a Coinbase API Key</h2>
+
+        <p>Open the Coinbase API key creation screen and create a dedicated key for AlgoWay. Use a clear nickname such as <code>AlgoWay</code> so you can identify this integration later.</p>
+
+        <ol>
+            <li>Open the Coinbase API key creation page.</li>
+            <li>Set the API key nickname, for example <code>AlgoWay</code>.</li>
+            <li>Select the portfolio you want to trade, for example <strong>Primary</strong>.</li>
+            <li>Enable <strong>View</strong> permission.</li>
+            <li>Enable <strong>Trade</strong> permission.</li>
+            <li>Keep <strong>Transfer</strong> permission disabled.</li>
+            <li>Add the AlgoWay IP address to the IP whitelist.</li>
+            <li>Click <strong>Create &amp; download</strong>.</li>
+        </ol>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase1.jpg"
+                 alt="Coinbase Create API Key screen with permissions and IP whitelist"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Create a Coinbase API key for AlgoWay. Keep <strong>View</strong> and <strong>Trade</strong> enabled, keep <strong>Transfer</strong> disabled, and add the AlgoWay IP to the whitelist.</figcaption>
+        </figure>
+
+        <h3 class="mt-3">Recommended Coinbase API Permissions</h3>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Permission</th>
+                    <th>Use it?</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>View</td>
+                    <td>Yes</td>
+                    <td>Required for account, portfolio, product, balance and order status checks.</td>
+                </tr>
+                <tr>
+                    <td>Trade</td>
+                    <td>Yes</td>
+                    <td>Required to place or manage trades through Coinbase.</td>
+                </tr>
+                <tr>
+                    <td>Transfer</td>
+                    <td>No</td>
+                    <td>Not required for AlgoWay TradingView webhook automation.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 class="mt-3">AlgoWay IP Whitelist</h3>
+
+        <p>Add the AlgoWay server IP shown in your dashboard to the Coinbase IP whitelist. The screenshot example uses:</p>
+
+        <pre><code>103.241.67.174</code></pre>
+
+        <p>If your dashboard shows a different AlgoWay IP, use the IP shown in the dashboard. If the IP whitelist is missing or wrong, Coinbase can reject API requests from AlgoWay.</p>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase2.jpg"
+                 alt="Coinbase API key created successfully modal showing API key name and private key"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Save the <strong>API key name</strong> and the <strong>Private key</strong> immediately. The private key cannot be downloaded again.</figcaption>
+        </figure>
+
+        <div class="alert alert-danger" role="alert">
+            <strong>Important:</strong> save the Coinbase API key name and private key at creation time. If the private key is lost, delete the key and create a new one.
+        </div>
+
+        <h2 id="algoway" class="mt-4">Step 2. Create a Coinbase Webhook in AlgoWay</h2>
+
+        <p>After creating the Coinbase API key, create a Coinbase webhook in AlgoWay. This webhook becomes the route between TradingView alerts and Coinbase execution.</p>
+
+        <ol>
+            <li>Open your <strong>AlgoWay Dashboard</strong>.</li>
+            <li>Click <strong>Add Trial Webhook</strong> or <strong>Add Main Webhook</strong>.</li>
+            <li>Select <strong>TradingView</strong> as the source.</li>
+            <li>Select <strong>Coinbase</strong> as the platform.</li>
+            <li>Choose the market and trade settings used by your AlgoWay route.</li>
+            <li>Enter the Coinbase API Key Name.</li>
+            <li>Paste the Coinbase Private Key.</li>
+            <li>Save the webhook.</li>
+        </ol>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase3.jpg"
+                 alt="AlgoWay Add Trial Webhook form filled for Coinbase"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Set <strong>Platform</strong> to Coinbase, choose your market and trade settings, then paste the Coinbase API credentials.</figcaption>
+        </figure>
+
+        <h3 class="mt-3">Main AlgoWay Coinbase Fields</h3>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Recommended value</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Source</td>
+                    <td>TradingView</td>
+                    <td>The signal source.</td>
+                </tr>
+                <tr>
+                    <td>Platform</td>
+                    <td>Coinbase</td>
+                    <td>The execution destination.</td>
+                </tr>
+                <tr>
+                    <td>Quantity Multiplier</td>
+                    <td>Absolute or your route setting</td>
+                    <td>Controls how incoming size is interpreted.</td>
+                </tr>
+                <tr>
+                    <td>Market Type</td>
+                    <td>Your selected Coinbase route</td>
+                    <td>Must match the market type supported by your Coinbase account and AlgoWay route.</td>
+                </tr>
+                <tr>
+                    <td>Trade Type</td>
+                    <td>Reverse / Netting, Hedge or selected mode</td>
+                    <td>Defines how opposite signals and open positions are handled.</td>
+                </tr>
+                <tr>
+                    <td>API Key Name</td>
+                    <td>Coinbase API key name</td>
+                    <td>Used by AlgoWay for Coinbase API authentication.</td>
+                </tr>
+                <tr>
+                    <td>Private Key</td>
+                    <td>Coinbase private key</td>
+                    <td>Used to sign Coinbase API requests.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="test" class="mt-4">Step 3. Test the Coinbase Webhook in AlgoWay</h2>
+
+        <p>Before connecting a live TradingView strategy alert, send a test webhook from AlgoWay.</p>
+
+        <ol>
+            <li>Open <strong>Webhook Logs</strong> in AlgoWay.</li>
+            <li>Click <strong>Test Webhook</strong>.</li>
+            <li>Select your Coinbase webhook.</li>
+            <li>Enter a symbol, small quantity and action.</li>
+            <li>Optionally enter SL/TP or other supported fields.</li>
+            <li>Click <strong>Send</strong>.</li>
+            <li>Check AlgoWay logs and Coinbase account activity.</li>
+        </ol>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase4.jpg"
+                 alt="AlgoWay Send Test Webhook modal for Coinbase"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Use a small test order before connecting live TradingView alerts.</figcaption>
+        </figure>
+
+        <p>If the test fails, check API key name, private key, portfolio, permissions, IP whitelist, symbol, quantity and AlgoWay logs.</p>
+
+        <h2 id="url" class="mt-4">Step 4. Copy the AlgoWay Webhook URL</h2>
+
+        <p>After the Coinbase webhook is saved and tested, copy the webhook URL from the AlgoWay dashboard.</p>
+
+        <ol>
+            <li>Open <strong>Dashboard → Your Webhooks</strong>.</li>
+            <li>Find the webhook where <strong>Platform</strong> is Coinbase.</li>
+            <li>Copy the webhook UUID or full webhook URL.</li>
+        </ol>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase5.jpg"
+                 alt="AlgoWay dashboard showing Coinbase webhook entry"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Copy your Coinbase webhook URL from the AlgoWay dashboard.</figcaption>
+        </figure>
+
+        <p>Webhook URL format:</p>
+
+        <pre><code>https://algoway.co/your-webhook-uuid</code></pre>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Do not publish your webhook URL.</strong> Treat the UUID as a private execution endpoint.
+        </div>
+
+        <h2 id="json" class="mt-4">Step 5. TradingView Webhook JSON for Coinbase</h2>
+
+        <p>TradingView must send valid JSON. AlgoWay expects structured fields, not plain text.</p>
+
+        <p><strong>Recommended TradingView strategy alert JSON:</strong></p>
+
+        <pre><code>{
+  "platform_name": "coinbase",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>TradingView replaces these placeholders when the alert fires:</p>
+
+        <ul>
+            <li><code>{{ticker}}</code> — chart ticker;</li>
+            <li><code>{{strategy.order.contracts}}</code> — strategy order size;</li>
+            <li><code>{{strategy.market_position}}</code> — strategy position state;</li>
+            <li><code>{{close}}</code> — close price at alert time.</li>
+        </ul>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase6.jpg"
+                 alt="TradingView alert message window with Coinbase JSON"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Paste the Coinbase JSON template into the TradingView alert message field.</figcaption>
+        </figure>
+
+        <h3 class="mt-3">Fixed Test JSON</h3>
+
+        <p>For a controlled test, use a fixed symbol and small valid size:</p>
+
+        <pre><code>{
+  "platform_name": "coinbase",
+  "ticker": "BTC-USD",
+  "order_contracts": 0.001,
+  "order_action": "buy"
+}</code></pre>
+
+        <p>Use a valid Coinbase product symbol and a quantity accepted by the selected market and account.</p>
+
+        <h2 class="mt-4">Coinbase Symbol and Product Notes</h2>
+
+        <p>TradingView symbols and Coinbase product IDs may not always use the same format. For example, a TradingView chart ticker and a Coinbase product ID can differ by exchange prefix, separator or market naming.</p>
+
+        <p>Before live automation, confirm:</p>
+
+        <ul>
+            <li>the TradingView chart ticker;</li>
+            <li>the Coinbase product ID accepted by the API;</li>
+            <li>the portfolio selected for the API key;</li>
+            <li>the market type selected in AlgoWay;</li>
+            <li>minimum size and increment rules;</li>
+            <li>whether the asset is tradable in your Coinbase account.</li>
+        </ul>
+
+        <p>If AlgoWay receives the webhook but Coinbase rejects the order, symbol or product mismatch is one of the first checks.</p>
+
+        <h2 id="alert" class="mt-4">Step 6. Create the TradingView Alert</h2>
+
+        <p>After the Coinbase webhook URL and JSON message are ready, create the TradingView alert.</p>
+
+        <ol>
+            <li>Open the TradingView chart you want to automate.</li>
+            <li>Create or edit your strategy alert.</li>
+            <li>Paste the Coinbase JSON message into the alert message field.</li>
+            <li>Open <strong>Notifications</strong>.</li>
+            <li>Enable <strong>Webhook URL</strong>.</li>
+            <li>Paste the AlgoWay Coinbase webhook URL.</li>
+            <li>Click <strong>Apply</strong> or <strong>Create</strong>.</li>
+        </ol>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase7.jpg"
+                 alt="TradingView create alert window for Coinbase"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Create or edit the TradingView strategy alert and confirm the JSON message.</figcaption>
+        </figure>
+
+        <figure style="margin-bottom: 20px;">
+            <img src="/static/img/manuals/coinbase8.jpg"
+                 alt="TradingView Notifications section with Webhook URL enabled for AlgoWay Coinbase webhook"
+                 style="width:100%; height:auto;" loading="lazy" decoding="async" width="1200" height="675" />
+            <figcaption>Enable <strong>Webhook URL</strong> and paste the AlgoWay Coinbase webhook link.</figcaption>
+        </figure>
+
+        <h2 class="mt-4">Trade Type: Reverse, Hedge and Opposite Logic</h2>
+
+        <p>Trade Type defines how AlgoWay handles a new signal when there is already an open position or order state. This setting matters when your TradingView strategy changes direction.</p>
+
+        <ul>
+            <li><strong>Reverse / Netting:</strong> useful when the latest signal should control the current direction.</li>
+            <li><strong>Hedge:</strong> useful only if the destination route and account support separate long and short behavior.</li>
+            <li><strong>Opposite:</strong> useful when an opposite signal should close and open the other side.</li>
+        </ul>
+
+        <p>Full guide: <a href="/blog/algoway-modes-article.html">How AlgoWay handles opposite trading signals</a>.</p>
+
+        <h2 class="mt-4">Verification and Logs</h2>
+
+        <p>After the alert is created, test with small size.</p>
+
+        <ul>
+            <li>Trigger a small test alert first.</li>
+            <li>Open <strong>Webhook Logs</strong> in AlgoWay.</li>
+            <li>Verify the incoming JSON payload.</li>
+            <li>Review the Coinbase response.</li>
+            <li>Check your Coinbase account to confirm whether the order or position was processed correctly.</li>
+        </ul>
+
+        <p>If the order is not created, do not immediately rewrite the strategy. First check API permissions, IP whitelist, webhook URL, JSON format, ticker/product format and the TradingView alert condition.</p>
+
+        <h2 id="problems" class="mt-4">Common Coinbase Webhook Problems</h2>
+
+        <h3 class="mt-3">Private Key Was Lost</h3>
+        <p>The private key cannot be downloaded again after creation. Delete the Coinbase API key and create a new one.</p>
+
+        <h3 class="mt-3">Wrong API Key Name</h3>
+        <p>AlgoWay needs the Coinbase API key name exactly as created. If the key name is wrong, authentication can fail.</p>
+
+        <h3 class="mt-3">Wrong Private Key</h3>
+        <p>The private key entered in AlgoWay must belong to the API key name used for this Coinbase connection.</p>
+
+        <h3 class="mt-3">Transfer Permission Enabled</h3>
+        <p>Transfer permission is not required. Use View and Trade for this integration and keep Transfer disabled.</p>
+
+        <h3 class="mt-3">IP Whitelist Missing or Wrong</h3>
+        <p>Add the AlgoWay IP address from your dashboard to the Coinbase IP whitelist. If the IP does not match, API requests can be rejected.</p>
+
+        <h3 class="mt-3">Wrong Portfolio</h3>
+        <p>Coinbase API keys are associated with a selected portfolio. Make sure the portfolio has the assets and balances required for the automated route.</p>
+
+        <h3 class="mt-3">Invalid JSON</h3>
+        <p>TradingView must send valid JSON. Broken commas, missing quotes or unsupported field names can stop automation before Coinbase execution.</p>
+
+        <h3 class="mt-3">Wrong Product Symbol</h3>
+        <p>Check whether the TradingView ticker matches the Coinbase product ID accepted by the API and AlgoWay route.</p>
+
+        <h3 class="mt-3">Invalid Quantity</h3>
+        <p>Coinbase can reject orders that do not satisfy product minimum size or increment rules. Test with a small valid quantity first.</p>
+
+        <h2 class="mt-4">Why Use AlgoWay Instead of Building a TradingView to Coinbase Bot?</h2>
+
+        <p>You can build your own TradingView-to-Coinbase bot. That requires a public webhook endpoint, server hosting, JSON validation, Coinbase API authentication, product mapping, portfolio routing, order endpoint integration, logs, errors and ongoing monitoring.</p>
+
+        <p>AlgoWay gives you a ready automation route:</p>
+
+        <ul>
+            <li>TradingView webhook receiver;</li>
+            <li>structured JSON workflow;</li>
+            <li>Coinbase API credential routing;</li>
+            <li>dashboard-based webhook setup;</li>
+            <li>logs for payloads and execution responses;</li>
+            <li>support for multiple brokers and exchanges;</li>
+            <li>trade modes and risk-aware execution logic.</li>
+        </ul>
+
+        <p>This makes AlgoWay a no-code <strong>TradingView to Coinbase webhook connector</strong> for traders who want crypto automation without maintaining their own API server.</p>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">How to automate TradingView alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/bingx-api.html">How to connect TradingView to BingX with AlgoWay</a></li>
+            <li><a href="/blog/bitget-api.html">How to connect TradingView to Bitget with AlgoWay</a></li>
+            <li><a href="/blog/algoway-binance-integration-guide.html">How to connect TradingView to Binance with AlgoWay</a></li>
+            <li><a href="/blog/algoway-bybit-integration-guide.html">How to connect TradingView to Bybit with AlgoWay</a></li>
+            <li><a href="/blog/algoway-tradecopier-for-diversification-trading.html">How to copy TradingView alerts to multiple accounts</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p>To automate Coinbase from TradingView, create a Coinbase API key with View and Trade permissions, keep Transfer disabled, whitelist the AlgoWay IP address, create a Coinbase webhook in AlgoWay, test the webhook, and then send valid TradingView JSON to the AlgoWay webhook URL.</p>
+
+        <p><strong>AlgoWay turns TradingView alerts into Coinbase webhook automation without forcing you to build and maintain your own crypto trading bot infrastructure.</strong></p>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Connect TradingView Alerts to Coinbase with AlgoWay Webhook Automation",
+                  "description": "Connect TradingView alerts to Coinbase with AlgoWay. Create Coinbase API keys, enable View and Trade permissions, disable Transfer, whitelist the AlgoWay IP, build JSON alerts, test webhooks, and automate crypto trading.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/coinbase-api.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "Crypto Trading Automation",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Can I connect TradingView alerts to Coinbase with AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. AlgoWay can receive TradingView webhook alerts and route structured JSON commands to Coinbase through a Coinbase webhook created in the AlgoWay dashboard."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which Coinbase API permissions are needed for AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use View and Trade permissions. Transfer permission is not required for AlgoWay TradingView webhook automation and should remain disabled."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I whitelist the AlgoWay IP in Coinbase?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Add the AlgoWay IP address shown in your dashboard to the Coinbase IP whitelist so API requests from AlgoWay are accepted."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What JSON fields are required for Coinbase automation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A basic Coinbase webhook message usually includes platform_name, ticker, order_contracts, order_action and optionally price."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why did my TradingView to Coinbase webhook fail?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common causes include wrong API key name, wrong private key, missing IP whitelist, wrong portfolio, invalid JSON, product symbol mismatch, invalid quantity or missing Trade permission."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "TradingView to Coinbase Webhook Automation",
+                                      "item": "https://algoway.trade/blog/coinbase-api.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

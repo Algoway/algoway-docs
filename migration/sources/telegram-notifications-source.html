@@ -1,0 +1,1123 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Set Up Telegram Trading Notifications in AlgoWay</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Set up Telegram trading notifications in AlgoWay. Create a bot, get token and chat_id, add them in AlgoWay, send a test and troubleshoot delivery." />
+	<link rel="canonical" href="https://algoway.trade/blog/how-to-set-up-telegram-notifications-on-algoway.html" />
+
+	<meta property="og:title" content="How to Set Up Telegram Trading Notifications in AlgoWay" />
+	<meta property="og:description" content="Step-by-step AlgoWay Telegram notification setup: BotFather bot token, chat_id, getUpdates, AlgoWay settings, test notification, security notes and troubleshooting." />
+	<meta property="og:url" content="https://algoway.trade/blog/how-to-set-up-telegram-notifications-on-algoway.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/blog-img/telegram-manual-webhook-bot@2x.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Telegram Trading Notifications in AlgoWay" />
+	<meta name="twitter:description" content="Create a Telegram bot, get bot token and chat_id, add them to AlgoWay and receive trading/webhook notifications in Telegram." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/telegram-manual-webhook-bot@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <h1 class="mb-4"><strong>How to Set Up Telegram Trading Notifications in AlgoWay</strong></h1>
+
+        <img src="/static/img/blog-img/telegram-manual-webhook-bot@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="How to set up Telegram trading notifications in AlgoWay"
+             class="guide-image"
+             style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+        <p><strong>AlgoWay Telegram notifications let you receive real-time messages about trading automation, webhook events, test messages and platform activity directly in Telegram.</strong> To enable them, you create a Telegram bot with BotFather, copy the bot token, retrieve your <code>chat_id</code>, add both values in AlgoWay settings, and send a test notification.</p>
+
+        <p>This guide is written for users searching for <strong>Telegram trading notifications</strong>, <strong>AlgoWay Telegram alerts</strong>, <strong>Telegram bot token</strong>, <strong>Telegram chat_id</strong>, <strong>getUpdates chat id</strong>, <strong>Telegram webhook notifications</strong>, and <strong>trading bot Telegram alerts</strong>.</p>
+
+        <p>The setup route is:</p>
+
+        <pre><code>BotFather → Telegram bot token → getUpdates chat_id → AlgoWay Telegram settings → test notification</code></pre>
+
+        <p>Telegram notifications do not execute trades by themselves. They are a notification layer for your AlgoWay trading automation workflow.</p>
+
+        <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+        <nav class="toc mt-4 mb-4">
+            <strong>Contents</strong>
+            <ul>
+                <li><a href="#quick-answer">Quick answer</a></li>
+                <li><a href="#what-it-does">What Telegram notifications do</a></li>
+                <li><a href="#before">Before you start</a></li>
+                <li><a href="#botfather">Create Telegram bot with BotFather</a></li>
+                <li><a href="#chat-id">Get your Telegram chat_id</a></li>
+                <li><a href="#algoway">Configure Telegram in AlgoWay</a></li>
+                <li><a href="#test">Send test notification</a></li>
+                <li><a href="#group">Private chat, group and channel notes</a></li>
+                <li><a href="#security">Security notes</a></li>
+                <li><a href="#problems">Common problems</a></li>
+            </ul>
+        </nav>
+
+        <h2 id="quick-answer" class="mt-4">Quick Answer: How to Enable Telegram Notifications in AlgoWay</h2>
+
+        <p>To set up Telegram notifications in AlgoWay:</p>
+
+        <ol>
+            <li>Open Telegram and search for <code>@BotFather</code>.</li>
+            <li>Send <code>/newbot</code>.</li>
+            <li>Create a bot name and a unique username ending in <code>bot</code>.</li>
+            <li>Copy the bot token from BotFather.</li>
+            <li>Open your new bot and send it any message, for example <code>Hello</code>.</li>
+            <li>Open <code>https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code> in your browser.</li>
+            <li>Copy <code>chat.id</code> from the JSON response.</li>
+            <li>Open AlgoWay settings and enable Telegram notifications.</li>
+            <li>Paste the bot token without the word <code>bot</code>.</li>
+            <li>Paste the <code>chat_id</code>.</li>
+            <li>Click <strong>Send Test Notification</strong>.</li>
+        </ol>
+
+        <h2 id="what-it-does" class="mt-4">What AlgoWay Telegram Notifications Do</h2>
+
+        <p>Telegram notifications are useful when you want to monitor AlgoWay activity without keeping the dashboard open all the time.</p>
+
+        <p>Depending on your AlgoWay setup, Telegram messages can help you monitor:</p>
+
+        <ul>
+            <li>test notification delivery;</li>
+            <li>webhook activity;</li>
+            <li>trading automation events;</li>
+            <li>platform connection status;</li>
+            <li>execution confirmations;</li>
+            <li>errors or rejected actions where supported;</li>
+            <li>important account or route events shown by AlgoWay.</li>
+        </ul>
+
+        <p>Telegram is a fast notification channel, but it should not replace AlgoWay Webhook Logs, platform logs or broker/exchange order history. Use Telegram for awareness and logs for investigation.</p>
+
+        <h2 class="mt-4">Where Telegram Notifications Fit in Trading Automation</h2>
+
+        <p>AlgoWay Telegram notifications are not only basic account messages. They are part of a wider <strong>trading automation monitoring</strong> workflow. When a TradingView webhook alert, manual webhook signal, Telegram signal copier event or platform connector event reaches AlgoWay, the dashboard and logs remain the main source of technical detail. Telegram gives you the fast external notification layer, so you can see important trading activity without keeping the AlgoWay dashboard open every minute.</p>
+
+        <p>This is especially useful for traders who run <strong>automated trading alerts</strong> on several routes. A trader may have one webhook for TradingView to MetaTrader 5, another route for TradingView to TradeLocker, and a separate crypto route for Binance or Bybit. In that setup, Telegram notifications become a practical way to monitor whether the system is alive, whether test messages are delivered, and whether key events are reaching the user.</p>
+
+        <p>The goal is not to replace execution logs. The goal is to make the trading workflow easier to supervise. Telegram can show a fast notification, while AlgoWay logs show the received payload, parsed command, destination response and debugging details. For SEO and practical use, this is the difference between a simple Telegram message and a real <strong>Telegram notification system for webhook trading automation</strong>.</p>
+
+
+        <h2 class="mt-4">Telegram Notifications vs Telegram Signal Copier</h2>
+
+        <p>AlgoWay has two Telegram-related workflows, and they should not be confused. <strong>Telegram notifications</strong> send messages from AlgoWay to your Telegram chat. They are used for monitoring, alerts, status checks and test messages. <strong>AI Telegram Signals</strong> work in the opposite direction: AlgoWay reads Telegram channels or groups, understands trading signals with AI, and routes those signals to a connected trading platform.</p>
+
+        <p>In simple terms, Telegram notifications are for receiving updates from AlgoWay, while the Telegram signal copier is for using Telegram as a trade signal source. A user who wants to receive a message when a webhook fires should configure Telegram notifications. A user who wants to copy trading signals from a Telegram channel to MT5, cTrader, TradeLocker, Tradovate or a crypto exchange should configure the AI Telegram Signals feature.</p>
+
+        <p>This distinction matters for search intent. Many users search for <strong>Telegram trading alerts</strong>, <strong>Telegram bot for trading notifications</strong>, <strong>Telegram webhook alerts</strong> or <strong>trading bot Telegram messages</strong>. This page is about notifications from AlgoWay to Telegram. For copying Telegram trading signals into a broker or exchange account, use the AI Telegram signal copier manual.</p>
+
+
+        <h2 id="before" class="mt-4">Before You Start</h2>
+
+        <p>Prepare:</p>
+
+        <ul>
+            <li>Telegram account;</li>
+            <li>access to <code>@BotFather</code> in Telegram;</li>
+            <li>AlgoWay account;</li>
+            <li>AlgoWay dashboard access;</li>
+            <li>a browser to call <code>getUpdates</code>;</li>
+            <li>a safe place to temporarily copy the bot token and <code>chat_id</code>.</li>
+        </ul>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> the bot token is a secret. Anyone with the token can control that bot through Telegram Bot API. Do not publish it in screenshots, logs, public chats or support tickets unless you intentionally want support to inspect the setup.
+        </div>
+
+        <h2 id="botfather" class="mt-4">Step 1. Create a Telegram Bot with BotFather</h2>
+
+        <p>Telegram bots are created and managed through <code>@BotFather</code>.</p>
+
+        <ol>
+            <li>Open Telegram.</li>
+            <li>Search for <code>@BotFather</code>.</li>
+            <li>Open the official BotFather chat.</li>
+            <li>Click <strong>Start</strong>.</li>
+            <li>Send the command <code>/newbot</code>.</li>
+            <li>Choose a display name, for example <code>AlgoWayBot</code>.</li>
+            <li>Choose a unique username ending in <code>bot</code>, for example <code>AlgoWayTradeBot</code>.</li>
+            <li>Copy the bot token that BotFather gives you.</li>
+        </ol>
+
+        <p>Example token format:</p>
+
+        <pre><code>1234567890:ABCDEF12345ghIkl-zyx57W2v1u123ew11</code></pre>
+
+        <p>Do not include the word <code>bot</code> before the token when pasting it into AlgoWay settings.</p>
+
+        <h2 id="chat-id" class="mt-4">Step 2. Get Your Telegram chat_id</h2>
+
+        <p>AlgoWay needs a <code>chat_id</code> so Telegram knows where to deliver notifications.</p>
+
+        <ol>
+            <li>Open your newly created bot in Telegram.</li>
+            <li>Send any message to the bot, for example <code>Hello</code>.</li>
+            <li>Open your browser.</li>
+            <li>Paste the following URL, replacing <code>&lt;TOKEN&gt;</code> with your real bot token:</li>
+        </ol>
+
+        <pre><code>https://api.telegram.org/bot&lt;TOKEN&gt;/getUpdates</code></pre>
+
+        <p>Example:</p>
+
+        <pre><code>https://api.telegram.org/bot1234567890:ABCDEF12345ghIkl-zyx57W2v1u123ew11/getUpdates</code></pre>
+
+        <p>You should see a JSON response. Find <code>chat.id</code>.</p>
+
+        <pre><code>{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 987654321,
+      "message": {
+        "chat": {
+          "id": 1122334455,
+          "type": "private"
+        },
+        "text": "Hello"
+      }
+    }
+  ]
+}</code></pre>
+
+        <p>In this example, the <code>chat_id</code> is:</p>
+
+        <pre><code>1122334455</code></pre>
+
+        <div class="alert alert-info" role="alert">
+            <strong>If result is empty:</strong> send a new message to your bot, then refresh the <code>getUpdates</code> URL.
+        </div>
+
+        <h2 id="algoway" class="mt-4">Step 3. Configure Telegram Notifications in AlgoWay</h2>
+
+        <p>Now add the token and chat ID inside AlgoWay.</p>
+
+        <ol>
+            <li>Log in to AlgoWay.</li>
+            <li>Open <strong>Settings</strong>.</li>
+            <li>Find the <strong>Telegram Notifications</strong> section.</li>
+            <li>Enable notifications.</li>
+            <li>Paste the bot token into the <strong>Bot Token</strong> field.</li>
+            <li>Paste the <code>chat_id</code> into the <strong>Chat ID</strong> field.</li>
+            <li>Save the settings if the interface requires saving.</li>
+            <li>Click <strong>Send Test Notification</strong>.</li>
+        </ol>
+
+        <img src="/static/img/blog-img/tg_notification_window.jpg"
+             loading="lazy"
+             decoding="async"
+             width="720"
+             height="480"
+             alt="AlgoWay Telegram notification settings window with bot token and chat ID"
+             class="guide-image-narrow"
+             style="display:block; max-width:760px; width:100%; height:auto; margin:0 auto 1.5rem auto;" />
+
+        <p>Correct token format in AlgoWay:</p>
+
+        <pre><code>1234567890:ABCDEF12345ghIkl-zyx57W2v1u123ew11</code></pre>
+
+        <p>Incorrect token format in AlgoWay:</p>
+
+        <pre><code>bot1234567890:ABCDEF12345ghIkl-zyx57W2v1u123ew11</code></pre>
+
+        <h2 id="test" class="mt-4">Step 4. Send a Test Notification</h2>
+
+        <p>After entering the token and chat ID, send a test notification from AlgoWay.</p>
+
+        <ol>
+            <li>Click <strong>Send Test Notification</strong>.</li>
+            <li>Open Telegram.</li>
+            <li>Open the chat with your bot.</li>
+            <li>Confirm that the test message arrived.</li>
+            <li>If it arrived, Telegram notifications are configured.</li>
+            <li>If it did not arrive, check the troubleshooting section below.</li>
+        </ol>
+
+        <p>A successful test means AlgoWay can call the Telegram Bot API with your bot token and deliver a message to your configured chat ID.</p>
+
+        <h2 class="mt-4">Best Notification Workflow for Webhook Trading</h2>
+
+        <p>A strong Telegram notification setup should confirm the full route, not only the bot token. The first successful test proves that AlgoWay can send a message through the Telegram Bot API. After that, the next check is whether real trading automation events are visible in the correct place: AlgoWay Webhook Logs, platform logs and Telegram notifications.</p>
+
+        <p>For example, if you use TradingView alerts with AlgoWay, the complete monitoring path is:</p>
+
+        <pre><code>TradingView alert fires → AlgoWay webhook receives payload → AlgoWay routes command → platform responds → Telegram notification informs user</code></pre>
+
+        <p>This workflow is useful for <strong>webhook trading bots</strong>, MT5 automation, crypto exchange routes, prop-firm platform routing and manual alert testing. Telegram gives fast visibility, but the exact reason for success or rejection should still be checked inside AlgoWay logs and the connected platform.</p>
+
+        <p>During setup, start with a test notification, then trigger a small test event from the real route. This helps separate three different problems: a Telegram delivery issue, a webhook delivery issue, or a destination platform execution issue.</p>
+
+
+        <h2 id="group" class="mt-4">Private Chat, Group and Channel Notes</h2>
+
+        <p>The easiest setup is a private chat between you and your bot. Groups and channels can also work, but they require extra attention.</p>
+
+        <h3 class="mt-3">Private Chat</h3>
+
+        <p>Private chat is the simplest option. Send a message to the bot and use the <code>chat.id</code> from <code>getUpdates</code>.</p>
+
+        <h3 class="mt-3">Group Chat</h3>
+
+        <p>To send notifications to a group:</p>
+
+        <ol>
+            <li>Add the bot to the group.</li>
+            <li>Send a message in the group.</li>
+            <li>Call <code>getUpdates</code>.</li>
+            <li>Find the group <code>chat.id</code>.</li>
+        </ol>
+
+        <p>Group chat IDs can be negative numbers. That is normal.</p>
+
+        <h3 class="mt-3">Channel</h3>
+
+        <p>For channels, the bot usually must be added as an administrator with permission to post messages. Use channel setup only if you understand Telegram channel permissions.</p>
+
+        <h2 id="security" class="mt-4">Security Notes for Telegram Notifications</h2>
+
+        <p>Telegram bot tokens should be treated like passwords.</p>
+
+        <ul>
+            <li>Do not publish the bot token.</li>
+            <li>Do not expose the token in public screenshots.</li>
+            <li>Do not reuse the same bot for unrelated systems.</li>
+            <li>Do not add the bot to public groups unless you need it there.</li>
+            <li>If the token is leaked, revoke it in BotFather and create a new token.</li>
+            <li>If notifications stop unexpectedly, verify that the bot still exists and the token was not regenerated.</li>
+        </ul>
+
+        <p>If you regenerate the token in BotFather, update the token in AlgoWay immediately.</p>
+
+        <h2 id="problems" class="mt-4">Common Telegram Notification Problems</h2>
+
+        <h3 class="mt-3">Test Notification Does Not Arrive</h3>
+        <p>Check bot token, chat ID, whether notifications are enabled, and whether you sent at least one message to the bot before calling <code>getUpdates</code>.</p>
+
+        <h3 class="mt-3">getUpdates Shows Empty result</h3>
+        <p>Open the bot chat in Telegram and send a new message. Then refresh the <code>getUpdates</code> URL.</p>
+
+        <h3 class="mt-3">Token Was Pasted with bot Prefix</h3>
+        <p>In the URL, Telegram uses <code>bot&lt;TOKEN&gt;</code>. In AlgoWay settings, paste only the token itself, without the word <code>bot</code>.</p>
+
+        <h3 class="mt-3">Wrong chat_id</h3>
+        <p>Make sure you copied <code>message.chat.id</code> from the correct chat. If you want private notifications, use the private chat ID, not a group ID.</p>
+
+        <h3 class="mt-3">Group Notifications Do Not Work</h3>
+        <p>Add the bot to the group, send a new group message, call <code>getUpdates</code>, and copy the group chat ID. For some group/channel setups, bot permissions must be adjusted.</p>
+
+        <h3 class="mt-3">Bot Was Blocked</h3>
+        <p>If you blocked the bot in Telegram, unblock it and send a new message before testing again.</p>
+
+        <h3 class="mt-3">Token Was Regenerated</h3>
+        <p>If you regenerated the token in BotFather, the old token no longer works. Update AlgoWay with the new token.</p>
+
+        <h3 class="mt-3">Notifications Work in Test but Not During Trading</h3>
+        <p>Check whether the relevant AlgoWay event type actually sends Telegram notifications, and check AlgoWay webhook logs for the trading route.</p>
+
+        <h2 class="mt-4">Telegram Notifications vs Webhook Trading</h2>
+
+        <p>Telegram notifications and webhook trading are different parts of the AlgoWay system.</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>TradingView webhook</td>
+                    <td>Sends trading commands to AlgoWay.</td>
+                </tr>
+                <tr>
+                    <td>AlgoWay webhook route</td>
+                    <td>Routes trading commands to platforms such as MT5, Coinbase, ProjectX or Tradovate.</td>
+                </tr>
+                <tr>
+                    <td>Telegram notifications</td>
+                    <td>Sends monitoring messages to your Telegram chat.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>Telegram is for notification. AlgoWay webhooks are for automation.</p>
+
+        <h2 class="mt-4">Use Cases for Telegram Trading Notifications</h2>
+
+        <p>Telegram notifications are useful for solo traders, small trading teams and account managers who need fast awareness around automated trading activity. The most common use case is simple: you want to know when AlgoWay receives an important event, sends a test message or reports platform activity. But the same setup can also support more advanced workflows.</p>
+
+        <ul>
+            <li><strong>TradingView webhook monitoring:</strong> receive Telegram alerts when your TradingView automation route is being tested or used.</li>
+            <li><strong>MT5 automation monitoring:</strong> keep an external notification channel for MetaTrader 5 automated trading routes.</li>
+            <li><strong>Crypto execution awareness:</strong> monitor webhook routes connected to Binance, Bybit, OKX, Coinbase or other supported exchanges.</li>
+            <li><strong>Manual alert testing:</strong> confirm that a manual AlgoWay alert or webhook test reaches the expected monitoring channel.</li>
+            <li><strong>Team visibility:</strong> send notifications to a private Telegram group when several people need to monitor the same automation setup.</li>
+        </ul>
+
+        <p>For traders who manage several systems, this creates a clean separation: AlgoWay handles automation, the connected platform handles execution, and Telegram handles fast external notifications. This makes the setup easier to operate than checking every platform manually after each alert.</p>
+
+
+        <h2 class="mt-4">SEO Summary: Telegram Bot Token, chat_id and AlgoWay Alerts</h2>
+
+        <p>The essential terms in this setup are simple. The <strong>Telegram bot token</strong> identifies the bot created with BotFather. The <strong>Telegram chat_id</strong> identifies the private chat, group or channel where messages should be delivered. The <strong>getUpdates</strong> method helps you find that chat ID after the bot receives a message. AlgoWay stores the token and chat ID in the Telegram Notifications settings and uses them to send trading automation notifications.</p>
+
+        <p>For users searching Google, this page answers the practical setup question: how to create a Telegram bot for trading alerts, how to get Telegram chat_id, how to connect Telegram notifications to AlgoWay, and how to monitor webhook trading automation from Telegram. The final result is a Telegram alert channel connected to your AlgoWay account.</p>
+
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a TradingView webhook alert</a></li>
+            <li><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">How to create manual TradingView webhook alerts</a></li>
+            <li><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">How to automate TradingView alerts to any broker with AlgoWay</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">TradingView to MetaTrader 5 with AlgoWay</a></li>
+            <li><a href="/blog/how-to-connect-projectx.html">TradingView to ProjectX with AlgoWay</a></li>
+            <li><a href="/blog/coinbase-api.html">TradingView to Coinbase with AlgoWay</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>To set up AlgoWay Telegram notifications, create a bot in BotFather, copy the bot token, send a message to the bot, retrieve <code>chat_id</code> through <code>getUpdates</code>, add both values in AlgoWay settings, and send a test notification.</strong></p>
+
+        <p>Once configured, Telegram becomes a fast monitoring layer for your AlgoWay trading automation. Keep the bot token private, verify test delivery, and use AlgoWay logs for detailed debugging.</p>
+
+
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "AlgoWay Blog",
+              "item": "https://algoway.trade/blog/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "How to Set Up Telegram Trading Notifications in AlgoWay",
+              "item": "https://algoway.trade/blog/how-to-set-up-telegram-notifications-on-algoway.html"
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  "headline": "How to Set Up Telegram Trading Notifications in AlgoWay",
+                  "description": "Set up Telegram trading notifications in AlgoWay. Create a Telegram bot with BotFather, get the bot token, retrieve chat_id with getUpdates, add token and chat ID in AlgoWay, send a test message and troubleshoot delivery.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/how-to-set-up-telegram-notifications-on-algoway.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "AlgoWay Notifications",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "HowTo",
+          "name": "How to Set Up Telegram Notifications in AlgoWay",
+          "description": "Create a Telegram bot, get bot token and chat_id, add both values in AlgoWay settings and send a test notification.",
+          "step": [
+            {
+              "@type": "HowToStep",
+              "name": "Create a Telegram bot",
+              "text": "Open @BotFather in Telegram, send /newbot, choose a bot name and username, and copy the bot token."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Send a message to the bot",
+              "text": "Open your new bot and send any message so Telegram creates an update for the bot."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Get chat_id",
+              "text": "Open https://api.telegram.org/bot<TOKEN>/getUpdates in a browser and copy message.chat.id from the JSON response."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Configure AlgoWay",
+              "text": "Open AlgoWay settings, enable Telegram notifications, paste the bot token and chat_id."
+            },
+            {
+              "@type": "HowToStep",
+              "name": "Send test notification",
+              "text": "Click Send Test Notification and confirm the message arrives in Telegram."
+            }
+          ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How do I enable Telegram notifications in AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Create a Telegram bot with BotFather, get the bot token, retrieve your chat_id with getUpdates, add both values in AlgoWay settings and send a test notification."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Where do I get the Telegram bot token?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Create a bot through @BotFather in Telegram. After /newbot is completed, BotFather provides the bot token."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I get my Telegram chat_id?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Send a message to your bot, then open https://api.telegram.org/bot<TOKEN>/getUpdates in a browser and copy the chat.id value from the JSON response."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Should I paste bot before the token in AlgoWay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. In AlgoWay settings, paste only the token itself. The word bot is used in the Telegram API URL, not in the AlgoWay Bot Token field."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why does getUpdates return empty result?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Usually the bot has not received a new message yet. Open the bot chat, send a message such as Hello, then refresh the getUpdates URL."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

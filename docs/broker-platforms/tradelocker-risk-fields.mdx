@@ -1,10 +1,782 @@
 ---
-title: "TradeLocker SL/TP and Risk Fields"
-description: "Advanced Stop Loss and Take Profit fields for TradeLocker."
+title: "TradeLocker SL/TP Automation for TradingView Webhooks | AlgoWay"
+sidebar_label: "TradeLocker SL/TP and Risk Fields"
+pagination_label: "TradeLocker SL/TP and Risk Fields"
+description: "TradeLocker Stop Loss and Take Profit automation with AlgoWay: send TradingView webhook alerts with sl_price, tp_price, stop_loss and take_profit fields."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "AlgoWay Blog",
+          "item": "https://algoway.trade/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "TradeLocker SL/TP Automation",
+          "item": "https://docs.algoway.trade/docs/broker-platforms/tradelocker-risk-fields/"
+        }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "TradeLocker Stop Loss and Take Profit Automation for TradingView Webhooks",
+      "description": "How to automate TradeLocker orders from TradingView alerts with AlgoWay webhook JSON, absolute Stop Loss, Take Profit, offset SL/TP and risk-management fields.",
+      "image": "https://algoway.trade/static/img/blog-img/tradelocker-update-advanced-stop-loss-take-profit-for-automated-trading@2x.jpg",
+      "datePublished": "2025-05-11T00:00:00+00:00",
+      "dateModified": "2026-05-12T00:00:00+00:00",
+      "author": {
+        "@type": "Organization",
+        "name": "AlgoWay",
+        "url": "https://algoway.trade/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "AlgoWay",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://algoway.trade/static/img/logo.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://docs.algoway.trade/docs/broker-platforms/tradelocker-risk-fields/"
+      }
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Send TradingView Alerts to TradeLocker with Stop Loss and Take Profit",
+      "description": "Create an AlgoWay TradeLocker webhook, paste the webhook URL into TradingView, and send JSON with sl_price, tp_price, stop_loss or take_profit fields.",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Create a TradeLocker webhook in AlgoWay",
+          "text": "Open AlgoWay, create a TradeLocker webhook route, enter TradeLocker credentials, server and Account ID if required."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Copy the AlgoWay webhook URL",
+          "text": "Copy the generated AlgoWay webhook URL from the dashboard."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Create a TradingView alert",
+          "text": "Open TradingView, create an alert, enable Webhook URL and paste the AlgoWay URL."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Add SL/TP JSON fields",
+          "text": "Add sl_price and tp_price for exact price levels or stop_loss and take_profit for offset values in the TradingView Message field."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Test the execution route",
+          "text": "Send a small test alert and check AlgoWay logs and the TradeLocker account to confirm the order and SL/TP values."
+        }
+      ],
+      "tool": [
+        {
+          "@type": "HowToTool",
+          "name": "TradingView account"
+        },
+        {
+          "@type": "HowToTool",
+          "name": "AlgoWay webhook"
+        },
+        {
+          "@type": "HowToTool",
+          "name": "TradeLocker account"
+        }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can TradingView send Stop Loss and Take Profit to TradeLocker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. With AlgoWay, a TradingView webhook alert can send TradeLocker orders with Stop Loss and Take Profit fields inside the JSON message."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which fields should I use for exact Stop Loss and Take Profit prices?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use sl_price for exact Stop Loss price and tp_price for exact Take Profit price."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which fields should I use for distance-based SL/TP?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use stop_loss for Stop Loss distance and take_profit for Take Profit distance from entry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I send both sl_price and stop_loss?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AlgoWay gives priority to the absolute price field. For Stop Loss, sl_price has priority over stop_loss."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if I send both tp_price and take_profit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AlgoWay gives priority to the absolute price field. For Take Profit, tp_price has priority over take_profit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use TradeLocker SL/TP automation with manual TradingView alerts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The TradingView alert can be manual or strategy-based. The important requirement is that the Message field contains valid AlgoWay JSON."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does AlgoWay replace my TradingView strategy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. TradingView remains the signal source. AlgoWay receives the alert, validates the JSON and routes the execution command to TradeLocker."
+          }
+        }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# TradeLocker SL/TP and Risk Fields
+![TradeLocker Stop Loss and Take Profit automation with TradingView webhook alerts and AlgoWay](https://algoway.trade/static/img/blog-img/tradelocker-update-advanced-stop-loss-take-profit-for-automated-trading@2x.jpg)
 
-This page is part of the AlgoWay Docs migration.
+Last updated: May 2026 · Platform: TradeLocker · Source: TradingView alerts · Connector: AlgoWay
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+# **TradeLocker Stop Loss and Take Profit Automation for TradingView Webhooks**
+
+**AlgoWay now supports advanced Stop Loss and Take Profit automation for TradeLocker webhook trading.** A TradingView alert can send a TradeLocker order with exact SL/TP prices, distance-based SL/TP values, or a mixed setup where one side uses a fixed price and the other side uses an offset from entry.
+
+This page explains how to use AlgoWay JSON fields such as `sl_price`, `tp_price`, `stop_loss` and `take_profit` when automating TradeLocker from TradingView alerts. It is written for traders searching for **TradingView to TradeLocker SL/TP**, **TradeLocker automated trading with stop loss**, **TradingView alerts with take profit**, **webhook trading bot with SL TP**, **TradeLocker webhook automation** and **TradingView TradeLocker risk management**.
+
+The execution flow is:
+
+```
+TradingView alert → AlgoWay webhook → TradeLocker API connection → TradeLocker order with SL/TP
+```
+
+## Quick Answer: TradeLocker SL/TP Automation with AlgoWay
+
+To send a TradeLocker order with Stop Loss and Take Profit from TradingView, create a TradeLocker webhook in AlgoWay, copy the AlgoWay webhook URL into the TradingView alert, and place valid JSON in the TradingView Message field. Use `sl_price` and `tp_price` for exact price levels. Use `stop_loss` and `take_profit` for offset values from entry.
+
+| Goal | AlgoWay JSON field | Best use case |
+| --- | --- | --- |
+| Fixed Stop Loss price | `sl_price` | Market-structure SL, swing low/high, support/resistance level. |
+| Fixed Take Profit price | `tp_price` | Exact target from an indicator, previous high/low, fixed chart level. |
+| Distance-based Stop Loss | `stop_loss` | Strategy alerts that calculate risk in pips, ticks or platform distance units. |
+| Distance-based Take Profit | `take_profit` | Risk-reward systems such as 1:2 or 1:3 targets from entry. |
+
+## Why Stop Loss and Take Profit Automation Matters
+
+A basic TradingView webhook can tell a connector to buy or sell. That is not enough for real automated trading. A TradeLocker automation setup needs to know how the trade should be protected after entry, where the planned exit is, and whether the risk levels are exact prices or distances from the entry price.
+
+Without SL/TP fields, the alert only solves the entry problem. With SL/TP fields, the alert carries the full trade instruction:
+
+- symbol;
+- side;
+- quantity;
+- Stop Loss;
+- Take Profit;
+- trade mode;
+- execution destination.
+
+That is the difference between simple alert forwarding and a TradeLocker webhook trading bot route that can execute a planned trade with risk context.
+
+## How AlgoWay Sends SL/TP from TradingView to TradeLocker
+
+TradingView sends the alert payload to the AlgoWay webhook URL. AlgoWay reads the JSON message, validates the destination as `tradelocker`, identifies the symbol, side and size, then passes the order details to the configured TradeLocker account.
+
+TradeLocker supports API-based trading workflows where external applications can create, modify and delete orders and positions. This is why a connector can do more than open a basic market order: it can also carry risk-management fields such as Stop Loss and Take Profit when the destination route supports them.
+
+For traders, the important part is the TradingView Message field. Your alert must contain structured JSON, not a vague text message. AlgoWay uses that JSON to decide whether the TradeLocker order should use absolute SL/TP prices, offset SL/TP values, or a mixed setup.
+
+## TradeLocker SL/TP Fields in AlgoWay JSON
+
+The four most important fields for this update are:
+
+| Field | Type | Meaning | Example |
+| --- | --- | --- | --- |
+| `sl_price` | Absolute price | Exact Stop Loss price level. | `2860.0` |
+| `tp_price` | Absolute price | Exact Take Profit price level. | `3100.0` |
+| `stop_loss` | Offset / distance | Stop Loss distance from entry. | `50` |
+| `take_profit` | Offset / distance | Take Profit distance from entry. | `120` |
+
+Use exact price fields when your TradingView script already calculates the stop or target level. Use offset fields when your strategy works with a fixed distance from the entry.
+
+## Absolute Price Mode: `sl_price` and `tp_price`
+
+Absolute price mode is used when your TradingView alert sends the exact Stop Loss and Take Profit levels. This is the best format when the strategy calculates exits from chart structure, indicator levels, session highs/lows, support and resistance, or volatility bands.
+
+**Example: TradeLocker BUY with exact SL and TP prices**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "ETHUSD",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "sl_price": 2860.0,
+  "tp_price": 3100.0
+}
+```
+
+In this example, the alert tells AlgoWay to open a TradeLocker BUY order for `ETHUSD`, protect it with Stop Loss at `2860.0`, and set Take Profit at `3100.0`.
+
+### When to use absolute prices
+
+- Your Pine Script calculates exact SL and TP values.
+- Your strategy uses previous high, previous low, swing point or market structure.
+- Your indicator prints the stop and target on the chart.
+- You want the same price level that appears in TradingView to be sent to TradeLocker.
+
+## Offset Mode: `stop_loss` and `take_profit`
+
+Offset mode is used when Stop Loss and Take Profit are expressed as a distance from the entry price. This is common for TradingView strategies that use fixed pip, point or tick-based risk logic.
+
+**Example: TradeLocker SELL with distance-based SL and TP**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "XAUUSD",
+  "order_action": "sell",
+  "order_contracts": 1.0,
+  "stop_loss": 50,
+  "take_profit": 120
+}
+```
+
+In this example, the alert sends a SELL order with a Stop Loss distance of `50` and Take Profit distance of `120`. The practical interpretation depends on the instrument and destination rules used by the TradeLocker route.
+
+### When to use offset values
+
+- Your strategy uses fixed pip or tick distance.
+- Your alerts are simple and do not calculate exact price levels.
+- You want the same risk distance on every entry.
+- You use a risk-reward model such as 50 pips Stop Loss and 100 pips Take Profit.
+
+## Mixed Mode: Absolute SL with Offset TP or Offset SL with Absolute TP
+
+Some strategies need a mixed format. For example, a trader may want the Stop Loss at an exact invalidation level, but the Take Profit as a fixed distance from entry. AlgoWay supports this type of practical webhook format.
+
+**Example: absolute Stop Loss with offset Take Profit**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "USDJPY",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "sl_price": 146.200,
+  "take_profit": 70
+}
+```
+
+This is useful when the stop is based on a chart level, but the profit target is based on fixed distance or a simple reward multiple.
+
+## Priority Rule: Absolute Prices Take Priority
+
+If both absolute and offset fields are provided for the same side of the trade, AlgoWay treats the absolute price as the priority value. In practice:
+
+- `sl_price` has priority over `stop_loss` for Stop Loss;
+- `tp_price` has priority over `take_profit` for Take Profit.
+
+## TradingView Strategy Alerts with SL/TP
+
+For strategy-based automation, the cleanest approach is to make your Pine Script output the full JSON message. TradingView then sends the message to AlgoWay when the strategy alert fires.
+
+**TradingView strategy alert example with exact SL/TP prices**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.order.action}}",
+  "order_contracts": {{strategy.order.contracts}},
+  "sl_price": 1.07250,
+  "tp_price": 1.08150
+}
+```
+
+This format is useful when TradingView controls the signal and AlgoWay controls the execution route. TradingView does not need direct access to TradeLocker credentials. It only sends the alert to the AlgoWay webhook URL.
+
+## Manual TradingView Alerts with SL/TP
+
+You can also use manual TradingView alerts. This is useful when you do not have a full Pine Script strategy, but still want a TradingView price alert to trigger a TradeLocker order with risk parameters.
+
+**Manual BUY alert example**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "stop_loss": 25,
+  "take_profit": 60
+}
+```
+
+Paste this JSON into the TradingView alert Message field and paste your AlgoWay webhook URL into the Webhook URL field. When the alert fires, AlgoWay receives the message and routes it to TradeLocker.
+
+## Practical Use Cases for TradeLocker SL/TP Automation
+
+### 1. Moving Average Crossover with Fixed Risk
+
+A moving average crossover strategy often uses a fixed distance Stop Loss and a larger Take Profit. In that case, `stop_loss` and `take_profit` are usually enough.
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "GBPUSD",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "stop_loss": 30,
+  "take_profit": 90
+}
+```
+
+### 2. RSI Reversal with Exact Invalidation Level
+
+An RSI reversal strategy may enter when the market exits oversold or overbought territory. The Stop Loss can be placed at a recent swing level, while Take Profit can be a fixed distance.
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "AUDUSD",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "sl_price": 0.64120,
+  "take_profit": 80
+}
+```
+
+### 3. Breakout Strategy with Exact Target
+
+A breakout strategy may calculate a breakout invalidation level and a fixed chart target. In that case, `sl_price` and `tp_price` make the webhook message more precise.
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "NAS100",
+  "order_action": "buy",
+  "order_contracts": 1.0,
+  "sl_price": 18120.0,
+  "tp_price": 18380.0
+}
+```
+
+### 4. Multi-Account TradeLocker Automation
+
+AlgoWay can be used as a webhook automation layer when the same TradingView signal needs to be routed through a controlled setup. The key SEO point is that TradeLocker automation should not only copy a BUY or SELL command. It should preserve the trade plan, including SL/TP, size and mode.
+
+## Testing TradeLocker SL/TP Webhooks
+
+Before using a new JSON format in a live workflow, test the webhook route from the AlgoWay dashboard and then from TradingView. The goal is to confirm that the symbol, quantity, side and SL/TP values arrive exactly as expected.
+
+1. Create or open your TradeLocker webhook in AlgoWay.
+2. Use a small test size.
+3. Send a simple market order without SL/TP and confirm execution.
+4. Add `stop_loss` and `take_profit` and test again.
+5. Test `sl_price` and `tp_price` if your strategy uses exact price levels.
+6. Check the AlgoWay logs and the TradeLocker account after each test.
+
+Logs matter because they show whether the issue is in TradingView alert formatting, AlgoWay JSON, platform credentials, symbol naming, quantity, TradeLocker account selection or broker execution rules.
+
+## Troubleshooting TradeLocker SL/TP Automation
+
+| Problem | Likely cause | What to check |
+| --- | --- | --- |
+| TradingView alert fires but no TradeLocker order appears | Webhook URL, credentials, server, Account ID or JSON error. | Check AlgoWay webhook URL, TradeLocker login fields and AlgoWay logs. |
+| Order opens without SL/TP | Wrong field names or invalid values. | Use `sl_price`, `tp_price`, `stop_loss`, `take_profit` exactly. |
+| Absolute SL/TP ignored offset value | Priority rule applied. | If `sl_price` exists, it takes priority over `stop_loss`. If `tp_price` exists, it takes priority over `take_profit`. |
+| Order rejected | Invalid symbol, volume, account setting or SL/TP distance. | Compare symbol and size with manual TradeLocker order rules and read AlgoWay execution logs. |
+| TradingView sends text instead of JSON | Message field is not valid JSON. | Validate brackets, quotes, commas and placeholders before enabling automation. |
+
+## How This Update Improves the TradeLocker Automation Workflow
+
+This update makes the TradeLocker route more useful for real automated trading because the webhook can carry the risk plan with the entry. Traders no longer need to rely on a separate manual action after the order opens. The alert can contain the trade direction, symbol, quantity and risk parameters in one structured payload.
+
+For AlgoWay, this also improves consistency across platforms. Traders who already use SL/TP fields for other AlgoWay destinations can use a clear TradeLocker format instead of treating TradeLocker as a basic order-only endpoint.
+
+## Related AlgoWay Guides
+
+- [TradingView to TradeLocker setup guide](https://algoway.trade/blog/tradeLocker-setup-guide.html)
+- [How to create a webhook in TradingView](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [Automate TradingView alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+- [Advanced risk management and trade automation](https://algoway.trade/blog/advanced-risk-management-and-trade-automation.html)
+- [AlgoWay trade modes explained](https://algoway.trade/blog/algoway-modes-article.html)
+
+## **FAQ: TradeLocker Stop Loss and Take Profit Automation**
+
+**Can TradingView send Stop Loss and Take Profit to TradeLocker?**
+
+Yes. With AlgoWay, a TradingView webhook alert can send TradeLocker orders with Stop Loss and Take Profit fields inside the JSON message.
+
+**Which fields should I use for exact Stop Loss and Take Profit prices?**
+
+Use `sl_price` for exact Stop Loss price and `tp_price` for exact Take Profit price.
+
+**Which fields should I use for distance-based SL/TP?**
+
+Use `stop_loss` for Stop Loss distance and `take_profit` for Take Profit distance from entry.
+
+**What happens if I send both `sl_price` and `stop_loss`?**
+
+AlgoWay gives priority to the absolute price field. For Stop Loss, `sl_price` has priority over `stop_loss`.
+
+**What happens if I send both `tp_price` and `take_profit`?**
+
+AlgoWay gives priority to the absolute price field. For Take Profit, `tp_price` has priority over `take_profit`.
+
+**Can I use TradeLocker SL/TP automation with manual TradingView alerts?**
+
+Yes. The TradingView alert can be manual or strategy-based. The important requirement is that the Message field contains valid AlgoWay JSON.
+
+**Does AlgoWay replace my TradingView strategy?**
+
+No. TradingView remains the signal source. AlgoWay receives the alert, validates the JSON and routes the execution command to TradeLocker.

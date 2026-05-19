@@ -1,0 +1,1117 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>AlgoWay Webhook Trade Modes: Hedge, Reverse, Opposite and Inverse</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Learn AlgoWay trade modes for webhook automation: Hedge, Reverse, Opposite and Inverse. Control BUY/SELL behavior, close logic, netting, signal flipping and trade_type JSON overrides." />
+	<link rel="canonical" href="https://algoway.trade/blog/algoway-modes-article.html" />
+
+	<meta property="og:title" content="AlgoWay Webhook Trade Modes: Hedge, Reverse, Opposite and Inverse" />
+	<meta property="og:description" content="Understand Hedge, Reverse, Opposite and Inverse modes in AlgoWay. Learn how BUY/SELL signals are handled, flipped, closed or executed in automated webhook trading." />
+	<meta property="og:url" content="https://algoway.trade/blog/algoway-modes-article.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="AlgoWay Hedge, Reverse, Opposite and Inverse Modes" />
+	<meta name="twitter:description" content="Hedge, Reverse, Opposite and Inverse modes explained for automated trading signals, TradingView alerts, Telegram signals, and webhook execution." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="(none)" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+  <div class="card-body pt-3">
+
+    <h1 class="mb-4"><strong>AlgoWay Webhook Trade Modes: Hedge, Reverse, Opposite and Inverse</strong></h1>
+
+    <img src="/static/img/blog-img/modes@2x.jpg"
+         width="1280"
+         height="731"
+         fetchpriority="high"
+         alt="How AlgoWay handles opposite trading signals with Hedge, Reverse, Opposite and Inverse modes"
+         style="margin-bottom:1.5rem; width:100%; height:auto;" decoding="async" />
+
+    <p><strong>Opposite trading signals are one of the most important problems in automated trading.</strong> If your system already has a BUY position open and a new SELL signal arrives, what should happen? Should the bot keep both positions, close the current one, or immediately flip to the opposite side?</p>
+
+    <p>AlgoWay solves this with four execution behaviors: <strong>Hedge Mode</strong>, <strong>Reverse Mode</strong>, <strong>Opposite Mode</strong>, and <strong>Inverse Mode</strong>. These modes define how AlgoWay handles BUY and SELL signals from TradingView alerts, Telegram signals, Pine Script strategies, API messages, or any other supported signal source.</p>
+
+    <p>This page explains how each mode works, when to use it, and how to choose the correct behavior for automated trading, webhook execution, MetaTrader 5, crypto exchanges, and other supported AlgoWay destinations.</p>
+
+    <p class="text-muted">Last updated: 2026-05-12 • Author: AlgoWay</p>
+
+    <h2 class="mt-4">Why Opposite Signal Handling Matters in Automated Trading</h2>
+
+    <p>Manual traders can look at a chart and decide what to do when the market changes direction. Automated trading systems need the rule in advance. Without a clear rule, the same SELL signal can mean different things:</p>
+
+    <ul>
+      <li>close the current BUY only;</li>
+      <li>open a new SELL while the BUY remains open;</li>
+      <li>close the BUY and immediately open a SELL;</li>
+      <li>reduce the current position size;</li>
+      <li>ignore the signal because the account mode does not allow that behavior.</li>
+    </ul>
+
+    <p>That is why AlgoWay separates the logic into clear modes. The signal source only says what it wants to do. The selected AlgoWay mode defines how that signal is executed against the current open position.</p>
+
+    <h2 class="mt-4">Quick Answer: Hedge vs Reverse vs Opposite vs Inverse Mode</h2>
+
+    <p>Assume a BUY position is already open on <code>EURUSD</code>, <code>BTCUSDT</code>, or another symbol. Then a new SELL signal arrives.</p>
+
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr>
+          <th>AlgoWay Mode</th>
+          <th>What happens to the BUY?</th>
+          <th>What happens to the SELL?</th>
+          <th>Best use case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hedge Mode</strong></td>
+          <td>BUY remains open</td>
+          <td>New SELL opens separately</td>
+          <td>Strategies that allow long and short exposure at the same time</td>
+        </tr>
+        <tr>
+          <td><strong>Reverse Mode</strong></td>
+          <td>BUY closes</td>
+          <td>No new SELL opens immediately</td>
+          <td>Opposite signal is treated as exit only</td>
+        </tr>
+        <tr>
+          <td><strong>Opposite Mode</strong></td>
+          <td>BUY closes</td>
+          <td>New SELL opens immediately</td>
+          <td>Strategy must flip direction on the same signal</td>
+        </tr>
+        <tr>
+          <td><strong>Inverse Mode</strong></td>
+          <td>Incoming BUY is treated as SELL</td>
+          <td>Incoming SELL is treated as BUY</td>
+          <td>Contrarian systems that intentionally trade against the original signal</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>In simple words: <strong>Hedge keeps both sides, Reverse exits and waits, Opposite flips immediately, and Inverse turns BUY into SELL and SELL into BUY before execution.</strong></p>
+
+    <h2 class="mt-4">Important Terminology: “Reverse” Means Different Things on Different Platforms</h2>
+
+    <p>Many trading platforms use the word “reverse” to mean “close the current position and open the opposite one.” In AlgoWay, the logic is more specific:</p>
+
+    <ul>
+      <li><strong>Reverse Mode in AlgoWay</strong> means the opposite signal closes the current position and waits for a new entry.</li>
+      <li><strong>Opposite Mode in AlgoWay</strong> means the opposite signal closes the current position and immediately opens the opposite side.</li>
+      <li><strong>Inverse Mode in AlgoWay</strong> means the incoming direction is inverted first: BUY becomes SELL, and SELL becomes BUY.</li>
+    </ul>
+
+    <p>This distinction is important because platform terminology is not always consistent. Some brokers and exchanges call the direct flip behavior “reverse position”, while AlgoWay separates “close only” and “close plus open opposite” into two different modes so the execution rule is explicit. Inverse Mode is different again: it is not a close rule; it is a signal-direction transformation.</p>
+
+    <h2 class="mt-4">Hedge Mode: Keep Both BUY and SELL Positions Open</h2>
+
+    <p><strong>Hedge Mode</strong> allows opposite positions on the same symbol to exist at the same time. If a BUY is already open and a SELL signal arrives, AlgoWay keeps the BUY and opens a separate SELL.</p>
+
+    <h3 class="mt-3">Example</h3>
+
+    <ul>
+      <li>You already have a <strong>BUY</strong> on <code>EURUSD</code>.</li>
+      <li>A new <strong>SELL</strong> signal arrives.</li>
+      <li>AlgoWay keeps the BUY open.</li>
+      <li>AlgoWay opens a separate SELL position.</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Result:</strong> BUY and SELL can exist on the same symbol at the same time.
+    </div>
+
+    <h3 class="mt-3">When Hedge Mode Makes Sense</h3>
+
+    <p>Use Hedge Mode when your strategy intentionally allows both directions. This can be useful for grid systems, partial protection logic, independent long/short strategies, multi-signal portfolios, or strategies where one signal should not automatically close another signal.</p>
+
+    <p>Hedge Mode is also useful when separate systems are trading the same symbol but should remain independent. One strategy may be long while another strategy is short, and each strategy can manage its own exit logic.</p>
+
+    <h3 class="mt-3">When Hedge Mode Can Be Dangerous</h3>
+
+    <p>Hedge Mode can increase exposure if you do not understand how the strategy behaves. A trader may think the system “changed direction”, while in reality it now holds both directions. That can increase fees, margin usage, and confusion in logs.</p>
+
+    <p>Before using Hedge Mode, confirm that the destination platform or broker account supports hedging. Some platforms use hedge mode, some use one-way mode, and some use netting-style position accounting.</p>
+
+    <h2 class="mt-4">Reverse Mode: Close the Current Position and Wait</h2>
+
+    <p><strong>Reverse Mode</strong> in AlgoWay treats an opposite signal as an exit signal. It closes the current position, but it does not immediately open a new position in the opposite direction.</p>
+
+    <h3 class="mt-3">Example</h3>
+
+    <ul>
+      <li>You already have a <strong>BUY</strong> on <code>EURUSD</code>.</li>
+      <li>A new <strong>SELL</strong> signal arrives.</li>
+      <li>AlgoWay closes the BUY.</li>
+      <li>AlgoWay does not open a SELL immediately.</li>
+      <li>A SELL can open later only when a valid new entry signal is triggered.</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Result:</strong> the current trade is closed, and the system waits for the next valid entry.
+    </div>
+
+    <h3 class="mt-3">When Reverse Mode Makes Sense</h3>
+
+    <p>Use Reverse Mode when an opposite signal means “exit the current trade”, not “open the other side right now”. This is common for conservative strategies where a bearish signal should close a long position, but a separate short-entry confirmation is required before opening a SELL.</p>
+
+    <p>Reverse Mode helps avoid immediate whipsaw. If your strategy often flips during ranging markets, closing first and waiting for confirmation may be safer than entering the opposite side instantly.</p>
+
+    <h3 class="mt-3">Reverse Mode vs Close Signal</h3>
+
+    <p>A direct close signal tells AlgoWay to close the position. Reverse Mode is different because it defines how AlgoWay reacts when the incoming signal is opposite to the current open position. It is a position management rule, not only a single command.</p>
+
+    <h2 class="mt-4">Opposite Mode: Close and Immediately Flip Direction</h2>
+
+    <p><strong>Opposite Mode</strong> is the direct flip behavior. When an opposite signal arrives, AlgoWay closes the current position and immediately opens a new position in the opposite direction.</p>
+
+    <h3 class="mt-3">Example</h3>
+
+    <ul>
+      <li>You already have a <strong>BUY</strong> on <code>EURUSD</code>.</li>
+      <li>A new <strong>SELL</strong> signal arrives.</li>
+      <li>AlgoWay closes the BUY.</li>
+      <li>AlgoWay opens a SELL immediately.</li>
+    </ul>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Result:</strong> the system flips from BUY to SELL on the same opposite signal.
+    </div>
+
+    <h3 class="mt-3">When Opposite Mode Makes Sense</h3>
+
+    <p>Use Opposite Mode when your strategy is designed to always be in the market or to flip direction when the signal changes. Trend-following systems, reversal systems, and some TradingView strategy alerts often work this way.</p>
+
+    <p>Opposite Mode is useful when the same signal should act as both an exit and a new entry. For example, a bearish signal closes the BUY and opens a SELL immediately.</p>
+
+    <h3 class="mt-3">When Opposite Mode Can Be Dangerous</h3>
+
+    <p>Opposite Mode can overtrade in sideways markets. If the signal flips often, the system can close and reopen positions repeatedly. This can increase fees, spread costs, and slippage.</p>
+
+    <p>Before using Opposite Mode live, test how your strategy behaves during choppy market conditions.</p>
+
+    <h2 class="mt-4">Inverse Mode: BUY Becomes SELL and SELL Becomes BUY</h2>
+
+    <p><strong>Inverse Mode</strong> is designed for traders who intentionally want to trade the signal from the other side. In this mode, AlgoWay receives the original direction and flips it before execution: a BUY command becomes a SELL command, and a SELL command becomes a BUY command.</p>
+
+    <p>This mode is useful for contrarian setups, reverse-signal testing, failed-signal strategies, or cases where a user follows a signal source but wants to execute the opposite direction on the destination account.</p>
+
+    <h3 class="mt-3">Example</h3>
+
+    <ul>
+      <li>TradingView sends <strong>BUY EURUSD</strong>.</li>
+      <li>AlgoWay applies <strong>Inverse Mode</strong>.</li>
+      <li>The destination receives <strong>SELL EURUSD</strong>.</li>
+    </ul>
+
+    <pre><code>Incoming signal: BUY EURUSD 1.00
+Inverse result: SELL EURUSD 1.00</code></pre>
+
+    <ul>
+      <li>TradingView sends <strong>SELL XAUUSD</strong>.</li>
+      <li>AlgoWay applies <strong>Inverse Mode</strong>.</li>
+      <li>The destination receives <strong>BUY XAUUSD</strong>.</li>
+    </ul>
+
+    <pre><code>Incoming signal: SELL XAUUSD 0.10
+Inverse result: BUY XAUUSD 0.10</code></pre>
+
+    <div class="alert alert-info" role="alert">
+      <strong>Result:</strong> the direction of the entry signal is flipped before the order is sent to the destination platform.
+    </div>
+
+    <h3 class="mt-3">What Happens to Flat and Close Signals?</h3>
+
+    <p><code>flat</code> and <code>close</code> are not directional entry signals, so they should remain close-type actions. Inverse Mode is meant to flip BUY and SELL direction, not to turn a close command into an entry.</p>
+
+    <h3 class="mt-3">When Inverse Mode Makes Sense</h3>
+
+    <p>Use Inverse Mode only when the strategy is intentionally designed to trade against the incoming signal. It can be useful when testing whether a poor signal source performs better in reverse, when building a contrarian model, or when a copied signal uses the opposite side of the execution logic you want.</p>
+
+    <h3 class="mt-3">When Inverse Mode Can Be Dangerous</h3>
+
+    <p>Inverse Mode can be confusing if enabled accidentally. A trader may expect a BUY alert to open a BUY, but the destination will receive a SELL. Always verify the selected mode in the webhook settings or inside the JSON override before live execution.</p>
+
+    <h3 class="mt-3">Using trade_type = inverse in JSON</h3>
+
+    <p>If the webhook route supports per-alert mode override, you can send <code>trade_type</code> directly inside the JSON. When <code>trade_type</code> is present, that specific order uses the mode from the JSON. If it is missing, AlgoWay uses the Trade Type selected in the webhook settings.</p>
+
+    <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": "0.10",
+  "trade_type": "inverse"
+}</code></pre>
+
+    <p>In this example, the alert says <code>buy</code>, but <code>trade_type: inverse</code> makes AlgoWay send the opposite direction to the destination.</p>
+
+    <h2 class="mt-4">One-Way Mode, Hedge Mode and Netting: Platform Differences</h2>
+
+    <p>AlgoWay modes control the execution rule inside AlgoWay, but the destination platform also matters. A crypto exchange, MetaTrader 5 account, or broker platform may have its own position accounting model.</p>
+
+    <h3 class="mt-3">One-Way Mode</h3>
+
+    <p>In one-way mode, a symbol normally holds one net direction at a time. A new opposite order may reduce, close, or reverse the current position depending on the platform and order size.</p>
+
+    <h3 class="mt-3">Hedge Mode</h3>
+
+    <p>In hedge mode, long and short positions can exist separately on the same symbol. This is common in futures trading and in MetaTrader 5 hedging accounts.</p>
+
+    <h3 class="mt-3">Netting Accounts</h3>
+
+    <p>In a netting model, multiple trades on the same symbol are merged into one net position. A trade in the opposite direction can reduce or close the existing position instead of opening a separate opposite trade.</p>
+
+    <p>Because of these platform differences, always match your AlgoWay mode with the real account mode on the destination platform. If you use Inverse Mode, also remember that the incoming signal is deliberately flipped before it reaches the final execution behavior.</p>
+
+    <h2 class="mt-4">How This Works with TradingView Alerts</h2>
+
+    <p>TradingView can send signals through alerts and webhook messages. A strategy alert may output values such as long, short, flat, buy, sell, or a custom JSON message. AlgoWay receives that message and applies the selected execution mode.</p>
+
+    <p>Example TradingView strategy message:</p>
+
+    <pre><code>{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}"
+}</code></pre>
+
+    <p>If the current position is BUY and TradingView sends a SELL or short-style signal, AlgoWay uses the selected mode to decide whether to hedge, close only, flip, or invert the incoming direction before execution.</p>
+
+    <h2 class="mt-4">How This Works with Telegram Signals and Other Sources</h2>
+
+    <p>The same concept applies when the signal source is not TradingView. A Telegram channel, API integration, manual webhook test, or another supported source can send a BUY or SELL command. AlgoWay still needs to decide how this new command interacts with the current open position.</p>
+
+    <p>Example human-style Telegram signal after AI processing:</p>
+
+    <pre><code>SELL XAUUSD
+SL 2365
+TP 2320</code></pre>
+
+    <p>If a BUY on <code>XAUUSD</code> is already open, AlgoWay uses Hedge, Reverse, Opposite, or Inverse behavior according to the selected mode and platform capabilities.</p>
+
+    <h2 class="mt-4">Mode Selection Guide</h2>
+
+    <p>Use this practical guide when selecting a mode:</p>
+
+    <table class="table table-bordered table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Recommended mode</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Should BUY and SELL stay open at the same time?</td>
+          <td><strong>Hedge Mode</strong></td>
+        </tr>
+        <tr>
+          <td>Should an opposite signal only close the current trade?</td>
+          <td><strong>Reverse Mode</strong></td>
+        </tr>
+        <tr>
+          <td>Should an opposite signal close and immediately open the other side?</td>
+          <td><strong>Opposite Mode</strong></td>
+        </tr>
+        <tr>
+          <td>Should every BUY be executed as SELL and every SELL as BUY?</td>
+          <td><strong>Inverse Mode</strong></td>
+        </tr>
+        <tr>
+          <td>Does the destination platform allow only one direction per symbol?</td>
+          <td>Check platform one-way/netting rules before choosing</td>
+        </tr>
+        <tr>
+          <td>Does the strategy flip often in sideways markets?</td>
+          <td>Test Reverse Mode before using Opposite Mode live</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="mt-4">Common Mistakes with Opposite Signal Automation</h2>
+
+    <h3 class="mt-3">Mistake 1: Thinking “Reverse” Always Means Flip</h3>
+    <p>On some platforms, reverse means close and open the opposite side. In AlgoWay, the direct flip behavior is called Opposite Mode. Reverse Mode closes and waits. Inverse Mode is not the same as either of them: it changes the signal direction first, so a BUY alert is treated as SELL and a SELL alert is treated as BUY.</p>
+
+    <h3 class="mt-3">Mistake 2: Using Hedge Mode on a One-Way Account</h3>
+    <p>If the destination account does not support separate long and short positions, Hedge Mode may not behave as expected. Check the account mode before live execution.</p>
+
+    <h3 class="mt-3">Mistake 3: Letting a Strategy Flip Too Often</h3>
+    <p>Opposite Mode can be powerful for clear trend systems, but expensive in choppy markets. Backtest and forward-test the logic before using larger size.</p>
+
+    <h3 class="mt-3">Mistake 4: Ignoring Position Size</h3>
+    <p>If the opposite signal size is different from the current open position size, the result may depend on the platform, account mode, and AlgoWay configuration. Test with controlled size first.</p>
+
+    <h3 class="mt-3">Mistake 5: Mixing Multiple Signal Sources Without a Rule</h3>
+    <p>If TradingView, Telegram, and manual tests all send commands to the same symbol, the mode must be selected carefully. Otherwise one source can close or flip a position created by another source.</p>
+
+    <h3 class="mt-3">Mistake 6: Enabling Inverse Mode by Accident</h3>
+    <p>Inverse Mode deliberately trades the other side of the signal. If a user expects BUY to remain BUY, this mode should not be enabled. Use it only when reverse-signal execution is intentional.</p>
+
+    <h2 class="mt-4">Examples: BUY Position Receives a SELL Signal</h2>
+
+    <h3 class="mt-3">Hedge Mode Example</h3>
+
+    <pre><code>Current position: BUY EURUSD 1.00
+New signal: SELL EURUSD 1.00
+Result: BUY remains open, SELL opens separately</code></pre>
+
+    <h3 class="mt-3">Reverse Mode Example</h3>
+
+    <pre><code>Current position: BUY EURUSD 1.00
+New signal: SELL EURUSD 1.00
+Result: BUY closes, no SELL opens immediately</code></pre>
+
+    <h3 class="mt-3">Opposite Mode Example</h3>
+
+    <pre><code>Current position: BUY EURUSD 1.00
+New signal: SELL EURUSD 1.00
+Result: BUY closes, SELL opens immediately</code></pre>
+
+    <h3 class="mt-3">Inverse Mode Example</h3>
+
+    <pre><code>Current signal: BUY BTCUSDT 0.10
+Selected mode: Inverse
+Result: SELL BTCUSDT 0.10 is sent to the destination</code></pre>
+
+    <pre><code>Current signal: SELL XAUUSD 0.10
+Selected mode: Inverse
+Result: BUY XAUUSD 0.10 is sent to the destination</code></pre>
+
+    <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+    <p>These guides help complete the automated trading workflow:</p>
+
+    <ul>
+      <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation in AlgoWay</a></li>
+      <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema for automated trading webhooks</a></li>
+      <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+      <li><a href="/blog/tradingview-free-webhook-alerts.html">TradingView webhook alerts and automation basics</a></li>
+      <li><a href="/blog/ai-telegram-signals-manual.html">AI Telegram signal copier in AlgoWay</a></li>
+      <li><a href="/blog/setting-up-access-for-tradingview-to-metatrader-5.html">How to connect TradingView to MetaTrader 5 with AlgoWay</a></li>
+    </ul>
+
+    <h2 class="mt-4">Final Summary</h2>
+
+    <p>Opposite signal handling is not a small setting. It defines how the whole automated trading system reacts when the market direction changes.</p>
+
+    <ul>
+      <li><strong>Hedge Mode</strong> keeps the current trade and opens the opposite trade separately.</li>
+      <li><strong>Reverse Mode</strong> closes the current trade and waits for a new entry.</li>
+      <li><strong>Opposite Mode</strong> closes the current trade and immediately opens the opposite side.</li>
+      <li><strong>Inverse Mode</strong> flips the signal direction before execution: BUY becomes SELL and SELL becomes BUY.</li>
+    </ul>
+
+    <p><strong>AlgoWay lets you choose the behavior before the signal arrives, so your webhook automation follows a clear execution rule instead of guessing what to do with opposite trading signals or inverted trading logic.</strong></p>
+
+    <script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "Article",
+                  "headline": "AlgoWay Trade Modes: Hedge, Reverse, Opposite and Inverse",
+                  "description": "Learn how AlgoWay handles automated trading signals using Hedge Mode, Reverse Mode, Opposite Mode and Inverse Mode.",
+                  "author": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "url": "https://algoway.trade/"
+                  },
+                  "publisher": {
+                            "@type": "Organization",
+                            "name": "AlgoWay",
+                            "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://algoway.trade/static/img/social.jpg"
+                            }
+                  },
+                  "mainEntityOfPage": {
+                            "@type": "WebPage",
+                            "@id": "https://algoway.trade/blog/algoway-modes-article.html"
+                  },
+                  "image": "https://algoway.trade/static/img/social.jpg",
+                  "dateModified": "2026-05-12T00:00:00+00:00",
+                  "articleSection": "Automated Trading Execution",
+                  "datePublished": "2026-05-12T00:00:00+00:00"
+        }
+        </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What happens when an opposite trading signal arrives in AlgoWay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AlgoWay uses the selected mode to decide what happens. Hedge Mode keeps both sides open, Reverse Mode closes the current position and waits, Opposite Mode closes the current position and immediately opens the opposite side, and Inverse Mode flips BUY into SELL and SELL into BUY before execution."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Hedge Mode in AlgoWay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hedge Mode allows BUY and SELL positions on the same symbol to exist at the same time if the destination platform or account supports hedging."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Reverse Mode in AlgoWay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Reverse Mode treats an opposite signal as an exit. It closes the current position but does not immediately open the opposite side."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Opposite Mode in AlgoWay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Opposite Mode closes the current position and immediately opens a new position in the opposite direction when an opposite signal arrives."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Inverse Mode in AlgoWay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Inverse Mode flips the incoming direction before execution. A BUY signal is executed as SELL, and a SELL signal is executed as BUY. Flat and close actions remain close-type actions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can these modes work with TradingView alerts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. TradingView alerts can send BUY, SELL, long, short, flat or custom JSON values to AlgoWay. AlgoWay then applies the selected execution mode."
+          }
+        }
+      ]
+    }
+    </script>
+
+  </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://algoway.trade/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://algoway.trade/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "AlgoWay Trade Modes",
+      "item": "https://algoway.trade/blog/algoway-modes-article.html"
+    }
+  ]
+}
+</script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,10 +1,773 @@
 ---
-title: "TradingView without Paid Webhook Subscription"
-description: "Using email-based alerts when webhook alerts are not available."
+title: "TradingView Algo Trading Without Paid Plan"
+sidebar_label: "TradingView without Paid Webhook Subscription"
+pagination_label: "TradingView without Paid Webhook Subscription"
+description: "Automate TradingView alerts without paid Webhook URL. Use AlgoWay email alert automation, JSON messages and dedicated webhook email when available."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://algoway.trade/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://algoway.trade/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "TradingView Algo Trading Without Paid Subscription",
+          "item": "https://docs.algoway.trade/docs/tradingview/email-route-without-paid-plan/"
+        }
+      ]
+    }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "BlogPosting",
+                      "headline": "TradingView Algo Trading Without a Paid Subscription: Email Alert Automation with AlgoWay",
+                      "description": "Learn how to automate TradingView alerts with AlgoWay when direct Webhook URL is not available. Use TradingView plain text email alerts, JSON messages, and a dedicated AlgoWay webhook email.",
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/tradingview/email-route-without-paid-plan/"
+                      },
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/logo.png"
+                                }
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "about": [
+                                {
+                                          "@type": "Thing",
+                                          "name": "TradingView automation"
+                                },
+                                {
+                                          "@type": "Thing",
+                                          "name": "TradingView alerts"
+                                },
+                                {
+                                          "@type": "Thing",
+                                          "name": "Webhook trading"
+                                },
+                                {
+                                          "@type": "Thing",
+                                          "name": "Algo trading without paid TradingView webhook"
+                                }
+                      ],
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to automate TradingView alerts without using direct Webhook URL",
+      "description": "Use TradingView plain text email alerts and a dedicated AlgoWay webhook email address to send JSON trading signals into AlgoWay.",
+      "tool": [
+        {
+          "@type": "HowToTool",
+          "name": "TradingView account"
+        },
+        {
+          "@type": "HowToTool",
+          "name": "AlgoWay account"
+        },
+        {
+          "@type": "HowToTool",
+          "name": "AlgoWay webhook UUID email"
+        }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Create an AlgoWay webhook",
+          "text": "Create a webhook in AlgoWay for the platform you want to automate and copy the webhook UUID."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Create the AlgoWay email address",
+          "text": "Use the webhook UUID as an email address in the WebhookUUID@algoway.co format."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Add the email in TradingView",
+          "text": "Open TradingView Alerts delivery settings, add the AlgoWay webhook email, and confirm the code inside AlgoWay."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Create a TradingView alert",
+          "text": "Create your indicator or strategy alert, enable Send plain text if available, and paste the AlgoWay JSON into the Message field."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Check incoming email alerts in AlgoWay",
+          "text": "When the alert fires, confirm that the email arrives in AlgoWay and that the JSON is executed on the selected platform."
+        }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I automate TradingView alerts without a paid TradingView subscription?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can automate TradingView alerts through AlgoWay without using the direct Webhook URL field if the Send plain text or alternative email option is available in your TradingView account. In that workflow, TradingView sends the alert by email to a dedicated AlgoWay webhook email address."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is TradingView Webhook URL free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Direct TradingView Webhook URL delivery is usually treated as a paid-plan feature. The AlgoWay email route is a workaround for users who want alert automation without relying on the direct Webhook URL field."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if TradingView no longer shows Send plain text or alternative email in my account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Then this email-based method cannot be used from that account. In that case, use direct Webhook URL delivery with a plan that supports it, or use another signal source supported by AlgoWay."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I still need JSON in the TradingView alert message?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. AlgoWay reads the JSON from the alert message and converts it into an order instruction for the selected platform."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use one email-based TradingView alert setup for many platforms at the same time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This method is best for one webhook route at a time because the alert is sent to one dedicated AlgoWay webhook email address. For multi-platform routing, direct AlgoWay webhooks are usually cleaner."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is email alert automation the same as direct webhook automation?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Direct webhook automation sends an HTTP POST request to AlgoWay. Email alert automation sends a plain text email that AlgoWay receives and parses. Both can carry JSON, but direct webhook delivery is the cleaner real-time route when it is available."
+          }
+        }
+      ]
+    }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# TradingView without Paid Webhook Subscription
+# **TradingView Algo Trading Without a Paid Subscription: Email Alert Automation with AlgoWay**
 
-This page is part of the AlgoWay Docs migration.
+![TradingView algo trading without paid webhook subscription using AlgoWay email automation](https://algoway.trade/img/blog-img/email1@2x.jpg)
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+Many traders search for **TradingView algo trading without a paid subscription** because they want one result:
+take a TradingView alert, send it into an automated trading system, and execute the order without paying only to unlock
+the direct **Webhook URL** field.
+
+The cleanest automation route is still the normal TradingView webhook: an alert fires, TradingView sends an HTTP POST request,
+and AlgoWay receives the JSON order instruction. But if the direct webhook option is not available in your account,
+AlgoWay can also work with **TradingView email alerts** when TradingView lets you use
+**Send plain text** or an **alternative email for alerts**.
+
+#### **Quick answer**
+
+You cannot turn TradingView itself into a broker-side trading engine. TradingView creates alerts. AlgoWay receives those alerts
+and routes them to trading platforms such as MetaTrader 5, TradeLocker, cTrader, DXtrade, Match-Trader, Binance, OKX,
+Bybit, BitMEX, MEXC, Capital.com, and other supported destinations.
+
+If you have direct TradingView webhooks, paste the AlgoWay webhook URL into the alert. If you do not have direct webhook access,
+and your account still supports plain text alert email, send the alert to your dedicated
+**WebhookUUID@algoway.co** address and put the AlgoWay JSON in the alert message.
+
+#### **Contents**
+
+- [1) What “TradingView algo trading without paid subscription” really means](#s1)
+- [2) Direct TradingView webhook vs email alert automation](#s2)
+- [3) When this method should be used](#s3)
+- [4) Create your AlgoWay webhook](#s4)
+- [5) Add the AlgoWay webhook email in TradingView](#s5)
+- [6) Confirm TradingView’s email verification code inside AlgoWay](#s6)
+- [7) Create the TradingView alert](#s7)
+- [8) Use Send plain text and JSON message](#s8)
+- [9) JSON examples for automated TradingView signals](#s9)
+- [10) Limitations of email-based TradingView automation](#s10)
+- [11) Troubleshooting](#s11)
+- [12) Related AlgoWay guides](#s12)
+- [13) FAQ](#faq)
+
+#### **1) What “TradingView algo trading without paid subscription” really means**
+
+Traders usually do not search for this phrase because they want an article about TradingView billing. They search for it because
+they want a **TradingView trading bot**, a **webhook autotrade bot**, or a way to send
+**TradingView alerts to a broker** without adding another paid subscription just for alert delivery.
+
+That is the real search intent. The trader already has a Pine Script strategy, a TradingView indicator, or a manual alert.
+The missing part is execution. TradingView can detect the condition, but the actual order must be handled by another system.
+AlgoWay fills that gap by receiving the alert, reading the JSON, and sending the order to the selected trading platform.
+
+This page focuses on the email route because it is useful for searches around
+**TradingView free webhook**, **TradingView webhook alternative**,
+**TradingView alert email automation**, and **TradingView automation without paid webhook URL**.
+
+#### **2) Direct TradingView webhook vs email alert automation**
+
+Direct webhook delivery is the preferred route whenever it is available. It sends a request directly to AlgoWay when the alert fires.
+Email delivery is a fallback route: TradingView sends a plain text alert email to AlgoWay, and AlgoWay processes that email as a signal.
+
+| Route | How it works | Best use case | Main limitation |
+| --- | --- | --- | --- |
+| **Direct Webhook URL** | TradingView sends an HTTP POST request to the AlgoWay webhook URL. | Real-time TradingView automation, multi-platform routing, serious live execution. | Usually requires a TradingView plan that supports webhooks. |
+| **Plain text email** | TradingView sends the alert message to `WebhookUUID@algoway.co`. | Users who want a TradingView webhook alternative when direct webhook access is unavailable. | Depends on TradingView account access to Send plain text / alternative alert email. |
+
+Both routes can carry the same basic trading instruction. The important part is the **Message** field.
+AlgoWay expects the alert message to contain structured JSON with fields such as `platform_name`,
+`ticker`, `order_action`, `order_contracts`, `stop_loss`,
+`take_profit`, `sl_price`, or `tp_price`, depending on the platform and strategy.
+
+#### **3) When this method should be used**
+
+Use the email-based method when your goal is to test or run **TradingView alert automation** without using
+the direct Webhook URL field. It is especially useful when the alert message is simple, the target route is clear,
+and you are sending the signal to one AlgoWay webhook destination.
+
+This method is useful for:
+
+- **TradingView email alert automation** with JSON messages.
+- **TradingView to broker automation** when direct webhook access is unavailable.
+- **TradingView to MetaTrader 5** testing through AlgoWay.
+- **TradingView to TradeLocker** automation with basic buy/sell JSON.
+- **Webhook autotrade bot** searches where the trader wants a lower-cost alert delivery route.
+
+#### **4) Create your AlgoWay webhook**
+
+First, open the **AlgoWay Dashboard** and create a webhook for the platform you want to trade on.
+The platform can be MetaTrader 5, TradeLocker, cTrader, DXtrade, Match-Trader, Binance, OKX, Bybit, BitMEX,
+MEXC, Capital.com, or another supported destination.
+
+- Select **TradingView** as the signal source.
+- Select the target platform.
+- Fill the platform credentials and account fields.
+- Save the webhook.
+- Copy the webhook UUID.
+
+The UUID becomes the email route for this setup. The format is:
+
+`WebhookUUID@algoway.co`
+
+Example:
+
+`e7a19089-f14d-4cc0-ac2c-5379b974e2c4@algoway.co`
+
+![Create AlgoWay webhook for TradingView email alert automation](https://algoway.trade/img/blog-img/tv-no-paid-01-add-webhook.jpg)
+
+#### **5) Add the AlgoWay webhook email in TradingView**
+
+In TradingView, open the alert delivery settings. The current TradingView help pages describe the path as
+**Settings and billing → Alerts delivery**, where you can add an alternative email address for alert notifications.
+
+Paste your AlgoWay webhook email in this format:
+
+`YourWebhookUUID@algoway.co`
+
+![TradingView alerts delivery settings for alternative email automation](https://algoway.trade/img/blog-img/tv-no-paid-02-alerts-delivery.jpg)
+
+![Add AlgoWay webhook UUID email as TradingView alternative alert email](https://algoway.trade/img/blog-img/tv-no-paid-03-add-email.jpg)
+
+#### **6) Confirm TradingView’s email verification code inside AlgoWay**
+
+TradingView sends a verification code to the alternative email address. Since that address belongs to the AlgoWay webhook,
+the verification message appears inside AlgoWay, not in your personal mailbox.
+
+Open the mail icon in the AlgoWay dashboard, find the TradingView verification email, copy the code, and enter it back in TradingView.
+The same area can later be used to check whether TradingView alert emails are arriving.
+
+![AlgoWay dashboard mail inbox for TradingView verification and email alerts](https://algoway.trade/img/blog-img/tv-no-paid-04-dashboard-mail.jpg)
+
+#### **7) Create the TradingView alert**
+
+Open your TradingView chart, indicator, or Pine Script strategy and create an alert. Choose the condition that should trigger the trade.
+This can be a strategy order event, an indicator signal, a price crossing, or another TradingView alert condition.
+
+The important alert settings are:
+
+- **Condition:** the rule that fires the signal.
+- **Message:** the JSON payload that AlgoWay will process.
+- **Notifications:** the delivery method. For this setup, use plain text email if available.
+
+![Create TradingView alert for algo trading automation](https://algoway.trade/img/blog-img/tv-no-paid-05-create-alert.jpg)
+
+#### **8) Use Send plain text and JSON message**
+
+In the alert notifications section, enable **Send plain text** if TradingView shows that option in your account.
+This is the email-based route that replaces the direct webhook field for this workflow.
+
+![TradingView Send plain text notification for AlgoWay email automation](https://algoway.trade/img/blog-img/tv-no-paid-06-notifications.jpg)
+
+Then fill the **Message** field with AlgoWay JSON. The message should be clean, structured, and valid.
+Avoid extra text around the JSON unless your specific AlgoWay route is designed to parse it.
+
+![TradingView alert JSON message for AlgoWay automated trading](https://algoway.trade/img/blog-img/tv-no-paid-07-message-json.jpg)
+
+#### **9) JSON examples for automated TradingView signals**
+
+The exact JSON depends on your platform and webhook configuration. Below are simple examples that show the structure.
+Use the JSON template from your AlgoWay dashboard for production setup.
+
+**MetaTrader 5 market order example:**
+
+```json
+{
+  "platform_name": "metatrader5",
+  "ticker": "{{ticker}}",
+  "order_action": "{{strategy.market_position}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "price": "{{close}}"
+}
+```
+
+**TradeLocker buy alert with SL/TP:**
+
+```json
+{
+  "platform_name": "tradelocker",
+  "ticker": "EURUSD",
+  "order_action": "buy",
+  "order_contracts": 1,
+  "stop_loss": 25,
+  "take_profit": 50
+}
+```
+
+**Crypto exchange signal example:**
+
+```json
+{
+  "platform_name": "binance",
+  "ticker": "BTCUSDT",
+  "order_action": "buy",
+  "order_contracts": 0.01,
+  "price": "{{close}}"
+}
+```
+
+For all supported fields, see the [AlgoWay JSON Schema Guide](https://algoway.trade/blog/json-schema-guide.html).
+For direct webhook setup, see [How to Create a Webhook in TradingView](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html).
+
+#### **10) Limitations of email-based TradingView automation**
+
+Email automation is useful for SEO intent and for users who need a workaround, but it should be described honestly.
+It is not the same thing as direct webhook delivery.
+
+- **Availability:** the method depends on TradingView showing Send plain text or alternative alert email in your account.
+- **Delivery path:** email is a relay path, while webhook is a direct HTTP request.
+- **Routing:** one dedicated AlgoWay webhook email is best treated as one target route.
+- **Message quality:** the alert must contain valid JSON if you want deterministic execution.
+- **Serious live trading:** if direct Webhook URL is available, it is usually the cleaner route.
+
+#### **11) Troubleshooting**
+
+##### **The TradingView Send plain text option is missing**
+
+Check your TradingView account, plan, region, and current UI. If the option is not available, this method cannot be used from that account.
+Use direct Webhook URL delivery with a supported plan, or use another signal source supported by AlgoWay.
+
+##### **The verification email does not appear in AlgoWay**
+
+Confirm that the email address was copied exactly in the `WebhookUUID@algoway.co` format.
+Check that the AlgoWay webhook exists and that the UUID belongs to the webhook you are trying to use.
+
+##### **The alert email arrives, but no order is executed**
+
+Check the JSON first. The most common issues are invalid JSON, wrong platform name, unsupported ticker format,
+missing order action, or wrong quantity field for the selected platform.
+
+##### **The order goes to the wrong platform**
+
+The email address is tied to one AlgoWay webhook UUID. Make sure the UUID belongs to the webhook route you want to trigger.
+
+##### **I want to automate multiple brokers or exchanges**
+
+Use AlgoWay direct webhook routing where possible. AlgoWay is designed to connect TradingView alerts to multiple platforms,
+but direct webhook routing is cleaner than trying to force multiple destinations through one email alert path.
+
+#### **12) Related AlgoWay guides**
+
+- [TradingView Webhook Free: Send Alerts Without Paid Webhook URL](https://algoway.trade/blog/tradingview-free-webhook-alerts.html)
+- [How to Create a Webhook in TradingView](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [TradingView to MetaTrader 5 Setup Guide](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [TradingView to TradeLocker Setup Guide](https://algoway.trade/blog/tradeLocker-setup-guide.html)
+- [AlgoWay JSON Schema Guide](https://algoway.trade/blog/json-schema-guide.html)
+
+#### **FAQ**
+
+##### **Can I automate TradingView alerts without a paid TradingView subscription?**
+
+You can use the AlgoWay email route if TradingView lets your account send plain text alerts to an alternative email.
+If that option is unavailable, use direct Webhook URL delivery with a plan that supports it.
+
+##### **Is TradingView Webhook URL free?**
+
+Direct Webhook URL delivery is usually not the free route. This article targets users looking for a practical
+**TradingView webhook alternative** through email alert automation.
+
+##### **What if TradingView removed the email option from my account?**
+
+Then this specific workaround cannot be used from that account. The page still matters for SEO, but the honest product path is direct webhook delivery.
+
+##### **Do I need JSON in the alert message?**
+
+Yes. AlgoWay uses the JSON in the message body as the trading instruction.
+
+##### **Can I use this with MetaTrader 5?**
+
+Yes, if your AlgoWay webhook is configured for MetaTrader 5 and the incoming TradingView alert message contains the correct JSON.
+
+##### **Can I use this with TradeLocker?**
+
+Yes, if your AlgoWay webhook is configured for TradeLocker and the JSON contains the required fields for your TradeLocker route.
+
+##### **Is email automation as fast as direct webhook automation?**
+
+No. Direct webhook delivery is the cleaner path for speed and reliability. Email automation is a workaround for accounts that can send plain text alerts to an alternative email.

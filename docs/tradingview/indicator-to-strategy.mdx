@@ -1,10 +1,988 @@
 ---
-title: "Convert an Indicator into a Strategy"
-description: "How to convert a TradingView indicator into a strategy."
+title: "Turn a TradingView Indicator into a Strategy"
+sidebar_label: "Convert an Indicator into a Strategy"
+pagination_label: "Convert an Indicator into a Strategy"
+description: "Turn a TradingView indicator into a Pine Script strategy. Add entries, exits, alert JSON, backtesting, forward testing and AlgoWay automation."
+hide_table_of_contents: true
+jsonld:
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "AlgoWay Blog",
+                  "item": "https://algoway.trade/blog/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "TradingView Indicator to Strategy",
+                  "item": "https://docs.algoway.trade/docs/tradingview/indicator-to-strategy/"
+                }
+              ]
+            }
+  - |
+    {
+                      "@context": "https://schema.org",
+                      "@type": "TechArticle",
+                      "headline": "How to Turn a TradingView Indicator into a Strategy for Webhook Automation with AlgoWay",
+                      "description": "Turn a TradingView indicator into a Pine Script strategy for webhook automation. Learn indicator vs strategy, strategy.entry, strategy.exit, alert() JSON, Any alert() function call, backtesting, forward testing and AlgoWay routing.",
+                      "author": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "url": "https://algoway.trade/"
+                      },
+                      "publisher": {
+                                "@type": "Organization",
+                                "name": "AlgoWay",
+                                "logo": {
+                                          "@type": "ImageObject",
+                                          "url": "https://algoway.trade/static/img/social.jpg"
+                                }
+                      },
+                      "mainEntityOfPage": {
+                                "@type": "WebPage",
+                                "@id": "https://docs.algoway.trade/docs/tradingview/indicator-to-strategy/"
+                      },
+                      "image": "https://algoway.trade/static/img/social.jpg",
+                      "dateModified": "2026-05-12T00:00:00+00:00",
+                      "articleSection": "TradingView Pine Script Automation",
+                      "datePublished": "2026-05-12T00:00:00+00:00"
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "HowTo",
+              "name": "How to Turn a TradingView Indicator into a Strategy for AlgoWay Automation",
+              "description": "Convert indicator signal logic into a Pine Script strategy, add strategy entries and exits, build alert JSON and connect it to AlgoWay webhook automation.",
+              "step": [
+                {
+                  "@type": "HowToStep",
+                  "name": "Find indicator signals",
+                  "text": "Open the Pine Script indicator and identify the boolean conditions that create buy and sell signals."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Convert indicator to strategy",
+                  "text": "Replace indicator() with strategy() and map the signal conditions to strategy.entry()."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Add exits and risk rules",
+                  "text": "Use strategy.close() or strategy.exit() to define how positions close, including stop loss and take profit where needed."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Backtest the strategy",
+                  "text": "Run TradingView Strategy Tester with realistic commission, slippage and position sizing."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Add AlgoWay JSON alerts",
+                  "text": "Use alert() to send valid JSON with platform_name, ticker, order_action and order_contracts."
+                },
+                {
+                  "@type": "HowToStep",
+                  "name": "Create TradingView webhook alert",
+                  "text": "Create an alert with Condition set to Any alert() function call, enable Webhook URL and paste the AlgoWay webhook URL."
+                }
+              ]
+            }
+  - |
+    {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Can I turn any TradingView indicator into a strategy?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can convert an indicator only if you can identify clear entry and exit conditions. Visual plots alone are not enough; the logic must be mapped to strategy.entry, strategy.exit or strategy.close."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the difference between a TradingView indicator and a strategy?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "An indicator analyzes and plots market information. A strategy simulates trades with entries and exits, allowing backtesting and strategy alerts."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How do I automate a converted TradingView strategy with AlgoWay?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Add alert() calls that send valid AlgoWay JSON, create a TradingView alert with Any alert() function call, enable Webhook URL and paste the AlgoWay webhook URL."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Should I use strategy placeholders or alert() JSON?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use strategy placeholders for simple strategy alerts. Use alert() JSON when the script needs to dynamically build different messages for buy, sell, flat, platform, size, SL/TP or order_id."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Why does my converted strategy backtest differently from the indicator signals?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common causes include different bar-close behavior, repainting, missing exit rules, pyramiding settings, commission, slippage, order fill assumptions and signal conditions that were not copied exactly."
+                  }
+                }
+              ]
+            }
+  - |
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://algoway.trade/#organization",
+          "name": "AlgoWay",
+    	  "image": "https://algoway.trade/static/img/social.jpg",
+    	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+          "alternateName": [
+            "AlgoWay Connector",
+            "ALGOWAY"
+          ],
+          "legalName": "IE Samvel Mayilyan",
+          "url": "https://algoway.trade/",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "str. Besarion Zhgenti 49/20",
+            "addressLocality": "Tbilisi",
+    		"postalCode": "0186",
+            "addressCountry": "GE"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Samvel Mayilyan"
+          },
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "email": "connect@algoway.trade",
+              "telephone": "+37497272707",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "telephone": "+995568889122",
+              "availableLanguage": [
+                "English"
+              ]
+            },
+            {
+              "@type": "ContactPoint",
+              "contactType": "customer support",
+              "url": "https://t.me/AlgoWaySupport",
+              "availableLanguage": [
+                "English"
+              ]
+            }
+          ],
+          "sameAs": [
+            "https://www.facebook.com/algoway/",
+            "https://x.com/ALGOWAY180660",
+            "https://www.linkedin.com/company/algoway/",
+            "https://t.me/algoway_trade",
+            "https://t.me/AlgoWaySupport",
+            "https://www.trustpilot.com/review/algoway.trade"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://algoway.trade/#website",
+          "name": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "inLanguage": "en",
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "potentialAction": {
+            "@type": "RegisterAction",
+            "target": {
+              "@type": "EntryPoint",
+              "urlTemplate": "https://algoway.trade/register",
+              "actionPlatform": [
+                "https://schema.org/DesktopWebPlatform",
+                "https://schema.org/MobileWebPlatform"
+              ]
+            }
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://algoway.trade/#software-application",
+          "name": "AlgoWay Connector",
+          "alternateName": "AlgoWay",
+          "url": "https://algoway.trade/",
+          "mainEntityOfPage": {
+            "@id": "https://algoway.trade/#website"
+          },
+          "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Trading automation middleware",
+          "operatingSystem": "Web",
+          "browserRequirements": "Requires JavaScript and a modern web browser",
+          "inLanguage": "en",
+          "isAccessibleForFree": false,
+          "author": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "publisher": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "termsOfService": "https://algoway.trade/terms",
+          "featureList": [
+            "Webhook Automation",
+            "Fast Execution",
+            "Cancel Anytime",
+            "Free trade metrics",
+            "Test tools for debugging",
+            "TradingView signal source",
+            "MT5 signal source",
+            "cTrader signal source",
+            "20+ supported trading platforms",
+            "Optional Windows VPS",
+            "Multiple strategies",
+            "Unlimited pairs or symbols",
+            "Unlimited alerts"
+          ],
+          "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+          "softwareHelp": {
+            "@type": "CreativeWork",
+            "name": "AlgoWay Q&A",
+            "url": "https://t.me/AlgoWaySupport"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "https://algoway.trade/register",
+            "price": "6",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "category": "Subscription",
+            "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "41",
+            "bestRating": "5",
+            "worstRating": "1"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "HI PROS"
+              },
+              "datePublished": "2026-01-29T00:00:00+00:00",
+              "name": "Great Price and totally worth it",
+              "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Michael Knaus"
+              },
+              "datePublished": "2026-02-02T00:00:00+00:00",
+              "name": "Excellent and incredibly helpful",
+              "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "haseeb rahman"
+              },
+              "datePublished": "2025-12-09T00:00:00+00:00",
+              "name": "Best professional support",
+              "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Renu"
+              },
+              "datePublished": "2025-11-18T00:00:00+00:00",
+              "name": "Trades execute as per alerts",
+              "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Federica"
+              },
+              "datePublished": "2025-12-27T00:00:00+00:00",
+              "name": "Very good tools",
+              "reviewBody": "Very good tools and support from Samvel.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Sephrus"
+              },
+              "datePublished": "2026-02-20T00:00:00+00:00",
+              "name": "Trial and support",
+              "reviewBody": "The trial was useful and support was quick and useful.",
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5",
+                "worstRating": "1"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+          "name": "AlgoWay Cloud MT5 VPS",
+          "serviceType": "Managed Windows VPS for MetaTrader 5",
+          "provider": {
+            "@id": "https://algoway.trade/#organization"
+          },
+          "url": "https://algoway.trade/",
+          "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "CNT BASIC VPS",
+              "price": "12",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "CNT PRO VPS",
+              "price": "20",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH BASIC VPS",
+              "price": "16",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            },
+            {
+              "@type": "Offer",
+              "name": "OVH PRO VPS",
+              "price": "26",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock"
+            }
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://algoway.trade/#supported-trading-platforms",
+          "name": "Supported trading platforms",
+          "numberOfItems": 20,
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+            { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+            { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+            { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+            { "@type": "ListItem", "position": 5, "name": "cTrader" },
+            { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+            { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+            { "@type": "ListItem", "position": 8, "name": "Bybit" },
+            { "@type": "ListItem", "position": 9, "name": "Binance" },
+            { "@type": "ListItem", "position": 10, "name": "OKX" },
+            { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+            { "@type": "ListItem", "position": 12, "name": "BitMart" },
+            { "@type": "ListItem", "position": 13, "name": "Bitget" },
+            { "@type": "ListItem", "position": 14, "name": "BingX" },
+            { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+            { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+            { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+            { "@type": "ListItem", "position": 18, "name": "Kraken" },
+            { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+            { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+          ]
+        }
+      ]
+    }
 ---
 
-# Convert an Indicator into a Strategy
+# **How to Turn a TradingView Indicator into a Strategy for Webhook Automation with AlgoWay**
 
-This page is part of the AlgoWay Docs migration.
+**To automate a TradingView indicator, you usually need to turn its signal logic into a Pine Script strategy or build indicator alerts that send valid JSON to AlgoWay.** A normal indicator can show buy and sell marks on the chart, but a strategy can simulate entries and exits, run inside TradingView Strategy Tester, and generate structured webhook messages for automated execution.
 
-Full content will be migrated from the existing AlgoWay blog and manuals.
+This guide is written for traders searching for **turn TradingView indicator into strategy**, **convert indicator to strategy Pine Script**, **TradingView strategy webhook**, **Pine Script strategy.entry**, **TradingView alert() JSON**, **Any alert() function call**, **TradingView indicator automation**, and **AlgoWay webhook automation**.
+
+The practical route is:
+
+```
+TradingView indicator logic → Pine Script strategy → backtest → alert() JSON → AlgoWay webhook → broker or exchange execution
+```
+
+This page focuses on safe conversion, not magic profitability. A converted strategy still needs testing, realistic costs, clean exits, symbol mapping, risk limits and small-size forward testing before live automation.
+
+Last updated: 2026-05-12 • Author: AlgoWay
+
+## Why Convert a TradingView Indicator into a Strategy?
+
+Many TradingView users start with an indicator because it is easier to read visually: arrows, labels, colored trend lines, buy signals, sell signals, support zones or oscillator crosses. That is useful for manual trading, but it is not enough for reliable webhook automation. A webhook trading bot needs a precise event: when to enter, when to close, when to reverse, what size to use, what symbol to send, and what JSON should be delivered to the automation platform.
+
+That is why the phrase **convert TradingView indicator to strategy** is one of the most important steps in Pine Script automation. The conversion turns visual chart logic into testable trading rules. Once the logic becomes a strategy, you can use TradingView Strategy Tester, inspect historical entries and exits, compare long and short behavior, and then connect the final alert flow to AlgoWay for webhook execution.
+
+In practice, this conversion is useful for traders who already have an indicator that marks entries but need a complete route for **TradingView webhook automation**, **TradingView to MT5 execution**, **TradingView to TradeLocker automation**, **TradingView to DxTrade routing**, **crypto exchange webhook alerts**, or a broader **webhook autotrade bot** workflow.
+
+## Three Ways to Automate a TradingView Indicator
+
+Before rewriting code, choose the correct automation path. Not every indicator must become a full strategy. The right method depends on whether you have access to the source code, whether you need backtesting, and whether the indicator already exposes alert conditions.
+
+| Automation path | Best use case | AlgoWay result |
+| --- | --- | --- |
+| **Use indicator alerts directly** | The indicator already has clean Long, Short and Exit alert conditions. | Each TradingView alert sends a fixed JSON command to the AlgoWay webhook URL. |
+| **Convert indicator into strategy** | You have source code and want backtesting, entries, exits and Strategy Tester metrics. | The Pine Script strategy sends buy, sell and flat JSON through `alert()`. |
+| **Use an adapter script** | The indicator is invite-only or closed-source, but it exposes plotted values or source outputs. | An adapter reads the output and turns it into structured AlgoWay alert messages. |
+
+For open-source Pine Script indicators, conversion gives the most control. For invite-only indicators, a direct rewrite may be impossible. In that case, the practical SEO and automation answer is to use indicator alerts or an adapter that can read exposed outputs and produce a clean JSON message.
+
+## Quick Answer: How to Convert an Indicator into a Strategy
+
+To turn a TradingView indicator into a strategy:
+
+1. Open the Pine Script indicator code.
+2. Find the exact boolean conditions that create buy and sell signals.
+3. Replace `indicator()` with `strategy()`.
+4. Add `strategy.entry()` for long and short entries.
+5. Add `strategy.exit()` or `strategy.close()` for exits.
+6. Add commission, slippage and position sizing settings.
+7. Run TradingView Strategy Tester.
+8. Add `alert()` calls that build AlgoWay JSON.
+9. Create a TradingView alert with **Condition = Any alert() function call**.
+10. Paste your AlgoWay webhook URL in the alert Notifications tab.
+
+Basic idea:
+
+```
+// Indicator signal:
+buySignal = close > open
+
+// Strategy action:
+if buySignal
+    strategy.entry("Long", strategy.long)
+```
+
+## TradingView Indicator vs TradingView Strategy
+
+Indicators and strategies can use similar Pine Script logic, but they have different purposes.
+
+| Script type | Main purpose | Automation use |
+| --- | --- | --- |
+| **Indicator** | Analyzes data, plots signals, levels, shapes or alerts. | Can send indicator alerts, but does not create Strategy Tester trades. |
+| **Strategy** | Simulates entries, exits and order behavior on historical and realtime bars. | Can backtest logic and send structured alert messages for automation. |
+
+If you only need a simple alert when a plotted condition appears, an indicator alert may be enough. If you need backtesting, position state, strategy orders, entries, exits and performance metrics, convert the logic into a strategy.
+
+## The Correct Conversion Plan
+
+A clean conversion is not just replacing one function name. Use this structure:
+
+1. **Signal discovery:** identify the exact long and short conditions.
+2. **Strategy wrapper:** replace `indicator()` with `strategy()`.
+3. **Entry rules:** map buy signals to `strategy.entry()`.
+4. **Exit rules:** add close, stop, take-profit or reverse logic.
+5. **Position rules:** decide whether the strategy can reverse, hedge or stay one-way.
+6. **Costs:** configure commission and slippage.
+7. **Alerts:** build JSON for AlgoWay using `alert()` or strategy alert messages.
+8. **Testing:** compare Strategy Tester, AlgoWay logs and broker execution.
+
+## What You Must Extract from the Indicator
+
+The conversion quality depends on how accurately you identify the real signal logic. A common mistake is to copy the visible shape but miss the condition behind it. The signal is not the triangle, label or colored candle. The signal is the boolean rule that caused that visual object to appear.
+
+When reading the indicator code, look for these parts:
+
+- **Long condition:** the rule that means the indicator wants a buy or long entry.
+- **Short condition:** the rule that means the indicator wants a sell or short entry.
+- **Exit condition:** the rule that means the current position should be closed.
+- **Filter condition:** trend, volatility, session, volume or market-state logic that blocks weak signals.
+- **Signal timing:** whether the condition should trigger on the current bar, bar close, crossover, crossunder or state change.
+- **Repaint behavior:** whether the signal can appear and disappear before the bar closes.
+
+This is where many converted TradingView strategies fail. The user sees a clean historical chart, but the Pine Script logic may have used realtime values, future-looking references or intrabar behavior that does not survive live automation. For AlgoWay webhook automation, the best setup is usually a bar-close signal with clear state control, because it reduces duplicate alerts and makes TradingView logs easier to compare with AlgoWay Webhook Logs.
+
+## Open-Source, Protected and Invite-Only Indicators
+
+If the indicator source code is open, conversion is straightforward: copy the logic, replace `indicator()` with `strategy()`, map signals to orders, add exits, and build AlgoWay JSON. If the indicator is protected or invite-only, you cannot simply read the internal rules. That does not mean automation is impossible, but it changes the method.
+
+For closed-source indicators, the realistic options are:
+
+- use the indicator's own TradingView alert conditions if they are available;
+- create one alert per condition and paste a matching AlgoWay JSON message;
+- use a separate adapter script if the indicator exposes usable output through chart sources;
+- avoid claiming that the strategy can be backtested exactly if the original internal logic is not available.
+
+This distinction is important for search users who type **convert invite-only TradingView indicator to strategy**. If the source code is locked, an exact conversion is not possible from the hidden code alone. What you can automate is the alert output or exposed signal state. AlgoWay can still receive the final TradingView alert, but the technical setup must be honest about what is being converted.
+
+## Step 1. Read the Indicator Code and Find Signals
+
+Start with the indicator code and find the conditions that create visual buy and sell signals. These are often variables such as `buySignal`, `sellSignal`, `longCondition` or `shortCondition`.
+
+```
+//@version=6
+indicator("Example Indicator", overlay = true)
+
+buySignal  = close > open
+sellSignal = close < open
+
+plotshape(buySignal,  title = "Buy",  style = shape.triangleup,   color = color.green)
+plotshape(sellSignal, title = "Sell", style = shape.triangledown, color = color.red)
+```
+
+In this example:
+
+- `buySignal` is the long entry condition;
+- `sellSignal` is the short entry or exit condition;
+- `plotshape()` only draws signals and does not trade.
+
+## Step 2. Replace indicator() with strategy() and Add Entries
+
+Now replace the indicator declaration with `strategy()` and add strategy entries.
+
+```
+//@version=6
+strategy("Example Strategy", overlay = true)
+
+buySignal  = close > open
+sellSignal = close < open
+
+if buySignal
+    strategy.entry("Long", strategy.long)
+
+if sellSignal
+    strategy.entry("Short", strategy.short)
+```
+
+This creates a basic strategy. It can now appear in TradingView Strategy Tester, but it is still too simple for real automation. It needs exits, costs, sizing and alert messages.
+
+## Step 3. Add Exits and Risk Rules
+
+Do not rely on entries alone. A strategy needs a clear exit rule. You can close on the opposite signal, use `strategy.exit()` for stop loss and take profit, or combine both.
+
+### Close on Opposite Signal
+
+```
+//@version=6
+strategy("Example Strategy with Close Logic", overlay = true)
+
+buySignal  = close > open
+sellSignal = close < open
+
+if buySignal
+    strategy.close("Short")
+    strategy.entry("Long", strategy.long)
+
+if sellSignal
+    strategy.close("Long")
+    strategy.entry("Short", strategy.short)
+```
+
+### Stop Loss and Take Profit with strategy.exit()
+
+```
+//@version=6
+strategy("Example Strategy with Stop and Target", overlay = true)
+
+buySignal  = close > open
+sellSignal = close < open
+
+longStop  = close - 100 * syminfo.mintick
+longLimit = close + 200 * syminfo.mintick
+
+shortStop  = close + 100 * syminfo.mintick
+shortLimit = close - 200 * syminfo.mintick
+
+if buySignal
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Long Exit", from_entry = "Long", stop = longStop, limit = longLimit)
+
+if sellSignal
+    strategy.entry("Short", strategy.short)
+    strategy.exit("Short Exit", from_entry = "Short", stop = shortStop, limit = shortLimit)
+```
+
+## Step 4. Backtest Before Automation
+
+After conversion, run the strategy in TradingView Strategy Tester.
+
+Check:
+
+- net profit;
+- maximum drawdown;
+- profit factor;
+- number of trades;
+- average trade;
+- commission and slippage assumptions;
+- whether the strategy repaints;
+- whether results depend on one small market sample;
+- whether entry and exit markers match the original indicator idea.
+
+Backtesting is only the first filter. After that, use forward testing and compare real webhook behavior with AlgoWay logs and broker execution.
+
+Full guide: [How to backtest TradingView strategies and track live results with AlgoWay](https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html).
+
+## Forward Testing After the Backtest
+
+A backtest is not the same as live webhook trading. TradingView Strategy Tester calculates simulated results on chart data. Live execution through a webhook adds alert timing, internet delivery, AlgoWay validation, platform routing, broker rules, exchange rules, spread, slippage, rejected orders and account permissions.
+
+For that reason, a converted indicator should pass three stages before normal live size:
+
+1. **Historical backtest:** confirm that the strategy entries and exits match the intended indicator logic.
+2. **Realtime paper or demo test:** confirm that alerts fire only when expected and do not duplicate.
+3. **Small live route test:** confirm that AlgoWay receives valid JSON and the destination platform accepts the order.
+
+This workflow helps separate Pine Script problems from webhook problems. If TradingView does not fire the alert, the problem is inside the alert condition or script. If AlgoWay receives invalid JSON, the problem is the message builder. If AlgoWay receives valid JSON but the destination rejects the order, the issue is usually symbol mapping, size, margin, order type, market session or platform permissions.
+
+## Bar Close Logic, Repainting and Duplicate Webhooks
+
+When converting indicators into strategies, bar timing matters. A signal that looks perfect on historical bars may behave differently in realtime if it updates before the candle closes. For webhook automation, this can create duplicate alerts, early entries, late exits or signals that disappear from the chart after the trade has already been sent.
+
+Use **once per bar close** style logic when the strategy does not require intrabar execution. In Pine Script, combine confirmed-bar logic, position checks and alert frequency so that one trading event creates one webhook message. This is especially important when the AlgoWay route sends orders to MT5, TradeLocker, DxTrade, cTrader, Binance, Bybit, OKX or another destination where duplicate signals can create real exposure.
+
+## Step 5. Add alert() JSON for AlgoWay Webhook Automation
+
+To automate execution, the strategy must send valid JSON to AlgoWay. You can build JSON directly in Pine Script and send it with `alert()`.
+
+## AlgoWay JSON Design for Converted Strategies
+
+The JSON message is the bridge between Pine Script and execution. A converted TradingView strategy should not send vague text such as “buy now” or “sell signal”. It should send a structured webhook command that AlgoWay can validate and route.
+
+The core fields usually are:
+
+- `platform_name` — the destination route type, such as `metatrader5`, `tradelocker`, `dxtrade`, `ctrader`, `binance`, `bybit` or `okx`.
+- `ticker` — the TradingView symbol or a mapped symbol accepted by the broker or exchange.
+- `order_action` — the intended action: `buy`, `sell` or `flat`.
+- `order_contracts` — the order size or quantity.
+- `order_id` — optional identifier used to separate strategy legs or different entries on the same symbol.
+- `price` — optional chart price for logging and comparison.
+- `stop_loss`, `take_profit`, `sl_price`, `tp_price` or `trailing_pips` — risk-management fields when the destination route supports them.
+
+This structure lets AlgoWay act as more than a raw text receiver. The platform can treat the TradingView strategy alert as a proper automation command and route it through the configured connector.
+
+```
+//@version=6
+strategy("Example Strategy with AlgoWay Alerts", overlay = true)
+
+platform = input.string("metatrader5", "AlgoWay Platform")
+qty      = input.string("0.01", "Order Size")
+
+buySignal  = close > open
+sellSignal = close < open
+
+makeEntryJson(action) =>
+    '{' +
+    '"platform_name":"' + platform + '",' +
+    '"ticker":"' + syminfo.ticker + '",' +
+    '"order_contracts":"' + qty + '",' +
+    '"order_action":"' + action + '",' +
+    '"price":"' + str.tostring(close) + '"' +
+    '}'
+
+makeFlatJson() =>
+    '{' +
+    '"platform_name":"' + platform + '",' +
+    '"ticker":"' + syminfo.ticker + '",' +
+    '"order_action":"flat",' +
+    '"order_contracts":"' + qty + '"' +
+    '}'
+
+if buySignal
+    strategy.close("Short")
+    strategy.entry("Long", strategy.long)
+    alert(makeEntryJson("buy"), freq = alert.freq_once_per_bar_close)
+
+if sellSignal
+    strategy.close("Long")
+    strategy.entry("Short", strategy.short)
+    alert(makeEntryJson("sell"), freq = alert.freq_once_per_bar_close)
+```
+
+When using `alert()`, create the TradingView alert with:
+
+```
+Condition: Any alert() function call
+```
+
+The alert message field can stay empty because the Pine Script code generates the JSON.
+
+## Universal AlgoWay Connector Template for Pine v6
+
+This template keeps the routing logic separate from the strategy logic. Replace the demo EMA signals with your own indicator conditions after conversion.
+
+### What this template does
+
+- uses Pine Script v6;
+- builds AlgoWay JSON inside the script;
+- sends webhook-ready messages through `alert()`;
+- supports multiple AlgoWay destinations through `platform_name`;
+- uses **Any alert() function call** in TradingView;
+- sends `buy`, `sell` and `flat` actions;
+- keeps the alert message field empty.
+
+```
+//@version=6
+strategy("AlgoWay Universal Connector Template", overlay = true, pyramiding = 0)
+
+// Automation settings
+provider = input.string("AlgoWay", "Automation Provider", options = ["Off", "AlgoWay"])
+enabled  = provider == "AlgoWay"
+
+platform = input.string("metatrader5", "AlgoWay Platform",
+     options = ["metatrader5", "tradelocker", "matchtrader", "dxtrade", "ctrader", "capitalcom", "bybit", "binance", "okx", "bitmex", "coinbase", "projectx", "tradovate", "alpaca"])
+
+qty = input.string("1", "Order Size")
+
+// Optional SL/TP fields for routes that support them
+useStops = input.bool(false, "Send SL/TP Fields")
+slValue  = input.string("100", "Stop Loss")
+tpValue  = input.string("200", "Take Profit")
+
+// Replace this demo logic with your converted indicator logic
+fastEma = ta.ema(close, 9)
+slowEma = ta.ema(close, 21)
+
+longCond  = ta.crossover(fastEma, slowEma)
+shortCond = ta.crossunder(fastEma, slowEma)
+
+// JSON builders
+entryJson(id, action) =>
+    base = '{' +
+      '"platform_name":"' + platform + '",' +
+      '"ticker":"' + syminfo.ticker + '",' +
+      '"order_id":"' + id + '",' +
+      '"order_action":"' + action + '",' +
+      '"order_contracts":"' + qty + '",' +
+      '"price":"' + str.tostring(close) + '"'
+    useStops ? base + ',"stop_loss":"' + slValue + '","take_profit":"' + tpValue + '"}' : base + '}'
+
+flatJson(id) =>
+    '{' +
+    '"platform_name":"' + platform + '",' +
+    '"ticker":"' + syminfo.ticker + '",' +
+    '"order_id":"' + id + '",' +
+    '"order_action":"flat",' +
+    '"order_contracts":"' + qty + '"' +
+    '}'
+
+// Entry and exit logic
+if longCond
+    strategy.close("Short")
+    if enabled
+        alert(flatJson("Short"), freq = alert.freq_once_per_bar_close)
+    strategy.entry("Long", strategy.long)
+    if enabled
+        alert(entryJson("Long", "buy"), freq = alert.freq_once_per_bar_close)
+
+if shortCond
+    strategy.close("Long")
+    if enabled
+        alert(flatJson("Long"), freq = alert.freq_once_per_bar_close)
+    strategy.entry("Short", strategy.short)
+    if enabled
+        alert(entryJson("Short", "sell"), freq = alert.freq_once_per_bar_close)
+```
+
+## Step 6. Create the TradingView Alert
+
+After adding the strategy to the chart:
+
+1. Click **Create Alert** in TradingView.
+2. Set **Condition** to **Any alert() function call**.
+3. Leave the alert message empty if the script uses `alert()` JSON.
+4. Open **Notifications**.
+5. Enable **Webhook URL**.
+6. Paste your AlgoWay webhook URL.
+7. Choose alert frequency according to your strategy design.
+8. Create the alert.
+9. Trigger a small test and check AlgoWay Webhook Logs.
+
+AlgoWay webhook URL format:
+
+```
+https://algoway.co/your-webhook-uuid
+```
+
+General setup guide: [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html).
+
+## Strategy Alert Message vs alert() Function Call
+
+There are two common ways to send automation messages from TradingView:
+
+| Method | How it works | When to use |
+| --- | --- | --- |
+| Manual alert message | You paste JSON into the TradingView alert message field. | Simple strategy alerts or fixed payloads. |
+| `alert()` function | Pine Script builds and sends the JSON message itself. | Dynamic platform, size, SL/TP, action and order_id logic. |
+
+For converted indicators, `alert()` is often cleaner because the script can send different JSON on long, short and flat conditions.
+
+## Platform Routing After the Strategy Conversion
+
+The same converted strategy can be reused across several AlgoWay destinations if the JSON fields and platform settings are correct. The Pine Script does not need to know the full API details of every broker or exchange. It only needs to send a clear AlgoWay command.
+
+Common routing examples include:
+
+- **TradingView to MetaTrader 5:** the converted strategy sends JSON to AlgoWay, and AlgoWayWS-MT5 EA executes the trade in MT5.
+- **TradingView to TradeLocker:** the strategy sends a TradeLocker route command with symbol, action, size and optional SL/TP fields.
+- **TradingView to DxTrade:** the webhook carries a structured command into the DxTrade route configured in AlgoWay.
+- **TradingView to cTrader:** the same Pine Script pattern can send buy, sell and flat commands to a cTrader destination.
+- **TradingView to crypto exchanges:** the converted strategy can route automation commands to Binance, OKX, Bybit, MEXC, BitMEX or another supported exchange route.
+
+This is the main SEO and product reason to use AlgoWay after converting an indicator into a strategy: the Pine Script strategy creates the signal, while AlgoWay handles the routing layer between TradingView and the final execution platform.
+
+## When Not to Convert the Indicator
+
+Conversion is not always the best answer. If the indicator already provides stable alert conditions and you do not need Strategy Tester metrics, fixed TradingView alert messages may be simpler. If the indicator is closed-source, exact conversion is usually not possible. If the signal repaints heavily, converting it into a strategy may only expose the weakness of the signal.
+
+Do not convert only because the chart looks good. Convert when you can define objective long, short and exit rules. A proper TradingView strategy for webhook automation needs clear conditions, controlled frequency, valid JSON, and a testable connection from TradingView to AlgoWay logs and from AlgoWay to the broker or exchange.
+
+## Common Problems When Converting Indicators to Strategies
+
+### The Indicator Only Draws Shapes
+
+`plotshape()`, `plot()` and labels are visual. They do not create trades. You must map the signal condition to `strategy.entry()` or `alert()`.
+
+### The Strategy Reverses Too Often
+
+Check whether buy and sell conditions can both trigger too frequently. Add filters, bar-close logic or position checks.
+
+### Backtest Looks Good but Live Alerts Differ
+
+TradingView backtests are simulations. Live webhook routing adds alert timing, spread, slippage, broker rules and platform rejection risks.
+
+### Invalid JSON
+
+Use double quotes in JSON. Do not build broken strings in Pine. If AlgoWay rejects the payload, check commas, braces, quotes and field names. Read: [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html).
+
+### Wrong Symbol
+
+`syminfo.ticker` or `{{ticker}}` may not match the broker or exchange symbol. Check symbol mapping.
+
+### Strategy Uses Repainting Logic
+
+If the original indicator repaints, the converted strategy can give misleading backtests and unstable live alerts. Test on closed bars and avoid future-looking logic.
+
+### Alert Message Is Empty but No alert() Exists
+
+If you choose **Any alert() function call**, your Pine script must call `alert()`. Otherwise TradingView has nothing to send.
+
+### Both Manual Message and alert() JSON Are Used
+
+Use one approach. If the script sends JSON with `alert()`, do not also paste another unrelated JSON message into the alert box.
+
+## Safe Automation Checklist
+
+Before live trading:
+
+- confirm the indicator signal conditions are correctly identified;
+- confirm the strategy entries and exits match the intended logic;
+- add realistic commission and slippage;
+- run TradingView Strategy Tester;
+- forward-test with small size;
+- confirm the alert uses **Any alert() function call** when using `alert()`;
+- confirm the AlgoWay webhook URL is correct;
+- confirm JSON is valid;
+- check AlgoWay Webhook Logs;
+- check broker, exchange or MT5 logs;
+- verify symbol, size, risk and trade mode.
+
+## Related AlgoWay Guides
+
+- [How to create a TradingView webhook alert](https://algoway.trade/blog/guide-to-creating-a-webhook-in-tradingview.html)
+- [How to create manual TradingView webhook alerts](https://algoway.trade/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html)
+- [How to configure ATP Premium Indicator webhook alerts](https://algoway.trade/blog/how-to-configure-atp-premium-indicator.html)
+- [TradingView backtesting and AlgoWay Trade Metrics](https://algoway.trade/blog/backtest-tradingview-algoway-guide-with-images.html)
+- [Automate TradingView alerts to any broker with AlgoWay](https://algoway.trade/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html)
+- [AlgoWay JSON schema guide](https://algoway.trade/blog/json-schema-guide.html)
+- [How to fix AlgoWay webhook Error 415](https://algoway.trade/blog/algoway-415.html)
+- [TradingView to MetaTrader 5 with AlgoWay](https://algoway.trade/blog/setting-up-access-for-tradingview-to-metatrader-5.html)
+- [How AlgoWay handles opposite trading signals](https://algoway.trade/blog/algoway-modes-article.html)
+
+## FAQ: TradingView Indicator to Strategy Automation
+
+### Can I automate a TradingView indicator without converting it into a strategy?
+
+Yes, if the indicator has usable alert conditions. You can create TradingView alerts from those conditions and send AlgoWay JSON directly. Conversion is needed when you want Strategy Tester results, strategy entries, exits, position state or dynamic Pine Script JSON.
+
+### Is converting an indicator into a strategy enough for live trading?
+
+No. Conversion only creates a testable strategy. Before live automation, you still need realistic backtesting, forward testing, valid webhook JSON, symbol mapping, order size checks, risk fields, AlgoWay logs and destination platform confirmation.
+
+### Which TradingView alert type should I use after conversion?
+
+If your Pine Script sends JSON through `alert()`, use **Any alert() function call**. If you use strategy order messages with `alert_message`, create an order-fill alert and use the correct TradingView placeholder.
+
+### Can a converted indicator send Stop Loss and Take Profit to AlgoWay?
+
+Yes, if the script calculates those values and the selected AlgoWay route supports them. The JSON can include distance-style fields such as `stop_loss` and `take_profit`, or exact price fields such as `sl_price` and `tp_price`.
+
+### Why does my strategy send too many webhook alerts?
+
+The usual causes are intrabar recalculation, duplicated alert methods, missing position checks, repainting logic, or an alert frequency that does not match the strategy design. Start with bar-close logic and one alert method.
+
+### Can AlgoWay execute the converted strategy on more than MT5?
+
+Yes. MetaTrader 5 is a common destination, but AlgoWay can also route compatible webhook commands to platforms such as TradeLocker, DxTrade, cTrader, Tradovate, ProjectX, Binance, Bybit, OKX and other supported destinations.
+
+## Final Summary
+
+**Turning a TradingView indicator into a strategy means converting visual signal logic into executable strategy rules.** First identify the indicator's long and short conditions. Then add `strategy.entry()`, exits, risk assumptions, backtesting and alert JSON.
+
+For AlgoWay automation, the cleanest advanced workflow is to build JSON inside Pine Script with `alert()`, create a TradingView alert using **Any alert() function call**, paste the AlgoWay webhook URL, and verify the payload in AlgoWay Webhook Logs before live trading.

@@ -1,0 +1,967 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Alpaca Assets for AlgoWay Webhook Automation</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="description" content="Use Alpaca tradable, shortable, marginable and fractionable flags before sending AlgoWay webhook orders. Filter assets and avoid rejected orders." />
+	<link rel="canonical" href="https://algoway.trade/blog/alpaca-instruments.html" />
+
+	<meta property="og:title" content="Alpaca Tradable Assets and Shortable Stocks for AlgoWay Automation" />
+	<meta property="og:description" content="A practical Alpaca instruments guide for AlgoWay users: tradable assets, shortable stocks, marginable and fractionable flags, TradingView alerts, and webhook order safety." />
+	<meta property="og:url" content="https://algoway.trade/blog/alpaca-instruments.html" />
+
+
+	<meta property="og:type" content="(none)" />
+
+
+	<meta property="og:image" content="https://algoway.trade/static/img/social.jpg" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Alpaca Tradable Assets for AlgoWay Webhooks" />
+	<meta name="twitter:description" content="Filter Alpaca assets by tradable, shortable, marginable and fractionable flags before routing TradingView alerts and AlgoWay webhook orders." />
+	<meta name="twitter:image" content="https://algoway.trade/static/img/social.jpg" />
+
+    <meta name="yandex-verification" content="d27e0d9455790159" />
+    <meta name="msvalidate.01" content="199698B707C5F27327788C4F02965A80" />
+    <meta name="author" content="AlgoWay" />
+
+    <link rel="preconnect" href="https://widget.trustpilot.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.redditstatic.com" />
+    <link rel="preconnect" href="https://pixel-config.reddit.com" />
+
+    <link rel="shortcut icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+<!--    <link rel="preload" as="image" href="/static/img/banner-img/bg.webp" fetchpriority="high" /> -->
+
+
+    <link rel="preload" as="image" href="/static/img/blog-img/alpaca@2x.jpg" fetchpriority="high" />
+
+
+    <link rel="preload" href="/static/fonts/fontawesome-webfont.woff2?v=4.6.3" as="font" type="font/woff2" crossorigin />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,500,700,800&display=swap" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/font-awesome.castr.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/font-awesome.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/bootstrap.castr.css" />
+    <link rel="stylesheet" href="/static/css/bootstrap.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/bootstrap.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/style.castr.css" />
+    <link rel="stylesheet" href="/static/css/style.castr.css" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="/static/css/style.castr.css" /></noscript>
+
+    <link rel="preload" as="style" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <link rel="stylesheet" href="/static/css/blog-article.css" />
+    <link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" />
+    <noscript><link rel="stylesheet" href="/static/css/custom-style.css?v=hero-v3-1" /></noscript>
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="100">
+    <div class="wrapper">
+        <div id="preloader">
+            <div class="preloader--bounce">
+                <div class="preloader-bouncer--1"></div>
+                <div class="preloader-bouncer--2"></div>
+            </div>
+        </div>
+
+        <div id="header">
+            <nav class="header--navbar">
+                <div class="container">
+                    <div class="navbar">
+                        <div class="navbar-header">
+                            <div class="header--custom-btn hidden-lg hidden-md">
+                                <a href="/login" class="btn--default" aria-label="Login">
+                                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#headerNav" aria-expanded="false" aria-controls="headerNav">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <a class="logo navbar-brand" href="/">
+                                <div class="logo--img">
+                                    <img src="/static/img/logo-64.webp" width="64" height="64" class="img-responsive dashboard-logo" alt="AlgoWay Logo" />
+                                </div>
+
+                                <div class="logo--content">
+                                    <p class="h1" style="margin: 0; padding: 0; display: inline-block;">ALGO<strong>WAY</strong></p>
+                                    <p><strong>BE</strong> CONNECTED</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="header--custom-btn hidden-sm hidden-xs">
+                            <a href="/login" class="btn--default">LOGIN</a>
+                        </div>
+
+                        <!-- Header Nav Start -->
+                        <div id="headerNav" class="header--nav navbar-collapse collapse">
+                            <ul class="nav navbar-nav navbar-right AnimateScroll">
+                                <li><a href="/#banner">HOME</a></li>
+                                <li><a href="/#platforms">PLATFORMS</a></li>
+								<li><a href="/#pricing">PRICING</a></li>
+                                <li><a href="/blog/">BLOG</a></li>
+                                <li><a href="/faq">FAQ</a></li>
+                                <li><a href="https://tradingfew.com">NEWS</a></li>
+                                <li><a href="/#about">ABOUT</a></li>
+                                <li><a href="/#services">EDGE</a></li>
+								<li><a href="/affiliate">AFFILIATE</a></li>					
+                                <li><a href="/#contact">CONTACT</a></li>
+                            </ul>
+                        </div>
+                        <!-- Header Nav End -->
+                    </div>
+                </div>
+            </nav>
+        </div>
+<div class="aw-blog-article">
+  <div class="container" style="max-width: 1380px; width: 100%;">
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-md-3 col-sm-12">
+        <div class="card" style="margin-top: 0;">
+          <div class="card-body" style="position: sticky; top: 100px;">
+
+            <h4 style="margin-top: 0; margin-bottom: 15px;">
+              <strong>AlgoWay Blog</strong>
+            </h4>
+
+            <p style="color: #777; line-height: 1.6; margin-bottom: 18px;">
+              Main clusters and core pages.
+            </p>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Core</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/">All articles</a></li>
+              <li style="margin-bottom: 8px;"><a href="/faq">FAQ</a></li>
+              <li style="margin-bottom: 8px;"><a href="/pineconnector-alternative">PineConnector alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/traderspost-alternative">TradersPost alternative</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/automate-tradingview-alerts-to-any-broker-with-algoway.html">Automate TradingView alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ai-telegram-signals-manual.html">Automate Telegram signals</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradecopier-for-diversification-trading.html">AlgoWay CopyTrader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/ctrader-to-metatrader5-copier-manual.html">cTrader Copier</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-use-algoway-with-trendspider.html">Trendspider with AlgoWay</a></li>
+
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>JSON &amp; Alerts</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/json-schema-guide.html">JSON schema</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-create-manual-alerts-for-webhooks-on-the-algoway-platform.html">Manual alerts</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-algo-trading-without-paid-subscription.html">TradingView without paid subscription</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/sample-pinecode-2-algoway.html">AlgoWay Strategy Integration in Pine Script</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradingview-automation-adapter.html">TRALADAL — TradingView Alert Adapter</a></li>
+
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>MT5 / Expert Advisors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html"><strong>MT5 EA installation</strong></a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-v206-overview.html">MT5 EA v2.10 parameters</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Errors</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-common-errors.html">Common MT5 errors</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4756.html">Error 4756</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algowaymt5-user-guide-for-metatrader-5-error-4752.html">Error 4752</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-415.html">415 error</a></li>
+            </ul>
+
+            <h5 style="margin-top: 0; margin-bottom: 10px;"><strong>Integrations</strong></h5>
+            <ul class="list-unstyled" style="margin-bottom: 18px;">
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-mt5-ws-v10-overview.html">MetaTrader 5</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/tradeLocker-setup-guide.html">TradeLocker</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/setting-up-a-webhook-for-matchtrader-on-the-algoway-platform.html">Match-Trader</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">DxTrade</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-binance-integration-guide.html">Binance</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-bybit-integration-guide.html">ByBit</a></li>	
+              <li style="margin-bottom: 8px;"><a href="/blog/mexc-api.html">MEXC</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/okx-api.html">OKX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bitget-api.html">Bitget</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/bingx-api.html">BingX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-alpaca-integration-guide.html">Alpaca</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-tradovate-integration-guide.html">Tradovate</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/algoway-gateio-integration-guide.html">GateIO</a></li>			  
+              <li style="margin-bottom: 8px;"><a href="/blog/coinbase-api.html">CoinBase</a></li>	
+
+
+			  
+              <li style="margin-bottom: 8px;"><a href="/blog/how-to-connect-projectx.html">ProjectX</a></li>
+              <li style="margin-bottom: 8px;"><a href="/blog/how-the-ctrader-connector-logic-works.html">cTrader logic</a></li>
+            </ul>
+
+
+
+			<div style="padding-top: 8px; border-top: 1px solid #e5e5e5;">
+				  <a href="/register" class="aw-hero-v3-btn-primary" id="getStartedBtn">Sign Up</a>
+			</div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9 col-sm-12">
+
+<div class="card mt-5">
+    <div class="card-body pt-3">
+
+        <img src="/static/img/blog-img/alpaca@2x.jpg"
+             width="1280"
+             height="731"
+             fetchpriority="high"
+             alt="Alpaca tradable assets and shortable stocks for AlgoWay webhook automation"
+             style="width:100%; height:auto; margin-bottom:1.5rem;" decoding="async" />
+
+        <h1 class="mb-4"><strong>Alpaca Tradable Assets and Shortable Stocks for AlgoWay Webhook Automation</strong></h1>
+
+        <p><strong>Before you route a TradingView alert to Alpaca through AlgoWay, you should know whether the symbol is actually tradable, shortable, marginable or fractionable on Alpaca.</strong> A ticker can exist in a market data universe but still be blocked for trading, short selling, margin use or fractional sizing.</p>
+
+        <p>This page explains how to use an Alpaca instruments reference together with AlgoWay webhook automation. It is designed for traders searching for <strong>Alpaca tradable assets</strong>, <strong>Alpaca shortable stocks</strong>, <strong>Alpaca assets API</strong>, <strong>Alpaca fractionable stocks</strong>, <strong>TradingView to Alpaca webhook symbols</strong>, and <strong>AlgoWay Alpaca automation</strong>.</p>
+
+        <p>The practical workflow is:</p>
+
+        <pre><code>TradingView alert → AlgoWay webhook → Alpaca symbol check → Alpaca order routing</code></pre>
+
+        <p class="text-muted">Dataset snapshot: 2025-09-01 • Source noted in original page: Alpaca Paper API active assets • Author: AlgoWay</p>
+
+        <div class="alert alert-warning" role="alert">
+            <strong>Important:</strong> this page and the linked instruments file are a snapshot, not a live trading permission guarantee. Alpaca asset flags can change. Before live execution, refresh the asset data from Alpaca and check the current <code>tradable</code>, <code>shortable</code>, <code>marginable</code> and <code>fractionable</code> values.
+        </div>
+
+        <h2 class="mt-4">Open the Full Alpaca Instruments Reference</h2>
+
+        <p>The full reference table is here:</p>
+
+        <p><a href="/blog/alpaca_instruments_all.html"><strong>Open the Alpaca instruments table</strong></a></p>
+
+        <p>The table was generated as a searchable reference for Alpaca symbols and key automation flags. Use it as a fast starting point when building AlgoWay filters, but refresh the data before relying on it for production trading.</p>
+
+        <h2 class="mt-4">Why Alpaca Asset Flags Matter for Webhook Trading</h2>
+
+        <p>In automated trading, a symbol must pass more than one check. A TradingView alert can be valid, the AlgoWay webhook JSON can be valid, and your Alpaca API credentials can be correct — but the final order can still fail if the asset is not allowed for the action you send.</p>
+
+        <p>Examples:</p>
+
+        <ul>
+            <li>a symbol may be active but not tradable;</li>
+            <li>a stock may be tradable for buying but not shortable;</li>
+            <li>a symbol may not allow fractional shares;</li>
+            <li>margin rules can differ by asset and account type;</li>
+            <li>paper and live environments can behave differently;</li>
+            <li>borrowing availability for shorts can change.</li>
+        </ul>
+
+        <p>That is why Alpaca asset flags should be part of the pre-trade validation layer for TradingView-to-Alpaca automation.</p>
+
+        <h2 class="mt-4">Key Fields in the Alpaca Instruments File</h2>
+
+        <p>The linked file contains one row per instrument with key fields that are useful for AlgoWay automation:</p>
+
+        <table class="table table-bordered table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Meaning for automation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Symbol</code></td>
+                    <td>The Alpaca symbol, for example <code>AAPL</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>Exchange</code></td>
+                    <td>The exchange or venue tag, such as NASDAQ, NYSE or OTC.</td>
+                </tr>
+                <tr>
+                    <td><code>Name</code></td>
+                    <td>The security name returned by the asset source.</td>
+                </tr>
+                <tr>
+                    <td><code>Status</code></td>
+                    <td>Lifecycle status, often <code>active</code>.</td>
+                </tr>
+                <tr>
+                    <td><code>Tradable</code></td>
+                    <td>Whether orders can be submitted for the symbol through Alpaca.</td>
+                </tr>
+                <tr>
+                    <td><code>Shortable</code></td>
+                    <td>Whether the asset is eligible for short selling.</td>
+                </tr>
+                <tr>
+                    <td><code>Marginable</code></td>
+                    <td>Whether margin trading is allowed for the asset/account conditions.</td>
+                </tr>
+                <tr>
+                    <td><code>Fractionable</code></td>
+                    <td>Whether fractional share orders are supported.</td>
+                </tr>
+                <tr>
+                    <td><code>Min Size</code></td>
+                    <td>The minimum order size value available in the dataset.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-4">Tradable Does Not Mean Shortable</h2>
+
+        <p>A common automation mistake is assuming that if a stock is tradable, it can also be shorted. That is not safe. A long-only strategy may only need <code>tradable = true</code>. A short-selling strategy must check <code>shortable = true</code> before sending a sell/short-style command.</p>
+
+        <p>For AlgoWay automation, a practical rule is:</p>
+
+        <pre><code>BUY signal  → require tradable = true
+SHORT signal → require tradable = true and shortable = true</code></pre>
+
+        <p>Even then, <code>shortable = true</code> should be treated as eligibility, not a real-time borrow guarantee. Live conditions can still change.</p>
+
+        <h2 class="mt-4">Fractionable Assets and Micro-Sizing</h2>
+
+        <p>Fractional shares are important when using small accounts, testing small signals, or routing many low-size alerts from TradingView. If a symbol is not fractionable, a fractional order can be rejected even if the symbol is otherwise tradable.</p>
+
+        <p>For AlgoWay webhook automation, check <code>fractionable = true</code> before sending fractional share quantity or notional-style sizing. If the asset is not fractionable, use whole-share sizing or block the alert before it reaches Alpaca.</p>
+
+        <h2 class="mt-4">Marginable Assets and Risk Filters</h2>
+
+        <p>The <code>marginable</code> flag helps decide whether a symbol should be allowed in margin-based strategies. This does not mean a strategy should use margin automatically. It only tells you whether the asset may be eligible under Alpaca and account conditions.</p>
+
+        <p>Before routing margin-based signals, check:</p>
+
+        <ul>
+            <li>account equity;</li>
+            <li>buying power;</li>
+            <li>margin eligibility;</li>
+            <li>asset marginable flag;</li>
+            <li>day trading restrictions;</li>
+            <li>risk limits inside AlgoWay or your own backend.</li>
+        </ul>
+
+        <h2 class="mt-4">How to Use Alpaca Asset Flags with AlgoWay</h2>
+
+        <p>Use the instruments reference as a pre-trade filter for AlgoWay alerts. The exact implementation depends on your workflow, but the logic is straightforward.</p>
+
+        <h3 class="mt-3">1. Build a Tradable Symbol Whitelist</h3>
+
+        <p>Only allow TradingView alerts for symbols where <code>tradable = true</code>.</p>
+
+        <pre><code>if symbol.tradable != true:
+    block alert before order routing</code></pre>
+
+        <h3 class="mt-3">2. Build a Shortable Symbol Filter</h3>
+
+        <p>If the strategy can send short signals, check <code>shortable</code> before routing the order.</p>
+
+        <pre><code>if order_action in ["sell", "short"] and symbol.shortable != true:
+    block short order</code></pre>
+
+        <h3 class="mt-3">3. Use Fractionable for Small Accounts</h3>
+
+        <p>If your strategy sends fractional order sizes, verify that <code>fractionable = true</code>.</p>
+
+        <pre><code>if order_contracts is fractional and symbol.fractionable != true:
+    block or round quantity</code></pre>
+
+        <h3 class="mt-3">4. Use Exchange and Symbol Groups for Risk Rules</h3>
+
+        <p>You can group symbols by exchange or asset type. For example, you may set different risk limits for NASDAQ, NYSE, OTC and ETF symbols.</p>
+
+        <h2 class="mt-4">Example TradingView to Alpaca JSON</h2>
+
+        <p>After symbol validation, a basic TradingView strategy alert for Alpaca can look like this:</p>
+
+        <pre><code>{
+  "platform_name": "alpaca",
+  "ticker": "{{ticker}}",
+  "order_contracts": "{{strategy.order.contracts}}",
+  "order_action": "{{strategy.market_position}}",
+  "price": "{{close}}"
+}</code></pre>
+
+        <p>For fixed testing, use a direct ticker first:</p>
+
+        <pre><code>{
+  "platform_name": "alpaca",
+  "ticker": "AAPL",
+  "order_contracts": 1,
+  "order_action": "buy"
+}</code></pre>
+
+        <p>Full setup guide: <a href="/blog/algoway-alpaca-integration-guide.html">How to connect TradingView alerts to Alpaca with AlgoWay</a>.</p>
+
+        <h2 class="mt-4">Why a Symbol Can Fail Even If It Appears in a List</h2>
+
+        <p>Do not treat any static symbol list as a permission guarantee. A symbol can fail for several reasons:</p>
+
+        <ul>
+            <li>the asset flag changed since the snapshot was generated;</li>
+            <li>the asset is active but not tradable;</li>
+            <li>the asset is tradable but not shortable;</li>
+            <li>the order uses fractional size on a non-fractionable asset;</li>
+            <li>the account is not eligible for margin or short selling;</li>
+            <li>the market is closed;</li>
+            <li>the symbol is halted or restricted;</li>
+            <li>paper and live behavior differ;</li>
+            <li>your TradingView ticker does not match the Alpaca symbol.</li>
+        </ul>
+
+        <h2 class="mt-4">Common Mistakes in Alpaca Symbol Automation</h2>
+
+        <h3 class="mt-3">Mistake 1: Using TradingView Ticker Without Checking Alpaca Symbol</h3>
+        <p>TradingView tickers and broker/API symbols are not always identical. Always test the exact value that will be sent in <code>ticker</code>.</p>
+
+        <h3 class="mt-3">Mistake 2: Shorting Without Checking Shortable Flag</h3>
+        <p>Do not let a strategy send short commands just because the asset is visible. Check <code>shortable</code> first.</p>
+
+        <h3 class="mt-3">Mistake 3: Sending Fractional Size to Non-Fractionable Assets</h3>
+        <p>If <code>fractionable</code> is false, use whole-share size or block the alert.</p>
+
+        <h3 class="mt-3">Mistake 4: Using an Old Snapshot for Live Routing</h3>
+        <p>The dataset is useful for research and filtering, but live order routing should refresh current Alpaca asset flags.</p>
+
+        <h3 class="mt-3">Mistake 5: Ignoring Paper vs Live Differences</h3>
+        <p>Paper trading is useful for testing, but production logic should be verified against live permissions before live orders.</p>
+
+        <h2 class="mt-4">Recommended Refresh Workflow</h2>
+
+        <p>To keep the instruments reference useful:</p>
+
+        <ol>
+            <li>Refresh Alpaca assets periodically from the Alpaca Assets API.</li>
+            <li>Store <code>symbol</code>, <code>tradable</code>, <code>shortable</code>, <code>marginable</code>, <code>fractionable</code> and <code>status</code>.</li>
+            <li>Use the latest table as a whitelist before routing AlgoWay webhook orders.</li>
+            <li>Log every rejected Alpaca order.</li>
+            <li>Update your filters when Alpaca rejects a symbol due to status or permission changes.</li>
+        </ol>
+
+        <h2 class="mt-4">Related AlgoWay Guides</h2>
+
+        <ul>
+            <li><a href="/blog/algoway-alpaca-integration-guide.html">How to connect TradingView alerts to Alpaca with AlgoWay</a></li>
+            <li><a href="/blog/json-schema-guide.html">AlgoWay JSON schema guide</a></li>
+            <li><a href="/blog/guide-to-creating-a-webhook-in-tradingview.html">How to create a webhook in TradingView</a></li>
+            <li><a href="/blog/algoway-415.html">How to fix AlgoWay webhook Error 415</a></li>
+            <li><a href="/blog/advanced-risk-management-and-trade-automation.html">Advanced risk management and trade automation</a></li>
+            <li><a href="/blog/algoway-tradecopier-for-diversification-trading.html">How to copy TradingView alerts to multiple accounts</a></li>
+        </ul>
+
+        <h2 class="mt-4">Final Summary</h2>
+
+        <p><strong>Alpaca instruments data is a practical safety layer for TradingView-to-Alpaca automation.</strong> Before routing webhook orders through AlgoWay, check whether the symbol is tradable, shortable, marginable and fractionable. Use the linked instruments table as a reference, but refresh the live flags before production trading.</p>
+
+        <p>Good automation is not only about sending alerts. It is about blocking the wrong alerts before they become rejected orders.</p>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "TechArticle",
+          "headline": "Alpaca Tradable Assets and Shortable Stocks for AlgoWay Webhook Automation",
+          "description": "Use Alpaca tradable, shortable, marginable and fractionable asset flags before sending TradingView webhook orders through AlgoWay.",
+          "author": {
+            "@type": "Organization",
+            "name": "AlgoWay",
+            "url": "https://algoway.trade/"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "AlgoWay",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://algoway.trade/static/img/social.jpg"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://algoway.trade/blog/alpaca-instruments.html"
+          },
+          "image": "https://algoway.trade/static/img/social.jpg",
+          "datePublished": "2025-09-01T00:00:00+00:00",
+          "dateModified": "2026-05-12T00:00:00+00:00",
+          "articleSection": "Alpaca Automation"
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What are Alpaca tradable assets?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Alpaca tradable assets are symbols that Alpaca marks as available for order submission through its trading infrastructure. A symbol can be active but still not tradable."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does shortable mean I can always short the stock right now?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. The shortable flag indicates eligibility, but live borrow availability, account permissions and trading conditions can still change."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Why should I check fractionable before sending an Alpaca order?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "If the asset is not fractionable, a fractional share order can be rejected. Check fractionable before sending fractional quantities from TradingView or AlgoWay."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use this instruments file for live trading?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Use it as a reference and filtering starting point. Before live orders, refresh current asset flags from Alpaca because tradable, shortable, marginable and fractionable values can change."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does this help AlgoWay webhook automation?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The instruments data helps block invalid symbols, short signals on non-shortable assets, fractional orders on non-fractionable assets, and other cases that may become rejected Alpaca orders."
+              }
+            }
+          ]
+        }
+        </script>
+
+    </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/ld+json">
+        {
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  "itemListElement": [
+                            {
+                                      "@type": "ListItem",
+                                      "position": 1,
+                                      "name": "Home",
+                                      "item": "https://algoway.trade/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 2,
+                                      "name": "Blog",
+                                      "item": "https://algoway.trade/blog/"
+                            },
+                            {
+                                      "@type": "ListItem",
+                                      "position": 3,
+                                      "name": "Alpaca Assets for AlgoWay Webhook Automation",
+                                      "item": "https://algoway.trade/blog/alpaca-instruments.html"
+                            }
+                  ]
+        }
+        </script>
+
+<script src="/static/js/jquery.min.js" defer></script>
+<script src="/static/js/bootstrap.min.js" defer></script>
+<script src="/static/js/main.js" defer></script>
+
+<script type="application/ld+json" nonce="{{ g.nonce }}">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://algoway.trade/#organization",
+      "name": "AlgoWay",
+	  "image": "https://algoway.trade/static/img/social.jpg",
+	  "logo": "https://algoway.trade/static/img/logo-64.webp",
+      "alternateName": [
+        "AlgoWay Connector",
+        "ALGOWAY"
+      ],
+      "legalName": "IE Samvel Mayilyan",
+      "url": "https://algoway.trade/",
+      "email": "connect@algoway.trade",
+      "telephone": "+37497272707",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "str. Besarion Zhgenti 49/20",
+        "addressLocality": "Tbilisi",
+		"postalCode": "0186",
+        "addressCountry": "GE"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Samvel Mayilyan"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "connect@algoway.trade",
+          "telephone": "+37497272707",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+995568889122",
+          "availableLanguage": [
+            "English"
+          ]
+        },
+        {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "url": "https://t.me/AlgoWaySupport",
+          "availableLanguage": [
+            "English"
+          ]
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/algoway/",
+        "https://x.com/ALGOWAY180660",
+        "https://www.linkedin.com/company/algoway/",
+        "https://t.me/algoway_trade",
+        "https://t.me/AlgoWaySupport",
+        "https://www.trustpilot.com/review/algoway.trade"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://algoway.trade/#website",
+      "name": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://algoway.trade/register",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://algoway.trade/#software-application",
+      "name": "AlgoWay Connector",
+      "alternateName": "AlgoWay",
+      "url": "https://algoway.trade/",
+      "mainEntityOfPage": {
+        "@id": "https://algoway.trade/#website"
+      },
+      "applicationCategory": "FinanceApplication",
+      "applicationSubCategory": "Trading automation middleware",
+      "operatingSystem": "Web",
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": "en",
+      "isAccessibleForFree": false,
+      "author": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "publisher": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "termsOfService": "https://algoway.trade/terms",
+      "featureList": [
+        "Webhook Automation",
+        "Fast Execution",
+        "Cancel Anytime",
+        "Free trade metrics",
+        "Test tools for debugging",
+        "TradingView signal source",
+        "MT5 signal source",
+        "cTrader signal source",
+        "20+ supported trading platforms",
+        "Optional Windows VPS",
+        "Multiple strategies",
+        "Unlimited pairs or symbols",
+        "Unlimited alerts"
+      ],
+      "keywords": "TradingView webhook, trading automation, MetaTrader 5, MT5, TradeLocker, MatchTrader, DxTrade, cTrader, Binance, OKX, Bybit, BitMEX, BitMart, Bitget, BingX, Tradovate, ProjectX, HyperLiquid, Kraken, KuCoin, Gate.io, Alpaca, Capital.com",
+      "softwareHelp": {
+        "@type": "CreativeWork",
+        "name": "AlgoWay Q&A",
+        "url": "https://t.me/AlgoWaySupport"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://algoway.trade/register",
+        "price": "6",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "Subscription",
+        "description": "Starts from 6 USD per month. 14-day trial. No credit card required."
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "41",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "HI PROS"
+          },
+          "datePublished": "2026-01-29T00:00:00+00:00",
+          "name": "Great Price and totally worth it",
+          "reviewBody": "Very fast broker connections. Open and close positions completely automated.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Michael Knaus"
+          },
+          "datePublished": "2026-02-02T00:00:00+00:00",
+          "name": "Excellent and incredibly helpful",
+          "reviewBody": "Strong help with a TradingView indicator issue and excellent support.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "haseeb rahman"
+          },
+          "datePublished": "2025-12-09T00:00:00+00:00",
+          "name": "Best professional support",
+          "reviewBody": "24/7 support and very helpful guidance to understand the system.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Renu"
+          },
+          "datePublished": "2025-11-18T00:00:00+00:00",
+          "name": "Trades execute as per alerts",
+          "reviewBody": "Trades execute as per the alerts and support from the developer is prompt.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Federica"
+          },
+          "datePublished": "2025-12-27T00:00:00+00:00",
+          "name": "Very good tools",
+          "reviewBody": "Very good tools and support from Samvel.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        },
+        {
+          "@type": "Review",
+          "author": {
+            "@type": "Person",
+            "name": "Sephrus"
+          },
+          "datePublished": "2026-02-20T00:00:00+00:00",
+          "name": "Trial and support",
+          "reviewBody": "The trial was useful and support was quick and useful.",
+          "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://algoway.trade/#cloud-mt5-vps-service",
+      "name": "AlgoWay Cloud MT5 VPS",
+      "serviceType": "Managed Windows VPS for MetaTrader 5",
+      "provider": {
+        "@id": "https://algoway.trade/#organization"
+      },
+      "url": "https://algoway.trade/",
+      "description": "Secure and always-on MT5 VPS environment in the cloud with automatic provisioning, RDP access and AlgoWay integration.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "CNT BASIC VPS",
+          "price": "12",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "CNT PRO VPS",
+          "price": "20",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH BASIC VPS",
+          "price": "16",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "OVH PRO VPS",
+          "price": "26",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://algoway.trade/#supported-trading-platforms",
+      "name": "Supported trading platforms",
+      "numberOfItems": 20,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "MetaTrader 5" },
+        { "@type": "ListItem", "position": 2, "name": "TradeLocker" },
+        { "@type": "ListItem", "position": 3, "name": "Match-Trader" },
+        { "@type": "ListItem", "position": 4, "name": "DxTrade" },
+        { "@type": "ListItem", "position": 5, "name": "cTrader" },
+        { "@type": "ListItem", "position": 6, "name": "Alpaca" },
+        { "@type": "ListItem", "position": 7, "name": "Capital.com" },
+        { "@type": "ListItem", "position": 8, "name": "Bybit" },
+        { "@type": "ListItem", "position": 9, "name": "Binance" },
+        { "@type": "ListItem", "position": 10, "name": "OKX" },
+        { "@type": "ListItem", "position": 11, "name": "BitMEX" },
+        { "@type": "ListItem", "position": 12, "name": "BitMart" },
+        { "@type": "ListItem", "position": 13, "name": "Bitget" },
+        { "@type": "ListItem", "position": 14, "name": "BingX" },
+        { "@type": "ListItem", "position": 15, "name": "Tradovate" },
+        { "@type": "ListItem", "position": 16, "name": "ProjectX" },
+        { "@type": "ListItem", "position": 17, "name": "HyperLiquid" },
+        { "@type": "ListItem", "position": 18, "name": "Kraken" },
+        { "@type": "ListItem", "position": 19, "name": "KuCoin" },
+        { "@type": "ListItem", "position": 20, "name": "Gate.io" }
+      ]
+    }
+  ]
+}
+</script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-16675796461" nonce="{{ g.nonce }}">
+</script>
+<script nonce="{{ g.nonce }}">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-16675796461');
+</script>
+
+<!-- Event snippet for Просмотр страницы conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+<script nonce="{{ g.nonce }}">
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof(url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16675796461/-zL1COaqhdIZEO3r0Y8-',
+          'value': 1.0,
+          'currency': 'USD',
+          'event_callback': callback
+      });
+      return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('getStartedBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        gtag_report_conversion();
+      });
+    });
+</script>
+
+
+</body>
+</html>
