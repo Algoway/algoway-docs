@@ -16,7 +16,7 @@ type Props = {
 export default function DocItemLayout({children}: Props) {
   const doc: any = useDoc();
   const metadata = doc.metadata;
-  const frontMatter = doc.frontMatter || {};
+  const frontMatter = doc.frontMatter || metadata?.frontMatter || {};
   const jsonLdBlocks = Array.isArray(frontMatter.jsonld) ? frontMatter.jsonld : [];
 
   return (
@@ -27,8 +27,9 @@ export default function DocItemLayout({children}: Props) {
             <script
               key={index}
               type="application/ld+json"
-              dangerouslySetInnerHTML={{__html: item}}
-            />
+            >
+              {item}
+            </script>
           ))}
         </Head>
 
