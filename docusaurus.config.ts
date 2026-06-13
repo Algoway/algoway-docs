@@ -24,7 +24,7 @@ const config: Config = {
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   i18n: { defaultLocale: "en", locales: ["en"] },
-  plugins: ["./src/plugins/exploit.js", "./src/plugins/og-type.js"],
+  plugins: ["./src/plugins/og-type.js"],
   presets: [
     ["classic", { docs: { sidebarPath: "./sidebars.ts", routeBasePath: "docs", editUrl: undefined }, blog: false, theme: { customCss: "./src/css/custom.css" }, sitemap: { changefreq: "weekly", priority: 0.8, filename: "sitemap.xml" } } satisfies Preset.Options],
   ],
