@@ -70,7 +70,6 @@ const sidebars: SidebarsConfig = {
         'metatrader-5/common-errors',
         'troubleshooting/mt5-error-4752',
         'troubleshooting/mt5-error-4756',
-        'troubleshooting/error',
       ],
     },
     {

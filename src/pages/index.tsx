@@ -11,7 +11,7 @@ const menu = [
       ['What AlgoWay is and how it works', '/docs/how-algoway-works/overview'],
       ['Algorithmic trading basics', '/docs/how-algoway-works/algorithmic-trading-basics'],
       ['Pricing, routes, Clone and VPS', '/docs/how-algoway-works/pricing-routes'],
-      ['AlgoWay vs PineConnector', '/docs/how-algoway-works/algoway-vs-pineconnector'],
+      ['AlgoWay vs PineConnector', 'https://algoway.trade/pineconnector-alternative'],
     ],
   },
   {
@@ -93,7 +93,7 @@ const menu = [
   {
     title: 'Billing and Activation',
     items: [
-      ['Pricing and routes', '/docs/billing/pricing-routes'],
+      ['Pricing and routes', '/docs/how-algoway-works/pricing-routes'],
       ['Buy webhook via Buy Me a Coffee', '/docs/billing/buy-me-a-coffee'],
     ],
   },
@@ -106,12 +106,12 @@ const menu = [
 ];
 
 const cards = [
-  ['TradingView Webhook Automation', 'Create TradingView alerts, send JSON messages and route signals through AlgoWay.', '/docs/tradingview-webhooks/overview'],
-  ['Webhook JSON Reference', 'Fields for ticker, action, order type, trade type, SL, TP, trailing stop and platform routing.', '/docs/webhook-json/reference'],
+  ['TradingView Webhook Automation', 'Create TradingView alerts, send JSON messages and route signals through AlgoWay.', '/docs/tradingview/create-webhook-alert'],
+  ['Webhook JSON Reference', 'Fields for ticker, action, order type, trade type, SL, TP, trailing stop and platform routing.', '/docs/tradingview/json-schema'],
   ['TradingView to MetaTrader 5', 'Connect TradingView alerts to MetaTrader 5 through AlgoWay and the MT5 Expert Advisor.', '/docs/metatrader-5/tradingview-to-mt5'],
   ['Telegram AI Signal Copier', 'Convert Telegram trading signals into validated AlgoWay webhook commands.', '/docs/telegram-ai/overview'],
-  ['Supported Execution Destinations', 'MT5, TradeLocker, Match-Trader, DXtrade, cTrader, futures, crypto and CFD routes.', '/docs/supported-platforms/overview'],
-  ['Troubleshooting', 'Fix JSON, webhook, MT5 and broker-side execution errors.', '/docs/troubleshooting/overview'],
+  ['Supported Execution Destinations', 'MT5, TradeLocker, Match-Trader, DXtrade, cTrader, futures, crypto and CFD routes.', '/docs/broker-platforms/tradelocker-setup'],
+  ['Troubleshooting', 'Fix JSON, webhook, MT5 and broker-side execution errors.', '/docs/metatrader-5/common-errors'],
 ];
 
 export default function Home(): React.ReactNode {
